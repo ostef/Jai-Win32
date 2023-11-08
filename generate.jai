@@ -272,7 +272,7 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
         {
             if !array_find (context.modules_to_generate, Api)
             {
-                print ("Adding dependency '%'\n", Api);
+                print ("Adding dependency '%' to the list of modules to generate\n", Api);
                 array_add (*context.modules_to_generate, copy_string (Api, context.default_allocator));
             }
         }
@@ -491,6 +491,7 @@ GenerateModule :: (module_name : string) -> string #must, bool
     }
 
     append (*builder, "\n// System libraries\n\n");
+    append (*builder, "#scope_file\n\n");
 
     for all_dlls
     {
@@ -499,71 +500,6 @@ GenerateModule :: (module_name : string) -> string #must, bool
     }
 
     return builder_to_string (*builder), true;
-}
-
-GenerateAndCompileModule :: (module_name : string, write_to_file := true) -> generation_ok : bool, file_ok : bool, compile_ok : bool
-{
-    temp_state := get_temporary_storage_mark ();
-    defer set_temporary_storage_mark (temp_state);
-
-    file_written : bool;
-    code, generation_ok := GenerateModule (module_name);
-
-    file_ok : bool;
-    compilation_ok : bool;
-
-    if generation_ok
-    {
-        output_filename := sprint ("Generated/%.jai", module_name);
-
-        if write_to_file
-        {
-            make_directory_if_it_does_not_exist ("Generated/");
-
-            file_ok = write_entire_file (output_filename, code);
-            if !file_ok
-            {
-                System :: #import "System";
-
-                error_code, error_str := System.get_error_value_and_string ();
-                print ("Error: Could not write generated module to file % (code %: %)\n",
-                    output_filename, error_code, error_str);
-            }
-        }
-
-        ws := compiler_create_workspace (module_name);
-
-        options := get_build_options (ws);
-        options.output_type = .NO_OUTPUT;
-        options.dead_code_elimination = .NONE;
-        set_build_options (options, ws);
-
-        compiler_begin_intercept (ws, .SKIP_ALL);
-        if write_to_file && file_ok
-            add_build_file (output_filename, ws);
-        else
-            add_build_string (code, ws);
-
-        while true
-        {
-            msg := compiler_wait_for_message ();
-            if msg.kind == .COMPLETE
-            {
-                complete := cast (*Message_Complete) msg;
-                compilation_ok = complete.error_code == .NONE;
-                break;
-            }
-        }
-
-        if compilation_ok
-            print ("Sucessfully generated and compiled module %\n", module_name);
-        else
-            print ("Error: Could not compile module %\n", module_name);
-
-        compiler_end_intercept (ws);
-    }
-
-    return generation_ok, file_ok, compilation_ok;
 }
 
 WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
@@ -619,10 +555,10 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         }
     }
 
-    all_modules_builder : String_Builder;
+    success := true;
 
-    number_of_successful_modules : int;
-    number_of_failed_modules : int;
+    module_sources : [..]string;
+    module_sources.allocator = context.default_allocator;
 
     // modules_to_generate can be modified during GenerateAndCompileModule, so we iterate using a while loop
     i := 0;
@@ -632,22 +568,38 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
 
         module_name := context.modules_to_generate[i];
 
-        gen_ok, file_ok, compile_ok := GenerateAndCompileModule (module_name);
+        source, ok := GenerateModule (module_name);
+        array_add (*module_sources, source);
 
-        if file_ok
-            print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", module_name);
-
-        if gen_ok && file_ok && compile_ok
-            number_of_successful_modules += 1;
-        else
-            number_of_failed_modules += 1;
+        success |= ok;
     }
 
-    print ("\n% successful\n% failed\n", number_of_successful_modules, number_of_failed_modules);
+    if !success
+        return;
 
-    ok := write_entire_file ("all_modules.jai", *all_modules_builder);
-    if !ok
+    // Compile all modules to catch errors
+
+    make_directory_if_it_does_not_exist ("Generated/");
+
+    all_modules_builder : String_Builder;
+    for context.modules_to_generate
     {
-        print ("Error: Could not write file all_modules.jai\n");
+        output_filename := sprint ("Generated/%.jai", it);
+        write_entire_file (output_filename, module_sources[it_index]);
+        print_to_builder (*all_modules_builder, "#load \"%\";\n", output_filename);
     }
+
+    write_entire_file ("all_modules.jai", *all_modules_builder);
+
+    ws := compiler_create_workspace ("Win32");
+
+    options := get_build_options (ws);
+    options.output_type = .NO_OUTPUT;
+    options.dead_code_elimination = .NONE;
+    set_build_options (options, ws);
+
+    compiler_begin_intercept (ws, .SKIP_ALL);
+    add_build_file ("all_modules.jai", ws);
+    compiler_end_intercept (ws);
+
 }
