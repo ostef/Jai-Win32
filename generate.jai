@@ -393,8 +393,21 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
             print_to_builder (builder, "    % : ", it.Name);
 
             AppendType (builder, it.Type);
-            // @Todo: attributes
-            append (builder, ";\n");
+            append (builder, ";");
+
+            if it.Attrs.count > 0
+                append (builder, " // ");
+
+            for attr, iattr : it.Attrs
+            {
+                if iattr != 0
+                    append (builder, ", ");
+
+                if attr.type == .STRING
+                    append (builder, attr.str);
+            }
+
+            append (builder, "\n");
         }
 
         for NestedTypes
@@ -402,9 +415,6 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
             append (builder, "\n");
 
             GenerateTypeDeclaration (builder, it, indent_level + 1);
-
-            if it_index != NestedTypes.count - 1
-                append (builder, "\n");
         }
 
         Indent ();
