@@ -97,6 +97,7 @@ Win32TypeDefinitionKind :: enum
     Union;
     FunctionPointer;
     Com;
+    ComClassID;
 }
 
 Win32EnumValue :: struct
@@ -158,7 +159,7 @@ Win32TypeDefinition :: struct
         Params : []Win32FunctionParam;
     };
 
-    struct
+    struct // Com and ComClassID
     {
         Guid : string;
         Interface : Win32Type;
@@ -447,6 +448,9 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
     case .Com;
         // @Todo
         append (builder, "struct {}; // This is a COM thing (not yet handled)\n");
+
+    case .ComClassID;
+        print_to_builder (builder, "\"%\";\n", Guid);
     }
 }
 
