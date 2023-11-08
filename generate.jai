@@ -454,25 +454,68 @@ GenerateAndCompileModule :: (module_name : string, write_to_file := true) -> gen
     return generation_ok, file_ok, compilation_ok;
 }
 
-#run {
-    set_build_options_dc (.{do_output = false, write_added_strings = false});
+WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
+{
+    if !wildcard || !str
+        return false;
 
+    if wildcard == "*"
+        return true;
+
+    if wildcard[wildcard.count - 1] != #char "*"
+        return wildcard == str;
+
+    wildcard_no_star := wildcard;
+    wildcard_no_star.count -= 1;
+
+    if !starts_with (str, wildcard_no_star)
+        return false;
+
+    return true;
+}
+
+#run
+{
     context.allocator = temp;
 
-    all_modules_builder : String_Builder;
+    set_build_options_dc (.{do_output = false, write_added_strings = false});
 
-    number_of_successful_modules : int;
-    number_of_failed_modules : int;
+    arguments := get_build_options ().compile_time_command_line;
+    if arguments.count == 0
+    {
+        print ("Usage: jai generate.jai - module_names\n");
+        print ("Optionally, a module name can end with a * to indicate a wildcard\n");
+        return;
+    }
+
+    modules_to_generate : [..]string;
 
     all_modules := file_list ("win32json/api/");
     for all_modules
     {
         name := path_strip_extension (path_filename (it));
 
-        gen_ok, file_ok, compile_ok := GenerateAndCompileModule (name);
+        for to_gen : arguments
+        {
+            if WildcardStarMatch (to_gen, name)
+            {
+                array_add (*modules_to_generate, name);
+                break;
+            }
+        }
+    }
+
+    all_modules_builder : String_Builder;
+
+    number_of_successful_modules : int;
+    number_of_failed_modules : int;
+
+    for modules_to_generate
+    {
+        gen_ok, file_ok, compile_ok := GenerateAndCompileModule (it);
 
         if file_ok
-            print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", name);
+            print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", it);
 
         if gen_ok && file_ok && compile_ok
             number_of_successful_modules += 1;
