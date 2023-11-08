@@ -194,12 +194,6 @@ Generate :: ()
 
     success, result := json_parse_file ("win32json/api/Storage.FileSystem.json", Win32Module);
 
-    {
-        using context.print_style.default_format_struct;
-        use_long_form_if_more_than_this_many_members = -1;
-        use_newlines_if_long_form = true;
-    }
-
     if !success
     {
         print ("Failed\n");
