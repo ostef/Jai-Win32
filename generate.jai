@@ -452,9 +452,6 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
 
 GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
 {
-    if SetLastError
-        append (builder, "// This function modifies the system error code\n");
-
     print_to_builder (builder, "% :: (", Name);
 
     for Params
