@@ -19,6 +19,7 @@ Win32ValueType :: enum
 
 Win32NativeType :: enum
 {
+    Invalid;
     Void;
     Boolean;
     SByte;
@@ -50,7 +51,7 @@ Win32TypeKind :: enum
 Win32Type :: struct
 {
     Kind : Win32TypeKind;
-    Name : string;
+    Name : string; // For Native and ApiRef
 
     struct // ApiRef
     {
@@ -188,6 +189,142 @@ Win32Module :: struct
     UnicodeAliases : []string;
 }
 
+AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
+{
+    if #complete type ==
+    {
+    case .Byte; append (builder, "u8");
+    case .UInt16; append (builder, "u16");
+    case .Int16; append (builder, "s16");
+    case .UInt32; append (builder, "u32");
+    case .Int32; append (builder, "s32");
+    case .UInt64; append (builder, "u64");
+    case .Int64; append (builder, "s64");
+    case .Single; append (builder, "float");
+    case .Double; append (builder, "float64");
+    case .String; append (builder, "string");
+    case .PropertyKey; // What is this???
+    }
+}
+
+AppendNativeType :: (builder : *String_Builder, name : string)
+{
+    AppendNativeType (builder, GetNativeType (name));
+}
+
+AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
+{
+    if #complete type ==
+    {
+    case .Invalid; append (builder, "<invalid>");
+    case .Void; append (builder, "void");
+    case .Boolean; append (builder, "bool");
+    case .SByte; append (builder, "s8");
+    case .Byte; append (builder, "u8");
+    case .UInt16; append (builder, "u16");
+    case .Int16; append (builder, "s16");
+    case .UInt32; append (builder, "u32");
+    case .Int32; append (builder, "s32");
+    case .UInt64; append (builder, "u64");
+    case .Int64; append (builder, "s64");
+    case .Char; append (builder, "u8"); // Should it be s8?
+    case .Single; append (builder, "float");
+    case .Double; append (builder, "float64");
+
+    // Not sure about these below...
+    case .String; append (builder, "string"); // Should it be *u8
+    case .IntPtr; append (builder, "*s32");
+    case .UIntPtr; append (builder, "*u32");
+    case .Guid; append (builder, "string");
+    }
+}
+
+GetNativeType :: (name : string) -> Win32NativeType #must
+{
+    info := type_info (Win32NativeType);
+    for info.names
+    {
+        if it == name
+        {
+            return cast (Win32NativeType) info.values[it_index];
+        }
+    }
+
+    return .Invalid;
+}
+
+AppendType :: (builder : *String_Builder, using type : Win32Type)
+{
+    if #complete Kind ==
+    {
+    case .Native;
+        AppendNativeType (builder, Name);
+    case .ApiRef;
+        append (builder, Name);
+    case .Array;
+        if Shape
+            print_to_builder (builder, "[%]", Shape.Size);
+        else
+            append (builder, "*"); // Should it be []?
+        if Child
+            AppendType (builder, Child);
+        else
+            append (builder, "<invalid>");
+
+    case .PointerTo;
+        append (builder, "*");
+        if Child
+            AppendType (builder, Child);
+        else
+            append (builder, "<invalid>");
+
+    case .LPArray;  // What is even that???
+        append (builder, "<LPArray>");
+    }
+}
+
+GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Constant)
+{
+    append (builder, Name);
+
+    // There might be some cases where we want to print the type
+    // For now we let the compiler infer it because that means integers
+    // autocast when possible
+    /*
+    append (builder, " : ");
+    AppendType (builder, Type);
+    append (builder, " : ");
+    */
+
+    append (builder, " :: ");
+
+    if #complete Value.type ==
+    {
+    case .NULL;
+        append (builder, "null");
+    case .BOOLEAN;
+        print_to_builder (builder, "%", Value.boolean);
+
+    case .NUMBER;
+        if ValueType == .Single || ValueType == .Double
+            print_to_builder (builder, "%", Value.number);
+        else if ValueType == .UInt16 || ValueType == .UInt32 || ValueType == .UInt64
+            print_to_builder (builder, "%", cast (u64) Value.number);
+        else
+            print_to_builder (builder, "%", cast (s64) Value.number);
+
+    case .STRING;
+        // This function handles escape sequences by default
+        print_item_to_builder (builder, Value.str);
+
+    case .OBJECT; #through;
+    case .ARRAY;
+        append (builder, "<unhandled JSON value>");
+    }
+
+    append (builder, ";\n");
+}
+
 Generate :: ()
 {
     context.allocator = temp;
@@ -197,7 +334,17 @@ Generate :: ()
     if !success
     {
         print ("Failed\n");
+        return;
     }
+
+    builder : String_Builder;
+
+    for result.Constants
+        GenerateConstantDeclaration (*builder, it);
+
+    str := builder_to_string (*builder);
+
+    print (str);
 }
 
 /*
