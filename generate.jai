@@ -1,5 +1,8 @@
+#import "Compiler";
+#import "File_Utilities";
 #import "Basic";
 #import "File";
+#import "String";
 #import, dir "./Jaison";
 
 Win32ValueType :: enum
@@ -47,6 +50,9 @@ Win32TypeKind :: enum
     PointerTo;
     LPArray;
 }
+
+// The struct member names are PascalCase because we follow the convention of what's in the Json files
+// We could use the rename feature of Jaison
 
 Win32Type :: struct
 {
@@ -132,7 +138,7 @@ Win32TypeDefinition :: struct
     {
         AlsoUsableFor : *string;
         Def : Win32Type;
-        FreeFunc : string;
+        FreeFunc : *string;
     };
 
     struct // Enum
@@ -351,7 +357,7 @@ GenerateModule :: (module_name : string) -> string #must, bool
 
     builder : String_Builder;
 
-    append (*builder, "// This file was auto generated\n\n");
+    print_to_builder (*builder, "// This file was auto generated for module %\n\n", module_name);
     append (*builder, "// Constants\n\n");
 
     // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
@@ -383,15 +389,18 @@ GenerateModule :: (module_name : string) -> string #must, bool
     return builder_to_string (*builder), true;
 }
 
-GenerateAndCompileModule :: (module_name : string, write_to_file := true)
+GenerateAndCompileModule :: (module_name : string, write_to_file := true) -> generation_ok : bool, file_ok : bool, compile_ok : bool
 {
     temp_state := get_temporary_storage_mark ();
     defer set_temporary_storage_mark (temp_state);
 
+    file_written : bool;
+    code, generation_ok := GenerateModule (module_name);
 
-    code, ok := GenerateModule (module_name);
+    file_ok : bool;
+    compilation_ok : bool;
 
-    if ok
+    if generation_ok
     {
         output_filename := sprint ("Generated/%.jai", module_name);
 
@@ -399,15 +408,14 @@ GenerateAndCompileModule :: (module_name : string, write_to_file := true)
         {
             make_directory_if_it_does_not_exist ("Generated/");
 
-            write_ok := write_entire_file (output_filename, code);
-            if !write_ok
+            file_ok = write_entire_file (output_filename, code);
+            if !file_ok
             {
                 System :: #import "System";
 
-                code, error_str := System.get_error_value_and_string ();
-                print ("Error: Could not write generated module to file % (code %: %)",
-                    output_filename, code, error_str);
-                return;
+                error_code, error_str := System.get_error_value_and_string ();
+                print ("Error: Could not write generated module to file % (code %: %)\n",
+                    output_filename, error_code, error_str);
             }
         }
 
@@ -419,46 +427,54 @@ GenerateAndCompileModule :: (module_name : string, write_to_file := true)
         set_build_options (options, ws);
 
         compiler_begin_intercept (ws, .SKIP_ALL);
-
-        if write_to_file
+        if write_to_file && file_ok
             add_build_file (output_filename, ws);
         else
             add_build_string (code, ws);
 
-        success : bool;
         while true
         {
             msg := compiler_wait_for_message ();
             if msg.kind == .COMPLETE
             {
                 complete := cast (*Message_Complete) msg;
-                success = complete.error_code == .NONE;
+                compilation_ok = complete.error_code == .NONE;
                 break;
             }
         }
 
-        if success
-            print ("Sucessfully generated and compiled module %", module_name);
+        if compilation_ok
+            print ("Sucessfully generated and compiled module %\n", module_name);
         else
-            print ("Could not compile module %", module_name);
+            print ("Could not compile module %\n", module_name);
 
         compiler_end_intercept (ws);
     }
-}
 
-/*
-main :: ()
-{
-    Generate ();
+    return generation_ok, file_ok, compilation_ok;
 }
-*/
 
 #run {
-    #import "Compiler";
-
     set_build_options_dc (.{do_output = false, write_added_strings = false});
 
     context.allocator = temp;
 
-    GenerateAndCompileModule ("Storage.FileSystem");
+    all_modules_builder : String_Builder;
+
+    all_modules := file_list ("win32json/api/");
+    for all_modules
+    {
+        name := path_strip_extension (path_filename (it));
+
+        gen_ok, file_ok, compile_ok := GenerateAndCompileModule (name);
+
+        if file_ok
+            print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", name);
+    }
+
+    ok := write_entire_file ("all_modules.jai", *all_modules_builder);
+    if !ok
+    {
+        print ("Error: could not write file all_modules.jai\n");
+    }
 }
