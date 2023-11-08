@@ -112,14 +112,6 @@ Win32StructField :: struct
     Attrs : []JSON_Value;
 }
 
-Win32FunctionParamAttr :: enum
-{
-    In;
-    Out;
-    Const;
-    Optional;
-}
-
 Win32FunctionParam :: struct
 {
     Name : string;
@@ -268,20 +260,18 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
     case .ApiRef;
         append (builder, Name);
 
-        if Api
+        if Api && !array_find (context.modules_to_generate, Api)
         {
-            if !array_find (context.modules_to_generate, Api)
-            {
-                print ("Adding dependency '%' to the list of modules to generate\n", Api);
-                array_add (*context.modules_to_generate, copy_string (Api, context.default_allocator));
-            }
+            print ("Adding dependency '%' to the list of modules to generate\n", Api);
+            array_add (*context.modules_to_generate, copy_string (Api, context.default_allocator));
         }
 
     case .Array;
         if Shape
             print_to_builder (builder, "[%]", Shape.Size);
         else
-            append (builder, "*"); // Should it be []?
+            append (builder, "*");
+
         if Child
             AppendType (builder, Child);
         else
@@ -294,8 +284,22 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
         else
             append (builder, "<invalid>");
 
-    case .LPArray;  // What is even that???
-        append (builder, "<LPArray>");
+    case .LPArray;
+        // I think all the other stuff about LPArray is metadata about the parameter
+        // (I don't know what the NullNullTerm is...)
+        // https://learn.microsoft.com/en-us/dotnet/framework/interop/default-marshalling-for-arrays
+
+        // Fixed size arrays cannot be passed as arguments to #c_call procedure,
+        // we either have to pass a pointer or a pointer to the fixed size array.
+        if CountConst >= 0
+            print_to_builder (builder, "*[%]", CountConst);
+        else
+            append (builder, "*");
+
+        if Child
+            AppendType (builder, Child);
+        else
+            append (builder, "<invalid>");
     }
 }
 
@@ -425,12 +429,50 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         append (builder, ";\n");
 
     case .FunctionPointer;
-        append (builder, "#type ();\n");
+        append (builder, "#type (");
+
+        for Params
+        {
+            if it_index != 0
+                append (builder, ", ");
+
+            print_to_builder (builder, "% : ", it.Name);
+            AppendType (builder, it.Type);
+        }
+
+        append (builder, ") -> ");
+        AppendType (builder, ReturnType);
+        append (builder, " #c_call;\n");
 
     case .Com;
         // @Todo
-        append (builder, "struct {};\n");
+        append (builder, "struct {}; // This is a COM thing (not yet handled)\n");
     }
+}
+
+GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
+{
+    if SetLastError
+        append (builder, "// This function modifies the system error code\n");
+
+    print_to_builder (builder, "% :: (", Name);
+
+    for Params
+    {
+        if it_index != 0
+            append (builder, ", ");
+
+        print_to_builder (builder, "% : ", it.Name);
+        AppendType (builder, it.Type);
+    }
+
+    append (builder, ") -> ");
+
+    AppendType (builder, ReturnType);
+
+    append (builder, " #foreign ");
+    AppendStringAsIdentifier (builder, DllImport);
+    append (builder, ";\n");
 }
 
 AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
@@ -482,6 +524,8 @@ GenerateModule :: (module_name : string) -> string #must, bool
     all_dlls : [..]string;
     for result.Functions
     {
+        GenerateFunction (*builder, it);
+
         // Not sure how this is possible but let's handle it
         if !it.DllImport
             continue;
