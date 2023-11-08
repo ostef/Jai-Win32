@@ -1,0 +1,16 @@
+__pycache__/
+*.blend1
+obj/
+.build/
+*.obj
+*.o
+*.pdb
+*.exe
+.vscode/
+Cubed
+imgui.ini
+data/faithless/
+*.generated.c
+*.generated.cpp
+main
+yal
