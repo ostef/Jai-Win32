@@ -351,6 +351,7 @@ GenerateModule :: (module_name : string) -> string #must, bool
 
     builder : String_Builder;
 
+    append (*builder, "// This file was auto generated\n\n");
     append (*builder, "// Constants\n\n");
 
     // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
@@ -382,15 +383,34 @@ GenerateModule :: (module_name : string) -> string #must, bool
     return builder_to_string (*builder), true;
 }
 
-GenerateAndCompileModule :: (module_name : string)
+GenerateAndCompileModule :: (module_name : string, write_to_file := true)
 {
     temp_state := get_temporary_storage_mark ();
     defer set_temporary_storage_mark (temp_state);
+
 
     code, ok := GenerateModule (module_name);
 
     if ok
     {
+        output_filename := sprint ("Generated/%.jai", module_name);
+
+        if write_to_file
+        {
+            make_directory_if_it_does_not_exist ("Generated/");
+
+            write_ok := write_entire_file (output_filename, code);
+            if !write_ok
+            {
+                System :: #import "System";
+
+                code, error_str := System.get_error_value_and_string ();
+                print ("Error: Could not write generated module to file % (code %: %)",
+                    output_filename, code, error_str);
+                return;
+            }
+        }
+
         ws := compiler_create_workspace (module_name);
 
         options := get_build_options (ws);
@@ -399,7 +419,11 @@ GenerateAndCompileModule :: (module_name : string)
         set_build_options (options, ws);
 
         compiler_begin_intercept (ws, .SKIP_ALL);
-        add_build_string (code, ws);
+
+        if write_to_file
+            add_build_file (output_filename, ws);
+        else
+            add_build_string (code, ws);
 
         success : bool;
         while true
