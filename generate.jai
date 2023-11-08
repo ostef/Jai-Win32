@@ -267,6 +267,16 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
         AppendNativeType (builder, Name);
     case .ApiRef;
         append (builder, Name);
+
+        if Api
+        {
+            if !array_find (context.modules_to_generate, Api)
+            {
+                print ("Adding dependency '%'\n", Api);
+                array_add (*context.modules_to_generate, copy_string (Api, context.default_allocator));
+            }
+        }
+
     case .Array;
         if Shape
             print_to_builder (builder, "[%]", Shape.Size);
@@ -566,8 +576,12 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     return true;
 }
 
+#add_context modules_to_generate : [..]string;
+
 #run
 {
+    context.modules_to_generate.allocator = context.default_allocator;
+
     context.allocator = temp;
 
     set_build_options_dc (.{do_output = false, write_added_strings = false});
@@ -580,8 +594,6 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         return;
     }
 
-    modules_to_generate : [..]string;
-
     all_modules := file_list ("win32json/api/");
     for all_modules
     {
@@ -591,7 +603,7 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         {
             if WildcardStarMatch (to_gen, name)
             {
-                array_add (*modules_to_generate, name);
+                array_add (*context.modules_to_generate, name);
                 break;
             }
         }
@@ -602,12 +614,18 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     number_of_successful_modules : int;
     number_of_failed_modules : int;
 
-    for modules_to_generate
+    // modules_to_generate can be modified during GenerateAndCompileModule, so we iterate using a while loop
+    i := 0;
+    while i < context.modules_to_generate.count
     {
-        gen_ok, file_ok, compile_ok := GenerateAndCompileModule (it);
+        defer i += 1;
+
+        module_name := context.modules_to_generate[i];
+
+        gen_ok, file_ok, compile_ok := GenerateAndCompileModule (module_name);
 
         if file_ok
-            print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", it);
+            print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", module_name);
 
         if gen_ok && file_ok && compile_ok
             number_of_successful_modules += 1;
