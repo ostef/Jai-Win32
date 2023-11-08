@@ -5,6 +5,8 @@
 #import "String";
 #import, dir "./Jaison";
 
+Generate_For_Architecture :: "X64";
+
 Win32ValueType :: enum
 {
     Byte;
@@ -202,7 +204,7 @@ AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
     case .Single; append (builder, "float");
     case .Double; append (builder, "float64");
     case .String; append (builder, "string");
-    case .PropertyKey; // What is this???
+    case .PropertyKey; append (builder, "Win32PropertyKey");
     }
 }
 
@@ -234,7 +236,7 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
     case .String; append (builder, "string"); // Should it be *u8
     case .IntPtr; append (builder, "*s32");
     case .UIntPtr; append (builder, "*u32");
-    case .Guid; append (builder, "string");
+    case .Guid; append (builder, "Guid");
     }
 }
 
@@ -263,7 +265,7 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
 
         if Api && !array_find (context.modules_to_generate, Api)
         {
-            print ("Adding dependency '%' to the list of modules to generate\n", Api);
+            print ("From module '%', adding dependency '%' for type '%' to the list of modules to generate\n", context.current_module, Api, Name);
             array_add (*context.modules_to_generate, copy_string (Api, context.default_allocator));
         }
 
@@ -291,7 +293,7 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
         // https://learn.microsoft.com/en-us/dotnet/framework/interop/default-marshalling-for-arrays
 
         // Fixed size arrays cannot be passed as arguments to #c_call procedure,
-        // we either have to pass a pointer or a pointer to the fixed size array.
+        // we either have to pass a pointer to the elem type or a pointer to the array.
         if CountConst >= 0
             print_to_builder (builder, "*[%]", CountConst);
         else
@@ -306,7 +308,7 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
 
 GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Constant)
 {
-    append (builder, Name);
+    AppendIdentifier (builder, Name);
 
     // There might be some cases where we want to print the type
     // For now we let the compiler infer it because that means integers
@@ -338,7 +340,12 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
         // This function handles escape sequences by default
         print_item_to_builder (builder, Value.str);
 
-    case .OBJECT; #through;
+    case .OBJECT;
+        if ValueType == .PropertyKey
+            append (builder, "PropertyKey.{ /* @Todo */ }");
+        else
+            append (builder, "<unhandled JSON value>");
+
     case .ARRAY;
         append (builder, "<unhandled JSON value>");
     }
@@ -355,7 +362,8 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
     }
 
     Indent ();
-    print_to_builder (builder, "% :: ", Name);
+    AppendIdentifier (builder, Name);
+    append (builder, " :: ");
 
     if #complete Kind ==
     {
@@ -375,7 +383,9 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         for Values
         {
             Indent ();
-            print_to_builder (builder, "    % :: %;\n", it.Name, it.Value);
+            append (builder, "    ");
+            AppendIdentifier (builder, it.Name);
+            print_to_builder (builder, " :: %;\n", it.Value);
         }
 
         Indent ();
@@ -395,7 +405,9 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         {
             Indent ();
 
-            print_to_builder (builder, "    % : ", it.Name);
+            append (builder, "    ");
+            AppendIdentifier (builder, it.Name);
+            append (builder, " : ");
 
             AppendType (builder, it.Type);
             append (builder, ";");
@@ -437,7 +449,8 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
             if it_index != 0
                 append (builder, ", ");
 
-            print_to_builder (builder, "% : ", it.Name);
+            AppendIdentifier (builder, it.Name);
+            append (builder, " : ");
             AppendType (builder, it.Type);
         }
 
@@ -456,14 +469,22 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
 
 GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
 {
-    print_to_builder (builder, "% :: (", Name);
+    AppendIdentifier (builder, Name);
+    append (builder, " :: (");
 
     for Params
     {
         if it_index != 0
             append (builder, ", ");
 
-        print_to_builder (builder, "% : ", it.Name);
+        // @Incomplete: we do this to prevent the param name clashing with the
+        // type name, which happens a few times, but a more robust thing would be to
+        // check for name clashes against all types
+        if it.Name == it.Type.Name
+            append (builder, "_");
+
+        AppendIdentifier (builder, it.Name);
+        print_to_builder (builder, " : ");
         AppendType (builder, it.Type);
     }
 
@@ -474,6 +495,29 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     append (builder, " #foreign ");
     AppendStringAsIdentifier (builder, DllImport);
     append (builder, ";\n");
+}
+
+AppendIdentifier :: (builder : *String_Builder, str : string)
+{
+    if str ==
+    {
+    case "context"; #through;
+    case "string"; #through;
+    case "u8"; #through;
+    case "s8"; #through;
+    case "u16"; #through;
+    case "s16"; #through;
+    case "u32"; #through;
+    case "s32"; #through;
+    case "u64"; #through;
+    case "s64"; #through;
+    case "float32"; #through;
+    case "float64";
+        print_to_builder (builder, "_%", str);
+
+    case;
+        append (builder, str);
+    }
 }
 
 AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
@@ -490,8 +534,12 @@ AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
     }
 }
 
+#add_context current_module : string;
+
 GenerateModule :: (module_name : string) -> string #must, bool
 {
+    defer context.current_module = "";
+
     success, result := json_parse_file (sprint ("win32json/api/%.json", module_name), Win32Module);
 
     if !success
@@ -499,6 +547,8 @@ GenerateModule :: (module_name : string) -> string #must, bool
         print ("Error: Could not generate module %\n", module_name);
         return "", false;
     }
+
+    context.current_module = module_name;
 
     builder : String_Builder;
 
@@ -512,9 +562,15 @@ GenerateModule :: (module_name : string) -> string #must, bool
 
     append (*builder, "\n// Types\n\n");
 
+    first := true;
     for result.Types
     {
-        if it_index != 0
+        if it.Architectures.count != 0 && !array_find (it.Architectures, Generate_For_Architecture)
+            continue;
+
+        defer first = false;
+
+        if !first
             append (*builder, "\n");
 
         GenerateTypeDeclaration (*builder, it);
@@ -525,6 +581,9 @@ GenerateModule :: (module_name : string) -> string #must, bool
     all_dlls : [..]string;
     for result.Functions
     {
+        if it.Architectures.count != 0 && !array_find (it.Architectures, Generate_For_Architecture)
+            continue;
+
         GenerateFunction (*builder, it);
 
         // Not sure how this is possible but let's handle it
