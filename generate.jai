@@ -351,7 +351,7 @@ GenerateModule :: (module_name : string) -> string #must, bool
 
     if !success
     {
-        print ("Could not generate module %\n", module_name);
+        print ("Error: Could not generate module %\n", module_name);
         return "", false;
     }
 
@@ -446,7 +446,7 @@ GenerateAndCompileModule :: (module_name : string, write_to_file := true) -> gen
         if compilation_ok
             print ("Sucessfully generated and compiled module %\n", module_name);
         else
-            print ("Could not compile module %\n", module_name);
+            print ("Error: Could not compile module %\n", module_name);
 
         compiler_end_intercept (ws);
     }
@@ -461,6 +461,9 @@ GenerateAndCompileModule :: (module_name : string, write_to_file := true) -> gen
 
     all_modules_builder : String_Builder;
 
+    number_of_successful_modules : int;
+    number_of_failed_modules : int;
+
     all_modules := file_list ("win32json/api/");
     for all_modules
     {
@@ -470,11 +473,18 @@ GenerateAndCompileModule :: (module_name : string, write_to_file := true) -> gen
 
         if file_ok
             print_to_builder (*all_modules_builder, "#load \"Generated/%.json\";\n", name);
+
+        if gen_ok && file_ok && compile_ok
+            number_of_successful_modules += 1;
+        else
+            number_of_failed_modules += 1;
     }
+
+    print ("\n% successes\n% failures\n", number_of_successful_modules, number_of_failed_modules);
 
     ok := write_entire_file ("all_modules.jai", *all_modules_builder);
     if !ok
     {
-        print ("Error: could not write file all_modules.jai\n");
+        print ("Error: Could not write file all_modules.jai\n");
     }
 }
