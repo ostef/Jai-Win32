@@ -339,16 +339,14 @@ AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
     }
 }
 
-Generate :: ()
+GenerateModule :: (module_name : string) -> string #must, bool
 {
-    context.allocator = temp;
-
-    success, result := json_parse_file ("win32json/api/Storage.FileSystem.json", Win32Module);
+    success, result := json_parse_file (sprint ("win32json/api/%.json", module_name), Win32Module);
 
     if !success
     {
-        print ("Failed\n");
-        return;
+        print ("Could not generate module %\n", module_name);
+        return "", false;
     }
 
     builder : String_Builder;
@@ -381,9 +379,47 @@ Generate :: ()
         print_to_builder (*builder, " :: #system_library \"%\";\n", it);
     }
 
-    str := builder_to_string (*builder);
+    return builder_to_string (*builder), true;
+}
 
-    print (str);
+GenerateAndCompileModule :: (module_name : string)
+{
+    temp_state := get_temporary_storage_mark ();
+    defer set_temporary_storage_mark (temp_state);
+
+    code, ok := GenerateModule (module_name);
+
+    if ok
+    {
+        ws := compiler_create_workspace (module_name);
+
+        options := get_build_options (ws);
+        options.output_type = .NO_OUTPUT;
+        options.dead_code_elimination = .NONE;
+        set_build_options (options, ws);
+
+        compiler_begin_intercept (ws, .SKIP_ALL);
+        add_build_string (code, ws);
+
+        success : bool;
+        while true
+        {
+            msg := compiler_wait_for_message ();
+            if msg.kind == .COMPLETE
+            {
+                complete := cast (*Message_Complete) msg;
+                success = complete.error_code == .NONE;
+                break;
+            }
+        }
+
+        if success
+            print ("Sucessfully generated and compiled module %", module_name);
+        else
+            print ("Could not compile module %", module_name);
+
+        compiler_end_intercept (ws);
+    }
 }
 
 /*
@@ -397,6 +433,8 @@ main :: ()
     #import "Compiler";
 
     set_build_options_dc (.{do_output = false, write_added_strings = false});
-}
 
-#run Generate ();
+    context.allocator = temp;
+
+    GenerateAndCompileModule ("Storage.FileSystem");
+}
