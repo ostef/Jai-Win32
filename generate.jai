@@ -331,6 +331,88 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
     append (builder, ";\n");
 }
 
+GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level := 0)
+{
+    Indent :: () #expand
+    {
+        for 0..`indent_level - 1
+            append (`builder, "    ");
+    }
+
+    Indent ();
+    print_to_builder (builder, "% :: ", Name);
+
+    if #complete Kind ==
+    {
+    case .Enum;
+        // @Todo: handle Scoped
+
+        if Flags
+            append (builder, "enum_flags ");
+        else
+            append (builder, "enum ");
+
+        AppendValueType (builder, IntegerBase);
+        append (builder, "\n");
+        Indent ();
+        append (builder, "{\n");
+
+        for Values
+        {
+            Indent ();
+            print_to_builder (builder, "    % :: %;\n", it.Name, it.Value);
+        }
+
+        Indent ();
+        append (builder, "}\n");
+
+    case .Struct; #through;
+    case .Union;
+        if Kind == .Struct
+            append (builder, "struct\n");
+        else
+            append (builder, "union\n");
+
+        Indent ();
+        append (builder, "{\n");
+
+        for Fields
+        {
+            Indent ();
+
+            print_to_builder (builder, "    % : ", it.Name);
+
+            AppendType (builder, it.Type);
+            // @Todo: attributes
+            append (builder, ";\n");
+        }
+
+        for NestedTypes
+        {
+            append (builder, "\n");
+
+            GenerateTypeDeclaration (builder, it, indent_level + 1);
+
+            if it_index != NestedTypes.count - 1
+                append (builder, "\n");
+        }
+
+        Indent ();
+        append (builder, "}\n");
+
+    case .NativeTypedef;
+        AppendType (builder, Def);
+        append (builder, ";\n");
+
+    case .FunctionPointer;
+        append (builder, "#type ();\n");
+
+    case .Com;
+        // @Todo
+        append (builder, "struct {};\n");
+    }
+}
+
 AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
 {
     for i : 0..str.count - 1
@@ -364,6 +446,16 @@ GenerateModule :: (module_name : string) -> string #must, bool
 
     for result.Constants
         GenerateConstantDeclaration (*builder, it);
+
+    append (*builder, "\n// Types\n\n");
+
+    for result.Types
+    {
+        if it_index != 0
+            append (*builder, "\n");
+
+        GenerateTypeDeclaration (*builder, it);
+    }
 
     append (*builder, "\n// Functions\n\n");
 
