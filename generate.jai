@@ -523,7 +523,7 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
             number_of_failed_modules += 1;
     }
 
-    print ("\n% successes\n% failures\n", number_of_successful_modules, number_of_failed_modules);
+    print ("\n% successful\n% failed\n", number_of_successful_modules, number_of_failed_modules);
 
     ok := write_entire_file ("all_modules.jai", *all_modules_builder);
     if !ok
