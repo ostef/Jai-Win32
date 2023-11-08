@@ -325,6 +325,20 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
     append (builder, ";\n");
 }
 
+AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
+{
+    for i : 0..str.count - 1
+    {
+        if i == 0 && is_digit (str[i])
+            append (builder, #char "_");
+
+        if is_alnum (str[i])
+            append (builder, str[i]);
+        else
+            append (builder, #char "_");
+    }
+}
+
 Generate :: ()
 {
     context.allocator = temp;
@@ -339,8 +353,33 @@ Generate :: ()
 
     builder : String_Builder;
 
+    append (*builder, "// Constants\n\n");
+
+    // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
+
     for result.Constants
         GenerateConstantDeclaration (*builder, it);
+
+    append (*builder, "\n// Functions\n\n");
+
+    all_dlls : [..]string;
+    for result.Functions
+    {
+        // Not sure how this is possible but let's handle it
+        if !it.DllImport
+            continue;
+
+        if !array_find (all_dlls, it.DllImport)
+            array_add (*all_dlls, it.DllImport);
+    }
+
+    append (*builder, "\n// System libraries\n\n");
+
+    for all_dlls
+    {
+        AppendStringAsIdentifier (*builder, it);
+        print_to_builder (*builder, " :: #system_library \"%\";\n", it);
+    }
 
     str := builder_to_string (*builder);
 
