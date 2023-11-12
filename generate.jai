@@ -104,8 +104,6 @@ Win32Module :: struct
     name : string;
     parsed : bool;
     generate_entirely : bool;
-    type_table : Table (string, *Win32TypeDefinition);
-    type_table_generated : bool;
     types_to_generate : Set (string);
     source_code : string;
 }
@@ -180,13 +178,8 @@ CollectDependencies :: (using func : Win32Function)
 
 CollectModuleTypesAndDependencies :: (module : *Win32Module)
 {
-    defer module.type_table_generated = true;
-
     for module.Types
     {
-        if !module.type_table_generated
-            table_add (*module.type_table, it.Name, *it);
-
         if ShouldGenerateType (module, it)
             CollectDependencies (it);
     }
@@ -906,7 +899,6 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     for * modules
     {
         assert (it.parsed);
-        assert (it.type_table_generated);
         GenerateModule (it);
     }
 
