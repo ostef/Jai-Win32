@@ -5,7 +5,7 @@ This module uses the metadata from Microsoft to generate the bindings: https://g
 
 Usage: `jai generate.jai - module_names`
 
-A module name can end with a `*` to match all modules starting what is before the `*`
+A module name can end with a `*` to match all modules starting with what is before the `*`
 
 You can also ignore types, functions and libraries that cause problems or that you don't need by adding them to a blacklist.json file.
 
