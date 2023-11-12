@@ -1,3 +1,5 @@
+#module_parameters (UNICODE := true);
+
 #load "all_modules.jai";
 
 Guid :: union

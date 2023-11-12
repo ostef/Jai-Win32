@@ -766,6 +766,17 @@ GenerateModule :: (module : *Win32Module)
                 array_add (*all_dlls, it.DllImport);
         }
 
+        append (*builder, "\n// Unicode aliases\n\n");
+        for module.UnicodeAliases
+        {
+            if table_contains (*context.gen_ctx.functions_to_ignore, sprint ("%W", it))
+            || table_contains (*context.gen_ctx.functions_to_ignore, sprint ("%A", it))
+                continue;
+
+            print_to_builder (*builder, "#if UNICODE then %1 :: %1W;\n", it);
+            print_to_builder (*builder, "else             %1 :: %1A;\n", it);
+        }
+
         append (*builder, "\n// System libraries\n\n");
         append (*builder, "#scope_file\n\n");
 
@@ -923,6 +934,6 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     set_build_options (options, ws);
 
     compiler_begin_intercept (ws, .SKIP_ALL);
-    add_build_file ("module.jai", ws);
+    add_build_string ("#import, file \"../module.jai\";", ws);
     compiler_end_intercept (ws);
 }
