@@ -918,6 +918,6 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     set_build_options (options, ws);
 
     compiler_begin_intercept (ws, .SKIP_ALL);
-    add_build_file ("all_modules.jai", ws);
+    add_build_file ("module.jai", ws);
     compiler_end_intercept (ws);
 }
