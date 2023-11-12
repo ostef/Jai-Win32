@@ -27,11 +27,11 @@ GenerationContext :: struct
     has_errors : bool;
 }
 
-BlacklistEntry :: struct
+BlacklistFile :: struct
 {
-    Type : *string;
-    Function : *string;
-    DllImport : *string;
+    Types : []string;
+    Functions : []string;
+    DllImports : []string;
 }
 
 #add_context gen_ctx : GenerationContext;
@@ -846,32 +846,29 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         blacklist, ok := read_entire_file ("blacklist.json", log_errors = false);
         if ok
         {
-            json_ok, result := json_parse_string (blacklist, []BlacklistEntry);
+            json_ok, result := json_parse_string (blacklist, BlacklistFile);
             if !json_ok
             {
                 print ("Error while parsing blacklist.json file\n");
                 return;
             }
 
-            for result
+            for result.Types
             {
-                if it.Type
-                {
-                    print ("Ignoring type '%'\n", it.Type.*);
-                    find_or_add (*types_to_ignore, it.Type.*);
-                }
+                print ("Ignoring type '%'\n", it);
+                find_or_add (*types_to_ignore, it);
+            }
 
-                if it.Function
-                {
-                    print ("Ignoring function '%'\n", it.Function.*);
-                    find_or_add (*functions_to_ignore, it.Function.*);
-                }
+            for result.Functions
+            {
+                print ("Ignoring function '%'\n", it);
+                find_or_add (*functions_to_ignore, it);
+            }
 
-                if it.DllImport
-                {
-                    print ("Ignoring functions from library '%'\n", it.DllImport.*);
-                    find_or_add (*libraries_to_ignore, it.DllImport.*);
-                }
+            for result.DllImports
+            {
+                print ("Ignoring functions from library '%'\n", it);
+                find_or_add (*libraries_to_ignore, it);
             }
         }
     }
