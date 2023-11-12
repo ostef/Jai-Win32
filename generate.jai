@@ -570,7 +570,23 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
             Indent ();
             append (builder, "    ");
             AppendIdentifier (builder, it.Name);
-            print_to_builder (builder, " :: %;\n", it.Value);
+            if IntegerBase ==
+            {
+            case .Byte;
+                print_to_builder (builder, " :: %;\n", cast, no_check (u8) it.Value);
+            case .UInt16;
+                print_to_builder (builder, " :: %;\n", cast, no_check (u16) it.Value);
+            case .Int16;
+                print_to_builder (builder, " :: %;\n", cast, no_check (s16) it.Value);
+            case .UInt32;
+                print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.Value);
+            case .Int32;
+                print_to_builder (builder, " :: %;\n", cast, no_check (s32) it.Value);
+            case .UInt64;
+                print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.Value);
+            case .Int64;
+                print_to_builder (builder, " :: %;\n", cast, no_check (s64) it.Value);
+            }
         }
 
         Indent ();
