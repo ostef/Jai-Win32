@@ -919,12 +919,11 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     all_modules_builder : String_Builder;
     for modules
     {
-        output_filename := sprint ("Generated/%.jai", it.name);
-        write_entire_file (output_filename, it.source_code);
-        print_to_builder (*all_modules_builder, "#load \"%\";\n", output_filename);
+        write_entire_file (sprint ("Generated/%.jai", it.name), it.source_code);
+        print_to_builder (*all_modules_builder, "#load \"%.jai\";\n", it.name);
     }
 
-    write_entire_file ("all_modules.jai", *all_modules_builder);
+    write_entire_file ("Generated/all_modules.jai", *all_modules_builder);
 
     ws := compiler_create_workspace ("Win32");
 
