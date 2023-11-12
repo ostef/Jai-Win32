@@ -16,9 +16,9 @@ Generate_For_Architecture :: "X64";
 
 GenerationContext :: struct
 {
-    types_to_ignore : Set (string);
-    functions_to_ignore : Set (string);
-    libraries_to_ignore : Set (string);
+    types_to_ignore : []string;
+    functions_to_ignore : []string;
+    libraries_to_ignore : []string;
     modules : Table (string, Win32Module);
     // In this set are the modules that we need to traverse to collect dependencies,
     // either because they were newly added or because a dependency was added
@@ -71,8 +71,11 @@ ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> boo
     if type.Architectures.count != 0 && !array_find (type.Architectures, Generate_For_Architecture)
         return false;
 
-    if table_contains (*context.gen_ctx.types_to_ignore, type.Name)
-        return false;
+    for context.gen_ctx.types_to_ignore
+    {
+        if WildcardStarMatch (it, type.Name)
+            return false;
+    }
 
     if module.generate_entirely
         return true;
@@ -80,16 +83,33 @@ ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> boo
     return table_contains (*module.types_to_generate, type.Name);
 }
 
+ShouldGenerateFunction :: (name : string) -> bool #must
+{
+    for context.gen_ctx.functions_to_ignore
+    {
+        if WildcardStarMatch (it, name)
+            return false;
+    }
+
+    return true;
+}
+
 ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool #must
 {
     if func.Architectures.count != 0 && !array_find (func.Architectures, Generate_For_Architecture)
         return false;
 
-    if table_contains (*context.gen_ctx.functions_to_ignore, func.Name)
-        return false;
+    for context.gen_ctx.functions_to_ignore
+    {
+        if WildcardStarMatch (it, func.Name)
+            return false;
+    }
 
-    if table_contains (*context.gen_ctx.libraries_to_ignore, func.DllImport)
-        return false;
+    for context.gen_ctx.libraries_to_ignore
+    {
+        if WildcardStarMatch (it, func.DllImport)
+            return false;
+    }
 
     return true;
 }
@@ -797,8 +817,8 @@ GenerateModule :: (module : *Win32Module)
         append (*builder, "\n// Unicode aliases\n\n");
         for module.UnicodeAliases
         {
-            if table_contains (*context.gen_ctx.functions_to_ignore, sprint ("%W", it))
-            || table_contains (*context.gen_ctx.functions_to_ignore, sprint ("%A", it))
+            if !ShouldGenerateFunction (sprint ("%W", it))
+            || !ShouldGenerateFunction (sprint ("%A", it))
                 continue;
 
             print_to_builder (*builder, "#if UNICODE then %1 :: %1W;\n", it);
@@ -881,23 +901,17 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
                 return;
             }
 
+            types_to_ignore = result.Types;
             for result.Types
-            {
                 print ("Ignoring type '%'\n", it);
-                find_or_add (*types_to_ignore, it);
-            }
 
+            functions_to_ignore = result.Functions;
             for result.Functions
-            {
                 print ("Ignoring function '%'\n", it);
-                find_or_add (*functions_to_ignore, it);
-            }
 
+            libraries_to_ignore = result.DllImports;
             for result.DllImports
-            {
                 print ("Ignoring functions from library '%'\n", it);
-                find_or_add (*libraries_to_ignore, it);
-            }
         }
     }
 
