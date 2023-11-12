@@ -11,9 +11,15 @@ You can also ignore types, functions and libraries that cause problems or that y
 
 Example:
 ```
-[
-    {"Type":"GENERIC_MAPPING"},
-    {"Function":"AreShortNamesEnabled"},
-    {"DllImport":"api-ms-win-core-ioring-l1-1-0"}
-]
+{
+    "Types" : [
+        "GENERIC_MAPPING"
+    ],
+    "Functions" : [
+        "AreShortNamesEnabled"
+    ],
+    "DllImports" : [
+        "api-ms-win-core-ioring-l1-1-0"
+    ]
+}
 ```
