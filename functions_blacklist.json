@@ -1,0 +1,6 @@
+[
+    {"Name":"AreShortNamesEnabled"},
+    {"Name":"GetTempPath2W"},
+    {"Name":"GetTempPath2A"},
+    {"FromDll":"api-ms-win-core-ioring-l1-1-0"}
+]

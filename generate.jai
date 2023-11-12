@@ -16,12 +16,20 @@ Generate_For_Architecture :: "X64";
 
 GenerationContext :: struct
 {
+    functions_to_ignore : Set (string);
+    libraries_to_ignore : Set (string);
     modules : Table (string, Win32Module);
     // In this set are the modules that we need to traverse to collect dependencies,
     // either because they were newly added or because a dependency was added
     modules_that_are_dirty : Set (string);
     modules_to_parse : Set (string);
     has_errors : bool;
+}
+
+FunctionFilter :: struct
+{
+    Name : *string;
+    FromDll : *string;
 }
 
 #add_context gen_ctx : GenerationContext;
@@ -62,6 +70,20 @@ ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> boo
         return false;
 
     return module.generate_entirely || table_contains (*module.types_to_generate, type.Name);
+}
+
+ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool #must
+{
+    if func.Architectures.count != 0 && !array_find (func.Architectures, Generate_For_Architecture)
+        return false;
+
+    if table_contains (*context.gen_ctx.functions_to_ignore, func.Name)
+        return false;
+
+    if table_contains (*context.gen_ctx.libraries_to_ignore, func.DllImport)
+        return false;
+
+    return true;
 }
 
 Win32Module :: struct
@@ -167,7 +189,10 @@ CollectModuleTypesAndDependencies :: (module : *Win32Module)
             CollectDependencies (it);
 
         for module.Functions
-            CollectDependencies (it);
+        {
+            if ShouldGenerateFunction (module, it)
+                CollectDependencies (it);
+        }
     }
 }
 
@@ -727,7 +752,7 @@ GenerateModule :: (module : *Win32Module)
         all_dlls : [..]string;
         for module.Functions
         {
-            if it.Architectures.count != 0 && !array_find (it.Architectures, Generate_For_Architecture)
+            if !ShouldGenerateFunction (module, it)
                 continue;
 
             GenerateFunction (*builder, it);
@@ -801,6 +826,35 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
             {
                 array_add (*modules_to_generate, name);
                 break;
+            }
+        }
+    }
+
+    {
+        functions_blacklist, ok := read_entire_file ("functions_blacklist.json", log_errors = false);
+        if ok
+        {
+            json_ok, result := json_parse_string (functions_blacklist, []FunctionFilter);
+            if !json_ok
+            {
+                print ("Error while parsing functions_blacklist.json file\n");
+                return;
+            }
+
+            for result
+            {
+                if it.FromDll
+                {
+                    print ("Ignoring functions from library '%'\n", it.FromDll.*);
+                    find_or_add (*libraries_to_ignore, it.FromDll.*);
+                }
+
+                if it.Name
+                {
+                    print ("Ignoring function '%'\n", it.Name.*);
+                    find_or_add (*functions_to_ignore, it.Name.*);
+                }
+
             }
         }
     }
