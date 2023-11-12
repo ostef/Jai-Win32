@@ -23,3 +23,5 @@ Example:
     ]
 }
 ```
+
+The generator will also automatically compile the code that was generated, so you can easily catch and fix errors.
