@@ -3,9 +3,173 @@
 #import "Basic";
 #import "File";
 #import "String";
+#import "Hash_Table";
+
 #import, dir "./Jaison";
 
+Set :: #bake_arguments Table (Value_Type = void);
+
 Generate_For_Architecture :: "X64";
+
+// Some struct member names are PascalCase because we follow the convention of what's
+// in the Json files. We'll probably use the rename feature of Jaison at some point.
+
+GenerationContext :: struct
+{
+    modules : Table (string, Win32Module);
+    // In this set are the modules that we need to traverse to collect dependencies,
+    // either because they were newly added or because a dependency was added
+    modules_that_are_dirty : Set (string);
+    modules_to_parse : Set (string);
+    has_errors : bool;
+}
+
+#add_context gen_ctx : GenerationContext;
+
+FindOrAddModule :: inline (module_name : string, generate_entirely := false) -> *Win32Module
+{
+    using context.gen_ctx;
+
+    result, new := find_or_add (*modules, module_name);
+
+    if new
+    {
+        print ("Adding module %\n", module_name);
+
+        result.name = module_name;
+        result.generate_entirely = generate_entirely;
+        find_or_add (*modules_to_parse, module_name);
+        find_or_add (*modules_that_are_dirty, module_name);
+    }
+
+    return result;
+}
+
+AddDependency :: inline (module_name : string, type_name : string)
+{
+    module := FindOrAddModule (module_name);
+    if module.generate_entirely
+        return;
+
+    _, new := find_or_add (*module.types_to_generate, type_name);
+    if new
+        find_or_add (*context.gen_ctx.modules_that_are_dirty, module_name);
+}
+
+ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> bool #must
+{
+    if type.Architectures.count != 0 && !array_find (type.Architectures, Generate_For_Architecture)
+        return false;
+
+    return module.generate_entirely || table_contains (*module.types_to_generate, type.Name);
+}
+
+Win32Module :: struct
+{
+    Constants : []Win32Constant;
+    Types : []Win32TypeDefinition;
+    Functions : []Win32Function;
+    UnicodeAliases : []string;
+
+    name : string;
+    parsed : bool;
+    generate_entirely : bool;
+    type_table : Table (string, *Win32TypeDefinition);
+    type_table_generated : bool;
+    types_to_generate : Set (string);
+    source_code : string;
+}
+
+ParseModule :: (module : *Win32Module)
+{
+    if module.parsed
+        return;
+
+    defer module.parsed = true;
+
+    success, result := json_parse_file (sprint ("win32json/api/%.json", module.name), Win32Module);
+
+    module.Constants = result.Constants;
+    module.Types = result.Types;
+    module.Functions = result.Functions;
+    module.UnicodeAliases = result.UnicodeAliases;
+
+    if !success
+    {
+        print ("Error: Could not parse module %\n", module.name);
+        context.gen_ctx.has_errors = true;
+    }
+}
+
+CollectDependencies :: (using type : Win32Type)
+{
+    if type.Kind ==
+    {
+    case .ApiRef;
+        AddDependency (type.Api, type.Name);
+    case .Array; #through;
+    case .LPArray; #through;
+    case .PointerTo;
+        CollectDependencies (type.Child);
+    }
+}
+
+CollectDependencies :: (using constant : Win32Constant)
+{
+    CollectDependencies (Type);
+}
+
+CollectDependencies :: (using typedef : Win32TypeDefinition)
+{
+    if Kind ==
+    {
+    case .NativeTypedef;
+        CollectDependencies (Def);
+
+    case .Union; #through;
+    case .Struct;
+        for Fields
+            CollectDependencies (it.Type);
+
+        for NestedTypes
+            CollectDependencies (it);
+
+    case .FunctionPointer;
+        CollectDependencies (ReturnType);
+        for Params
+            CollectDependencies (it.Type);
+    }
+}
+
+CollectDependencies :: (using func : Win32Function)
+{
+    CollectDependencies (ReturnType);
+    for Params
+        CollectDependencies (it.Type);
+ }
+
+CollectModuleTypesAndDependencies :: (module : *Win32Module)
+{
+    defer module.type_table_generated = true;
+
+    for module.Types
+    {
+        if !module.type_table_generated
+            table_add (*module.type_table, it.Name, *it);
+
+        if ShouldGenerateType (module, it)
+            CollectDependencies (it);
+    }
+
+    if module.generate_entirely
+    {
+        for module.Constants
+            CollectDependencies (it);
+
+        for module.Functions
+            CollectDependencies (it);
+    }
+}
 
 Win32ValueType :: enum
 {
@@ -52,9 +216,6 @@ Win32TypeKind :: enum
     PointerTo;
     LPArray;
 }
-
-// The struct member names are PascalCase because we follow the convention of what's in the Json files
-// We could use the rename feature of Jaison
 
 Win32Type :: struct
 {
@@ -182,14 +343,6 @@ Win32Function :: struct
     Params : []Win32FunctionParam;
 }
 
-Win32Module :: struct
-{
-    Constants : []Win32Constant;
-    Types : []Win32TypeDefinition;
-    Functions : []Win32Function;
-    UnicodeAliases : []string;
-}
-
 AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
 {
     if #complete type ==
@@ -262,12 +415,6 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
         AppendNativeType (builder, Name);
     case .ApiRef;
         append (builder, Name);
-
-        if Api && !array_find (context.modules_to_generate, Api)
-        {
-            print ("From module '%', adding dependency '%' for type '%' to the list of modules to generate\n", context.current_module, Api, Name);
-            array_add (*context.modules_to_generate, copy_string (Api, context.default_allocator));
-        }
 
     case .Array;
         if Shape
@@ -534,38 +681,35 @@ AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
     }
 }
 
-#add_context current_module : string;
-
-GenerateModule :: (module_name : string) -> string #must, bool
+GenerateModule :: (module : *Win32Module)
 {
-    defer context.current_module = "";
-
-    success, result := json_parse_file (sprint ("win32json/api/%.json", module_name), Win32Module);
-
-    if !success
-    {
-        print ("Error: Could not generate module %\n", module_name);
-        return "", false;
-    }
-
-    context.current_module = module_name;
-
     builder : String_Builder;
 
-    print_to_builder (*builder, "// This file was auto generated for module %\n\n", module_name);
-    append (*builder, "// Constants\n\n");
+    print_to_builder (*builder, "// This file was auto generated for module %\n", module.name);
 
-    // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
+    if !module.generate_entirely
+        append (*builder, "// This module was generated partially, because it is a dependency of another module\n");
 
-    for result.Constants
-        GenerateConstantDeclaration (*builder, it);
+    append (*builder, "\n");
 
-    append (*builder, "\n// Types\n\n");
+    if module.generate_entirely
+    {
+        append (*builder, "// Constants\n\n");
+
+        // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
+
+        for module.Constants
+            GenerateConstantDeclaration (*builder, it);
+
+        append (*builder, "\n");
+    }
+
+    append (*builder, "// Types\n\n");
 
     first := true;
-    for result.Types
+    for module.Types
     {
-        if it.Architectures.count != 0 && !array_find (it.Architectures, Generate_For_Architecture)
+        if !ShouldGenerateType (module, it)
             continue;
 
         defer first = false;
@@ -576,34 +720,37 @@ GenerateModule :: (module_name : string) -> string #must, bool
         GenerateTypeDeclaration (*builder, it);
     }
 
-    append (*builder, "\n// Functions\n\n");
-
-    all_dlls : [..]string;
-    for result.Functions
+    if module.generate_entirely
     {
-        if it.Architectures.count != 0 && !array_find (it.Architectures, Generate_For_Architecture)
-            continue;
+        append (*builder, "\n// Functions\n\n");
 
-        GenerateFunction (*builder, it);
+        all_dlls : [..]string;
+        for module.Functions
+        {
+            if it.Architectures.count != 0 && !array_find (it.Architectures, Generate_For_Architecture)
+                continue;
 
-        // Not sure how this is possible but let's handle it
-        if !it.DllImport
-            continue;
+            GenerateFunction (*builder, it);
 
-        if !array_find (all_dlls, it.DllImport)
-            array_add (*all_dlls, it.DllImport);
+            // Not sure how this is possible but let's handle it
+            if !it.DllImport
+                continue;
+
+            if !array_find (all_dlls, it.DllImport)
+                array_add (*all_dlls, it.DllImport);
+        }
+
+        append (*builder, "\n// System libraries\n\n");
+        append (*builder, "#scope_file\n\n");
+
+        for all_dlls
+        {
+            AppendStringAsIdentifier (*builder, it);
+            print_to_builder (*builder, " :: #system_library \"%\";\n", it);
+        }
     }
 
-    append (*builder, "\n// System libraries\n\n");
-    append (*builder, "#scope_file\n\n");
-
-    for all_dlls
-    {
-        AppendStringAsIdentifier (*builder, it);
-        print_to_builder (*builder, " :: #system_library \"%\";\n", it);
-    }
-
-    return builder_to_string (*builder), true;
+    module.source_code = builder_to_string (*builder);
 }
 
 WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
@@ -626,11 +773,9 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     return true;
 }
 
-#add_context modules_to_generate : [..]string;
-
 #run
 {
-    context.modules_to_generate.allocator = context.default_allocator;
+    using context.gen_ctx;
 
     context.allocator = temp;
 
@@ -644,6 +789,7 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         return;
     }
 
+    modules_to_generate : [..]string;
     all_modules := file_list ("win32json/api/");
     for all_modules
     {
@@ -653,43 +799,58 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         {
             if WildcardStarMatch (to_gen, name)
             {
-                array_add (*context.modules_to_generate, name);
+                array_add (*modules_to_generate, name);
                 break;
             }
         }
     }
 
-    success := true;
+    for modules_to_generate
+        FindOrAddModule (it, true);
 
-    module_sources : [..]string;
-    module_sources.allocator = context.default_allocator;
-
-    // modules_to_generate can be modified during GenerateAndCompileModule, so we iterate using a while loop
-    i := 0;
-    while i < context.modules_to_generate.count
+    while modules_that_are_dirty.count != 0 || modules_to_parse.count != 0
     {
-        defer i += 1;
+        for it, name : modules_to_parse
+        {
+            module := FindOrAddModule (name);
+            ParseModule (module);
+            remove it;
+        }
 
-        module_name := context.modules_to_generate[i];
+        assert (modules_to_parse.count == 0, "There are still modules to parse");
 
-        source, ok := GenerateModule (module_name);
-        array_add (*module_sources, source);
+        old_modules_that_are_dirty := modules_that_are_dirty;
+        modules_that_are_dirty = .{};
 
-        success |= ok;
+        for it, name : old_modules_that_are_dirty
+        {
+            module := FindOrAddModule (name);
+            CollectModuleTypesAndDependencies (module);
+            remove it;
+        }
+
+        assert (old_modules_that_are_dirty.count == 0, "There are still modules to traverse");
+        deinit (*old_modules_that_are_dirty);
     }
 
-    if !success
+    if has_errors
         return;
 
-    // Compile all modules to catch errors
+    for * modules
+    {
+        assert (it.parsed);
+        assert (it.type_table_generated);
+        GenerateModule (it);
+    }
 
+    // Compile all modules to catch errors
     make_directory_if_it_does_not_exist ("Generated/");
 
     all_modules_builder : String_Builder;
-    for context.modules_to_generate
+    for modules
     {
-        output_filename := sprint ("Generated/%.jai", it);
-        write_entire_file (output_filename, module_sources[it_index]);
+        output_filename := sprint ("Generated/%.jai", it.name);
+        write_entire_file (output_filename, it.source_code);
         print_to_builder (*all_modules_builder, "#load \"%\";\n", output_filename);
     }
 
@@ -705,5 +866,4 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     compiler_begin_intercept (ws, .SKIP_ALL);
     add_build_file ("all_modules.jai", ws);
     compiler_end_intercept (ws);
-
 }
