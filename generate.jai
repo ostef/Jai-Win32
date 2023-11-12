@@ -16,6 +16,7 @@ Generate_For_Architecture :: "X64";
 
 GenerationContext :: struct
 {
+    types_to_ignore : Set (string);
     functions_to_ignore : Set (string);
     libraries_to_ignore : Set (string);
     modules : Table (string, Win32Module);
@@ -26,10 +27,11 @@ GenerationContext :: struct
     has_errors : bool;
 }
 
-FunctionFilter :: struct
+BlacklistEntry :: struct
 {
-    Name : *string;
-    FromDll : *string;
+    Type : *string;
+    Function : *string;
+    DllImport : *string;
 }
 
 #add_context gen_ctx : GenerationContext;
@@ -69,7 +71,13 @@ ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> boo
     if type.Architectures.count != 0 && !array_find (type.Architectures, Generate_For_Architecture)
         return false;
 
-    return module.generate_entirely || table_contains (*module.types_to_generate, type.Name);
+    if table_contains (*context.gen_ctx.types_to_ignore, type.Name)
+        return false;
+
+    if module.generate_entirely
+        return true;
+
+    return table_contains (*module.types_to_generate, type.Name);
 }
 
 ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool #must
@@ -831,30 +839,35 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     }
 
     {
-        functions_blacklist, ok := read_entire_file ("functions_blacklist.json", log_errors = false);
+        blacklist, ok := read_entire_file ("blacklist.json", log_errors = false);
         if ok
         {
-            json_ok, result := json_parse_string (functions_blacklist, []FunctionFilter);
+            json_ok, result := json_parse_string (blacklist, []BlacklistEntry);
             if !json_ok
             {
-                print ("Error while parsing functions_blacklist.json file\n");
+                print ("Error while parsing blacklist.json file\n");
                 return;
             }
 
             for result
             {
-                if it.FromDll
+                if it.Type
                 {
-                    print ("Ignoring functions from library '%'\n", it.FromDll.*);
-                    find_or_add (*libraries_to_ignore, it.FromDll.*);
+                    print ("Ignoring type '%'\n", it.Type.*);
+                    find_or_add (*types_to_ignore, it.Type.*);
                 }
 
-                if it.Name
+                if it.Function
                 {
-                    print ("Ignoring function '%'\n", it.Name.*);
-                    find_or_add (*functions_to_ignore, it.Name.*);
+                    print ("Ignoring function '%'\n", it.Function.*);
+                    find_or_add (*functions_to_ignore, it.Function.*);
                 }
 
+                if it.DllImport
+                {
+                    print ("Ignoring functions from library '%'\n", it.DllImport.*);
+                    find_or_add (*libraries_to_ignore, it.DllImport.*);
+                }
             }
         }
     }
