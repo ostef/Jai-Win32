@@ -515,9 +515,21 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
 
     case .OBJECT;
         if ValueType == .PropertyKey
-            append (builder, "PropertyKey.{ /* @Todo */ }");
+        {
+            fmtid, ok := table_find (Value.object, "Fmtid");
+            assert (ok, "Could not find Fmtid value for PropertyKey");
+            assert (fmtid.type == .STRING, "Fmtid is not a string");
+
+            pid:, ok = table_find (Value.object, "Pid");
+            assert (ok, "Could not find Pid value for PropertyKey");
+            assert (pid.type == .NUMBER, "Pid is not a number");
+
+            print_to_builder (builder, "#run MakePropertyKey (\"%\", %)", fmtid.str, pid.number);
+        }
         else
+        {
             append (builder, "<unhandled JSON value>");
+        }
 
     case .ARRAY;
         append (builder, "<unhandled JSON value>");
@@ -633,7 +645,7 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
 
     case .Com;
         // @Todo
-        append (builder, "struct {}; // This is a COM thing (not yet handled)\n");
+        append (builder, "struct {}; // @Todo: This is a COM thing (not yet handled)\n");
 
     case .ComClassID;
         print_to_builder (builder, "\"%\";\n", Guid);
