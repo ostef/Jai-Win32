@@ -539,8 +539,7 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
             print_to_builder (builder, "%", cast (s64) Value.number);
 
     case .STRING;
-        // This function handles escape sequences by default
-        print_item_to_builder (builder, Value.str);
+        AppendStringLiteral (builder, Value.str);
 
     case .OBJECT;
         if ValueType == .PropertyKey
@@ -735,6 +734,29 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     append (builder, " #foreign ");
     AppendStringAsIdentifier (builder, DllImport);
     append (builder, ";\n");
+}
+
+// print_item_to_builder does not escape everything (like tabs) so we roll our own
+AppendStringLiteral :: (builder : *String_Builder, str : string)
+{
+    append (builder, "\"");
+
+    for i : 0..str.count - 1
+    {
+        if str[i] ==
+        {
+        case #char "\t";
+            append (builder, "\\t");
+        case #char "\n";
+            append (builder, "\\n");
+        case #char "\r";
+            append (builder, "\\r");
+        case;
+            append (builder, str[i]);
+        }
+    }
+
+    append (builder, "\"");
 }
 
 AppendIdentifier :: (builder : *String_Builder, str : string)
