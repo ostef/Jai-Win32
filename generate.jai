@@ -11,8 +11,9 @@ Set :: #bake_arguments Table (Value_Type = void);
 
 Generate_For_Architecture :: "X64";
 
-// Some struct member names are PascalCase because we follow the convention of what's
-// in the Json files. We'll probably use the rename feature of Jaison at some point.
+// Some struct member names are PascalCase because we follow the convention
+// of what's in the Json files.
+// We'll maybe use the rename feature of Jaison at some point.
 
 GenerationContext :: struct
 {
@@ -20,8 +21,9 @@ GenerationContext :: struct
     functions_to_ignore : []string;
     libraries_to_ignore : []string;
     modules : Table (string, Win32Module);
-    // In this set are the modules that we need to traverse to collect dependencies,
-    // either because they were newly added or because a dependency was added
+    // In this set are the modules that we need to traverse to collect
+    // dependencies, either because they were newly added or because a
+    // dependency was added while traversing another module
     modules_that_are_dirty : Set (string);
     modules_to_parse : Set (string);
     has_errors : bool;
@@ -36,7 +38,7 @@ BlacklistFile :: struct
 
 #add_context gen_ctx : GenerationContext;
 
-FindOrAddModule :: inline (module_name : string, generate_entirely := false) -> *Win32Module
+FindOrAddModule :: (module_name : string, generate_entirely := false) -> *Win32Module
 {
     using context.gen_ctx;
 
@@ -55,7 +57,7 @@ FindOrAddModule :: inline (module_name : string, generate_entirely := false) -> 
     return result;
 }
 
-AddDependency :: inline (module_name : string, type_name : string)
+AddDependency :: (module_name : string, type_name : string)
 {
     module := FindOrAddModule (module_name);
     if module.generate_entirely
@@ -627,12 +629,18 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
             Indent ();
 
             append (builder, "    ");
+
+            // @Incomplete: see commit about struct member names clashing
+            if it.Name == it.Type.Name
+                append (builder, "_");
+
             AppendIdentifier (builder, it.Name);
             append (builder, " : ");
 
             AppendType (builder, it.Type);
             append (builder, ";");
 
+            // Generate attributes as comments
             if it.Attrs.count > 0
                 append (builder, " // ");
 
@@ -669,6 +677,10 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         {
             if it_index != 0
                 append (builder, ", ");
+
+            // @Hack @Incomplete
+            if it.Name == it.Type.Name
+                append (builder, "_");
 
             AppendIdentifier (builder, it.Name);
             append (builder, " : ");
