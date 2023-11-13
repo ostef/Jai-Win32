@@ -433,8 +433,10 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
     case .Single; append (builder, "float");
     case .Double; append (builder, "float64");
 
-    // Not sure about these below...
-    case .String; append (builder, "string"); // Should it be *u8
+    // Should it be *u8 ? This is only ever used for constants, so I guess
+    // it's fine if we use the string type (we don't even print the NativeType
+    // for constants at the moment)
+    case .String; append (builder, "string");
 
     // @Todo: This is used for handles, which users usually expect to be *void
     // so we'll have to make a special case for them
