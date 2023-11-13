@@ -9,7 +9,6 @@
 
 Set :: #bake_arguments Table (Value_Type = void);
 
-Generate_For_Architecture :: "X64";
 
 // Some struct member names are PascalCase because we follow the convention
 // of what's in the Json files.
@@ -17,6 +16,7 @@ Generate_For_Architecture :: "X64";
 
 GenerationContext :: struct
 {
+    generate_for_architecture := "X64";
     types_to_ignore : []string;
     functions_to_ignore : []string;
     libraries_to_ignore : []string;
@@ -70,7 +70,7 @@ AddDependency :: (module_name : string, type_name : string)
 
 ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> bool #must
 {
-    if type.Architectures.count != 0 && !array_find (type.Architectures, Generate_For_Architecture)
+    if type.Architectures.count != 0 && !array_find (type.Architectures, context.gen_ctx.generate_for_architecture)
         return false;
 
     for context.gen_ctx.types_to_ignore
@@ -98,7 +98,7 @@ ShouldGenerateFunction :: (name : string) -> bool #must
 
 ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool #must
 {
-    if func.Architectures.count != 0 && !array_find (func.Architectures, Generate_For_Architecture)
+    if func.Architectures.count != 0 && !array_find (func.Architectures, context.gen_ctx.generate_for_architecture)
         return false;
 
     for context.gen_ctx.functions_to_ignore
@@ -878,11 +878,55 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
 
     set_build_options_dc (.{do_output = false, write_added_strings = false});
 
+    module_arguments : [..]string;
+    next_is_arch := false;
+
     arguments := get_build_options ().compile_time_command_line;
     if arguments.count == 0
     {
-        print ("Usage: jai generate.jai - module_names\n");
+        print ("Usage: jai generate.jai - module_names [options]\n");
         print ("Optionally, a module name can end with a * to indicate a wildcard\n");
+        print ("Valid options are:\n");
+        print (" -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\n");
+        return;
+    }
+
+    for arguments
+    {
+        if next_is_arch
+        {
+            defer next_is_arch = false;
+
+            if it ==
+            {
+            case "X64";
+                print ("Generating for architecture X64\n");
+            case "Arm64";
+                print ("Generating for architecture Arm64\n");
+                print ("Warning: architecture Arm64 might not be fully supported\n");
+            case "X86";
+                print ("Generating for architecture X86\n");
+                print ("Warning: architecture X86 might not be fully supported\n");
+            case;
+                print ("Error: invalid architecture '%'. Valid architectures are X64, Arm64 and X86\n", it);
+                return;
+            }
+
+            generate_for_architecture = it;
+        }
+        else if it ==
+        {
+        case "-arch";
+            next_is_arch = true;
+
+        case;
+            array_add (*module_arguments, it);
+        }
+    }
+
+    if module_arguments.count == 0
+    {
+        print ("Error: you need to provide modules to generate\n");
         return;
     }
 
@@ -892,7 +936,7 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     {
         name := path_strip_extension (path_filename (it));
 
-        for to_gen : arguments
+        for to_gen : module_arguments
         {
             if WildcardStarMatch (to_gen, name)
             {
