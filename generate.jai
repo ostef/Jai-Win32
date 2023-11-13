@@ -405,7 +405,7 @@ AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
     case .Single; append (builder, "float");
     case .Double; append (builder, "float64");
     case .String; append (builder, "string");
-    case .PropertyKey; append (builder, "Win32PropertyKey");
+    case .PropertyKey; append (builder, "PropertyKey");
     }
 }
 
