@@ -435,8 +435,11 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
 
     // Not sure about these below...
     case .String; append (builder, "string"); // Should it be *u8
-    case .IntPtr; append (builder, "*s32");
-    case .UIntPtr; append (builder, "*u32");
+
+    // @Todo: This is used for handles, which users usually expect to be *void
+    // so we'll have to make a special case for them
+    case .IntPtr; append (builder, "s64");
+    case .UIntPtr; append (builder, "u64");
     case .Guid; append (builder, "Guid");
     }
 }
