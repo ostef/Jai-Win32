@@ -429,7 +429,8 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
     case .Int32; append (builder, "s32");
     case .UInt64; append (builder, "u64");
     case .Int64; append (builder, "s64");
-    case .Char; append (builder, "u8"); // Should it be s8?
+    // This is actually a WCHAR. This is confusing and absolutely not helpful to name this Char but whatever...
+    case .Char; append (builder, "u16");
     case .Single; append (builder, "float");
     case .Double; append (builder, "float64");
 
