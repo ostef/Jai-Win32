@@ -440,6 +440,8 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
 
     // @Todo: This is used for handles, which users usually expect to be *void
     // so we'll have to make a special case for them
+    // @Incomplete: these are probably different on different architectures,
+    // especially X86
     case .IntPtr; append (builder, "s64");
     case .UIntPtr; append (builder, "u64");
     case .Guid; append (builder, "Guid");
