@@ -20,7 +20,20 @@ PropertyKey :: struct
     Pid : u32;
 }
 
-#scope_module
+#scope_file
+
+// Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
+assert :: (arg: bool, loc := #caller_location) {
+    if arg return;
+
+    if context.handling_assertion_failure  return;  // Avoid infinite loops.
+	context.handling_assertion_failure = true;
+
+    context.assertion_failed(loc, "Assertion failed.");
+	context.handling_assertion_failure = false;
+} @NoProfile
+
+#scope_export
 
 MakeGUID :: (str : string) -> Guid #must
 {
@@ -56,15 +69,29 @@ MakeGUID :: (str : string) -> Guid #must
         return result, end - offset;
     }
 
+    assert (str.count == 36);
+
     offset := 0;
 
     a, adv := ParseHexInt (str, offset);
+
+    assert (adv == 8);
+    assert (str[offset + adv] == #char "-");
+
     offset += adv + 1;
 
     b:, adv = ParseHexInt (str, offset);
+
+    assert (adv == 4);
+    assert (str[offset + adv] == #char "-");
+
     offset += adv + 1;
 
     c:, adv = ParseHexInt (str, offset);
+
+    assert (adv == 4);
+    assert (str[offset + adv] == #char "-");
+
     offset += adv + 1;
 
     result := Guid.{ Ints = .{ a = xx a, b = xx b, c = xx c }};
@@ -73,11 +100,20 @@ MakeGUID :: (str : string) -> Guid #must
     s.data += offset;
     s.count = 2;
 
-    result.Ints.d[0] = xx ParseHexInt (s, 0);
+    value:, adv = ParseHexInt (s, 0);
+
+    assert (adv == 2);
+
+    result.Ints.d[0] = xx value;
     offset += 2;
     s.data += 2;
 
-    result.Ints.d[1] = xx ParseHexInt (s, 0);
+    value, adv = ParseHexInt (s, 0);
+
+    assert (adv == 2);
+    assert (str[offset + adv] == #char "-");
+
+    result.Ints.d[1] = xx value;
     offset += 3;
 
     for i : 2..7
@@ -86,9 +122,15 @@ MakeGUID :: (str : string) -> Guid #must
         s.data += offset;
         s.count = 2;
 
-        result.Ints.d[i] = xx ParseHexInt (s, 0);
+        value, adv = ParseHexInt (s, 0);
+
+        assert (adv == 2);
+
+        result.Ints.d[i] = xx value;
         offset += 2;
     }
+
+    assert (offset == str.count);
 
     return result;
 }
@@ -97,5 +139,3 @@ MakePropertyKey :: (fmtid : string, pid : u32) -> PropertyKey #must
 {
     return .{ MakeGUID (fmtid), pid };
 }
-
-#scope_export
