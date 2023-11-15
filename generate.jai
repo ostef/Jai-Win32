@@ -1,5 +1,3 @@
-// @Todo: special case for handle types (make them *void instead of s64)
-
 #import "Compiler";
 #import "File_Utilities";
 #import "Basic";
@@ -11,6 +9,27 @@
 
 Set :: #bake_arguments Table (Value_Type = void);
 
+Handle_Type_Names :: string.[
+    "HANDLE", "HICON", "HCURSOR", "HBRUSH", "HSYNTHETICPOINTERDEVICE", "HPROPSHEETPAGE",
+    "HIMAGELIST", "HTREEITEM", "HCOLORSPACE", "HCRYPTASYNC", "HCERTCHAINENGINE",
+    "HCOMDB", "HKEY", "HWINWATCH", "HWINSTA", "HDESK", "HSTRING", "HSZ", "HCONV",
+    "HCONVLIST", "HDDEDATA", "HRASCONN", "HAMSICONTEXT", "HAMSISESSION",
+    "HCMNOTIFICATION", "HKL", "HIFTIMESTAMPCHANGE", "HWSAEVENT", "HTASK",
+    "HWINEVENTHOOK", "HUIANODE", "HUIAPATTERNOBJECT", "HUIATEXTRANGE",
+    "HUIAEVENT", "HMIDI", "HMIDIIN", "HMIDIOUT", "HMIDISTRM", "HMIXER",
+    "HMIXEROBJ", "HWAVE", "HWAVEOUT", "HWAVEIN", "HMMIO", "HDRVR",
+    "HACMDRIVERID", "HACMDRIVER", "HACMSTREAM", "HACMOBJ", "HIC", "HVIDEO",
+    "HSWDEVICE", "HINTERACTIONCONTEXT", "HRAWINPUT", "HRECOALT", "HRECOCONTEXT",
+    "HRECOGNIZER", "HRECOLATTICE", "HRECOWORDLIST", "HIMC", "HIMCC",
+    "HSAVEDUILANGUAGES", "HRSRC", "HSURF", "HPOWERNOTIFY", "HUMPD", "HSTR",
+    "HSPRITE", "HSEMAPHORE", "HLSURF", "HFASTMUTEX", "HDRVOBJ", "HDEV", "HBM",
+    "HPCON", "HMENU", "HACCEL", "HDROP", "HPSXA", "HDC", "HGDIOBJ", "HBITMAP",
+    "HRGN", "HPEN", "HBRUSH", "HFONT", "HMETAFILE", "HENHMETAFILE", "HMONITOR",
+    "HPALETTE", "HWND", "HHOOK", "HGESTUREINFO", "HTOUCHINPUT", "HGLRC",
+    "HFILTER", "HPTPROVIDER", "HPSS", "HPSSWALK", "HSTRING_BUFFER", "JET_SESID",
+    "PSID", "AUTHZ_AUDIT_EVENT_HANDLE", "HeapHandle", "HDPA", "HDSA", "HINSTANCE",
+];
+
 // Some struct member names are PascalCase because we follow the convention
 // of what's in the Json files.
 // We'll maybe use the rename feature of Jaison at some point.
@@ -18,6 +37,7 @@ Set :: #bake_arguments Table (Value_Type = void);
 GenerationContext :: struct
 {
     generate_for_architecture := "X64";
+    handle_type_set : Set (string);
     module_filters : []ModuleFilter;
     modules : Table (string, Win32Module);
     modules_to_parse : Set (string);
@@ -488,8 +508,7 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
     // for constants at the moment)
     case .String; append (builder, "string");
 
-    // @Todo: This is used for handles, which users usually expect to be *void
-    // so we'll have to make a special case for them
+    // This is used for handles, which users usually expect to be *void so we have a special case for them
     // @Incomplete: these are probably different on different architectures,
     // especially X86
     case .IntPtr; append (builder, "s64");
@@ -723,7 +742,11 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         append (builder, "}\n");
 
     case .NativeTypedef;
-        AppendType (builder, Def);
+        if table_contains (*context.gen_ctx.handle_type_set, Name)
+            append (builder, "*void");
+        else
+            AppendType (builder, Def);
+
         append (builder, ";\n");
 
     case .FunctionPointer;
@@ -1010,6 +1033,14 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         print ("Error: you need to provide modules to generate\n");
         return;
     }
+
+    for Handle_Type_Names
+    {
+        dummy : void;
+        table_add (*handle_type_set, it, dummy);
+    }
+
+    assert (handle_type_set.count == Handle_Type_Names.count);
 
     modules_to_generate : [..]string;
     all_modules := file_list ("win32json/api/");
