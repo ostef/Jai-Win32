@@ -1,6 +1,5 @@
 // @Todo: generate as invidiual modules to be #imported
 // @Todo: allow compiling this into an executable program
-// @Todo: handle const ref for COM methods (const refs have attributes Const and In)
 // @Todo: do something nice about anonymous struct members
 
 #import "Compiler";
@@ -830,6 +829,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
         AppendIdentifier (builder, Name);
         append (builder, "VTable;\n");
 
+        // Generate wrappers for the methods
         for method : Methods
         {
             if it_index == 0
@@ -843,7 +843,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
 
             if method.Params.count > 0
                 append (builder, ", ");
-            AppendParamList (builder, method.Params);
+            AppendParamList (builder, method.Params, const_ref_wrapper = true);
 
             print_to_builder (builder, ") -> ");
             AppendType (builder, method.ReturnType);
@@ -855,6 +855,10 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             for method.Params
             {
                 append (builder, ", ");
+
+                if ParamIsConstRef (it)
+                    append (builder, "*");
+
                 AppendIdentifier (builder, it.Name);
             }
 
@@ -895,12 +899,16 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
     print_to_builder (builder, "}\n");
 }
 
-AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam)
+AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, const_ref_wrapper := false)
 {
     for params
     {
         if it_index != 0
             append (builder, ", ");
+
+        const_ref := const_ref_wrapper && ParamIsConstRef (it);
+        if const_ref
+            append (builder, "/*const ref*/ ");
 
         // @Incomplete: we do this to prevent the param name clashing with the
         // type name, which happens a few times, but a more robust thing would be to
@@ -910,8 +918,47 @@ AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam)
 
         AppendIdentifier (builder, it.Name);
         print_to_builder (builder, " : ");
-        AppendType (builder, it.Type);
+
+        if const_ref
+            AppendType (builder, it.Type.Child);
+        else
+            AppendType (builder, it.Type);
     }
+}
+
+ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
+{
+    if Type.Kind != .PointerTo
+        return false;
+
+    has_const := false;
+    has_in := false;
+    for attr : Attrs
+    {
+        if attr.type == .STRING
+        {
+            if attr.str == "Const"
+                has_const = true;
+            else if attr.str == "In"
+                has_in = true;
+        }
+
+        if has_const && has_in
+            return true;
+    }
+
+    return false;
+}
+
+ShouldGenerateConstRefWrapper :: (using func : Win32Function) -> bool #must
+{
+    for Params
+    {
+        if ParamIsConstRef (it)
+            return true;
+    }
+
+    return false;
 }
 
 GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using func : Win32Function)
