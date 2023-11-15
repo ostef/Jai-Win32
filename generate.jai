@@ -1,6 +1,7 @@
 // @Todo: generate as invidiual modules to be #imported
 // @Todo: COM stuff
 // @Todo: allow compiling this into an executable program
+// @Todo: fix ignoring types when a module is in the arguments and we have a dependency on it (happens a lot with Foundation)
 
 #import "Compiler";
 #import "File_Utilities";
@@ -586,16 +587,16 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
 {
     AppendIdentifier (builder, Name);
 
-    // There might be some cases where we want to print the type
-    // For now we let the compiler infer it because that means integers
-    // autocast when possible
-    /*
-    append (builder, " : ");
-    AppendType (builder, Type);
-    append (builder, " : ");
-    */
+    if Type.Kind ==
+    {
+    case .ApiRef;
+        append (builder, " :: cast, no_check (");
+        AppendType (builder, Type);
+        append (builder, ") ");
 
-    append (builder, " :: ");
+    case;
+        append (builder, " :: ");
+    }
 
     if #complete Value.type ==
     {
@@ -608,9 +609,9 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
         if ValueType == .Single || ValueType == .Double
             print_to_builder (builder, "%", Value.number);
         else if ValueType == .UInt16 || ValueType == .UInt32 || ValueType == .UInt64
-            print_to_builder (builder, "%", cast (u64) Value.number);
+            print_to_builder (builder, "%", cast, no_check (u64) Value.number);
         else
-            print_to_builder (builder, "%", cast (s64) Value.number);
+            print_to_builder (builder, "%", cast, no_check (s64) Value.number);
 
     case .STRING;
         AppendStringLiteral (builder, Value.str);
