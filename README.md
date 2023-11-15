@@ -5,17 +5,15 @@ This module uses the metadata from Microsoft to generate the bindings: https://g
 
 ## Overview
 
-Usage: `jai generate.jai - module_names [options]`
+Usage: `jai generate.jai - module_names [options]`\
 A module name can end with a * to indicate a wildcard
 
-Valid options are:
- -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)
- -clean
+Valid options are:\
+ -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\
+ -clean\
  -import_GL (import GL module to check for name clashes with Graphics.OpenGL)
 
 The generator will automatically compile the code that was generated, so you can easily catch and fix errors.
-
-It is possible to select for which architecture to generate the things by using the `-arch` option.
 
 ## Filtering
 
