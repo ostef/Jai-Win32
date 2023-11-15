@@ -986,12 +986,14 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         print ("Valid options are:\n");
         print (" -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\n");
         print (" -clean\n");
+        print (" -import_GL (import GL module to check for name clashes with Graphics.OpenGL)\n");
         return;
     }
 
     module_arguments : [..]string;
     next_is_arch := false;
     clean := false;
+    import_GL := false;
 
     for arguments
     {
@@ -1023,6 +1025,9 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
 
         case "-clean";
             clean = true;
+
+        case "-import_GL";
+            import_GL = true;
 
         case;
             array_add (*module_arguments, it);
@@ -1165,6 +1170,8 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     set_build_options (options, ws);
 
     compiler_begin_intercept (ws, .SKIP_ALL);
+    if import_GL
+        add_build_string ("#import \"GL\" (ENABLE_ALL_EXTENSIONS = true);", ws);
     add_build_string ("#import, file \"../module.jai\";", ws);
     compiler_end_intercept (ws);
 }

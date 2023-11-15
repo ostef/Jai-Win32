@@ -5,9 +5,13 @@ This module uses the metadata from Microsoft to generate the bindings: https://g
 
 ## Overview
 
-Usage: `jai generate.jai - module_names`
+Usage: `jai generate.jai - module_names [options]`
+A module name can end with a * to indicate a wildcard
 
-A module name can end with a `*` to match all modules starting with what is before the `*`
+Valid options are:
+ -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)
+ -clean
+ -import_GL (import GL module to check for name clashes with Graphics.OpenGL)
 
 The generator will automatically compile the code that was generated, so you can easily catch and fix errors.
 
@@ -36,6 +40,15 @@ Example:
             "E_*"
         ]
     },
+    {
+        "ModuleName":"Graphics.OpenGL",
+        "Ignore":[
+            "GL_*",
+            "gl*"
+        ],
+        "AlwaysGenerate":[
+        ]
+    }
     {
         "ModuleName":"*",
         "Ignore":[
