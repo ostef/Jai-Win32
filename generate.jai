@@ -1,3 +1,6 @@
+// @Todo: -clean option
+// @Todo: special case for handle types (make them *void instead of s64)
+
 #import "Compiler";
 #import "File_Utilities";
 #import "Basic";
@@ -9,7 +12,6 @@
 
 Set :: #bake_arguments Table (Value_Type = void);
 
-
 // Some struct member names are PascalCase because we follow the convention
 // of what's in the Json files.
 // We'll maybe use the rename feature of Jaison at some point.
@@ -17,28 +19,29 @@ Set :: #bake_arguments Table (Value_Type = void);
 GenerationContext :: struct
 {
     generate_for_architecture := "X64";
-    types_to_ignore : []string;
-    functions_to_ignore : []string;
-    libraries_to_ignore : []string;
+    module_filters : []ModuleFilter;
     modules : Table (string, Win32Module);
+    modules_to_parse : Set (string);
+
     // In this set are the modules that we need to traverse to collect
     // dependencies, either because they were newly added or because a
     // dependency was added while traversing another module
     modules_that_are_dirty : Set (string);
-    modules_to_parse : Set (string);
+
     has_errors : bool;
 }
 
-BlacklistFile :: struct
+ModuleFilter :: struct
 {
-    Types : []string;
-    Functions : []string;
-    DllImports : []string;
+    ModuleName : string;
+    AlwaysGenerate : []string;
+    // Things that are a dependency for another module will not get ignored!
+    Ignore : []string;
 }
 
 #add_context gen_ctx : GenerationContext;
 
-FindOrAddModule :: (module_name : string, generate_entirely := false) -> *Win32Module
+FindOrAddModule :: (module_name : string) -> *Win32Module
 {
     using context.gen_ctx;
 
@@ -49,7 +52,6 @@ FindOrAddModule :: (module_name : string, generate_entirely := false) -> *Win32M
         print ("Adding module %\n", module_name);
 
         result.name = module_name;
-        result.generate_entirely = generate_entirely;
         find_or_add (*modules_to_parse, module_name);
         find_or_add (*modules_that_are_dirty, module_name);
     }
@@ -68,32 +70,83 @@ AddDependency :: (module_name : string, type_name : string)
         find_or_add (*context.gen_ctx.modules_that_are_dirty, module_name);
 }
 
+GetFilterInfoForName :: (module_name : string, name : string) -> always_generate : bool, ignore : bool
+{
+    always_generate : bool;
+    ignore : bool;
+    for filter : context.gen_ctx.module_filters
+    {
+        if !WildcardStarMatch (filter.ModuleName, module_name)
+            continue;
+
+        if !always_generate
+        {
+            for filter.AlwaysGenerate
+            {
+                if WildcardStarMatch (it, name)
+                {
+                    always_generate = true;
+                    break;
+                }
+            }
+        }
+
+        if !ignore
+        {
+            for filter.Ignore
+            {
+                if WildcardStarMatch (it, name)
+                {
+                    ignore = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    return always_generate, ignore;
+}
+
+ShouldGenerateConstant :: (module : *Win32Module, const : Win32Constant) -> bool #must
+{
+    always_generate, ignored := GetFilterInfoForName (module.name, const.Name);
+
+    if always_generate
+        return true;
+
+    if ignored
+        return false;
+
+    return module.generate_entirely;
+}
+
 ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> bool #must
 {
     if type.Architectures.count != 0 && !array_find (type.Architectures, context.gen_ctx.generate_for_architecture)
         return false;
 
-    for context.gen_ctx.types_to_ignore
-    {
-        if WildcardStarMatch (it, type.Name)
-            return false;
-    }
+    always_generate, ignored := GetFilterInfoForName (module.name, type.Name);
+
+    if always_generate
+        return true;
 
     if module.generate_entirely
-        return true;
+        return !ignored;
 
     return table_contains (*module.types_to_generate, type.Name);
 }
 
-ShouldGenerateFunction :: (name : string) -> bool #must
+ShouldGenerateFunction :: (module : *Win32Module, name : string) -> bool #must
 {
-    for context.gen_ctx.functions_to_ignore
-    {
-        if WildcardStarMatch (it, name)
-            return false;
-    }
+    always_generate, ignored := GetFilterInfoForName (module.name, name);
 
-    return true;
+    if always_generate
+        return true;
+
+    if ignored
+        return false;
+
+    return module.generate_entirely;
 }
 
 ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool #must
@@ -101,19 +154,16 @@ ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool 
     if func.Architectures.count != 0 && !array_find (func.Architectures, context.gen_ctx.generate_for_architecture)
         return false;
 
-    for context.gen_ctx.functions_to_ignore
-    {
-        if WildcardStarMatch (it, func.Name)
-            return false;
-    }
+    always_generate, ignored := GetFilterInfoForName (module.name, func.Name);
+    lib_always_generate, lib_ignored := GetFilterInfoForName (module.name, func.DllImport);
 
-    for context.gen_ctx.libraries_to_ignore
-    {
-        if WildcardStarMatch (it, func.DllImport)
-            return false;
-    }
+    if (always_generate || lib_always_generate) && !lib_ignored
+        return true;
 
-    return true;
+    if ignored || lib_ignored
+        return false;
+
+    return module.generate_entirely;
 }
 
 Win32Module :: struct
@@ -198,7 +248,7 @@ CollectDependencies :: (using func : Win32Function)
         CollectDependencies (it.Type);
  }
 
-CollectModuleTypesAndDependencies :: (module : *Win32Module)
+CollectModuleDependencies :: (module : *Win32Module)
 {
     for module.Types
     {
@@ -206,16 +256,16 @@ CollectModuleTypesAndDependencies :: (module : *Win32Module)
             CollectDependencies (it);
     }
 
-    if module.generate_entirely
+    for module.Constants
     {
-        for module.Constants
+        if ShouldGenerateConstant (module, it)
             CollectDependencies (it);
+    }
 
-        for module.Functions
-        {
-            if ShouldGenerateFunction (module, it)
-                CollectDependencies (it);
-        }
+    for module.Functions
+    {
+        if ShouldGenerateFunction (module, it)
+            CollectDependencies (it);
     }
 }
 
@@ -808,17 +858,17 @@ GenerateModule :: (module : *Win32Module)
 
     append (*builder, "\n");
 
-    if module.generate_entirely
+    append (*builder, "// Constants\n\n");
+
+    // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
+
+    for module.Constants
     {
-        append (*builder, "// Constants\n\n");
-
-        // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
-
-        for module.Constants
+        if ShouldGenerateConstant (module, it)
             GenerateConstantDeclaration (*builder, it);
-
-        append (*builder, "\n");
     }
+
+    append (*builder, "\n");
 
     append (*builder, "// Types\n\n");
 
@@ -836,45 +886,42 @@ GenerateModule :: (module : *Win32Module)
         GenerateTypeDeclaration (*builder, it);
     }
 
-    if module.generate_entirely
+    append (*builder, "\n// Functions\n\n");
+
+    all_dlls : [..]string;
+    for module.Functions
     {
-        append (*builder, "\n// Functions\n\n");
+        if !ShouldGenerateFunction (module, it)
+            continue;
 
-        all_dlls : [..]string;
-        for module.Functions
-        {
-            if !ShouldGenerateFunction (module, it)
-                continue;
+        GenerateFunction (*builder, it);
 
-            GenerateFunction (*builder, it);
+        // Not sure how this is possible but let's handle it
+        if !it.DllImport
+            continue;
 
-            // Not sure how this is possible but let's handle it
-            if !it.DllImport
-                continue;
+        if !array_find (all_dlls, it.DllImport)
+            array_add (*all_dlls, it.DllImport);
+    }
 
-            if !array_find (all_dlls, it.DllImport)
-                array_add (*all_dlls, it.DllImport);
-        }
+    append (*builder, "\n// Unicode aliases\n\n");
+    for module.UnicodeAliases
+    {
+        if !ShouldGenerateFunction (module, sprint ("%W", it))
+        || !ShouldGenerateFunction (module, sprint ("%A", it))
+            continue;
 
-        append (*builder, "\n// Unicode aliases\n\n");
-        for module.UnicodeAliases
-        {
-            if !ShouldGenerateFunction (sprint ("%W", it))
-            || !ShouldGenerateFunction (sprint ("%A", it))
-                continue;
+        print_to_builder (*builder, "#if UNICODE then %1 :: %1W;\n", it);
+        print_to_builder (*builder, "else             %1 :: %1A;\n", it);
+    }
 
-            print_to_builder (*builder, "#if UNICODE then %1 :: %1W;\n", it);
-            print_to_builder (*builder, "else             %1 :: %1A;\n", it);
-        }
+    append (*builder, "\n// System libraries\n\n");
+    append (*builder, "#scope_file\n\n");
 
-        append (*builder, "\n// System libraries\n\n");
-        append (*builder, "#scope_file\n\n");
-
-        for all_dlls
-        {
-            AppendStringAsIdentifier (*builder, it);
-            print_to_builder (*builder, " :: #system_library \"%\";\n", it);
-        }
+    for all_dlls
+    {
+        AppendStringAsIdentifier (*builder, it);
+        print_to_builder (*builder, " :: #system_library \"%\";\n", it);
     }
 
     module.source_code = builder_to_string (*builder);
@@ -908,9 +955,6 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
 
     set_build_options_dc (.{do_output = false, write_added_strings = false});
 
-    module_arguments : [..]string;
-    next_is_arch := false;
-
     arguments := get_build_options ().compile_time_command_line;
     if arguments.count == 0
     {
@@ -920,6 +964,9 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         print (" -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\n");
         return;
     }
+
+    module_arguments : [..]string;
+    next_is_arch := false;
 
     for arguments
     {
@@ -977,32 +1024,40 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     }
 
     {
-        blacklist, ok := read_entire_file ("blacklist.json", log_errors = false);
+        filter, ok := read_entire_file ("filter.json", log_errors = false);
         if ok
         {
-            json_ok, result := json_parse_string (blacklist, BlacklistFile);
+            json_ok:, module_filters = json_parse_string (filter, []ModuleFilter);
             if !json_ok
             {
                 print ("Error while parsing blacklist.json file\n");
                 return;
             }
 
-            types_to_ignore = result.Types;
-            for result.Types
-                print ("Ignoring type '%'\n", it);
+            for module_filters
+            {
+                if it.AlwaysGenerate.count > 0 || it.Ignore.count > 0
+                {
+                    if it.ModuleName == "*"
+                        print ("For all modules:\n");
+                    else
+                        print ("For module '%':\n", it.ModuleName);
+                }
 
-            functions_to_ignore = result.Functions;
-            for result.Functions
-                print ("Ignoring function '%'\n", it);
+                for it.AlwaysGenerate
+                    print (" - always generate name '%'\n", it);
 
-            libraries_to_ignore = result.DllImports;
-            for result.DllImports
-                print ("Ignoring functions from library '%'\n", it);
+                for it.Ignore
+                    print (" - ignoring name '%'\n", it);
+            }
         }
     }
 
     for modules_to_generate
-        FindOrAddModule (it, true);
+    {
+        module := FindOrAddModule (it);
+        module.generate_entirely = true;
+    }
 
     while modules_that_are_dirty.count != 0 || modules_to_parse.count != 0
     {
@@ -1021,7 +1076,7 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         for it, name : old_modules_that_are_dirty
         {
             module := FindOrAddModule (name);
-            CollectModuleTypesAndDependencies (module);
+            CollectModuleDependencies (module);
             remove it;
         }
 
