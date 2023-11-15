@@ -1,3 +1,7 @@
+// @Todo: generate as invidiual modules to be #imported
+// @Todo: COM stuff
+// @Todo: allow compiling this into an executable program
+
 #import "Compiler";
 #import "File_Utilities";
 #import "Basic";
