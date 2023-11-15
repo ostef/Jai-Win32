@@ -1,4 +1,3 @@
-// @Todo: -clean option
 // @Todo: special case for handle types (make them *void instead of s64)
 
 #import "Compiler";
@@ -959,14 +958,16 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     if arguments.count == 0
     {
         print ("Usage: jai generate.jai - module_names [options]\n");
-        print ("Optionally, a module name can end with a * to indicate a wildcard\n");
+        print ("A module name can end with a * to indicate a wildcard\n\n");
         print ("Valid options are:\n");
         print (" -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\n");
+        print (" -clean\n");
         return;
     }
 
     module_arguments : [..]string;
     next_is_arch := false;
+    clean := false;
 
     for arguments
     {
@@ -995,6 +996,9 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         {
         case "-arch";
             next_is_arch = true;
+
+        case "-clean";
+            clean = true;
 
         case;
             array_add (*module_arguments, it);
@@ -1093,7 +1097,21 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
         GenerateModule (it);
     }
 
-    // Compile all modules to catch errors
+    // Write to disk
+
+    if clean && file_exists ("Generated/")
+    {
+        DeleteDirectory :: (info : *File_Visit_Info, user_data : *void)
+        {
+            if info.is_directory
+                delete_directory (info.full_name);
+            else
+                file_delete (info.full_name);
+        }
+
+        visit_files ("Generated/", recursive=true, null, DeleteDirectory, visit_files=true, visit_directories=true);
+    }
+
     make_directory_if_it_does_not_exist ("Generated/");
 
     all_modules_builder : String_Builder;
@@ -1104,6 +1122,8 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     }
 
     write_entire_file ("Generated/all_modules.jai", *all_modules_builder);
+
+    // Compile all modules to catch errors
 
     ws := compiler_create_workspace ("Win32");
 
