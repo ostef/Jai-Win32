@@ -1,12 +1,13 @@
 // @Todo: generate as invidiual modules to be #imported
-// @Todo: COM stuff
 // @Todo: allow compiling this into an executable program
+// @Todo: handle const ref for COM methods (const refs have attributes Const and In)
+// @Todo: do something nice about anonymous struct members
 
 #import "Compiler";
-#import "File_Utilities";
 #import "Basic";
-#import "File";
 #import "String";
+#import "File";
+#import "File_Utilities";
 #import "Hash_Table";
 
 #import, dir "./Jaison";
@@ -263,6 +264,11 @@ CollectDependencies :: (using typedef : Win32TypeDefinition)
         CollectDependencies (ReturnType);
         for Params
             CollectDependencies (it.Type);
+
+    case .Com;
+        CollectDependencies (Interface);
+        for Methods
+            CollectDependencies (it);
     }
 }
 
@@ -333,6 +339,7 @@ Win32NativeType :: enum
 
 Win32TypeKind :: enum
 {
+    Null;
     Native;
     ApiRef;
     Array;
@@ -541,6 +548,7 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
 {
     if #complete Kind ==
     {
+    case .Null;
     case .Native;
         AppendNativeType (builder, Name);
     case .ApiRef;
@@ -647,6 +655,12 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
     {
         for 0..`indent_level - 1
             append (`builder, "    ");
+    }
+
+    if Kind == .Com
+    {
+        GenerateCOMInterface (builder, type, indent_level);
+        return;
     }
 
     Indent ();
@@ -758,39 +772,132 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
     case .FunctionPointer;
         append (builder, "#type (");
 
-        for Params
-        {
-            if it_index != 0
-                append (builder, ", ");
-
-            // @Hack @Incomplete
-            if it.Name == it.Type.Name
-                append (builder, "_");
-
-            AppendIdentifier (builder, it.Name);
-            append (builder, " : ");
-            AppendType (builder, it.Type);
-        }
+        AppendParamList (builder, Params);
 
         append (builder, ") -> ");
         AppendType (builder, ReturnType);
         append (builder, " #c_call;\n");
 
     case .Com;
-        // @Todo
-        append (builder, "struct {}; // @Todo: This is a COM thing (not yet handled)\n");
-
+        // Handled above
     case .ComClassID;
         print_to_builder (builder, "\"%\";\n", Guid);
     }
 }
 
-GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
+GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDefinition, indent_level := 0)
 {
-    AppendIdentifier (builder, Name);
-    append (builder, " :: (");
+    Indent :: () #expand
+    {
+        for 0..`indent_level - 1
+            append (`builder, "    ");
+    }
 
-    for Params
+    Indent ();
+    AppendIdentifier (builder, Name);
+    print_to_builder (builder, "_UUID :: \"%\";\n", Guid);
+
+    Indent ();
+    AppendIdentifier (builder, Name);
+    append (builder, " :: struct\n");
+
+    Indent ();
+    print_to_builder (builder, "{\n");
+
+    {
+        indent_level += 1;
+        defer indent_level -= 1;
+
+        Indent ();
+        append (builder, "UUID :: ");
+        AppendIdentifier (builder, Name);
+        append (builder, "_UUID;\n\n");
+
+        if Interface.Kind != .Null
+        {
+            Indent ();
+
+            append (builder, "#as using, except (.[\"vtable\", \"base\", \"UUID\"]) base : ");
+            AppendType (builder, Interface);
+            append (builder, ";\n\n");
+
+            Indent ();
+            append (builder, "#place base;\n");
+        }
+
+        Indent ();
+        append (builder, "vtable : *");
+        AppendIdentifier (builder, Name);
+        append (builder, "VTable;\n");
+
+        for method : Methods
+        {
+            if it_index == 0
+                append (builder, "\n");
+
+            Indent ();
+
+            AppendIdentifier (builder, method.Name);
+            print_to_builder (builder, " :: (this : *");
+            AppendIdentifier (builder, Name);
+
+            if method.Params.count > 0
+                append (builder, ", ");
+            AppendParamList (builder, method.Params);
+
+            print_to_builder (builder, ") -> ");
+            AppendType (builder, method.ReturnType);
+
+            append (builder, " #no_context { return this.vtable.");
+            AppendIdentifier (builder, method.Name);
+            append (builder, " (this");
+
+            for method.Params
+            {
+                append (builder, ", ");
+                AppendIdentifier (builder, it.Name);
+            }
+
+            append (builder, "); }\n");
+        }
+    }
+
+    Indent ();
+    append (builder, "}\n\n");
+
+    // Generate VTable struct
+    Indent ();
+    print_to_builder (builder, "%VTable :: struct\n", Name);
+
+    Indent ();
+    print_to_builder (builder, "{\n");
+
+    {
+        indent_level += 1;
+        defer indent_level -= 1;
+
+        if Interface.Kind != .Null
+        {
+            Indent ();
+            append (builder, "#as using, except (.[\"base\"]) base : ");
+            AppendType (builder, Interface);
+            append (builder, ";\n\n");
+        }
+
+        for Methods
+        {
+            Indent ();
+            GenerateVirtualMethod (builder, Name, it);
+        }
+    }
+
+    Indent ();
+    print_to_builder (builder, "}\n");
+}
+
+AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam)
+{
+    for params
     {
         if it_index != 0
             append (builder, ", ");
@@ -805,13 +912,42 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
         print_to_builder (builder, " : ");
         AppendType (builder, it.Type);
     }
+}
+
+GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using func : Win32Function)
+{
+    AppendIdentifier (builder, Name);
+    append (builder, " : (");
+
+    append (builder, "this : *");
+    AppendIdentifier (builder, interface_name);
+
+    if Params.count > 0
+        append (builder, ", ");
+    AppendParamList (builder, Params);
 
     append (builder, ") -> ");
 
     AppendType (builder, ReturnType);
 
-    append (builder, " #foreign ");
-    AppendStringAsIdentifier (builder, DllImport);
+    append (builder, " #cpp_method;\n");
+}
+
+GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
+{
+    AppendIdentifier (builder, Name);
+    append (builder, " :: (");
+    AppendParamList (builder, Params);
+    append (builder, ") -> ");
+
+    AppendType (builder, ReturnType);
+
+    if DllImport
+    {
+        append (builder, " #foreign ");
+        AppendStringAsIdentifier (builder, DllImport);
+    }
+
     append (builder, ";\n");
 }
 
