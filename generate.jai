@@ -1,5 +1,5 @@
 // @Todo: generate as invidiual modules to be #imported
-// @Todo: allow compiling this into an executable program
+// @Todo: handle compilation of generated code when in executable form
 // @Todo: do something nice about anonymous struct members
 
 #import "Compiler";
@@ -485,7 +485,7 @@ AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
     case .Int64; append (builder, "s64");
     case .Single; append (builder, "float");
     case .Double; append (builder, "float64");
-    case .String; append (builder, "string");
+    case .String; append (builder, "string"); // @Todo: Is this correct?
     case .PropertyKey; append (builder, "PropertyKey");
     }
 }
@@ -1071,8 +1071,6 @@ GenerateModule :: (module : *Win32Module)
 
     append (*builder, "// Constants\n\n");
 
-    // @Todo: maybe use empty lines to group constants by topic, by looking at the prefix
-
     for module.Constants
     {
         if ShouldGenerateConstant (module, it)
@@ -1158,23 +1156,26 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     return true;
 }
 
-#run
+Main :: (arguments : []string)
 {
     using context.gen_ctx;
 
     context.allocator = temp;
 
-    set_build_options_dc (.{do_output = false, write_added_strings = false});
-
-    arguments := get_build_options ().compile_time_command_line;
     if arguments.count == 0
     {
         print ("Usage: jai generate.jai - module_names [options]\n");
         print ("A module name can end with a * to indicate a wildcard\n\n");
         print ("Valid options are:\n");
         print (" -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\n");
-        print (" -clean\n");
-        print (" -import_GL (import GL module to check for name clashes with Graphics.OpenGL)\n");
+        print (" -clean (delete the Generated directory and its contents)\n");
+
+        if #compile_time
+        {
+            print (" -import_GL (import GL module to check for name clashes with Graphics.OpenGL)\n");
+            print (" -exe (compile this into an executable; for now this removes the ability to compile the generated code automatically)\n");
+        }
+
         return;
     }
 
@@ -1182,6 +1183,7 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     next_is_arch := false;
     clean := false;
     import_GL := false;
+    exe := false;
 
     for arguments
     {
@@ -1215,16 +1217,71 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
             clean = true;
 
         case "-import_GL";
+            if !#compile_time
+            {
+                print ("Error: % option is only valid when executed in the Jai interpreter\n", it);
+                return;
+            }
+
             import_GL = true;
+
+        case "-exe";
+            if !#compile_time
+            {
+                print ("Error: % option is only valid when executed in the Jai interpreter\n", it);
+                return;
+            }
+
+            exe = true;
 
         case;
             array_add (*module_arguments, it);
         }
     }
 
+    if !#compile_time
+    {
+        print ("Warning: this program is not running in the Jai interpreter\n");
+        print ("The generated code will not get compiled and checked for errors\n");
+    }
+
+    if exe
+    {
+        if arguments.count != 1
+        {
+            print ("Error: when option -exe is passed, nothing else should be passed\n");
+
+            if #compile_time
+                set_build_options_dc (.{do_output = false, write_added_strings = false});
+
+            return;
+        }
+
+        return;
+    }
+    else if #compile_time
+    {
+        set_build_options_dc (.{do_output = false, write_added_strings = false});
+    }
+
+    if clean && file_exists ("Generated/")
+    {
+        DeleteDirectory :: (info : *File_Visit_Info, user_data : *void)
+        {
+            if info.is_directory
+                delete_directory (info.full_name);
+            else
+                file_delete (info.full_name);
+        }
+
+        visit_files ("Generated/", recursive=true, null, DeleteDirectory, visit_files=true, visit_directories=true);
+        delete_directory ("Generated/");
+    }
+
     if module_arguments.count == 0
     {
-        print ("Error: you need to provide modules to generate\n");
+        if !clean // Clean can be called without arguments
+            print ("Error: you need to provide modules to generate\n");
         return;
     }
 
@@ -1324,19 +1381,6 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
 
     // Write to disk
 
-    if clean && file_exists ("Generated/")
-    {
-        DeleteDirectory :: (info : *File_Visit_Info, user_data : *void)
-        {
-            if info.is_directory
-                delete_directory (info.full_name);
-            else
-                file_delete (info.full_name);
-        }
-
-        visit_files ("Generated/", recursive=true, null, DeleteDirectory, visit_files=true, visit_directories=true);
-    }
-
     make_directory_if_it_does_not_exist ("Generated/");
 
     all_modules_builder : String_Builder;
@@ -1349,17 +1393,30 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     write_entire_file ("Generated/all_modules.jai", *all_modules_builder);
 
     // Compile all modules to catch errors
+    if #compile_time
+    {
+        ws := compiler_create_workspace ("Win32");
 
-    ws := compiler_create_workspace ("Win32");
+        options := get_build_options (ws);
+        options.output_type = .NO_OUTPUT;
+        options.dead_code_elimination = .NONE;
+        set_build_options (options, ws);
 
-    options := get_build_options (ws);
-    options.output_type = .NO_OUTPUT;
-    options.dead_code_elimination = .NONE;
-    set_build_options (options, ws);
-
-    compiler_begin_intercept (ws, .SKIP_ALL);
-    if import_GL
-        add_build_string ("#import \"GL\" (ENABLE_ALL_EXTENSIONS = true);", ws);
-    add_build_string ("#import, file \"../module.jai\";", ws);
-    compiler_end_intercept (ws);
+        compiler_begin_intercept (ws, .SKIP_ALL);
+        if import_GL
+            add_build_string ("#import \"GL\" (ENABLE_ALL_EXTENSIONS = true);", ws);
+        add_build_string ("#import, file \"../module.jai\";", ws);
+        compiler_end_intercept (ws);
+    }
 }
+
+main :: ()
+{
+    arguments := get_command_line_arguments ();
+    arguments.data += 1;
+    arguments.count -= 1;
+
+    Main (arguments);
+}
+
+#run Main (get_build_options ().compile_time_command_line);
