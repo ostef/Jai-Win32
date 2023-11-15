@@ -1156,8 +1156,15 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     return true;
 }
 
-Main :: (arguments : []string)
+Main :: (arguments : []string) -> int
 {
+    ReturnWithoutCompiling :: (code : int) #expand
+    {
+        if #compile_time
+            set_build_options_dc (.{do_output = false, write_added_strings = false});
+        `return code;
+    }
+
     using context.gen_ctx;
 
     context.allocator = temp;
@@ -1176,7 +1183,7 @@ Main :: (arguments : []string)
             print (" -exe (compile this into an executable; for now this removes the ability to compile the generated code automatically)\n");
         }
 
-        return;
+        ReturnWithoutCompiling (0);
     }
 
     module_arguments : [..]string;
@@ -1203,7 +1210,7 @@ Main :: (arguments : []string)
                 print ("Warning: architecture X86 might not be fully supported\n");
             case;
                 print ("Error: invalid architecture '%'. Valid architectures are X64, Arm64 and X86\n", it);
-                return;
+                ReturnWithoutCompiling (1);
             }
 
             generate_for_architecture = it;
@@ -1220,7 +1227,7 @@ Main :: (arguments : []string)
             if !#compile_time
             {
                 print ("Error: % option is only valid when executed in the Jai interpreter\n", it);
-                return;
+                ReturnWithoutCompiling (1);
             }
 
             import_GL = true;
@@ -1229,12 +1236,18 @@ Main :: (arguments : []string)
             if !#compile_time
             {
                 print ("Error: % option is only valid when executed in the Jai interpreter\n", it);
-                return;
+                ReturnWithoutCompiling (1);
             }
 
             exe = true;
 
         case;
+            if it.count > 0 && it[0] == #char "-"
+            {
+                print ("Error: unknown option %\n", it);
+                ReturnWithoutCompiling (1);
+            }
+
             array_add (*module_arguments, it);
         }
     }
@@ -1254,10 +1267,10 @@ Main :: (arguments : []string)
             if #compile_time
                 set_build_options_dc (.{do_output = false, write_added_strings = false});
 
-            return;
+            ReturnWithoutCompiling (1);
         }
 
-        return;
+        return 0;
     }
     else if #compile_time
     {
@@ -1280,9 +1293,11 @@ Main :: (arguments : []string)
 
     if module_arguments.count == 0
     {
-        if !clean // Clean can be called without arguments
-            print ("Error: you need to provide modules to generate\n");
-        return;
+        if clean // Clean can be called without arguments
+            ReturnWithoutCompiling (0);
+
+        print ("Error: you need to provide modules to generate\n");
+        ReturnWithoutCompiling (1);
     }
 
     for Handle_Type_Names
@@ -1317,7 +1332,7 @@ Main :: (arguments : []string)
             if !json_ok
             {
                 print ("Error while parsing blacklist.json file\n");
-                return;
+                ReturnWithoutCompiling (1);
             }
 
             for module_filters
@@ -1371,7 +1386,7 @@ Main :: (arguments : []string)
     }
 
     if has_errors
-        return;
+        ReturnWithoutCompiling (1);
 
     for * modules
     {
@@ -1408,6 +1423,8 @@ Main :: (arguments : []string)
         add_build_string ("#import, file \"../module.jai\";", ws);
         compiler_end_intercept (ws);
     }
+
+    ReturnWithoutCompiling (0);
 }
 
 main :: ()
@@ -1416,7 +1433,8 @@ main :: ()
     arguments.data += 1;
     arguments.count -= 1;
 
-    Main (arguments);
+    exit_code := Main (arguments);
+    exit (xx exit_code);
 }
 
 #run Main (get_build_options ().compile_time_command_line);
