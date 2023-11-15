@@ -615,7 +615,7 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
 
     case .NUMBER;
         if ValueType == .Single || ValueType == .Double
-            print_to_builder (builder, "%", Value.number);
+            print_to_builder (builder, "%", FormatFloat.{value=Value.number, zero_removal=.ONE_ZERO_AFTER_DECIMAL});
         else if ValueType == .UInt16 || ValueType == .UInt32 || ValueType == .UInt64
             print_to_builder (builder, "%", cast, no_check (u64) Value.number);
         else
