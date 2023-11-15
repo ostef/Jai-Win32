@@ -1,7 +1,6 @@
 // @Todo: generate as invidiual modules to be #imported
 // @Todo: COM stuff
 // @Todo: allow compiling this into an executable program
-// @Todo: fix ignoring types when a module is in the arguments and we have a dependency on it (happens a lot with Foundation)
 
 #import "Compiler";
 #import "File_Utilities";
@@ -87,8 +86,6 @@ FindOrAddModule :: (module_name : string) -> *Win32Module
 AddDependency :: (module_name : string, type_name : string)
 {
     module := FindOrAddModule (module_name);
-    if module.generate_entirely
-        return;
 
     _, new := find_or_add (*module.types_to_generate, type_name);
     if new
@@ -155,10 +152,13 @@ ShouldGenerateType :: (module : *Win32Module, type : Win32TypeDefinition) -> boo
     if always_generate
         return true;
 
-    if module.generate_entirely
-        return !ignored;
+    if table_contains (*module.types_to_generate, type.Name)
+        return true;
 
-    return table_contains (*module.types_to_generate, type.Name);
+    if ignored
+        return false;
+
+    return module.generate_entirely;
 }
 
 ShouldGenerateFunction :: (module : *Win32Module, name : string) -> bool #must
