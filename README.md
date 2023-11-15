@@ -8,17 +8,18 @@ This module uses the metadata from Microsoft to generate the bindings: https://g
 Usage: `jai generate.jai - module_names [options]`\
 A module name can end with a * to indicate a wildcard
 
-Valid options are:\
- -arch ARCHITECTURE (ARCHITECTURE must be one of X64, Arm64, X86)\
- -clean\
- -import_GL (import GL module to check for name clashes with Graphics.OpenGL)
+Valid options are:
+* `-arch ARCHITECTURE` (ARCHITECTURE must be one of X64, Arm64, X86)
+* `-clean` (delete the Generated directory and its contents)
+* `-import_GL` (import GL module to check for name clashes with Graphics.OpenGL)
+* `-exe` (compile this into an executable; for now this removes the ability to compile the generated code automatically)
 
 The generator will automatically compile the code that was generated, so you can easily catch and fix errors.
 
 ## Filtering
 
 You can also filter things that cause problems or that you don't need by adding them to a filter.json file (simple wildcards are allowed).
-This is useful especially for big modules such as Foundation, where there are certain things that are particularly useful (like error codes), and lots of others that are not at all.
+This is useful especially for big modules such as Foundation, where there are certain things that are particularly useful, and lots of others that are not at all.
 
 You can ignore everything using a * and hand-pick what to generate, so that only these things will generate.
 
