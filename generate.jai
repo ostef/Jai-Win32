@@ -4,7 +4,6 @@
 // @Todo: can we generate #must on return types automatically?
 // Maybe there are attributes on the return type that can help
 // @Todo: remove prefix from enum value names
-// @Todo: fix Const Optional In params being interpreted as const ref
 
 #import "Compiler";
 #import "Basic";
@@ -964,6 +963,8 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
                 has_const = true;
             else if attr.str == "In"
                 has_in = true;
+            else if attr.str == "Optional" // Optional means you can pass null, so it needs to stay a pointer
+                return false;
         }
 
         if has_const && has_in
