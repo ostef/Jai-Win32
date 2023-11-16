@@ -2,22 +2,13 @@
 
 #load "Generated/all_modules.jai";
 
-Guid :: union
+// For some reason this is not part of the metadata
+GUID :: union
 {
-    Ints : struct
-    {
-        a : u32;
-        b : u16;
-        c : u16;
-        d : [8]u8;
-    };
-    Bytes : [16]u8;
-}
-
-PropertyKey :: struct
-{
-    Fmtid : Guid;
-    Pid : u32;
+    Data1 : u32;
+    Data2 : u16;
+    Data3 : u16;
+    Data4 : [8]u8;
 }
 
 #scope_file
@@ -35,7 +26,7 @@ assert :: (arg: bool, loc := #caller_location) {
 
 #scope_export
 
-MakeGUID :: (str : string) -> Guid #must
+MakeGUID :: (str : string) -> GUID #must
 {
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
@@ -94,7 +85,7 @@ MakeGUID :: (str : string) -> Guid #must
 
     offset += adv + 1;
 
-    result := Guid.{ Ints = .{ a = xx a, b = xx b, c = xx c }};
+    result := GUID.{ Data1 = xx a, Data2 = xx b, Data3 = xx c };
 
     s := str;
     s.data += offset;
@@ -104,7 +95,7 @@ MakeGUID :: (str : string) -> Guid #must
 
     assert (adv == 2);
 
-    result.Ints.d[0] = xx value;
+    result.Data4[0] = xx value;
     offset += 2;
     s.data += 2;
 
@@ -113,7 +104,7 @@ MakeGUID :: (str : string) -> Guid #must
     assert (adv == 2);
     assert (str[offset + adv] == #char "-");
 
-    result.Ints.d[1] = xx value;
+    result.Data4[1] = xx value;
     offset += 3;
 
     for i : 2..7
@@ -126,16 +117,11 @@ MakeGUID :: (str : string) -> Guid #must
 
         assert (adv == 2);
 
-        result.Ints.d[i] = xx value;
+        result.Data4[i] = xx value;
         offset += 2;
     }
 
     assert (offset == str.count);
 
     return result;
-}
-
-MakePropertyKey :: (fmtid : string, pid : u32) -> PropertyKey #must
-{
-    return .{ MakeGUID (fmtid), pid };
 }

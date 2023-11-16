@@ -489,7 +489,7 @@ AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
     case .Single; append (builder, "float");
     case .Double; append (builder, "float64");
     case .String; append (builder, "string"); // @Todo: Is this correct?
-    case .PropertyKey; append (builder, "PropertyKey");
+    case .PropertyKey; append (builder, "PROPERTYKEY");
     }
 }
 
@@ -528,7 +528,7 @@ AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
     // especially X86
     case .IntPtr; append (builder, "s64");
     case .UIntPtr; append (builder, "u64");
-    case .Guid; append (builder, "Guid");
+    case .Guid; append (builder, "GUID");
     }
 }
 
@@ -599,14 +599,14 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
 {
     AppendIdentifier (builder, Name);
 
-    if Type.Kind ==
+    if Type.Kind == .ApiRef && Type.Name != "PROPERTYKEY"
     {
-    case .ApiRef;
         append (builder, " :: cast, no_check (");
         AppendType (builder, Type);
         append (builder, ") ");
-
-    case;
+    }
+    else
+    {
         append (builder, " :: ");
     }
 
@@ -639,7 +639,7 @@ GenerateConstantDeclaration :: (builder : *String_Builder, using const : Win32Co
             assert (ok, "Could not find Pid value for PropertyKey");
             assert (pid.type == .NUMBER, "Pid is not a number");
 
-            print_to_builder (builder, "#run MakePropertyKey (\"%\", %)", fmtid.str, pid.number);
+            print_to_builder (builder, "#run PROPERTYKEY.{ MakeGUID (\"%\"), % }", fmtid.str, pid.number);
         }
         else
         {
@@ -1063,7 +1063,8 @@ AppendIdentifier :: (builder : *String_Builder, str : string)
     case "u64"; #through;
     case "s64"; #through;
     case "float32"; #through;
-    case "float64";
+    case "float64"; #through;
+    case "GUID";
         print_to_builder (builder, "_%", str);
 
     case;
