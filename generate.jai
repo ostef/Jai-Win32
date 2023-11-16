@@ -928,7 +928,11 @@ AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, co
 
 ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
 {
-    if Type.Kind != .PointerTo
+    if Type.Kind != .PointerTo || !Type.Child
+        return false;
+
+    // void pointers cannot be const ref (they would decay into param : void)
+    if Type.Child.Kind == .Native && Type.Child.Name == "Void"
         return false;
 
     has_const := false;
