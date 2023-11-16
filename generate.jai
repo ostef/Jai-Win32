@@ -1,6 +1,10 @@
 // @Todo: generate as invidiual modules to be #imported
 // @Todo: handle compilation of generated code when in executable form
 // @Todo: do something nice about anonymous struct members
+// @Todo: can we generate #must on return types automatically?
+// Maybe there are attributes on the return type that can help
+// @Todo: remove prefix from enum value names
+// @Todo: fix Const Optional In params being interpreted as const ref
 
 #import "Compiler";
 #import "Basic";
@@ -846,7 +850,16 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             AppendParamList (builder, method.Params, const_ref_wrapper = true);
 
             print_to_builder (builder, ") -> ");
-            AppendType (builder, method.ReturnType);
+            if HasReturnValue (method)
+            {
+                print_to_builder (builder, ") -> ");
+                AppendType (builder, method.ReturnType);
+                append (builder, " #no_context { return this.vtable.");
+            }
+            else
+            {
+                print_to_builder (builder, ") #no_context { this.vtable.");
+            }
 
             append (builder, " #no_context { return this.vtable.");
             AppendIdentifier (builder, method.Name);
@@ -926,6 +939,10 @@ AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, co
     }
 }
 
+{
+    return !(ReturnType.Kind == .Native && ReturnType.Name == "Void");
+}
+
 ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
 {
     if Type.Kind != .PointerTo || !Type.Child
@@ -955,16 +972,6 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
 }
 
 ShouldGenerateConstRefWrapper :: (using func : Win32Function) -> bool #must
-{
-    for Params
-    {
-        if ParamIsConstRef (it)
-            return true;
-    }
-
-    return false;
-}
-
 GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using func : Win32Function)
 {
     AppendIdentifier (builder, Name);
@@ -980,6 +987,15 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
     append (builder, ") -> ");
 
     AppendType (builder, ReturnType);
+    if HasReturnValue (func)
+    {
+        append (builder, ") -> ");
+        AppendType (builder, ReturnType);
+    }
+    else
+    {
+        append (builder, ") ");
+    }
 
     append (builder, " #cpp_method;\n");
 }
@@ -992,6 +1008,15 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     append (builder, ") -> ");
 
     AppendType (builder, ReturnType);
+    if HasReturnValue (func)
+    {
+        append (builder, ") -> ");
+        AppendType (builder, ReturnType);
+    }
+    else
+    {
+        append (builder, ") ");
+    }
 
     if DllImport
     {
