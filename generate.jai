@@ -547,7 +547,7 @@ GetNativeType :: (name : string) -> Win32NativeType #must
     return .Invalid;
 }
 
-AppendType :: (builder : *String_Builder, using type : Win32Type)
+AppendType :: (builder : *String_Builder, using type : Win32Type, pointer_to_com := true)
 {
     if #complete Kind ==
     {
@@ -555,6 +555,8 @@ AppendType :: (builder : *String_Builder, using type : Win32Type)
     case .Native;
         AppendNativeType (builder, Name);
     case .ApiRef;
+        if TargetKind == "Com" && pointer_to_com
+            append (builder, "*");
         append (builder, Name);
 
     case .Array;
@@ -736,6 +738,7 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
             append (builder, " : ");
 
             AppendType (builder, it.Type);
+
             append (builder, ";");
 
             // Generate attributes as comments
@@ -821,7 +824,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             Indent ();
 
             append (builder, "#as using, except (.[\"vtable\", \"base\", \"UUID\"]) base : ");
-            AppendType (builder, Interface);
+            AppendType (builder, Interface, pointer_to_com = false);
             append (builder, ";\n\n");
 
             Indent ();
@@ -849,7 +852,6 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
                 append (builder, ", ");
             AppendParamList (builder, method.Params, const_ref_wrapper = true);
 
-            print_to_builder (builder, ") -> ");
             if HasReturnValue (method)
             {
                 print_to_builder (builder, ") -> ");
@@ -861,7 +863,6 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
                 print_to_builder (builder, ") #no_context { this.vtable.");
             }
 
-            append (builder, " #no_context { return this.vtable.");
             AppendIdentifier (builder, method.Name);
             append (builder, " (this");
 
@@ -897,7 +898,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
         {
             Indent ();
             append (builder, "#as using, except (.[\"base\"]) base : ");
-            AppendType (builder, Interface);
+            AppendType (builder, Interface, pointer_to_com = false);
             append (builder, ";\n\n");
         }
 
@@ -939,6 +940,7 @@ AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, co
     }
 }
 
+HasReturnValue :: inline (using func : Win32Function) -> bool #must
 {
     return !(ReturnType.Kind == .Native && ReturnType.Name == "Void");
 }
@@ -971,7 +973,6 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
     return false;
 }
 
-ShouldGenerateConstRefWrapper :: (using func : Win32Function) -> bool #must
 GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using func : Win32Function)
 {
     AppendIdentifier (builder, Name);
@@ -984,9 +985,7 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
         append (builder, ", ");
     AppendParamList (builder, Params);
 
-    append (builder, ") -> ");
 
-    AppendType (builder, ReturnType);
     if HasReturnValue (func)
     {
         append (builder, ") -> ");
@@ -1005,9 +1004,7 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     AppendIdentifier (builder, Name);
     append (builder, " :: (");
     AppendParamList (builder, Params);
-    append (builder, ") -> ");
 
-    AppendType (builder, ReturnType);
     if HasReturnValue (func)
     {
         append (builder, ") -> ");
