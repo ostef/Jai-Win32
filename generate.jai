@@ -986,7 +986,6 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
         append (builder, ", ");
     AppendParamList (builder, Params);
 
-
     if HasReturnValue (func)
     {
         append (builder, ") -> ");
@@ -994,7 +993,7 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
     }
     else
     {
-        append (builder, ") ");
+        append (builder, ")");
     }
 
     append (builder, " #cpp_method;\n");
