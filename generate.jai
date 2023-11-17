@@ -44,6 +44,8 @@ Handle_Type_Names :: string.[
 
 GenerationContext :: struct
 {
+    generate_WIN32_ERROR_enum := false;
+
     generate_for_architecture := "X64";
     handle_type_set : Set (string);
     module_filters : []ModuleFilter;
@@ -553,7 +555,16 @@ AppendType :: (builder : *String_Builder, using type : Win32Type, pointer_to_com
     case .Null;
     case .Native;
         AppendNativeType (builder, Name);
+
     case .ApiRef;
+        // We replace WIN32_ERROR with u32, see the comment about this type
+        // in GenerateTypeDeclaration
+        if !context.gen_ctx.generate_WIN32_ERROR_enum && Name == "WIN32_ERROR"
+        {
+            append (builder, "u32");
+            return;
+        }
+
         if TargetKind == "Com" && pointer_to_com
             append (builder, "*");
         append (builder, Name);
@@ -660,6 +671,16 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         for 0..`indent_level - 1
             append (`builder, "    ");
     }
+
+    // Don't generate this! It's a HUGE enum (3k values) that has error codes for
+    // a lot of different and unrelated things; things that should be in different modules.
+    // It's used in like only 4 different places, places that could return only a handful of
+    // these values, so IT DOES NOT MAKE ANY SENSE THAT THIS ENUM EXIST!!!
+    // I think the Microsoft team responsible for the API metadata tried to bundle error
+    // codes into an enum, but they ended up putting them (not even all of them) in a giant
+    // one, which seems OBVIOUSLY wrong to me but whatever...
+    if !context.gen_ctx.generate_WIN32_ERROR_enum && Name == "WIN32_ERROR"
+        return;
 
     if Kind == .Com
     {
@@ -1267,6 +1288,9 @@ Main :: (arguments : []string) -> int
             }
 
             exe = true;
+
+        case "-generate_WIN32_ERROR_enum";
+            generate_WIN32_ERROR_enum = true;
 
         case;
             if it.count > 0 && it[0] == #char "-"
