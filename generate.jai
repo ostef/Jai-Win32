@@ -676,9 +676,9 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
     // a lot of different and unrelated things; things that should be in different modules.
     // It's used in like only 4 different places, places that could return only a handful of
     // these values, so IT DOES NOT MAKE ANY SENSE THAT THIS ENUM EXIST!!!
-    // I think the Microsoft team responsible for the API metadata tried to bundle error
-    // codes into an enum, but they ended up putting them (not even all of them) in a giant
-    // one, which seems OBVIOUSLY wrong to me but whatever...
+    // I think the Microsoft team responsible for the API metadata tried to bundle all these
+    // error codes into a single enum because it is all of the possible values for Get/SetLastError,
+    // which seems OBVIOUSLY wrong to me but whatever...
     if !context.gen_ctx.generate_WIN32_ERROR_enum && Name == "WIN32_ERROR"
         return;
 
