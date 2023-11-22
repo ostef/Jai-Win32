@@ -196,7 +196,7 @@ ShouldGenerateFunction :: (module : *Win32Module, func : Win32Function) -> bool 
     always_generate, ignored := GetFilterInfoForName (module.name, func.Name);
     lib_always_generate, lib_ignored := GetFilterInfoForName (module.name, func.DllImport);
 
-    if (always_generate || lib_always_generate) && !lib_ignored
+    if always_generate || lib_always_generate
         return true;
 
     if ignored || lib_ignored
@@ -1147,8 +1147,6 @@ GenerateModule :: (module : *Win32Module)
     // Append hand-written GUID stuff
     if module.name == "Foundation"
     {
-        append (*builder, "// The following GUID stuff was hand-written then copy-pasted here, because it is not present in the metadata\n\n");
-
         guid_contents, ok := read_entire_file ("GUID.jai");
         assert (ok);
 
@@ -1560,7 +1558,7 @@ Main :: (arguments : []string) -> int
                     name_without_directory.count -= output_jai_module_dir.count + 1;
 
                     final_name := sprint ("Generated/%.jai", name_without_directory);
-                    //print ("Remapping % to %\n", import.target_module_name, final_name);
+                    // print ("Remapping % to %\n", import.target_module_name, final_name);
 
                     provide_import (msg.workspace, import, .PATH_TO_FILE, final_name);
                 }
