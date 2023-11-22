@@ -1284,6 +1284,7 @@ Main :: (arguments : []string) -> int
         {
             print (" -import_GL (import GL module to check for name clashes with Graphics.OpenGL)\n");
             print (" -exe (compile this into an executable; for now this removes the ability to compile the generated code automatically)\n");
+            print (" -only_compile (only compile what has already been generated)\n");
         }
 
         print (" -generate_WIN32_ERROR_enum (generate the huge WIN32_ERROR enum in module Foundation; if this option is not set, the enum will be replaced by a u32)\n");
@@ -1299,6 +1300,7 @@ Main :: (arguments : []string) -> int
     clean := false;
     import_GL := false;
     exe := false;
+    only_compile := false;
 
     for arguments
     {
@@ -1363,6 +1365,9 @@ Main :: (arguments : []string) -> int
         case "-output_jai_module_dir";
             next_is_output_jai_module_dir = true;
 
+        case "-only_compile";
+            only_compile = true;
+
         case;
             if it.count > 0 && it[0] == #char "-"
             {
@@ -1411,6 +1416,12 @@ Main :: (arguments : []string) -> int
 
         visit_files ("Generated/", recursive=true, null, DeleteDirectory, visit_files=true, visit_directories=true);
         delete_directory ("Generated/");
+    }
+
+    if only_compile
+    {
+        CompileAllModules (import_GL);
+        return 0;
     }
 
     if module_arguments.count == 0
@@ -1537,56 +1548,72 @@ Main :: (arguments : []string) -> int
     // Compile all modules to catch errors
     if #compile_time
     {
-        ws := compiler_create_workspace ("Win32");
-
-        options := get_build_options (ws);
-        options.output_type = .NO_OUTPUT;
-        options.dead_code_elimination = .NONE;
-        set_build_options (options, ws);
-
-        compiler_begin_intercept (ws);
-
-        if import_GL
-            add_build_string ("#import \"GL\" (ENABLE_ALL_EXTENSIONS = true);", ws);
-
-        if bundle_modules
-        {
-            add_build_string ("#import, file \"all_modules.jai\";", ws);
-        }
-        else
-        {
-            for modules
-                add_build_string (sprint ("#import \"%/%\";", output_jai_module_dir, it.name), ws);
-        }
-
-        while true
-        {
-            msg := compiler_wait_for_message ();
-            if msg.kind == .COMPLETE
-                break;
-
-            if msg.kind == .FAILED_IMPORT
-            {
-                import := cast (*Message_Failed_Import) msg;
-
-                if starts_with (import.target_module_name, sprint ("%/", output_jai_module_dir))
-                {
-                    name_without_directory := import.target_module_name;
-                    name_without_directory.data += output_jai_module_dir.count + 1;
-                    name_without_directory.count -= output_jai_module_dir.count + 1;
-
-                    final_name := sprint ("Generated/%.jai", name_without_directory);
-                    // print ("Remapping % to %\n", import.target_module_name, final_name);
-
-                    provide_import (msg.workspace, import, .PATH_TO_FILE, final_name);
-                }
-            }
-        }
-
-        compiler_end_intercept (ws);
+        CompileAllModules (import_GL);
     }
 
     ReturnWithoutCompiling (0);
+}
+
+CompileAllModules :: (import_GL : bool)
+{
+    using context.gen_ctx;
+
+    bundled := false;
+    all_modules := file_list ("Generated/");
+    for * all_modules
+    {
+        it.* = path_strip_extension (path_filename (it.*));
+        if it.* == "all_modules.jai"
+            bundled = true;
+    }
+
+    ws := compiler_create_workspace ("Win32");
+
+    options := get_build_options (ws);
+    options.output_type = .NO_OUTPUT;
+    options.dead_code_elimination = .NONE;
+    set_build_options (options, ws);
+
+    compiler_begin_intercept (ws);
+
+    if import_GL
+        add_build_string ("#import \"GL\" (ENABLE_ALL_EXTENSIONS = true);", ws);
+
+    if bundled
+    {
+        add_build_string ("#import, file \"all_modules.jai\";", ws);
+    }
+    else
+    {
+        for all_modules
+            add_build_string (sprint ("#import \"%/%\";", output_jai_module_dir, it), ws);
+    }
+
+    while true
+    {
+        msg := compiler_wait_for_message ();
+        if msg.kind == .COMPLETE
+            break;
+
+        if msg.kind == .FAILED_IMPORT
+        {
+            import := cast (*Message_Failed_Import) msg;
+
+            if starts_with (import.target_module_name, sprint ("%/", output_jai_module_dir))
+            {
+                name_without_directory := import.target_module_name;
+                name_without_directory.data += output_jai_module_dir.count + 1;
+                name_without_directory.count -= output_jai_module_dir.count + 1;
+
+                final_name := sprint ("Generated/%.jai", name_without_directory);
+                // print ("Remapping % to %\n", import.target_module_name, final_name);
+
+                provide_import (msg.workspace, import, .PATH_TO_FILE, final_name);
+            }
+        }
+    }
+
+    compiler_end_intercept (ws);
 }
 
 main :: ()
