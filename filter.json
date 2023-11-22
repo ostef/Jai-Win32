@@ -132,11 +132,24 @@
         ]
     },
     {
+        "ModuleName":"System.Performance",
+        "Ignore":[
+            "*"
+        ],
+        "AlwaysGenerate":[
+            "QueryPerformanceCounter",
+            "QueryPerformanceFrequency"
+        ]
+    },
+    {
         "ModuleName":"*",
         "Ignore":[
             "AreShortNamesEnabled",
             "GetTempPath2*",
+            "GetSystemWow64Directory2*",
+            "GetSystemLeapSecondInformation",
             "api-ms-win-core-*",
+            "ntdllk",
             "d3dcsx"
         ],
         "AlwaysGenerate":[
