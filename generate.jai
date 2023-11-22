@@ -4,6 +4,10 @@
 // @Todo: can we generate #must on return types automatically?
 // Maybe there are attributes on the return type that can help
 // @Todo: remove prefix from enum value names
+// @Todo: do not generate UNICODE module parameter when there are no Unicode aliases
+// @Todo: find a way to remove certain small modules, when they only have a few
+// things to generate and they are a dependency on only one module
+// @Todo: extract WIN32_ERROR enum values into constants
 
 #import "Compiler";
 #import "Basic";
