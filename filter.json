@@ -136,8 +136,7 @@
         "Ignore":[
             "AreShortNamesEnabled",
             "GetTempPath2*",
-            "api-ms-win-core-ioring-l1-1-0",
-            "api-ms-win-core-memory-l1-1-8",
+            "api-ms-win-core-*",
             "d3dcsx"
         ],
         "AlwaysGenerate":[
