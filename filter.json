@@ -142,12 +142,34 @@
         ]
     },
     {
+        "ModuleName":"NetworkManagement.NetManagement",
+        "Ignore":[
+            "*"
+        ]
+    },
+    {
         "ModuleName":"*",
         "Ignore":[
             "AreShortNamesEnabled",
             "GetTempPath2*",
             "GetSystemWow64Directory2*",
             "GetSystemLeapSecondInformation",
+            "RestoreThreadPreferredUILanguages",
+            "WinHttpReadDataEx",
+            "WinHttpQueryHeadersEx",
+            "WinHttpFreeQueryConnectionGroupResult",
+            "ResUtilVerifyShutdownSafe",
+            "DnsFreeCustomServers",
+            "DnsGetApplicationSettings",
+            "DnsSetApplicationSettings",
+            "GetInterfaceActiveTimestampCapabilities",
+            "GetInterfaceSupportedTimestampCapabilities",
+            "UnregisterInterfaceTimestampConfigChange",
+
+            "PeerDist",
+            "NETSH",
+            "icu",
+            "WINSPOOL",
             "api-ms-win-core-*",
             "ntdllk",
             "d3dcsx"
