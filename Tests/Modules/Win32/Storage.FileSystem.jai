@@ -1,0 +1,4318 @@
+// This file was auto generated for module Storage.FileSystem
+
+#module_parameters (UNICODE := true);
+
+#import "Win32/Foundation" (UNICODE);
+#import "Win32/System.IO" (UNICODE);
+#import "Win32/System.Com" (UNICODE);
+#import "Win32/System.WindowsProgramming" (UNICODE);
+#import "Win32/Security" (UNICODE);
+
+// Constants
+
+CLFS_FLAG_REENTRANT_FILE_SYSTEM :: 8;
+CLFS_FLAG_NON_REENTRANT_FILTER :: 16;
+CLFS_FLAG_REENTRANT_FILTER :: 32;
+CLFS_FLAG_IGNORE_SHARE_ACCESS :: 64;
+CLFS_FLAG_READ_IN_PROGRESS :: 128;
+CLFS_FLAG_MINIFILTER_LEVEL :: 256;
+CLFS_FLAG_HIDDEN_SYSTEM_LOG :: 512;
+CLFS_MARSHALLING_FLAG_NONE :: 0;
+CLFS_MARSHALLING_FLAG_DISABLE_BUFF_INIT :: 1;
+CLFS_FLAG_FILTER_INTERMEDIATE_LEVEL :: 16;
+CLFS_FLAG_FILTER_TOP_LEVEL :: 32;
+TRANSACTION_MANAGER_VOLATILE :: 1;
+TRANSACTION_MANAGER_COMMIT_DEFAULT :: 0;
+TRANSACTION_MANAGER_COMMIT_SYSTEM_VOLUME :: 2;
+TRANSACTION_MANAGER_COMMIT_SYSTEM_HIVES :: 4;
+TRANSACTION_MANAGER_COMMIT_LOWEST :: 8;
+TRANSACTION_MANAGER_CORRUPT_FOR_RECOVERY :: 16;
+TRANSACTION_MANAGER_CORRUPT_FOR_PROGRESS :: 32;
+TRANSACTION_MANAGER_MAXIMUM_OPTION :: 63;
+TRANSACTION_DO_NOT_PROMOTE :: 1;
+TRANSACTION_MAXIMUM_OPTION :: 1;
+RESOURCE_MANAGER_VOLATILE :: 1;
+RESOURCE_MANAGER_COMMUNICATION :: 2;
+RESOURCE_MANAGER_MAXIMUM_OPTION :: 3;
+CRM_PROTOCOL_EXPLICIT_MARSHAL_ONLY :: 1;
+CRM_PROTOCOL_DYNAMIC_MARSHAL_INFO :: 2;
+CRM_PROTOCOL_MAXIMUM_OPTION :: 3;
+ENLISTMENT_SUPERIOR :: 1;
+ENLISTMENT_MAXIMUM_OPTION :: 1;
+TRANSACTION_NOTIFY_MASK :: 1073741823;
+TRANSACTION_NOTIFY_PREPREPARE :: 1;
+TRANSACTION_NOTIFY_PREPARE :: 2;
+TRANSACTION_NOTIFY_COMMIT :: 4;
+TRANSACTION_NOTIFY_ROLLBACK :: 8;
+TRANSACTION_NOTIFY_PREPREPARE_COMPLETE :: 16;
+TRANSACTION_NOTIFY_PREPARE_COMPLETE :: 32;
+TRANSACTION_NOTIFY_COMMIT_COMPLETE :: 64;
+TRANSACTION_NOTIFY_ROLLBACK_COMPLETE :: 128;
+TRANSACTION_NOTIFY_RECOVER :: 256;
+TRANSACTION_NOTIFY_SINGLE_PHASE_COMMIT :: 512;
+TRANSACTION_NOTIFY_DELEGATE_COMMIT :: 1024;
+TRANSACTION_NOTIFY_RECOVER_QUERY :: 2048;
+TRANSACTION_NOTIFY_ENLIST_PREPREPARE :: 4096;
+TRANSACTION_NOTIFY_LAST_RECOVER :: 8192;
+TRANSACTION_NOTIFY_INDOUBT :: 16384;
+TRANSACTION_NOTIFY_PROPAGATE_PULL :: 32768;
+TRANSACTION_NOTIFY_PROPAGATE_PUSH :: 65536;
+TRANSACTION_NOTIFY_MARSHAL :: 131072;
+TRANSACTION_NOTIFY_ENLIST_MASK :: 262144;
+TRANSACTION_NOTIFY_RM_DISCONNECTED :: 16777216;
+TRANSACTION_NOTIFY_TM_ONLINE :: 33554432;
+TRANSACTION_NOTIFY_COMMIT_REQUEST :: 67108864;
+TRANSACTION_NOTIFY_PROMOTE :: 134217728;
+TRANSACTION_NOTIFY_PROMOTE_NEW :: 268435456;
+TRANSACTION_NOTIFY_REQUEST_OUTCOME :: 536870912;
+TRANSACTION_NOTIFY_COMMIT_FINALIZE :: 1073741824;
+TRANSACTION_NOTIFICATION_TM_ONLINE_FLAG_IS_CLUSTERED :: 1;
+KTM_MARSHAL_BLOB_VERSION_MAJOR :: 1;
+KTM_MARSHAL_BLOB_VERSION_MINOR :: 1;
+MAX_TRANSACTION_DESCRIPTION_LENGTH :: 64;
+MAX_RESOURCEMANAGER_DESCRIPTION_LENGTH :: 64;
+IOCTL_VOLUME_BASE :: 86;
+IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS :: 5636096;
+IOCTL_VOLUME_ONLINE :: 5685256;
+IOCTL_VOLUME_OFFLINE :: 5685260;
+IOCTL_VOLUME_IS_CLUSTERED :: 5636144;
+IOCTL_VOLUME_GET_GPT_ATTRIBUTES :: 5636152;
+IOCTL_VOLUME_SUPPORTS_ONLINE_OFFLINE :: 5636100;
+IOCTL_VOLUME_IS_OFFLINE :: 5636112;
+IOCTL_VOLUME_IS_IO_CAPABLE :: 5636116;
+IOCTL_VOLUME_QUERY_FAILOVER_SET :: 5636120;
+IOCTL_VOLUME_QUERY_VOLUME_NUMBER :: 5636124;
+IOCTL_VOLUME_LOGICAL_TO_PHYSICAL :: 5636128;
+IOCTL_VOLUME_PHYSICAL_TO_LOGICAL :: 5636132;
+IOCTL_VOLUME_IS_PARTITION :: 5636136;
+IOCTL_VOLUME_READ_PLEX :: 5652526;
+IOCTL_VOLUME_SET_GPT_ATTRIBUTES :: 5636148;
+IOCTL_VOLUME_GET_BC_PROPERTIES :: 5652540;
+IOCTL_VOLUME_ALLOCATE_BC_STREAM :: 5685312;
+IOCTL_VOLUME_FREE_BC_STREAM :: 5685316;
+IOCTL_VOLUME_BC_VERSION :: 1;
+IOCTL_VOLUME_IS_DYNAMIC :: 5636168;
+IOCTL_VOLUME_PREPARE_FOR_CRITICAL_IO :: 5685324;
+IOCTL_VOLUME_QUERY_ALLOCATION_HINT :: 5652562;
+IOCTL_VOLUME_UPDATE_PROPERTIES :: 5636180;
+IOCTL_VOLUME_QUERY_MINIMUM_SHRINK_SIZE :: 5652568;
+IOCTL_VOLUME_PREPARE_FOR_SHRINK :: 5685340;
+IOCTL_VOLUME_IS_CSV :: 5636192;
+IOCTL_VOLUME_POST_ONLINE :: 5685348;
+IOCTL_VOLUME_GET_CSVBLOCKCACHE_CALLBACK :: 5685352;
+CSV_BLOCK_CACHE_CALLBACK_VERSION :: 1;
+CSV_BLOCK_AND_FILE_CACHE_CALLBACK_VERSION :: 2;
+PARTITION_BASIC_DATA_GUID :: "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7";
+PARTITION_BSP_GUID :: "57434f53-4df9-45b9-8e9e-2370f006457c";
+PARTITION_CLUSTER_GUID :: "db97dba9-0840-4bae-97f0-ffb9a327c7e1";
+PARTITION_DPP_GUID :: "57434f53-94cb-43f0-a533-d73c10cfa57d";
+PARTITION_ENTRY_UNUSED_GUID :: "00000000-0000-0000-0000-000000000000";
+PARTITION_LDM_DATA_GUID :: "af9b60a0-1431-4f62-bc68-3311714a69ad";
+PARTITION_LDM_METADATA_GUID :: "5808c8aa-7e8f-42e0-85d2-e1e90434cfb3";
+PARTITION_LEGACY_BL_GUID :: "424ca0e2-7cb2-4fb9-8143-c52a99398bc6";
+PARTITION_LEGACY_BL_GUID_BACKUP :: "424c3e6c-d79f-49cb-935d-36d71467a288";
+PARTITION_MAIN_OS_GUID :: "57434f53-8f45-405e-8a23-186d8a4330d3";
+PARTITION_MSFT_RECOVERY_GUID :: "de94bba4-06d1-4d40-a16a-bfd50179d6ac";
+PARTITION_MSFT_RESERVED_GUID :: "e3c9e316-0b5c-4db8-817d-f92df00215ae";
+PARTITION_MSFT_SNAPSHOT_GUID :: "caddebf1-4400-4de8-b103-12117dcf3ccf";
+PARTITION_OS_DATA_GUID :: "57434f53-23f2-44d5-a830-67bbdaa609f9";
+PARTITION_PATCH_GUID :: "8967a686-96aa-6aa8-9589-a84256541090";
+PARTITION_PRE_INSTALLED_GUID :: "57434f53-7fe0-4196-9b42-427b51643484";
+PARTITION_SERVICING_FILES_GUID :: "57434f53-432e-4014-ae4c-8deaa9c0006a";
+PARTITION_SERVICING_METADATA_GUID :: "57434f53-c691-4a05-bb4e-703dafd229ce";
+PARTITION_SERVICING_RESERVE_GUID :: "57434f53-4b81-460b-a319-ffb6fe136d14";
+PARTITION_SERVICING_STAGING_ROOT_GUID :: "57434f53-e84d-4e84-aaf3-ecbbbd04b9df";
+PARTITION_SPACES_GUID :: "e75caf8f-f680-4cee-afa3-b001e56efc2d";
+PARTITION_SPACES_DATA_GUID :: "e7addcb4-dc34-4539-9a76-ebbd07be6f7e";
+PARTITION_SYSTEM_GUID :: "c12a7328-f81f-11d2-ba4b-00a0c93ec93b";
+PARTITION_WINDOWS_SYSTEM_GUID :: "57434f53-e3e3-4631-a5c5-26d2243873aa";
+_FT_TYPES_DEFINITION_ :: 1;
+CLFS_MGMT_POLICY_VERSION :: 1;
+LOG_POLICY_OVERWRITE :: 1;
+LOG_POLICY_PERSIST :: 2;
+CLFS_MGMT_CLIENT_REGISTRATION_VERSION :: 1;
+CLSID_DiskQuotaControl :: "7988b571-ec89-11cf-9c00-00aa00a14f56";
+DISKQUOTA_STATE_DISABLED :: 0;
+DISKQUOTA_STATE_TRACK :: 1;
+DISKQUOTA_STATE_ENFORCE :: 2;
+DISKQUOTA_STATE_MASK :: 3;
+DISKQUOTA_FILESTATE_INCOMPLETE :: 256;
+DISKQUOTA_FILESTATE_REBUILDING :: 512;
+DISKQUOTA_FILESTATE_MASK :: 768;
+DISKQUOTA_LOGFLAG_USER_THRESHOLD :: 1;
+DISKQUOTA_LOGFLAG_USER_LIMIT :: 2;
+DISKQUOTA_USER_ACCOUNT_RESOLVED :: 0;
+DISKQUOTA_USER_ACCOUNT_UNAVAILABLE :: 1;
+DISKQUOTA_USER_ACCOUNT_DELETED :: 2;
+DISKQUOTA_USER_ACCOUNT_INVALID :: 3;
+DISKQUOTA_USER_ACCOUNT_UNKNOWN :: 4;
+DISKQUOTA_USER_ACCOUNT_UNRESOLVED :: 5;
+INVALID_SET_FILE_POINTER :: 4294967295;
+INVALID_FILE_ATTRIBUTES :: 4294967295;
+SHARE_NETNAME_PARMNUM :: 1;
+SHARE_TYPE_PARMNUM :: 3;
+SHARE_REMARK_PARMNUM :: 4;
+SHARE_PERMISSIONS_PARMNUM :: 5;
+SHARE_MAX_USES_PARMNUM :: 6;
+SHARE_CURRENT_USES_PARMNUM :: 7;
+SHARE_PATH_PARMNUM :: 8;
+SHARE_PASSWD_PARMNUM :: 9;
+SHARE_FILE_SD_PARMNUM :: 501;
+SHARE_SERVER_PARMNUM :: 503;
+SHI1_NUM_ELEMENTS :: 4;
+SHI2_NUM_ELEMENTS :: 10;
+STYPE_RESERVED1 :: 16777216;
+STYPE_RESERVED2 :: 33554432;
+STYPE_RESERVED3 :: 67108864;
+STYPE_RESERVED4 :: 134217728;
+STYPE_RESERVED5 :: 1048576;
+STYPE_RESERVED_ALL :: 1073741568;
+SHI_USES_UNLIMITED :: 4294967295;
+SHI1005_FLAGS_DFS :: 1;
+SHI1005_FLAGS_DFS_ROOT :: 2;
+CSC_MASK_EXT :: 8240;
+CSC_MASK :: 48;
+CSC_CACHE_MANUAL_REINT :: 0;
+CSC_CACHE_AUTO_REINT :: 16;
+CSC_CACHE_VDO :: 32;
+CSC_CACHE_NONE :: 48;
+SHI1005_FLAGS_RESTRICT_EXCLUSIVE_OPENS :: 256;
+SHI1005_FLAGS_FORCE_SHARED_DELETE :: 512;
+SHI1005_FLAGS_ALLOW_NAMESPACE_CACHING :: 1024;
+SHI1005_FLAGS_ACCESS_BASED_DIRECTORY_ENUM :: 2048;
+SHI1005_FLAGS_FORCE_LEVELII_OPLOCK :: 4096;
+SHI1005_FLAGS_ENABLE_HASH :: 8192;
+SHI1005_FLAGS_ENABLE_CA :: 16384;
+SHI1005_FLAGS_ENCRYPT_DATA :: 32768;
+SHI1005_FLAGS_RESERVED :: 65536;
+SHI1005_FLAGS_DISABLE_CLIENT_BUFFERING :: 131072;
+SHI1005_FLAGS_IDENTITY_REMOTING :: 262144;
+SHI1005_FLAGS_CLUSTER_MANAGED :: 524288;
+SHI1005_FLAGS_COMPRESS_DATA :: 1048576;
+SESI1_NUM_ELEMENTS :: 8;
+SESI2_NUM_ELEMENTS :: 9;
+STATSOPT_CLR :: 1;
+LZERROR_BADINHANDLE :: -1;
+LZERROR_BADOUTHANDLE :: -2;
+LZERROR_READ :: -3;
+LZERROR_WRITE :: -4;
+LZERROR_GLOBALLOC :: -5;
+LZERROR_GLOBLOCK :: -6;
+LZERROR_BADVALUE :: -7;
+LZERROR_UNKNOWNALG :: -8;
+NTMS_OBJECTNAME_LENGTH :: 64;
+NTMS_DESCRIPTION_LENGTH :: 127;
+NTMS_DEVICENAME_LENGTH :: 64;
+NTMS_SERIALNUMBER_LENGTH :: 32;
+NTMS_REVISION_LENGTH :: 32;
+NTMS_BARCODE_LENGTH :: 64;
+NTMS_SEQUENCE_LENGTH :: 32;
+NTMS_VENDORNAME_LENGTH :: 128;
+NTMS_PRODUCTNAME_LENGTH :: 128;
+NTMS_USERNAME_LENGTH :: 64;
+NTMS_APPLICATIONNAME_LENGTH :: 64;
+NTMS_COMPUTERNAME_LENGTH :: 64;
+NTMS_I1_MESSAGE_LENGTH :: 127;
+NTMS_MESSAGE_LENGTH :: 256;
+NTMS_POOLHIERARCHY_LENGTH :: 512;
+NTMS_OMIDLABELID_LENGTH :: 255;
+NTMS_OMIDLABELTYPE_LENGTH :: 64;
+NTMS_OMIDLABELINFO_LENGTH :: 256;
+NTMS_MAXATTR_LENGTH :: 65536;
+NTMS_MAXATTR_NAMELEN :: 32;
+NTMSMLI_MAXTYPE :: 64;
+NTMSMLI_MAXIDSIZE :: 256;
+NTMSMLI_MAXAPPDESCR :: 256;
+TXF_LOG_RECORD_GENERIC_TYPE_COMMIT :: 1;
+TXF_LOG_RECORD_GENERIC_TYPE_ABORT :: 2;
+TXF_LOG_RECORD_GENERIC_TYPE_PREPARE :: 4;
+TXF_LOG_RECORD_GENERIC_TYPE_DATA :: 8;
+VS_VERSION_INFO :: 1;
+VS_USER_DEFINED :: 100;
+VS_FFI_SIGNATURE :: -17890115;
+VS_FFI_STRUCVERSION :: 65536;
+VS_FFI_FILEFLAGSMASK :: 63;
+WINEFS_SETUSERKEY_SET_CAPABILITIES :: 1;
+EFS_COMPATIBILITY_VERSION_NCRYPT_PROTECTOR :: 5;
+EFS_COMPATIBILITY_VERSION_PFILE_PROTECTOR :: 6;
+EFS_SUBVER_UNKNOWN :: 0;
+EFS_EFS_SUBVER_EFS_CERT :: 1;
+EFS_PFILE_SUBVER_RMS :: 2;
+EFS_PFILE_SUBVER_APPX :: 3;
+MAX_SID_SIZE :: 256;
+EFS_METADATA_ADD_USER :: 1;
+EFS_METADATA_REMOVE_USER :: 2;
+EFS_METADATA_REPLACE_USER :: 4;
+EFS_METADATA_GENERAL_OP :: 8;
+WOF_PROVIDER_WIM :: 1;
+WOF_PROVIDER_FILE :: 2;
+WIM_PROVIDER_HASH_SIZE :: 20;
+WIM_BOOT_OS_WIM :: 1;
+WIM_BOOT_NOT_OS_WIM :: 0;
+WIM_ENTRY_FLAG_NOT_ACTIVE :: 1;
+WIM_ENTRY_FLAG_SUSPENDED :: 2;
+WIM_EXTERNAL_FILE_INFO_FLAG_NOT_ACTIVE :: 1;
+WIM_EXTERNAL_FILE_INFO_FLAG_SUSPENDED :: 2;
+FILE_PROVIDER_COMPRESSION_XPRESS4K :: 0;
+FILE_PROVIDER_COMPRESSION_LZX :: 1;
+FILE_PROVIDER_COMPRESSION_XPRESS8K :: 2;
+FILE_PROVIDER_COMPRESSION_XPRESS16K :: 3;
+ClfsNullRecord :: 0;
+ClfsDataRecord :: 1;
+ClfsRestartRecord :: 2;
+ClfsClientRecord :: 3;
+ClsContainerInitializing :: 1;
+ClsContainerInactive :: 2;
+ClsContainerActive :: 4;
+ClsContainerActivePendingDelete :: 8;
+ClsContainerPendingArchive :: 16;
+ClsContainerPendingArchiveAndDelete :: 32;
+ClfsContainerInitializing :: 1;
+ClfsContainerInactive :: 2;
+ClfsContainerActive :: 4;
+ClfsContainerActivePendingDelete :: 8;
+ClfsContainerPendingArchive :: 16;
+ClfsContainerPendingArchiveAndDelete :: 32;
+CLFS_MAX_CONTAINER_INFO :: 256;
+CLFS_SCAN_INIT :: 1;
+CLFS_SCAN_FORWARD :: 2;
+CLFS_SCAN_BACKWARD :: 4;
+CLFS_SCAN_CLOSE :: 8;
+CLFS_SCAN_INITIALIZED :: 16;
+CLFS_SCAN_BUFFERED :: 32;
+
+// Types
+
+FIND_FIRST_EX_FLAGS :: enum_flags u32
+{
+    FIND_FIRST_EX_CASE_SENSITIVE :: 1;
+    FIND_FIRST_EX_LARGE_FETCH :: 2;
+    FIND_FIRST_EX_ON_DISK_ENTRIES_ONLY :: 4;
+}
+
+DEFINE_DOS_DEVICE_FLAGS :: enum_flags u32
+{
+    DDD_RAW_TARGET_PATH :: 1;
+    DDD_REMOVE_DEFINITION :: 2;
+    DDD_EXACT_MATCH_ON_REMOVE :: 4;
+    DDD_NO_BROADCAST_SYSTEM :: 8;
+    DDD_LUID_BROADCAST_DRIVE :: 16;
+}
+
+FILE_FLAGS_AND_ATTRIBUTES :: enum_flags u32
+{
+    FILE_ATTRIBUTE_READONLY :: 1;
+    FILE_ATTRIBUTE_HIDDEN :: 2;
+    FILE_ATTRIBUTE_SYSTEM :: 4;
+    FILE_ATTRIBUTE_DIRECTORY :: 16;
+    FILE_ATTRIBUTE_ARCHIVE :: 32;
+    FILE_ATTRIBUTE_DEVICE :: 64;
+    FILE_ATTRIBUTE_NORMAL :: 128;
+    FILE_ATTRIBUTE_TEMPORARY :: 256;
+    FILE_ATTRIBUTE_SPARSE_FILE :: 512;
+    FILE_ATTRIBUTE_REPARSE_POINT :: 1024;
+    FILE_ATTRIBUTE_COMPRESSED :: 2048;
+    FILE_ATTRIBUTE_OFFLINE :: 4096;
+    FILE_ATTRIBUTE_NOT_CONTENT_INDEXED :: 8192;
+    FILE_ATTRIBUTE_ENCRYPTED :: 16384;
+    FILE_ATTRIBUTE_INTEGRITY_STREAM :: 32768;
+    FILE_ATTRIBUTE_VIRTUAL :: 65536;
+    FILE_ATTRIBUTE_NO_SCRUB_DATA :: 131072;
+    FILE_ATTRIBUTE_EA :: 262144;
+    FILE_ATTRIBUTE_PINNED :: 524288;
+    FILE_ATTRIBUTE_UNPINNED :: 1048576;
+    FILE_ATTRIBUTE_RECALL_ON_OPEN :: 262144;
+    FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS :: 4194304;
+    FILE_FLAG_WRITE_THROUGH :: 2147483648;
+    FILE_FLAG_OVERLAPPED :: 1073741824;
+    FILE_FLAG_NO_BUFFERING :: 536870912;
+    FILE_FLAG_RANDOM_ACCESS :: 268435456;
+    FILE_FLAG_SEQUENTIAL_SCAN :: 134217728;
+    FILE_FLAG_DELETE_ON_CLOSE :: 67108864;
+    FILE_FLAG_BACKUP_SEMANTICS :: 33554432;
+    FILE_FLAG_POSIX_SEMANTICS :: 16777216;
+    FILE_FLAG_SESSION_AWARE :: 8388608;
+    FILE_FLAG_OPEN_REPARSE_POINT :: 2097152;
+    FILE_FLAG_OPEN_NO_RECALL :: 1048576;
+    FILE_FLAG_FIRST_PIPE_INSTANCE :: 524288;
+    PIPE_ACCESS_DUPLEX :: 3;
+    PIPE_ACCESS_INBOUND :: 1;
+    PIPE_ACCESS_OUTBOUND :: 2;
+    SECURITY_ANONYMOUS :: 0;
+    SECURITY_IDENTIFICATION :: 65536;
+    SECURITY_IMPERSONATION :: 131072;
+    SECURITY_DELEGATION :: 196608;
+    SECURITY_CONTEXT_TRACKING :: 262144;
+    SECURITY_EFFECTIVE_ONLY :: 524288;
+    SECURITY_SQOS_PRESENT :: 1048576;
+    SECURITY_VALID_SQOS_FLAGS :: 2031616;
+}
+
+FILE_ACCESS_FLAGS :: enum_flags u32
+{
+    FILE_READ_DATA :: 1;
+    FILE_LIST_DIRECTORY :: 1;
+    FILE_WRITE_DATA :: 2;
+    FILE_ADD_FILE :: 2;
+    FILE_APPEND_DATA :: 4;
+    FILE_ADD_SUBDIRECTORY :: 4;
+    FILE_CREATE_PIPE_INSTANCE :: 4;
+    FILE_READ_EA :: 8;
+    FILE_WRITE_EA :: 16;
+    FILE_EXECUTE :: 32;
+    FILE_TRAVERSE :: 32;
+    FILE_DELETE_CHILD :: 64;
+    FILE_READ_ATTRIBUTES :: 128;
+    FILE_WRITE_ATTRIBUTES :: 256;
+    READ_CONTROL :: 131072;
+    SYNCHRONIZE :: 1048576;
+    STANDARD_RIGHTS_REQUIRED :: 983040;
+    STANDARD_RIGHTS_READ :: 131072;
+    STANDARD_RIGHTS_WRITE :: 131072;
+    STANDARD_RIGHTS_EXECUTE :: 131072;
+    STANDARD_RIGHTS_ALL :: 2031616;
+    SPECIFIC_RIGHTS_ALL :: 65535;
+    FILE_ALL_ACCESS :: 2032127;
+    FILE_GENERIC_READ :: 1179785;
+    FILE_GENERIC_WRITE :: 1179926;
+    FILE_GENERIC_EXECUTE :: 1179808;
+}
+
+GET_FILE_VERSION_INFO_FLAGS :: enum_flags u32
+{
+    FILE_VER_GET_LOCALISED :: 1;
+    FILE_VER_GET_NEUTRAL :: 2;
+    FILE_VER_GET_PREFETCHED :: 4;
+}
+
+VER_FIND_FILE_FLAGS :: enum u32
+{
+    VFFF_ISSHAREDFILE :: 1;
+}
+
+VER_FIND_FILE_STATUS :: enum_flags u32
+{
+    VFF_CURNEDEST :: 1;
+    VFF_FILEINUSE :: 2;
+    VFF_BUFFTOOSMALL :: 4;
+}
+
+VER_INSTALL_FILE_FLAGS :: enum u32
+{
+    VIFF_FORCEINSTALL :: 1;
+    VIFF_DONTDELETEOLD :: 2;
+}
+
+VER_INSTALL_FILE_STATUS :: enum_flags u32
+{
+    VIF_TEMPFILE :: 1;
+    VIF_MISMATCH :: 2;
+    VIF_SRCOLD :: 4;
+    VIF_DIFFLANG :: 8;
+    VIF_DIFFCODEPG :: 16;
+    VIF_DIFFTYPE :: 32;
+    VIF_WRITEPROT :: 64;
+    VIF_FILEINUSE :: 128;
+    VIF_OUTOFSPACE :: 256;
+    VIF_ACCESSVIOLATION :: 512;
+    VIF_SHARINGVIOLATION :: 1024;
+    VIF_CANNOTCREATE :: 2048;
+    VIF_CANNOTDELETE :: 4096;
+    VIF_CANNOTRENAME :: 8192;
+    VIF_CANNOTDELETECUR :: 16384;
+    VIF_OUTOFMEMORY :: 32768;
+    VIF_CANNOTREADSRC :: 65536;
+    VIF_CANNOTREADDST :: 131072;
+    VIF_BUFFTOOSMALL :: 262144;
+    VIF_CANNOTLOADLZ32 :: 524288;
+    VIF_CANNOTLOADCABINET :: 1048576;
+}
+
+VS_FIXEDFILEINFO_FILE_FLAGS :: enum_flags u32
+{
+    VS_FF_DEBUG :: 1;
+    VS_FF_PRERELEASE :: 2;
+    VS_FF_PATCHED :: 4;
+    VS_FF_PRIVATEBUILD :: 8;
+    VS_FF_INFOINFERRED :: 16;
+    VS_FF_SPECIALBUILD :: 32;
+}
+
+VS_FIXEDFILEINFO_FILE_OS :: enum s32
+{
+    VOS_UNKNOWN :: 0;
+    VOS_DOS :: 65536;
+    VOS_OS216 :: 131072;
+    VOS_OS232 :: 196608;
+    VOS_NT :: 262144;
+    VOS_WINCE :: 327680;
+    VOS__BASE :: 0;
+    VOS__WINDOWS16 :: 1;
+    VOS__PM16 :: 2;
+    VOS__PM32 :: 3;
+    VOS__WINDOWS32 :: 4;
+    VOS_DOS_WINDOWS16 :: 65537;
+    VOS_DOS_WINDOWS32 :: 65540;
+    VOS_OS216_PM16 :: 131074;
+    VOS_OS232_PM32 :: 196611;
+    VOS_NT_WINDOWS32 :: 262148;
+}
+
+VS_FIXEDFILEINFO_FILE_TYPE :: enum s32
+{
+    VFT_UNKNOWN :: 0;
+    VFT_APP :: 1;
+    VFT_DLL :: 2;
+    VFT_DRV :: 3;
+    VFT_FONT :: 4;
+    VFT_VXD :: 5;
+    VFT_STATIC_LIB :: 7;
+}
+
+VS_FIXEDFILEINFO_FILE_SUBTYPE :: enum s32
+{
+    VFT2_UNKNOWN :: 0;
+    VFT2_DRV_PRINTER :: 1;
+    VFT2_DRV_KEYBOARD :: 2;
+    VFT2_DRV_LANGUAGE :: 3;
+    VFT2_DRV_DISPLAY :: 4;
+    VFT2_DRV_MOUSE :: 5;
+    VFT2_DRV_NETWORK :: 6;
+    VFT2_DRV_SYSTEM :: 7;
+    VFT2_DRV_INSTALLABLE :: 8;
+    VFT2_DRV_SOUND :: 9;
+    VFT2_DRV_COMM :: 10;
+    VFT2_DRV_INPUTMETHOD :: 11;
+    VFT2_DRV_VERSIONED_PRINTER :: 12;
+    VFT2_FONT_RASTER :: 1;
+    VFT2_FONT_VECTOR :: 2;
+    VFT2_FONT_TRUETYPE :: 3;
+}
+
+FILE_CREATION_DISPOSITION :: enum u32
+{
+    CREATE_NEW :: 1;
+    CREATE_ALWAYS :: 2;
+    OPEN_EXISTING :: 3;
+    OPEN_ALWAYS :: 4;
+    TRUNCATE_EXISTING :: 5;
+}
+
+FILE_SHARE_MODE :: enum_flags u32
+{
+    FILE_SHARE_NONE :: 0;
+    FILE_SHARE_DELETE :: 4;
+    FILE_SHARE_READ :: 1;
+    FILE_SHARE_WRITE :: 2;
+}
+
+SHARE_TYPE :: enum_flags u32
+{
+    STYPE_DISKTREE :: 0;
+    STYPE_PRINTQ :: 1;
+    STYPE_DEVICE :: 2;
+    STYPE_IPC :: 3;
+    STYPE_SPECIAL :: 2147483648;
+    STYPE_TEMPORARY :: 1073741824;
+    STYPE_MASK :: 255;
+}
+
+CLFS_FLAG :: enum_flags u32
+{
+    CLFS_FLAG_FORCE_APPEND :: 1;
+    CLFS_FLAG_FORCE_FLUSH :: 2;
+    CLFS_FLAG_NO_FLAGS :: 0;
+    CLFS_FLAG_USE_RESERVATION :: 4;
+}
+
+SET_FILE_POINTER_MOVE_METHOD :: enum u32
+{
+    FILE_BEGIN :: 0;
+    FILE_CURRENT :: 1;
+    FILE_END :: 2;
+}
+
+MOVE_FILE_FLAGS :: enum_flags u32
+{
+    MOVEFILE_COPY_ALLOWED :: 2;
+    MOVEFILE_CREATE_HARDLINK :: 16;
+    MOVEFILE_DELAY_UNTIL_REBOOT :: 4;
+    MOVEFILE_REPLACE_EXISTING :: 1;
+    MOVEFILE_WRITE_THROUGH :: 8;
+    MOVEFILE_FAIL_IF_NOT_TRACKABLE :: 32;
+}
+
+FILE_NAME :: enum u32
+{
+    FILE_NAME_NORMALIZED :: 0;
+    FILE_NAME_OPENED :: 8;
+}
+
+LZOPENFILE_STYLE :: enum_flags u32
+{
+    OF_CANCEL :: 2048;
+    OF_CREATE :: 4096;
+    OF_DELETE :: 512;
+    OF_EXIST :: 16384;
+    OF_PARSE :: 256;
+    OF_PROMPT :: 8192;
+    OF_READ :: 0;
+    OF_READWRITE :: 2;
+    OF_REOPEN :: 32768;
+    OF_SHARE_DENY_NONE :: 64;
+    OF_SHARE_DENY_READ :: 48;
+    OF_SHARE_DENY_WRITE :: 32;
+    OF_SHARE_EXCLUSIVE :: 16;
+    OF_WRITE :: 1;
+    OF_SHARE_COMPAT :: 0;
+    OF_VERIFY :: 1024;
+}
+
+FILE_NOTIFY_CHANGE :: enum_flags u32
+{
+    FILE_NOTIFY_CHANGE_FILE_NAME :: 1;
+    FILE_NOTIFY_CHANGE_DIR_NAME :: 2;
+    FILE_NOTIFY_CHANGE_ATTRIBUTES :: 4;
+    FILE_NOTIFY_CHANGE_SIZE :: 8;
+    FILE_NOTIFY_CHANGE_LAST_WRITE :: 16;
+    FILE_NOTIFY_CHANGE_LAST_ACCESS :: 32;
+    FILE_NOTIFY_CHANGE_CREATION :: 64;
+    FILE_NOTIFY_CHANGE_SECURITY :: 256;
+}
+
+TXFS_MINIVERSION :: enum u32
+{
+    TXFS_MINIVERSION_COMMITTED_VIEW :: 0;
+    TXFS_MINIVERSION_DIRTY_VIEW :: 65535;
+    TXFS_MINIVERSION_DEFAULT_VIEW :: 65534;
+}
+
+TAPE_POSITION_TYPE :: enum s32
+{
+    TAPE_ABSOLUTE_POSITION :: 0;
+    TAPE_LOGICAL_POSITION :: 1;
+}
+
+CREATE_TAPE_PARTITION_METHOD :: enum s32
+{
+    TAPE_FIXED_PARTITIONS :: 0;
+    TAPE_INITIATOR_PARTITIONS :: 2;
+    TAPE_SELECT_PARTITIONS :: 1;
+}
+
+REPLACE_FILE_FLAGS :: enum_flags u32
+{
+    REPLACEFILE_WRITE_THROUGH :: 1;
+    REPLACEFILE_IGNORE_MERGE_ERRORS :: 2;
+    REPLACEFILE_IGNORE_ACL_ERRORS :: 4;
+}
+
+TAPEMARK_TYPE :: enum s32
+{
+    TAPE_FILEMARKS :: 1;
+    TAPE_LONG_FILEMARKS :: 3;
+    TAPE_SETMARKS :: 0;
+    TAPE_SHORT_FILEMARKS :: 2;
+}
+
+DISKQUOTA_USERNAME_RESOLVE :: enum u32
+{
+    DISKQUOTA_USERNAME_RESOLVE_ASYNC :: 2;
+    DISKQUOTA_USERNAME_RESOLVE_NONE :: 0;
+    DISKQUOTA_USERNAME_RESOLVE_SYNC :: 1;
+}
+
+TAPE_POSITION_METHOD :: enum s32
+{
+    TAPE_ABSOLUTE_BLOCK :: 1;
+    TAPE_LOGICAL_BLOCK :: 2;
+    TAPE_REWIND :: 0;
+    TAPE_SPACE_END_OF_DATA :: 4;
+    TAPE_SPACE_FILEMARKS :: 6;
+    TAPE_SPACE_RELATIVE_BLOCKS :: 5;
+    TAPE_SPACE_SEQUENTIAL_FMKS :: 7;
+    TAPE_SPACE_SEQUENTIAL_SMKS :: 9;
+    TAPE_SPACE_SETMARKS :: 8;
+}
+
+NT_CREATE_FILE_DISPOSITION :: enum u32
+{
+    FILE_SUPERSEDE :: 0;
+    FILE_CREATE :: 2;
+    FILE_OPEN :: 1;
+    FILE_OPEN_IF :: 3;
+    FILE_OVERWRITE :: 4;
+    FILE_OVERWRITE_IF :: 5;
+}
+
+TAPE_INFORMATION_TYPE :: enum u32
+{
+    SET_TAPE_DRIVE_INFORMATION :: 1;
+    SET_TAPE_MEDIA_INFORMATION :: 0;
+}
+
+NTMS_OMID_TYPE :: enum u32
+{
+    NTMS_OMID_TYPE_FILESYSTEM_INFO :: 2;
+    NTMS_OMID_TYPE_RAW_LABEL :: 1;
+}
+
+LOCK_FILE_FLAGS :: enum_flags u32
+{
+    LOCKFILE_EXCLUSIVE_LOCK :: 2;
+    LOCKFILE_FAIL_IMMEDIATELY :: 1;
+}
+
+LPPROGRESS_ROUTINE_CALLBACK_REASON :: enum u32
+{
+    CALLBACK_CHUNK_FINISHED :: 0;
+    CALLBACK_STREAM_SWITCH :: 1;
+}
+
+PREPARE_TAPE_OPERATION :: enum s32
+{
+    TAPE_FORMAT :: 5;
+    TAPE_LOAD :: 0;
+    TAPE_LOCK :: 3;
+    TAPE_TENSION :: 2;
+    TAPE_UNLOAD :: 1;
+    TAPE_UNLOCK :: 4;
+}
+
+GET_TAPE_DRIVE_PARAMETERS_OPERATION :: enum u32
+{
+    GET_TAPE_DRIVE_INFORMATION :: 1;
+    GET_TAPE_MEDIA_INFORMATION :: 0;
+}
+
+ERASE_TAPE_TYPE :: enum s32
+{
+    TAPE_ERASE_LONG :: 1;
+    TAPE_ERASE_SHORT :: 0;
+}
+
+FILE_ACTION :: enum u32
+{
+    FILE_ACTION_ADDED :: 1;
+    FILE_ACTION_REMOVED :: 2;
+    FILE_ACTION_MODIFIED :: 3;
+    FILE_ACTION_RENAMED_OLD_NAME :: 4;
+    FILE_ACTION_RENAMED_NEW_NAME :: 5;
+}
+
+SHARE_INFO_PERMISSIONS :: enum u32
+{
+    ACCESS_READ :: 1;
+    ACCESS_WRITE :: 2;
+    ACCESS_CREATE :: 4;
+    ACCESS_EXEC :: 8;
+    ACCESS_DELETE :: 16;
+    ACCESS_ATRIB :: 32;
+    ACCESS_PERM :: 64;
+    ACCESS_ALL :: 32768;
+}
+
+FILE_DEVICE_TYPE :: enum u32
+{
+    FILE_DEVICE_CD_ROM :: 2;
+    FILE_DEVICE_DISK :: 7;
+    FILE_DEVICE_TAPE :: 31;
+    FILE_DEVICE_DVD :: 51;
+}
+
+SESSION_INFO_USER_FLAGS :: enum u32
+{
+    SESS_GUEST :: 1;
+    SESS_NOENCRYPTION :: 2;
+}
+
+WIN_STREAM_ID :: enum u32
+{
+    BACKUP_ALTERNATE_DATA :: 4;
+    BACKUP_DATA :: 1;
+    BACKUP_EA_DATA :: 2;
+    BACKUP_LINK :: 5;
+    BACKUP_OBJECT_ID :: 7;
+    BACKUP_PROPERTY_DATA :: 6;
+    BACKUP_REPARSE_DATA :: 8;
+    BACKUP_SECURITY_DATA :: 3;
+    BACKUP_SPARSE_BLOCK :: 9;
+    BACKUP_TXFS_DATA :: 10;
+}
+
+TXF_LOG_RECORD_TYPE :: enum u16
+{
+    TXF_LOG_RECORD_TYPE_AFFECTED_FILE :: 4;
+    TXF_LOG_RECORD_TYPE_TRUNCATE :: 2;
+    TXF_LOG_RECORD_TYPE_WRITE :: 1;
+}
+
+FILE_INFO_FLAGS_PERMISSIONS :: enum_flags u32
+{
+    PERM_FILE_READ :: 1;
+    PERM_FILE_WRITE :: 2;
+    PERM_FILE_CREATE :: 4;
+}
+
+SYMBOLIC_LINK_FLAGS :: enum_flags u32
+{
+    SYMBOLIC_LINK_FLAG_DIRECTORY :: 1;
+    SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE :: 2;
+}
+
+FindFileHandle :: s64;
+
+FindFileNameHandle :: s64;
+
+FindStreamHandle :: s64;
+
+FindChangeNotificationHandle :: s64;
+
+FindVolumeHandle :: s64;
+
+FindVolumeMointPointHandle :: s64;
+
+WIN32_FIND_DATAA :: struct
+{
+    dwFileAttributes : u32;
+    ftCreationTime : FILETIME;
+    ftLastAccessTime : FILETIME;
+    ftLastWriteTime : FILETIME;
+    nFileSizeHigh : u32;
+    nFileSizeLow : u32;
+    dwReserved0 : u32;
+    dwReserved1 : u32;
+    cFileName : [260]CHAR;
+    cAlternateFileName : [14]CHAR;
+}
+
+WIN32_FIND_DATAW :: struct
+{
+    dwFileAttributes : u32;
+    ftCreationTime : FILETIME;
+    ftLastAccessTime : FILETIME;
+    ftLastWriteTime : FILETIME;
+    nFileSizeHigh : u32;
+    nFileSizeLow : u32;
+    dwReserved0 : u32;
+    dwReserved1 : u32;
+    cFileName : [260]u16;
+    cAlternateFileName : [14]u16;
+}
+
+FINDEX_INFO_LEVELS :: enum s32
+{
+    FindExInfoStandard :: 0;
+    FindExInfoBasic :: 1;
+    FindExInfoMaxInfoLevel :: 2;
+}
+
+FINDEX_SEARCH_OPS :: enum s32
+{
+    FindExSearchNameMatch :: 0;
+    FindExSearchLimitToDirectories :: 1;
+    FindExSearchLimitToDevices :: 2;
+    FindExSearchMaxSearchOp :: 3;
+}
+
+READ_DIRECTORY_NOTIFY_INFORMATION_CLASS :: enum s32
+{
+    ReadDirectoryNotifyInformation :: 1;
+    ReadDirectoryNotifyExtendedInformation :: 2;
+}
+
+GET_FILEEX_INFO_LEVELS :: enum s32
+{
+    GetFileExInfoStandard :: 0;
+    GetFileExMaxInfoLevel :: 1;
+}
+
+FILE_INFO_BY_HANDLE_CLASS :: enum s32
+{
+    FileBasicInfo :: 0;
+    FileStandardInfo :: 1;
+    FileNameInfo :: 2;
+    FileRenameInfo :: 3;
+    FileDispositionInfo :: 4;
+    FileAllocationInfo :: 5;
+    FileEndOfFileInfo :: 6;
+    FileStreamInfo :: 7;
+    FileCompressionInfo :: 8;
+    FileAttributeTagInfo :: 9;
+    FileIdBothDirectoryInfo :: 10;
+    FileIdBothDirectoryRestartInfo :: 11;
+    FileIoPriorityHintInfo :: 12;
+    FileRemoteProtocolInfo :: 13;
+    FileFullDirectoryInfo :: 14;
+    FileFullDirectoryRestartInfo :: 15;
+    FileStorageInfo :: 16;
+    FileAlignmentInfo :: 17;
+    FileIdInfo :: 18;
+    FileIdExtdDirectoryInfo :: 19;
+    FileIdExtdDirectoryRestartInfo :: 20;
+    FileDispositionInfoEx :: 21;
+    FileRenameInfoEx :: 22;
+    FileCaseSensitiveInfo :: 23;
+    FileNormalizedNameInfo :: 24;
+    MaximumFileInfoByHandleClass :: 25;
+}
+
+TRANSACTION_NOTIFICATION :: struct
+{
+    TransactionKey : *void;
+    TransactionNotification : u32;
+    TmVirtualClock : LARGE_INTEGER;
+    ArgumentLength : u32;
+}
+
+TRANSACTION_NOTIFICATION_RECOVERY_ARGUMENT :: struct
+{
+    EnlistmentId : GUID;
+    UOW : GUID;
+}
+
+TRANSACTION_NOTIFICATION_TM_ONLINE_ARGUMENT :: struct
+{
+    TmIdentity : GUID;
+    Flags : u32;
+}
+
+TRANSACTION_NOTIFICATION_SAVEPOINT_ARGUMENT :: struct
+{
+    SavepointId : u32;
+}
+
+TRANSACTION_NOTIFICATION_PROPAGATE_ARGUMENT :: struct
+{
+    PropagationCookie : u32;
+    UOW : GUID;
+    TmIdentity : GUID;
+    BufferLength : u32;
+}
+
+TRANSACTION_NOTIFICATION_MARSHAL_ARGUMENT :: struct
+{
+    MarshalCookie : u32;
+    UOW : GUID;
+}
+
+KCRM_MARSHAL_HEADER :: struct
+{
+    VersionMajor : u32;
+    VersionMinor : u32;
+    NumProtocols : u32;
+    Unused : u32;
+}
+
+KCRM_TRANSACTION_BLOB :: struct
+{
+    UOW : GUID;
+    TmIdentity : GUID;
+    IsolationLevel : u32;
+    IsolationFlags : u32;
+    Timeout : u32;
+    Description : [64]u16;
+}
+
+KCRM_PROTOCOL_BLOB :: struct
+{
+    ProtocolId : GUID;
+    StaticInfoLength : u32;
+    TransactionIdInfoLength : u32;
+    Unused1 : u32;
+    Unused2 : u32;
+}
+
+DISK_SPACE_INFORMATION :: struct
+{
+    ActualTotalAllocationUnits : u64;
+    ActualAvailableAllocationUnits : u64;
+    ActualPoolUnavailableAllocationUnits : u64;
+    CallerTotalAllocationUnits : u64;
+    CallerAvailableAllocationUnits : u64;
+    CallerPoolUnavailableAllocationUnits : u64;
+    UsedAllocationUnits : u64;
+    TotalReservedAllocationUnits : u64;
+    VolumeStorageReserveAllocationUnits : u64;
+    AvailableCommittedAllocationUnits : u64;
+    PoolAvailableAllocationUnits : u64;
+    SectorsPerAllocationUnit : u32;
+    BytesPerSector : u32;
+}
+
+WIN32_FILE_ATTRIBUTE_DATA :: struct
+{
+    dwFileAttributes : u32;
+    ftCreationTime : FILETIME;
+    ftLastAccessTime : FILETIME;
+    ftLastWriteTime : FILETIME;
+    nFileSizeHigh : u32;
+    nFileSizeLow : u32;
+}
+
+BY_HANDLE_FILE_INFORMATION :: struct
+{
+    dwFileAttributes : u32;
+    ftCreationTime : FILETIME;
+    ftLastAccessTime : FILETIME;
+    ftLastWriteTime : FILETIME;
+    dwVolumeSerialNumber : u32;
+    nFileSizeHigh : u32;
+    nFileSizeLow : u32;
+    nNumberOfLinks : u32;
+    nFileIndexHigh : u32;
+    nFileIndexLow : u32;
+}
+
+CREATEFILE2_EXTENDED_PARAMETERS :: struct
+{
+    dwSize : u32;
+    dwFileAttributes : u32;
+    dwFileFlags : u32;
+    dwSecurityQosFlags : u32;
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES;
+    hTemplateFile : HANDLE;
+}
+
+STREAM_INFO_LEVELS :: enum s32
+{
+    FindStreamInfoStandard :: 0;
+    FindStreamInfoMaxInfoLevel :: 1;
+}
+
+WIN32_FIND_STREAM_DATA :: struct
+{
+    StreamSize : LARGE_INTEGER;
+    cStreamName : [296]u16;
+}
+
+VS_FIXEDFILEINFO :: struct
+{
+    dwSignature : u32;
+    dwStrucVersion : u32;
+    dwFileVersionMS : u32;
+    dwFileVersionLS : u32;
+    dwProductVersionMS : u32;
+    dwProductVersionLS : u32;
+    dwFileFlagsMask : u32;
+    dwFileFlags : VS_FIXEDFILEINFO_FILE_FLAGS;
+    dwFileOS : VS_FIXEDFILEINFO_FILE_OS;
+    dwFileType : VS_FIXEDFILEINFO_FILE_TYPE;
+    dwFileSubtype : VS_FIXEDFILEINFO_FILE_SUBTYPE;
+    dwFileDateMS : u32;
+    dwFileDateLS : u32;
+}
+
+NtmsObjectsTypes :: enum s32
+{
+    NTMS_UNKNOWN :: 0;
+    NTMS_OBJECT :: 1;
+    NTMS_CHANGER :: 2;
+    NTMS_CHANGER_TYPE :: 3;
+    NTMS_COMPUTER :: 4;
+    NTMS_DRIVE :: 5;
+    NTMS_DRIVE_TYPE :: 6;
+    NTMS_IEDOOR :: 7;
+    NTMS_IEPORT :: 8;
+    NTMS_LIBRARY :: 9;
+    NTMS_LIBREQUEST :: 10;
+    NTMS_LOGICAL_MEDIA :: 11;
+    NTMS_MEDIA_POOL :: 12;
+    NTMS_MEDIA_TYPE :: 13;
+    NTMS_PARTITION :: 14;
+    NTMS_PHYSICAL_MEDIA :: 15;
+    NTMS_STORAGESLOT :: 16;
+    NTMS_OPREQUEST :: 17;
+    NTMS_UI_DESTINATION :: 18;
+    NTMS_NUMBER_OF_OBJECT_TYPES :: 19;
+}
+
+NTMS_ASYNC_IO :: struct
+{
+    OperationId : GUID;
+    EventId : GUID;
+    dwOperationType : u32;
+    dwResult : u32;
+    dwAsyncState : u32;
+    hEvent : HANDLE;
+    bOnStateChange : BOOL;
+}
+
+NtmsAsyncStatus :: enum s32
+{
+    NTMS_ASYNCSTATE_QUEUED :: 0;
+    NTMS_ASYNCSTATE_WAIT_RESOURCE :: 1;
+    NTMS_ASYNCSTATE_WAIT_OPERATOR :: 2;
+    NTMS_ASYNCSTATE_INPROCESS :: 3;
+    NTMS_ASYNCSTATE_COMPLETE :: 4;
+}
+
+NtmsAsyncOperations :: enum s32
+{
+    NTMS_ASYNCOP_MOUNT :: 1;
+}
+
+NtmsSessionOptions :: enum s32
+{
+    NTMS_SESSION_QUERYEXPEDITE :: 1;
+}
+
+NtmsMountOptions :: enum s32
+{
+    NTMS_MOUNT_READ :: 1;
+    NTMS_MOUNT_WRITE :: 2;
+    NTMS_MOUNT_ERROR_NOT_AVAILABLE :: 4;
+    NTMS_MOUNT_ERROR_IF_UNAVAILABLE :: 4;
+    NTMS_MOUNT_ERROR_OFFLINE :: 8;
+    NTMS_MOUNT_ERROR_IF_OFFLINE :: 8;
+    NTMS_MOUNT_SPECIFIC_DRIVE :: 16;
+    NTMS_MOUNT_NOWAIT :: 32;
+}
+
+NtmsDismountOptions :: enum s32
+{
+    NTMS_DISMOUNT_DEFERRED :: 1;
+    NTMS_DISMOUNT_IMMEDIATE :: 2;
+}
+
+NtmsMountPriority :: enum s32
+{
+    NTMS_PRIORITY_DEFAULT :: 0;
+    NTMS_PRIORITY_HIGHEST :: 15;
+    NTMS_PRIORITY_HIGH :: 7;
+    NTMS_PRIORITY_NORMAL :: 0;
+    NTMS_PRIORITY_LOW :: -7;
+    NTMS_PRIORITY_LOWEST :: -15;
+}
+
+NTMS_MOUNT_INFORMATION :: struct
+{
+    dwSize : u32;
+    lpReserved : *void;
+}
+
+NtmsAllocateOptions :: enum s32
+{
+    NTMS_ALLOCATE_NEW :: 1;
+    NTMS_ALLOCATE_NEXT :: 2;
+    NTMS_ALLOCATE_ERROR_IF_UNAVAILABLE :: 4;
+}
+
+NTMS_ALLOCATION_INFORMATION :: struct
+{
+    dwSize : u32;
+    lpReserved : *void;
+    AllocatedFrom : GUID;
+}
+
+NtmsCreateOptions :: enum s32
+{
+    NTMS_OPEN_EXISTING :: 1;
+    NTMS_CREATE_NEW :: 2;
+    NTMS_OPEN_ALWAYS :: 3;
+}
+
+NtmsDriveState :: enum s32
+{
+    NTMS_DRIVESTATE_DISMOUNTED :: 0;
+    NTMS_DRIVESTATE_MOUNTED :: 1;
+    NTMS_DRIVESTATE_LOADED :: 2;
+    NTMS_DRIVESTATE_UNLOADED :: 5;
+    NTMS_DRIVESTATE_BEING_CLEANED :: 6;
+    NTMS_DRIVESTATE_DISMOUNTABLE :: 7;
+}
+
+NTMS_DRIVEINFORMATIONA :: struct
+{
+    Number : u32;
+    State : NtmsDriveState;
+    DriveType : GUID;
+    szDeviceName : [64]CHAR;
+    szSerialNumber : [32]CHAR;
+    szRevision : [32]CHAR;
+    ScsiPort : u16;
+    ScsiBus : u16;
+    ScsiTarget : u16;
+    ScsiLun : u16;
+    dwMountCount : u32;
+    LastCleanedTs : SYSTEMTIME;
+    SavedPartitionId : GUID;
+    Library : GUID;
+    Reserved : GUID;
+    dwDeferDismountDelay : u32;
+}
+
+NTMS_DRIVEINFORMATIONW :: struct
+{
+    Number : u32;
+    State : NtmsDriveState;
+    DriveType : GUID;
+    szDeviceName : [64]u16;
+    szSerialNumber : [32]u16;
+    szRevision : [32]u16;
+    ScsiPort : u16;
+    ScsiBus : u16;
+    ScsiTarget : u16;
+    ScsiLun : u16;
+    dwMountCount : u32;
+    LastCleanedTs : SYSTEMTIME;
+    SavedPartitionId : GUID;
+    Library : GUID;
+    Reserved : GUID;
+    dwDeferDismountDelay : u32;
+}
+
+NtmsLibraryType :: enum s32
+{
+    NTMS_LIBRARYTYPE_UNKNOWN :: 0;
+    NTMS_LIBRARYTYPE_OFFLINE :: 1;
+    NTMS_LIBRARYTYPE_ONLINE :: 2;
+    NTMS_LIBRARYTYPE_STANDALONE :: 3;
+}
+
+NtmsLibraryFlags :: enum s32
+{
+    NTMS_LIBRARYFLAG_FIXEDOFFLINE :: 1;
+    NTMS_LIBRARYFLAG_CLEANERPRESENT :: 2;
+    NTMS_LIBRARYFLAG_AUTODETECTCHANGE :: 4;
+    NTMS_LIBRARYFLAG_IGNORECLEANERUSESREMAINING :: 8;
+    NTMS_LIBRARYFLAG_RECOGNIZECLEANERBARCODE :: 16;
+}
+
+NtmsInventoryMethod :: enum s32
+{
+    NTMS_INVENTORY_NONE :: 0;
+    NTMS_INVENTORY_FAST :: 1;
+    NTMS_INVENTORY_OMID :: 2;
+    NTMS_INVENTORY_DEFAULT :: 3;
+    NTMS_INVENTORY_SLOT :: 4;
+    NTMS_INVENTORY_STOP :: 5;
+    NTMS_INVENTORY_MAX :: 6;
+}
+
+NTMS_LIBRARYINFORMATION :: struct
+{
+    LibraryType : NtmsLibraryType;
+    CleanerSlot : GUID;
+    CleanerSlotDefault : GUID;
+    LibrarySupportsDriveCleaning : BOOL;
+    BarCodeReaderInstalled : BOOL;
+    InventoryMethod : NtmsInventoryMethod;
+    dwCleanerUsesRemaining : u32;
+    FirstDriveNumber : u32;
+    dwNumberOfDrives : u32;
+    FirstSlotNumber : u32;
+    dwNumberOfSlots : u32;
+    FirstDoorNumber : u32;
+    dwNumberOfDoors : u32;
+    FirstPortNumber : u32;
+    dwNumberOfPorts : u32;
+    FirstChangerNumber : u32;
+    dwNumberOfChangers : u32;
+    dwNumberOfMedia : u32;
+    dwNumberOfMediaTypes : u32;
+    dwNumberOfLibRequests : u32;
+    Reserved : GUID;
+    AutoRecovery : BOOL;
+    dwFlags : NtmsLibraryFlags;
+}
+
+NTMS_CHANGERINFORMATIONA :: struct
+{
+    Number : u32;
+    ChangerType : GUID;
+    szSerialNumber : [32]CHAR;
+    szRevision : [32]CHAR;
+    szDeviceName : [64]CHAR;
+    ScsiPort : u16;
+    ScsiBus : u16;
+    ScsiTarget : u16;
+    ScsiLun : u16;
+    Library : GUID;
+}
+
+NTMS_CHANGERINFORMATIONW :: struct
+{
+    Number : u32;
+    ChangerType : GUID;
+    szSerialNumber : [32]u16;
+    szRevision : [32]u16;
+    szDeviceName : [64]u16;
+    ScsiPort : u16;
+    ScsiBus : u16;
+    ScsiTarget : u16;
+    ScsiLun : u16;
+    Library : GUID;
+}
+
+NtmsSlotState :: enum s32
+{
+    NTMS_SLOTSTATE_UNKNOWN :: 0;
+    NTMS_SLOTSTATE_FULL :: 1;
+    NTMS_SLOTSTATE_EMPTY :: 2;
+    NTMS_SLOTSTATE_NOTPRESENT :: 3;
+    NTMS_SLOTSTATE_NEEDSINVENTORY :: 4;
+}
+
+NTMS_STORAGESLOTINFORMATION :: struct
+{
+    Number : u32;
+    State : u32;
+    Library : GUID;
+}
+
+NtmsDoorState :: enum s32
+{
+    NTMS_DOORSTATE_UNKNOWN :: 0;
+    NTMS_DOORSTATE_CLOSED :: 1;
+    NTMS_DOORSTATE_OPEN :: 2;
+}
+
+NTMS_IEDOORINFORMATION :: struct
+{
+    Number : u32;
+    State : NtmsDoorState;
+    MaxOpenSecs : u16;
+    Library : GUID;
+}
+
+NtmsPortPosition :: enum s32
+{
+    NTMS_PORTPOSITION_UNKNOWN :: 0;
+    NTMS_PORTPOSITION_EXTENDED :: 1;
+    NTMS_PORTPOSITION_RETRACTED :: 2;
+}
+
+NtmsPortContent :: enum s32
+{
+    NTMS_PORTCONTENT_UNKNOWN :: 0;
+    NTMS_PORTCONTENT_FULL :: 1;
+    NTMS_PORTCONTENT_EMPTY :: 2;
+}
+
+NTMS_IEPORTINFORMATION :: struct
+{
+    Number : u32;
+    Content : NtmsPortContent;
+    Position : NtmsPortPosition;
+    MaxExtendSecs : u16;
+    Library : GUID;
+}
+
+NtmsBarCodeState :: enum s32
+{
+    NTMS_BARCODESTATE_OK :: 1;
+    NTMS_BARCODESTATE_UNREADABLE :: 2;
+}
+
+NtmsMediaState :: enum s32
+{
+    NTMS_MEDIASTATE_IDLE :: 0;
+    NTMS_MEDIASTATE_INUSE :: 1;
+    NTMS_MEDIASTATE_MOUNTED :: 2;
+    NTMS_MEDIASTATE_LOADED :: 3;
+    NTMS_MEDIASTATE_UNLOADED :: 4;
+    NTMS_MEDIASTATE_OPERROR :: 5;
+    NTMS_MEDIASTATE_OPREQ :: 6;
+}
+
+NTMS_PMIDINFORMATIONA :: struct
+{
+    CurrentLibrary : GUID;
+    MediaPool : GUID;
+    Location : GUID;
+    LocationType : u32;
+    MediaType : GUID;
+    HomeSlot : GUID;
+    szBarCode : [64]CHAR;
+    BarCodeState : NtmsBarCodeState;
+    szSequenceNumber : [32]CHAR;
+    MediaState : NtmsMediaState;
+    dwNumberOfPartitions : u32;
+    dwMediaTypeCode : u32;
+    dwDensityCode : u32;
+    MountedPartition : GUID;
+}
+
+NTMS_PMIDINFORMATIONW :: struct
+{
+    CurrentLibrary : GUID;
+    MediaPool : GUID;
+    Location : GUID;
+    LocationType : u32;
+    MediaType : GUID;
+    HomeSlot : GUID;
+    szBarCode : [64]u16;
+    BarCodeState : NtmsBarCodeState;
+    szSequenceNumber : [32]u16;
+    MediaState : NtmsMediaState;
+    dwNumberOfPartitions : u32;
+    dwMediaTypeCode : u32;
+    dwDensityCode : u32;
+    MountedPartition : GUID;
+}
+
+NTMS_LMIDINFORMATION :: struct
+{
+    MediaPool : GUID;
+    dwNumberOfPartitions : u32;
+}
+
+NtmsPartitionState :: enum s32
+{
+    NTMS_PARTSTATE_UNKNOWN :: 0;
+    NTMS_PARTSTATE_UNPREPARED :: 1;
+    NTMS_PARTSTATE_INCOMPATIBLE :: 2;
+    NTMS_PARTSTATE_DECOMMISSIONED :: 3;
+    NTMS_PARTSTATE_AVAILABLE :: 4;
+    NTMS_PARTSTATE_ALLOCATED :: 5;
+    NTMS_PARTSTATE_COMPLETE :: 6;
+    NTMS_PARTSTATE_FOREIGN :: 7;
+    NTMS_PARTSTATE_IMPORT :: 8;
+    NTMS_PARTSTATE_RESERVED :: 9;
+}
+
+NTMS_PARTITIONINFORMATIONA :: struct
+{
+    PhysicalMedia : GUID;
+    LogicalMedia : GUID;
+    State : NtmsPartitionState;
+    Side : u16;
+    dwOmidLabelIdLength : u32;
+    OmidLabelId : [255]u8;
+    szOmidLabelType : [64]CHAR;
+    szOmidLabelInfo : [256]CHAR;
+    dwMountCount : u32;
+    dwAllocateCount : u32;
+    Capacity : LARGE_INTEGER;
+}
+
+NTMS_PARTITIONINFORMATIONW :: struct
+{
+    PhysicalMedia : GUID;
+    LogicalMedia : GUID;
+    State : NtmsPartitionState;
+    Side : u16;
+    dwOmidLabelIdLength : u32;
+    OmidLabelId : [255]u8;
+    szOmidLabelType : [64]u16;
+    szOmidLabelInfo : [256]u16;
+    dwMountCount : u32;
+    dwAllocateCount : u32;
+    Capacity : LARGE_INTEGER;
+}
+
+NtmsPoolType :: enum s32
+{
+    NTMS_POOLTYPE_UNKNOWN :: 0;
+    NTMS_POOLTYPE_SCRATCH :: 1;
+    NTMS_POOLTYPE_FOREIGN :: 2;
+    NTMS_POOLTYPE_IMPORT :: 3;
+    NTMS_POOLTYPE_APPLICATION :: 1000;
+}
+
+NtmsAllocationPolicy :: enum s32
+{
+    NTMS_ALLOCATE_FROMSCRATCH :: 1;
+}
+
+NtmsDeallocationPolicy :: enum s32
+{
+    NTMS_DEALLOCATE_TOSCRATCH :: 1;
+}
+
+NTMS_MEDIAPOOLINFORMATION :: struct
+{
+    PoolType : u32;
+    MediaType : GUID;
+    Parent : GUID;
+    AllocationPolicy : u32;
+    DeallocationPolicy : u32;
+    dwMaxAllocates : u32;
+    dwNumberOfPhysicalMedia : u32;
+    dwNumberOfLogicalMedia : u32;
+    dwNumberOfMediaPools : u32;
+}
+
+NtmsReadWriteCharacteristics :: enum s32
+{
+    NTMS_MEDIARW_UNKNOWN :: 0;
+    NTMS_MEDIARW_REWRITABLE :: 1;
+    NTMS_MEDIARW_WRITEONCE :: 2;
+    NTMS_MEDIARW_READONLY :: 3;
+}
+
+NTMS_MEDIATYPEINFORMATION :: struct
+{
+    MediaType : u32;
+    NumberOfSides : u32;
+    ReadWriteCharacteristics : NtmsReadWriteCharacteristics;
+    DeviceType : FILE_DEVICE_TYPE;
+}
+
+NTMS_DRIVETYPEINFORMATIONA :: struct
+{
+    szVendor : [128]CHAR;
+    szProduct : [128]CHAR;
+    NumberOfHeads : u32;
+    DeviceType : FILE_DEVICE_TYPE;
+}
+
+NTMS_DRIVETYPEINFORMATIONW :: struct
+{
+    szVendor : [128]u16;
+    szProduct : [128]u16;
+    NumberOfHeads : u32;
+    DeviceType : FILE_DEVICE_TYPE;
+}
+
+NTMS_CHANGERTYPEINFORMATIONA :: struct
+{
+    szVendor : [128]CHAR;
+    szProduct : [128]CHAR;
+    DeviceType : u32;
+}
+
+NTMS_CHANGERTYPEINFORMATIONW :: struct
+{
+    szVendor : [128]u16;
+    szProduct : [128]u16;
+    DeviceType : u32;
+}
+
+NtmsLmOperation :: enum s32
+{
+    NTMS_LM_REMOVE :: 0;
+    NTMS_LM_DISABLECHANGER :: 1;
+    NTMS_LM_DISABLELIBRARY :: 1;
+    NTMS_LM_ENABLECHANGER :: 2;
+    NTMS_LM_ENABLELIBRARY :: 2;
+    NTMS_LM_DISABLEDRIVE :: 3;
+    NTMS_LM_ENABLEDRIVE :: 4;
+    NTMS_LM_DISABLEMEDIA :: 5;
+    NTMS_LM_ENABLEMEDIA :: 6;
+    NTMS_LM_UPDATEOMID :: 7;
+    NTMS_LM_INVENTORY :: 8;
+    NTMS_LM_DOORACCESS :: 9;
+    NTMS_LM_EJECT :: 10;
+    NTMS_LM_EJECTCLEANER :: 11;
+    NTMS_LM_INJECT :: 12;
+    NTMS_LM_INJECTCLEANER :: 13;
+    NTMS_LM_PROCESSOMID :: 14;
+    NTMS_LM_CLEANDRIVE :: 15;
+    NTMS_LM_DISMOUNT :: 16;
+    NTMS_LM_MOUNT :: 17;
+    NTMS_LM_WRITESCRATCH :: 18;
+    NTMS_LM_CLASSIFY :: 19;
+    NTMS_LM_RESERVECLEANER :: 20;
+    NTMS_LM_RELEASECLEANER :: 21;
+    NTMS_LM_MAXWORKITEM :: 22;
+}
+
+NtmsLmState :: enum s32
+{
+    NTMS_LM_QUEUED :: 0;
+    NTMS_LM_INPROCESS :: 1;
+    NTMS_LM_PASSED :: 2;
+    NTMS_LM_FAILED :: 3;
+    NTMS_LM_INVALID :: 4;
+    NTMS_LM_WAITING :: 5;
+    NTMS_LM_DEFERRED :: 6;
+    NTMS_LM_DEFFERED :: 6;
+    NTMS_LM_CANCELLED :: 7;
+    NTMS_LM_STOPPED :: 8;
+}
+
+NTMS_LIBREQUESTINFORMATIONA :: struct
+{
+    OperationCode : NtmsLmOperation;
+    OperationOption : u32;
+    State : NtmsLmState;
+    PartitionId : GUID;
+    DriveId : GUID;
+    PhysMediaId : GUID;
+    Library : GUID;
+    SlotId : GUID;
+    TimeQueued : SYSTEMTIME;
+    TimeCompleted : SYSTEMTIME;
+    szApplication : [64]CHAR;
+    szUser : [64]CHAR;
+    szComputer : [64]CHAR;
+    dwErrorCode : u32;
+    WorkItemId : GUID;
+    dwPriority : u32;
+}
+
+NTMS_LIBREQUESTINFORMATIONW :: struct
+{
+    OperationCode : NtmsLmOperation;
+    OperationOption : u32;
+    State : NtmsLmState;
+    PartitionId : GUID;
+    DriveId : GUID;
+    PhysMediaId : GUID;
+    Library : GUID;
+    SlotId : GUID;
+    TimeQueued : SYSTEMTIME;
+    TimeCompleted : SYSTEMTIME;
+    szApplication : [64]u16;
+    szUser : [64]u16;
+    szComputer : [64]u16;
+    dwErrorCode : u32;
+    WorkItemId : GUID;
+    dwPriority : u32;
+}
+
+NtmsOpreqCommand :: enum s32
+{
+    NTMS_OPREQ_UNKNOWN :: 0;
+    NTMS_OPREQ_NEWMEDIA :: 1;
+    NTMS_OPREQ_CLEANER :: 2;
+    NTMS_OPREQ_DEVICESERVICE :: 3;
+    NTMS_OPREQ_MOVEMEDIA :: 4;
+    NTMS_OPREQ_MESSAGE :: 5;
+}
+
+NtmsOpreqState :: enum s32
+{
+    NTMS_OPSTATE_UNKNOWN :: 0;
+    NTMS_OPSTATE_SUBMITTED :: 1;
+    NTMS_OPSTATE_ACTIVE :: 2;
+    NTMS_OPSTATE_INPROGRESS :: 3;
+    NTMS_OPSTATE_REFUSED :: 4;
+    NTMS_OPSTATE_COMPLETE :: 5;
+}
+
+NTMS_OPREQUESTINFORMATIONA :: struct
+{
+    Request : NtmsOpreqCommand;
+    Submitted : SYSTEMTIME;
+    State : NtmsOpreqState;
+    szMessage : [256]CHAR;
+    Arg1Type : NtmsObjectsTypes;
+    Arg1 : GUID;
+    Arg2Type : NtmsObjectsTypes;
+    Arg2 : GUID;
+    szApplication : [64]CHAR;
+    szUser : [64]CHAR;
+    szComputer : [64]CHAR;
+}
+
+NTMS_OPREQUESTINFORMATIONW :: struct
+{
+    Request : NtmsOpreqCommand;
+    Submitted : SYSTEMTIME;
+    State : NtmsOpreqState;
+    szMessage : [256]u16;
+    Arg1Type : NtmsObjectsTypes;
+    Arg1 : GUID;
+    Arg2Type : NtmsObjectsTypes;
+    Arg2 : GUID;
+    szApplication : [64]u16;
+    szUser : [64]u16;
+    szComputer : [64]u16;
+}
+
+NTMS_COMPUTERINFORMATION :: struct
+{
+    dwLibRequestPurgeTime : u32;
+    dwOpRequestPurgeTime : u32;
+    dwLibRequestFlags : u32;
+    dwOpRequestFlags : u32;
+    dwMediaPoolPolicy : u32;
+}
+
+NtmsLibRequestFlags :: enum s32
+{
+    NTMS_LIBREQFLAGS_NOAUTOPURGE :: 1;
+    NTMS_LIBREQFLAGS_NOFAILEDPURGE :: 2;
+}
+
+NtmsOpRequestFlags :: enum s32
+{
+    NTMS_OPREQFLAGS_NOAUTOPURGE :: 1;
+    NTMS_OPREQFLAGS_NOFAILEDPURGE :: 2;
+    NTMS_OPREQFLAGS_NOALERTS :: 16;
+    NTMS_OPREQFLAGS_NOTRAYICON :: 32;
+}
+
+NtmsMediaPoolPolicy :: enum s32
+{
+    NTMS_POOLPOLICY_PURGEOFFLINESCRATCH :: 1;
+    NTMS_POOLPOLICY_KEEPOFFLINEIMPORT :: 2;
+}
+
+NtmsOperationalState :: enum s32
+{
+    NTMS_READY :: 0;
+    NTMS_INITIALIZING :: 10;
+    NTMS_NEEDS_SERVICE :: 20;
+    NTMS_NOT_PRESENT :: 21;
+}
+
+NTMS_OBJECTINFORMATIONA :: struct
+{
+    dwSize : u32;
+    dwType : NtmsObjectsTypes;
+    Created : SYSTEMTIME;
+    Modified : SYSTEMTIME;
+    ObjectGuid : GUID;
+    Enabled : BOOL;
+    dwOperationalState : NtmsOperationalState;
+    szName : [64]CHAR;
+    szDescription : [127]CHAR;
+    Info : _Info_e__Union;
+
+    _Info_e__Union :: union
+    {
+        Drive : NTMS_DRIVEINFORMATIONA;
+        DriveType : NTMS_DRIVETYPEINFORMATIONA;
+        Library : NTMS_LIBRARYINFORMATION;
+        Changer : NTMS_CHANGERINFORMATIONA;
+        ChangerType : NTMS_CHANGERTYPEINFORMATIONA;
+        StorageSlot : NTMS_STORAGESLOTINFORMATION;
+        IEDoor : NTMS_IEDOORINFORMATION;
+        IEPort : NTMS_IEPORTINFORMATION;
+        PhysicalMedia : NTMS_PMIDINFORMATIONA;
+        LogicalMedia : NTMS_LMIDINFORMATION;
+        Partition : NTMS_PARTITIONINFORMATIONA;
+        MediaPool : NTMS_MEDIAPOOLINFORMATION;
+        MediaType : NTMS_MEDIATYPEINFORMATION;
+        LibRequest : NTMS_LIBREQUESTINFORMATIONA;
+        OpRequest : NTMS_OPREQUESTINFORMATIONA;
+        Computer : NTMS_COMPUTERINFORMATION;
+    }
+}
+
+NTMS_OBJECTINFORMATIONW :: struct
+{
+    dwSize : u32;
+    dwType : NtmsObjectsTypes;
+    Created : SYSTEMTIME;
+    Modified : SYSTEMTIME;
+    ObjectGuid : GUID;
+    Enabled : BOOL;
+    dwOperationalState : NtmsOperationalState;
+    szName : [64]u16;
+    szDescription : [127]u16;
+    Info : _Info_e__Union;
+
+    _Info_e__Union :: union
+    {
+        Drive : NTMS_DRIVEINFORMATIONW;
+        DriveType : NTMS_DRIVETYPEINFORMATIONW;
+        Library : NTMS_LIBRARYINFORMATION;
+        Changer : NTMS_CHANGERINFORMATIONW;
+        ChangerType : NTMS_CHANGERTYPEINFORMATIONW;
+        StorageSlot : NTMS_STORAGESLOTINFORMATION;
+        IEDoor : NTMS_IEDOORINFORMATION;
+        IEPort : NTMS_IEPORTINFORMATION;
+        PhysicalMedia : NTMS_PMIDINFORMATIONW;
+        LogicalMedia : NTMS_LMIDINFORMATION;
+        Partition : NTMS_PARTITIONINFORMATIONW;
+        MediaPool : NTMS_MEDIAPOOLINFORMATION;
+        MediaType : NTMS_MEDIATYPEINFORMATION;
+        LibRequest : NTMS_LIBREQUESTINFORMATIONW;
+        OpRequest : NTMS_OPREQUESTINFORMATIONW;
+        Computer : NTMS_COMPUTERINFORMATION;
+    }
+}
+
+NTMS_I1_LIBRARYINFORMATION :: struct
+{
+    LibraryType : u32;
+    CleanerSlot : GUID;
+    CleanerSlotDefault : GUID;
+    LibrarySupportsDriveCleaning : BOOL;
+    BarCodeReaderInstalled : BOOL;
+    InventoryMethod : u32;
+    dwCleanerUsesRemaining : u32;
+    FirstDriveNumber : u32;
+    dwNumberOfDrives : u32;
+    FirstSlotNumber : u32;
+    dwNumberOfSlots : u32;
+    FirstDoorNumber : u32;
+    dwNumberOfDoors : u32;
+    FirstPortNumber : u32;
+    dwNumberOfPorts : u32;
+    FirstChangerNumber : u32;
+    dwNumberOfChangers : u32;
+    dwNumberOfMedia : u32;
+    dwNumberOfMediaTypes : u32;
+    dwNumberOfLibRequests : u32;
+    Reserved : GUID;
+}
+
+NTMS_I1_LIBREQUESTINFORMATIONA :: struct
+{
+    OperationCode : u32;
+    OperationOption : u32;
+    State : u32;
+    PartitionId : GUID;
+    DriveId : GUID;
+    PhysMediaId : GUID;
+    Library : GUID;
+    SlotId : GUID;
+    TimeQueued : SYSTEMTIME;
+    TimeCompleted : SYSTEMTIME;
+    szApplication : [64]CHAR;
+    szUser : [64]CHAR;
+    szComputer : [64]CHAR;
+}
+
+NTMS_I1_LIBREQUESTINFORMATIONW :: struct
+{
+    OperationCode : u32;
+    OperationOption : u32;
+    State : u32;
+    PartitionId : GUID;
+    DriveId : GUID;
+    PhysMediaId : GUID;
+    Library : GUID;
+    SlotId : GUID;
+    TimeQueued : SYSTEMTIME;
+    TimeCompleted : SYSTEMTIME;
+    szApplication : [64]u16;
+    szUser : [64]u16;
+    szComputer : [64]u16;
+}
+
+NTMS_I1_PMIDINFORMATIONA :: struct
+{
+    CurrentLibrary : GUID;
+    MediaPool : GUID;
+    Location : GUID;
+    LocationType : u32;
+    MediaType : GUID;
+    HomeSlot : GUID;
+    szBarCode : [64]CHAR;
+    BarCodeState : u32;
+    szSequenceNumber : [32]CHAR;
+    MediaState : u32;
+    dwNumberOfPartitions : u32;
+}
+
+NTMS_I1_PMIDINFORMATIONW :: struct
+{
+    CurrentLibrary : GUID;
+    MediaPool : GUID;
+    Location : GUID;
+    LocationType : u32;
+    MediaType : GUID;
+    HomeSlot : GUID;
+    szBarCode : [64]u16;
+    BarCodeState : u32;
+    szSequenceNumber : [32]u16;
+    MediaState : u32;
+    dwNumberOfPartitions : u32;
+}
+
+NTMS_I1_PARTITIONINFORMATIONA :: struct
+{
+    PhysicalMedia : GUID;
+    LogicalMedia : GUID;
+    State : u32;
+    Side : u16;
+    dwOmidLabelIdLength : u32;
+    OmidLabelId : [255]u8;
+    szOmidLabelType : [64]CHAR;
+    szOmidLabelInfo : [256]CHAR;
+    dwMountCount : u32;
+    dwAllocateCount : u32;
+}
+
+NTMS_I1_PARTITIONINFORMATIONW :: struct
+{
+    PhysicalMedia : GUID;
+    LogicalMedia : GUID;
+    State : u32;
+    Side : u16;
+    dwOmidLabelIdLength : u32;
+    OmidLabelId : [255]u8;
+    szOmidLabelType : [64]u16;
+    szOmidLabelInfo : [256]u16;
+    dwMountCount : u32;
+    dwAllocateCount : u32;
+}
+
+NTMS_I1_OPREQUESTINFORMATIONA :: struct
+{
+    Request : u32;
+    Submitted : SYSTEMTIME;
+    State : u32;
+    szMessage : [127]CHAR;
+    Arg1Type : u32;
+    Arg1 : GUID;
+    Arg2Type : u32;
+    Arg2 : GUID;
+    szApplication : [64]CHAR;
+    szUser : [64]CHAR;
+    szComputer : [64]CHAR;
+}
+
+NTMS_I1_OPREQUESTINFORMATIONW :: struct
+{
+    Request : u32;
+    Submitted : SYSTEMTIME;
+    State : u32;
+    szMessage : [127]u16;
+    Arg1Type : u32;
+    Arg1 : GUID;
+    Arg2Type : u32;
+    Arg2 : GUID;
+    szApplication : [64]u16;
+    szUser : [64]u16;
+    szComputer : [64]u16;
+}
+
+NTMS_I1_OBJECTINFORMATIONA :: struct
+{
+    dwSize : u32;
+    dwType : u32;
+    Created : SYSTEMTIME;
+    Modified : SYSTEMTIME;
+    ObjectGuid : GUID;
+    Enabled : BOOL;
+    dwOperationalState : u32;
+    szName : [64]CHAR;
+    szDescription : [127]CHAR;
+    Info : _Info_e__Union;
+
+    _Info_e__Union :: union
+    {
+        Drive : NTMS_DRIVEINFORMATIONA;
+        DriveType : NTMS_DRIVETYPEINFORMATIONA;
+        Library : NTMS_I1_LIBRARYINFORMATION;
+        Changer : NTMS_CHANGERINFORMATIONA;
+        ChangerType : NTMS_CHANGERTYPEINFORMATIONA;
+        StorageSlot : NTMS_STORAGESLOTINFORMATION;
+        IEDoor : NTMS_IEDOORINFORMATION;
+        IEPort : NTMS_IEPORTINFORMATION;
+        PhysicalMedia : NTMS_I1_PMIDINFORMATIONA;
+        LogicalMedia : NTMS_LMIDINFORMATION;
+        Partition : NTMS_I1_PARTITIONINFORMATIONA;
+        MediaPool : NTMS_MEDIAPOOLINFORMATION;
+        MediaType : NTMS_MEDIATYPEINFORMATION;
+        LibRequest : NTMS_I1_LIBREQUESTINFORMATIONA;
+        OpRequest : NTMS_I1_OPREQUESTINFORMATIONA;
+    }
+}
+
+NTMS_I1_OBJECTINFORMATIONW :: struct
+{
+    dwSize : u32;
+    dwType : u32;
+    Created : SYSTEMTIME;
+    Modified : SYSTEMTIME;
+    ObjectGuid : GUID;
+    Enabled : BOOL;
+    dwOperationalState : u32;
+    szName : [64]u16;
+    szDescription : [127]u16;
+    Info : _Info_e__Union;
+
+    _Info_e__Union :: union
+    {
+        Drive : NTMS_DRIVEINFORMATIONW;
+        DriveType : NTMS_DRIVETYPEINFORMATIONW;
+        Library : NTMS_I1_LIBRARYINFORMATION;
+        Changer : NTMS_CHANGERINFORMATIONW;
+        ChangerType : NTMS_CHANGERTYPEINFORMATIONW;
+        StorageSlot : NTMS_STORAGESLOTINFORMATION;
+        IEDoor : NTMS_IEDOORINFORMATION;
+        IEPort : NTMS_IEPORTINFORMATION;
+        PhysicalMedia : NTMS_I1_PMIDINFORMATIONW;
+        LogicalMedia : NTMS_LMIDINFORMATION;
+        Partition : NTMS_I1_PARTITIONINFORMATIONW;
+        MediaPool : NTMS_MEDIAPOOLINFORMATION;
+        MediaType : NTMS_MEDIATYPEINFORMATION;
+        LibRequest : NTMS_I1_LIBREQUESTINFORMATIONW;
+        OpRequest : NTMS_I1_OPREQUESTINFORMATIONW;
+    }
+}
+
+NtmsCreateNtmsMediaOptions :: enum s32
+{
+    NTMS_ERROR_ON_DUPLICATE :: 1;
+}
+
+NtmsEnumerateOption :: enum s32
+{
+    NTMS_ENUM_DEFAULT :: 0;
+    NTMS_ENUM_ROOTPOOL :: 1;
+}
+
+NtmsEjectOperation :: enum s32
+{
+    NTMS_EJECT_START :: 0;
+    NTMS_EJECT_STOP :: 1;
+    NTMS_EJECT_QUEUE :: 2;
+    NTMS_EJECT_FORCE :: 3;
+    NTMS_EJECT_IMMEDIATE :: 4;
+    NTMS_EJECT_ASK_USER :: 5;
+}
+
+NtmsInjectOperation :: enum s32
+{
+    NTMS_INJECT_START :: 0;
+    NTMS_INJECT_STOP :: 1;
+    NTMS_INJECT_RETRACT :: 2;
+    NTMS_INJECT_STARTMANY :: 3;
+}
+
+NTMS_FILESYSTEM_INFO :: struct
+{
+    FileSystemType : [64]u16;
+    VolumeName : [256]u16;
+    SerialNumber : u32;
+}
+
+NtmsDriveType :: enum s32
+{
+    NTMS_UNKNOWN_DRIVE :: 0;
+}
+
+NtmsAccessMask :: enum s32
+{
+    NTMS_USE_ACCESS :: 1;
+    NTMS_MODIFY_ACCESS :: 2;
+    NTMS_CONTROL_ACCESS :: 4;
+}
+
+NtmsUITypes :: enum s32
+{
+    NTMS_UITYPE_INVALID :: 0;
+    NTMS_UITYPE_INFO :: 1;
+    NTMS_UITYPE_REQ :: 2;
+    NTMS_UITYPE_ERR :: 3;
+    NTMS_UITYPE_MAX :: 4;
+}
+
+NtmsUIOperations :: enum s32
+{
+    NTMS_UIDEST_ADD :: 1;
+    NTMS_UIDEST_DELETE :: 2;
+    NTMS_UIDEST_DELETEALL :: 3;
+    NTMS_UIOPERATION_MAX :: 4;
+}
+
+NtmsNotificationOperations :: enum s32
+{
+    NTMS_OBJ_UPDATE :: 1;
+    NTMS_OBJ_INSERT :: 2;
+    NTMS_OBJ_DELETE :: 3;
+    NTMS_EVENT_SIGNAL :: 4;
+    NTMS_EVENT_COMPLETE :: 5;
+}
+
+NTMS_NOTIFICATIONINFORMATION :: struct
+{
+    dwOperation : NtmsNotificationOperations;
+    ObjectId : GUID;
+}
+
+MediaLabelInfo :: struct
+{
+    LabelType : [64]u16;
+    LabelIDSize : u32;
+    LabelID : [256]u8;
+    LabelAppDescr : [256]u16;
+}
+
+MAXMEDIALABEL :: #type (pMaxSize : *u32) -> u32 #c_call;
+
+CLAIMMEDIALABEL :: #type (pBuffer : *u8, nBufferSize : u32, pLabelInfo : *MediaLabelInfo) -> u32 #c_call;
+
+CLAIMMEDIALABELEX :: #type (pBuffer : *u8, nBufferSize : u32, pLabelInfo : *MediaLabelInfo, LabelGuid : *GUID) -> u32 #c_call;
+
+CLS_LSN :: struct
+{
+    Internal : u64;
+}
+
+CLS_CONTEXT_MODE :: enum s32
+{
+    ClsContextNone :: 0;
+    ClsContextUndoNext :: 1;
+    ClsContextPrevious :: 2;
+    ClsContextForward :: 3;
+}
+
+CLFS_CONTEXT_MODE :: enum s32
+{
+    ClfsContextNone :: 0;
+    ClfsContextUndoNext :: 1;
+    ClfsContextPrevious :: 2;
+    ClfsContextForward :: 3;
+}
+
+CLFS_NODE_ID :: struct
+{
+    cType : u32;
+    cbNode : u32;
+}
+
+CLS_WRITE_ENTRY :: struct
+{
+    Buffer : *void;
+    ByteLength : u32;
+}
+
+CLS_INFORMATION :: struct
+{
+    TotalAvailable : s64;
+    CurrentAvailable : s64;
+    TotalReservation : s64;
+    BaseFileSize : u64;
+    ContainerSize : u64;
+    TotalContainers : u32;
+    FreeContainers : u32;
+    TotalClients : u32;
+    Attributes : u32;
+    FlushThreshold : u32;
+    SectorSize : u32;
+    MinArchiveTailLsn : CLS_LSN;
+    BaseLsn : CLS_LSN;
+    LastFlushedLsn : CLS_LSN;
+    LastLsn : CLS_LSN;
+    RestartLsn : CLS_LSN;
+    Identity : GUID;
+}
+
+CLFS_LOG_NAME_INFORMATION :: struct
+{
+    NameLengthInBytes : u16;
+    Name : *u16;
+}
+
+CLFS_STREAM_ID_INFORMATION :: struct
+{
+    StreamIdentifier : u8;
+}
+
+CLFS_PHYSICAL_LSN_INFORMATION :: struct
+{
+    StreamIdentifier : u8;
+    VirtualLsn : CLS_LSN;
+    PhysicalLsn : CLS_LSN;
+}
+
+CLS_CONTAINER_INFORMATION :: struct
+{
+    FileAttributes : u32;
+    CreationTime : u64;
+    LastAccessTime : u64;
+    LastWriteTime : u64;
+    ContainerSize : s64;
+    FileNameActualLength : u32;
+    FileNameLength : u32;
+    FileName : [256]u16;
+    State : u32;
+    PhysicalContainerId : u32;
+    LogicalContainerId : u32;
+}
+
+CLS_LOG_INFORMATION_CLASS :: enum s32
+{
+    ClfsLogBasicInformation :: 0;
+    ClfsLogBasicInformationPhysical :: 1;
+    ClfsLogPhysicalNameInformation :: 2;
+    ClfsLogStreamIdentifierInformation :: 3;
+    ClfsLogSystemMarkingInformation :: 4;
+    ClfsLogPhysicalLsnInformation :: 5;
+}
+
+CLS_IOSTATS_CLASS :: enum s32
+{
+    ClsIoStatsDefault :: 0;
+    ClsIoStatsMax :: 65535;
+}
+
+CLFS_IOSTATS_CLASS :: enum s32
+{
+    ClfsIoStatsDefault :: 0;
+    ClfsIoStatsMax :: 65535;
+}
+
+CLS_IO_STATISTICS_HEADER :: struct
+{
+    ubMajorVersion : u8;
+    ubMinorVersion : u8;
+    eStatsClass : CLFS_IOSTATS_CLASS;
+    cbLength : u16;
+    coffData : u32;
+}
+
+CLS_IO_STATISTICS :: struct
+{
+    hdrIoStats : CLS_IO_STATISTICS_HEADER;
+    cFlush : u64;
+    cbFlush : u64;
+    cMetaFlush : u64;
+    cbMetaFlush : u64;
+}
+
+CLS_SCAN_CONTEXT :: struct
+{
+    cidNode : CLFS_NODE_ID;
+    hLog : HANDLE;
+    cIndex : u32;
+    cContainers : u32;
+    cContainersReturned : u32;
+    eScanMode : u8;
+    pinfoContainer : *CLS_CONTAINER_INFORMATION;
+}
+
+CLS_ARCHIVE_DESCRIPTOR :: struct
+{
+    coffLow : u64;
+    coffHigh : u64;
+    infoContainer : CLS_CONTAINER_INFORMATION;
+}
+
+CLFS_BLOCK_ALLOCATION :: #type (cbBufferLength : u32, pvUserContext : *void) -> *void #c_call;
+
+CLFS_BLOCK_DEALLOCATION :: #type (pvBuffer : *void, pvUserContext : *void) -> void #c_call;
+
+CLFS_LOG_ARCHIVE_MODE :: enum s32
+{
+    ClfsLogArchiveEnabled :: 1;
+    ClfsLogArchiveDisabled :: 2;
+}
+
+PCLFS_COMPLETION_ROUTINE :: #type (pvOverlapped : *void, ulReserved : u32) -> void #c_call;
+
+CLFS_MGMT_POLICY_TYPE :: enum s32
+{
+    ClfsMgmtPolicyMaximumSize :: 0;
+    ClfsMgmtPolicyMinimumSize :: 1;
+    ClfsMgmtPolicyNewContainerSize :: 2;
+    ClfsMgmtPolicyGrowthRate :: 3;
+    ClfsMgmtPolicyLogTail :: 4;
+    ClfsMgmtPolicyAutoShrink :: 5;
+    ClfsMgmtPolicyAutoGrow :: 6;
+    ClfsMgmtPolicyNewContainerPrefix :: 7;
+    ClfsMgmtPolicyNewContainerSuffix :: 8;
+    ClfsMgmtPolicyNewContainerExtension :: 9;
+    ClfsMgmtPolicyInvalid :: 10;
+}
+
+CLFS_MGMT_POLICY :: struct
+{
+    Version : u32;
+    LengthInBytes : u32;
+    PolicyFlags : u32;
+    PolicyType : CLFS_MGMT_POLICY_TYPE;
+    PolicyParameters : _PolicyParameters_e__Union;
+
+    _PolicyParameters_e__Union :: union
+    {
+        MaximumSize : _MaximumSize_e__Struct;
+        MinimumSize : _MinimumSize_e__Struct;
+        NewContainerSize : _NewContainerSize_e__Struct;
+        GrowthRate : _GrowthRate_e__Struct;
+        LogTail : _LogTail_e__Struct;
+        AutoShrink : _AutoShrink_e__Struct;
+        AutoGrow : _AutoGrow_e__Struct;
+        NewContainerPrefix : _NewContainerPrefix_e__Struct;
+        NewContainerSuffix : _NewContainerSuffix_e__Struct;
+        NewContainerExtension : _NewContainerExtension_e__Struct;
+
+        _NewContainerExtension_e__Struct :: struct
+        {
+            ExtensionLengthInBytes : u16;
+            ExtensionString : *u16;
+        }
+
+        _NewContainerPrefix_e__Struct :: struct
+        {
+            PrefixLengthInBytes : u16;
+            PrefixString : *u16;
+        }
+
+        _AutoShrink_e__Struct :: struct
+        {
+            Percentage : u32;
+        }
+
+        _GrowthRate_e__Struct :: struct
+        {
+            AbsoluteGrowthInContainers : u32;
+            RelativeGrowthPercentage : u32;
+        }
+
+        _MinimumSize_e__Struct :: struct
+        {
+            Containers : u32;
+        }
+
+        _NewContainerSuffix_e__Struct :: struct
+        {
+            NextContainerSuffix : u64;
+        }
+
+        _LogTail_e__Struct :: struct
+        {
+            MinimumAvailablePercentage : u32;
+            MinimumAvailableContainers : u32;
+        }
+
+        _MaximumSize_e__Struct :: struct
+        {
+            Containers : u32;
+        }
+
+        _AutoGrow_e__Struct :: struct
+        {
+            Enabled : u32;
+        }
+
+        _NewContainerSize_e__Struct :: struct
+        {
+            SizeInBytes : u32;
+        }
+    }
+}
+
+CLFS_MGMT_NOTIFICATION_TYPE :: enum s32
+{
+    ClfsMgmtAdvanceTailNotification :: 0;
+    ClfsMgmtLogFullHandlerNotification :: 1;
+    ClfsMgmtLogUnpinnedNotification :: 2;
+    ClfsMgmtLogWriteNotification :: 3;
+}
+
+CLFS_MGMT_NOTIFICATION :: struct
+{
+    Notification : CLFS_MGMT_NOTIFICATION_TYPE;
+    Lsn : CLS_LSN;
+    LogIsPinned : u16;
+}
+
+PLOG_TAIL_ADVANCE_CALLBACK :: #type (hLogFile : HANDLE, lsnTarget : CLS_LSN, pvClientContext : *void) -> void #c_call;
+
+PLOG_FULL_HANDLER_CALLBACK :: #type (hLogFile : HANDLE, dwError : u32, fLogIsPinned : BOOL, pvClientContext : *void) -> void #c_call;
+
+PLOG_UNPINNED_CALLBACK :: #type (hLogFile : HANDLE, pvClientContext : *void) -> void #c_call;
+
+LOG_MANAGEMENT_CALLBACKS :: struct
+{
+    CallbackContext : *void;
+    AdvanceTailCallback : PLOG_TAIL_ADVANCE_CALLBACK;
+    LogFullHandlerCallback : PLOG_FULL_HANDLER_CALLBACK;
+    LogUnpinnedCallback : PLOG_UNPINNED_CALLBACK;
+}
+
+DISKQUOTA_USER_INFORMATION :: struct
+{
+    QuotaUsed : s64;
+    QuotaThreshold : s64;
+    QuotaLimit : s64;
+}
+
+IDiskQuotaUser_UUID :: "7988b574-ec89-11cf-9c00-00aa00a14f56";
+IDiskQuotaUser :: struct
+{
+    UUID :: IDiskQuotaUser_UUID;
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *IDiskQuotaUserVTable;
+
+    GetID :: (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #no_context { return this.vtable.GetID (this, pulID); }
+    GetName :: (this : *IDiskQuotaUser, pszAccountContainer : PWSTR, cchAccountContainer : u32, pszLogonName : PWSTR, cchLogonName : u32, pszDisplayName : PWSTR, cchDisplayName : u32) -> HRESULT #no_context { return this.vtable.GetName (this, pszAccountContainer, cchAccountContainer, pszLogonName, cchLogonName, pszDisplayName, cchDisplayName); }
+    GetSidLength :: (this : *IDiskQuotaUser, pdwLength : *u32) -> HRESULT #no_context { return this.vtable.GetSidLength (this, pdwLength); }
+    GetSid :: (this : *IDiskQuotaUser, pbSidBuffer : *u8, cbSidBuffer : u32) -> HRESULT #no_context { return this.vtable.GetSid (this, pbSidBuffer, cbSidBuffer); }
+    GetQuotaThreshold :: (this : *IDiskQuotaUser, pllThreshold : *s64) -> HRESULT #no_context { return this.vtable.GetQuotaThreshold (this, pllThreshold); }
+    GetQuotaThresholdText :: (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetQuotaThresholdText (this, pszText, cchText); }
+    GetQuotaLimit :: (this : *IDiskQuotaUser, pllLimit : *s64) -> HRESULT #no_context { return this.vtable.GetQuotaLimit (this, pllLimit); }
+    GetQuotaLimitText :: (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetQuotaLimitText (this, pszText, cchText); }
+    GetQuotaUsed :: (this : *IDiskQuotaUser, pllUsed : *s64) -> HRESULT #no_context { return this.vtable.GetQuotaUsed (this, pllUsed); }
+    GetQuotaUsedText :: (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetQuotaUsedText (this, pszText, cchText); }
+    GetQuotaInformation :: (this : *IDiskQuotaUser, pbQuotaInfo : *void, cbQuotaInfo : u32) -> HRESULT #no_context { return this.vtable.GetQuotaInformation (this, pbQuotaInfo, cbQuotaInfo); }
+    SetQuotaThreshold :: (this : *IDiskQuotaUser, llThreshold : s64, fWriteThrough : BOOL) -> HRESULT #no_context { return this.vtable.SetQuotaThreshold (this, llThreshold, fWriteThrough); }
+    SetQuotaLimit :: (this : *IDiskQuotaUser, llLimit : s64, fWriteThrough : BOOL) -> HRESULT #no_context { return this.vtable.SetQuotaLimit (this, llLimit, fWriteThrough); }
+    Invalidate :: (this : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.Invalidate (this); }
+    GetAccountStatus :: (this : *IDiskQuotaUser, pdwStatus : *u32) -> HRESULT #no_context { return this.vtable.GetAccountStatus (this, pdwStatus); }
+}
+
+IDiskQuotaUserVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknown;
+
+    GetID : (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #cpp_method;
+    GetName : (this : *IDiskQuotaUser, pszAccountContainer : PWSTR, cchAccountContainer : u32, pszLogonName : PWSTR, cchLogonName : u32, pszDisplayName : PWSTR, cchDisplayName : u32) -> HRESULT #cpp_method;
+    GetSidLength : (this : *IDiskQuotaUser, pdwLength : *u32) -> HRESULT #cpp_method;
+    GetSid : (this : *IDiskQuotaUser, pbSidBuffer : *u8, cbSidBuffer : u32) -> HRESULT #cpp_method;
+    GetQuotaThreshold : (this : *IDiskQuotaUser, pllThreshold : *s64) -> HRESULT #cpp_method;
+    GetQuotaThresholdText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    GetQuotaLimit : (this : *IDiskQuotaUser, pllLimit : *s64) -> HRESULT #cpp_method;
+    GetQuotaLimitText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    GetQuotaUsed : (this : *IDiskQuotaUser, pllUsed : *s64) -> HRESULT #cpp_method;
+    GetQuotaUsedText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    GetQuotaInformation : (this : *IDiskQuotaUser, pbQuotaInfo : *void, cbQuotaInfo : u32) -> HRESULT #cpp_method;
+    SetQuotaThreshold : (this : *IDiskQuotaUser, llThreshold : s64, fWriteThrough : BOOL) -> HRESULT #cpp_method;
+    SetQuotaLimit : (this : *IDiskQuotaUser, llLimit : s64, fWriteThrough : BOOL) -> HRESULT #cpp_method;
+    Invalidate : (this : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    GetAccountStatus : (this : *IDiskQuotaUser, pdwStatus : *u32) -> HRESULT #cpp_method;
+}
+
+IEnumDiskQuotaUsers_UUID :: "7988b577-ec89-11cf-9c00-00aa00a14f56";
+IEnumDiskQuotaUsers :: struct
+{
+    UUID :: IEnumDiskQuotaUsers_UUID;
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *IEnumDiskQuotaUsersVTable;
+
+    Next :: (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #no_context { return this.vtable.Next (this, cUsers, rgUsers, pcUsersFetched); }
+    Skip :: (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #no_context { return this.vtable.Skip (this, cUsers); }
+    Reset :: (this : *IEnumDiskQuotaUsers) -> HRESULT #no_context { return this.vtable.Reset (this); }
+    Clone :: (this : *IEnumDiskQuotaUsers, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #no_context { return this.vtable.Clone (this, ppEnum); }
+}
+
+IEnumDiskQuotaUsersVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknown;
+
+    Next : (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #cpp_method;
+    Skip : (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #cpp_method;
+    Reset : (this : *IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
+    Clone : (this : *IEnumDiskQuotaUsers, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
+}
+
+IDiskQuotaUserBatch_UUID :: "7988b576-ec89-11cf-9c00-00aa00a14f56";
+IDiskQuotaUserBatch :: struct
+{
+    UUID :: IDiskQuotaUserBatch_UUID;
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *IDiskQuotaUserBatchVTable;
+
+    Add :: (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.Add (this, pUser); }
+    Remove :: (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.Remove (this, pUser); }
+    RemoveAll :: (this : *IDiskQuotaUserBatch) -> HRESULT #no_context { return this.vtable.RemoveAll (this); }
+    FlushToDisk :: (this : *IDiskQuotaUserBatch) -> HRESULT #no_context { return this.vtable.FlushToDisk (this); }
+}
+
+IDiskQuotaUserBatchVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknown;
+
+    Add : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    Remove : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    RemoveAll : (this : *IDiskQuotaUserBatch) -> HRESULT #cpp_method;
+    FlushToDisk : (this : *IDiskQuotaUserBatch) -> HRESULT #cpp_method;
+}
+
+IDiskQuotaControl_UUID :: "7988b572-ec89-11cf-9c00-00aa00a14f56";
+IDiskQuotaControl :: struct
+{
+    UUID :: IDiskQuotaControl_UUID;
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IConnectionPointContainer;
+
+    #place base;
+    vtable : *IDiskQuotaControlVTable;
+
+    Initialize :: (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #no_context { return this.vtable.Initialize (this, pszPath, bReadWrite); }
+    SetQuotaState :: (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #no_context { return this.vtable.SetQuotaState (this, dwState); }
+    GetQuotaState :: (this : *IDiskQuotaControl, pdwState : *u32) -> HRESULT #no_context { return this.vtable.GetQuotaState (this, pdwState); }
+    SetQuotaLogFlags :: (this : *IDiskQuotaControl, dwFlags : u32) -> HRESULT #no_context { return this.vtable.SetQuotaLogFlags (this, dwFlags); }
+    GetQuotaLogFlags :: (this : *IDiskQuotaControl, pdwFlags : *u32) -> HRESULT #no_context { return this.vtable.GetQuotaLogFlags (this, pdwFlags); }
+    SetDefaultQuotaThreshold :: (this : *IDiskQuotaControl, llThreshold : s64) -> HRESULT #no_context { return this.vtable.SetDefaultQuotaThreshold (this, llThreshold); }
+    GetDefaultQuotaThreshold :: (this : *IDiskQuotaControl, pllThreshold : *s64) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaThreshold (this, pllThreshold); }
+    GetDefaultQuotaThresholdText :: (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaThresholdText (this, pszText, cchText); }
+    SetDefaultQuotaLimit :: (this : *IDiskQuotaControl, llLimit : s64) -> HRESULT #no_context { return this.vtable.SetDefaultQuotaLimit (this, llLimit); }
+    GetDefaultQuotaLimit :: (this : *IDiskQuotaControl, pllLimit : *s64) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaLimit (this, pllLimit); }
+    GetDefaultQuotaLimitText :: (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaLimitText (this, pszText, cchText); }
+    AddUserSid :: (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.AddUserSid (this, pUserSid, fNameResolution, ppUser); }
+    AddUserName :: (this : *IDiskQuotaControl, pszLogonName : PWSTR, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.AddUserName (this, pszLogonName, fNameResolution, ppUser); }
+    DeleteUser :: (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.DeleteUser (this, pUser); }
+    FindUserSid :: (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.FindUserSid (this, pUserSid, fNameResolution, ppUser); }
+    FindUserName :: (this : *IDiskQuotaControl, pszLogonName : PWSTR, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.FindUserName (this, pszLogonName, ppUser); }
+    CreateEnumUsers :: (this : *IDiskQuotaControl, rgpUserSids : *PSID, cpSids : u32, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #no_context { return this.vtable.CreateEnumUsers (this, rgpUserSids, cpSids, fNameResolution, ppEnum); }
+    CreateUserBatch :: (this : *IDiskQuotaControl, ppBatch : **IDiskQuotaUserBatch) -> HRESULT #no_context { return this.vtable.CreateUserBatch (this, ppBatch); }
+    InvalidateSidNameCache :: (this : *IDiskQuotaControl) -> HRESULT #no_context { return this.vtable.InvalidateSidNameCache (this); }
+    GiveUserNameResolutionPriority :: (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.GiveUserNameResolutionPriority (this, pUser); }
+    ShutdownNameResolution :: (this : *IDiskQuotaControl) -> HRESULT #no_context { return this.vtable.ShutdownNameResolution (this); }
+}
+
+IDiskQuotaControlVTable :: struct
+{
+    #as using, except (.["base"]) base : IConnectionPointContainer;
+
+    Initialize : (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #cpp_method;
+    SetQuotaState : (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #cpp_method;
+    GetQuotaState : (this : *IDiskQuotaControl, pdwState : *u32) -> HRESULT #cpp_method;
+    SetQuotaLogFlags : (this : *IDiskQuotaControl, dwFlags : u32) -> HRESULT #cpp_method;
+    GetQuotaLogFlags : (this : *IDiskQuotaControl, pdwFlags : *u32) -> HRESULT #cpp_method;
+    SetDefaultQuotaThreshold : (this : *IDiskQuotaControl, llThreshold : s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaThreshold : (this : *IDiskQuotaControl, pllThreshold : *s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaThresholdText : (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    SetDefaultQuotaLimit : (this : *IDiskQuotaControl, llLimit : s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaLimit : (this : *IDiskQuotaControl, pllLimit : *s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaLimitText : (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    AddUserSid : (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    AddUserName : (this : *IDiskQuotaControl, pszLogonName : PWSTR, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    DeleteUser : (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    FindUserSid : (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    FindUserName : (this : *IDiskQuotaControl, pszLogonName : PWSTR, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    CreateEnumUsers : (this : *IDiskQuotaControl, rgpUserSids : *PSID, cpSids : u32, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
+    CreateUserBatch : (this : *IDiskQuotaControl, ppBatch : **IDiskQuotaUserBatch) -> HRESULT #cpp_method;
+    InvalidateSidNameCache : (this : *IDiskQuotaControl) -> HRESULT #cpp_method;
+    GiveUserNameResolutionPriority : (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    ShutdownNameResolution : (this : *IDiskQuotaControl) -> HRESULT #cpp_method;
+}
+
+IDiskQuotaEvents_UUID :: "7988b579-ec89-11cf-9c00-00aa00a14f56";
+IDiskQuotaEvents :: struct
+{
+    UUID :: IDiskQuotaEvents_UUID;
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *IDiskQuotaEventsVTable;
+
+    OnUserNameChanged :: (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.OnUserNameChanged (this, pUser); }
+}
+
+IDiskQuotaEventsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknown;
+
+    OnUserNameChanged : (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+}
+
+EFS_CERTIFICATE_BLOB :: struct
+{
+    dwCertEncodingType : u32;
+    cbData : u32;
+    pbData : *u8;
+}
+
+EFS_HASH_BLOB :: struct
+{
+    cbData : u32;
+    pbData : *u8;
+}
+
+EFS_RPC_BLOB :: struct
+{
+    cbData : u32;
+    pbData : *u8;
+}
+
+EFS_PIN_BLOB :: struct
+{
+    cbPadding : u32;
+    cbData : u32;
+    pbData : *u8;
+}
+
+EFS_KEY_INFO :: struct
+{
+    dwVersion : u32;
+    Entropy : u32;
+    Algorithm : u32;
+    KeyLength : u32;
+}
+
+EFS_COMPATIBILITY_INFO :: struct
+{
+    EfsVersion : u32;
+}
+
+EFS_VERSION_INFO :: struct
+{
+    EfsVersion : u32;
+    SubVersion : u32;
+}
+
+EFS_DECRYPTION_STATUS_INFO :: struct
+{
+    dwDecryptionError : u32;
+    dwHashOffset : u32;
+    cbHash : u32;
+}
+
+EFS_ENCRYPTION_STATUS_INFO :: struct
+{
+    bHasCurrentKey : BOOL;
+    dwEncryptionError : u32;
+}
+
+ENCRYPTION_CERTIFICATE :: struct
+{
+    cbTotalLength : u32;
+    pUserSid : *SID;
+    pCertBlob : *EFS_CERTIFICATE_BLOB;
+}
+
+ENCRYPTION_CERTIFICATE_HASH :: struct
+{
+    cbTotalLength : u32;
+    pUserSid : *SID;
+    pHash : *EFS_HASH_BLOB;
+    lpDisplayInformation : PWSTR;
+}
+
+ENCRYPTION_CERTIFICATE_HASH_LIST :: struct
+{
+    nCert_Hash : u32;
+    pUsers : **ENCRYPTION_CERTIFICATE_HASH;
+}
+
+ENCRYPTION_CERTIFICATE_LIST :: struct
+{
+    nUsers : u32;
+    pUsers : **ENCRYPTION_CERTIFICATE;
+}
+
+ENCRYPTED_FILE_METADATA_SIGNATURE :: struct
+{
+    dwEfsAccessType : u32;
+    pCertificatesAdded : *ENCRYPTION_CERTIFICATE_HASH_LIST;
+    pEncryptionCertificate : *ENCRYPTION_CERTIFICATE;
+    pEfsStreamSignature : *EFS_RPC_BLOB;
+}
+
+ENCRYPTION_PROTECTOR :: struct
+{
+    cbTotalLength : u32;
+    pUserSid : *SID;
+    lpProtectorDescriptor : PWSTR;
+}
+
+ENCRYPTION_PROTECTOR_LIST :: struct
+{
+    nProtectors : u32;
+    pProtectors : **ENCRYPTION_PROTECTOR;
+}
+
+WofEnumEntryProc :: #type (EntryInfo : *void, UserData : *void) -> BOOL #c_call;
+
+WofEnumFilesProc :: #type (FilePath : PWSTR, ExternalFileInfo : *void, UserData : *void) -> BOOL #c_call;
+
+WIM_ENTRY_INFO :: struct
+{
+    WimEntryInfoSize : u32;
+    WimType : u32;
+    DataSourceId : LARGE_INTEGER;
+    WimGuid : GUID;
+    WimPath : PWSTR; // Const
+    WimIndex : u32;
+    Flags : u32;
+}
+
+WIM_EXTERNAL_FILE_INFO :: struct
+{
+    DataSourceId : LARGE_INTEGER;
+    ResourceHash : [20]u8;
+    Flags : u32;
+}
+
+WOF_FILE_COMPRESSION_INFO_V0 :: struct
+{
+    Algorithm : u32;
+}
+
+WOF_FILE_COMPRESSION_INFO_V1 :: struct
+{
+    Algorithm : u32;
+    Flags : u32;
+}
+
+TXF_ID :: struct
+{
+    Anonymous : _Anonymous_e__Struct;
+
+    _Anonymous_e__Struct :: struct
+    {
+        LowPart : s64;
+        HighPart : s64;
+    }
+}
+
+TXF_LOG_RECORD_BASE :: struct
+{
+    Version : u16;
+    RecordType : TXF_LOG_RECORD_TYPE;
+    RecordLength : u32;
+}
+
+TXF_LOG_RECORD_WRITE :: struct
+{
+    Version : u16;
+    RecordType : u16;
+    RecordLength : u32;
+    Flags : u32;
+    TxfFileId : TXF_ID;
+    KtmGuid : GUID;
+    ByteOffsetInFile : s64;
+    NumBytesWritten : u32;
+    ByteOffsetInStructure : u32;
+    FileNameLength : u32;
+    FileNameByteOffsetInStructure : u32;
+}
+
+TXF_LOG_RECORD_TRUNCATE :: struct
+{
+    Version : u16;
+    RecordType : u16;
+    RecordLength : u32;
+    Flags : u32;
+    TxfFileId : TXF_ID;
+    KtmGuid : GUID;
+    NewFileSize : s64;
+    FileNameLength : u32;
+    FileNameByteOffsetInStructure : u32;
+}
+
+TXF_LOG_RECORD_AFFECTED_FILE :: struct
+{
+    Version : u16;
+    RecordLength : u32;
+    Flags : u32;
+    TxfFileId : TXF_ID;
+    KtmGuid : GUID;
+    FileNameLength : u32;
+    FileNameByteOffsetInStructure : u32;
+}
+
+VOLUME_FAILOVER_SET :: struct
+{
+    NumberOfDisks : u32;
+    DiskNumbers : *u32;
+}
+
+VOLUME_NUMBER :: struct
+{
+    VolumeNumber : u32;
+    VolumeManagerName : [8]u16;
+}
+
+VOLUME_LOGICAL_OFFSET :: struct
+{
+    LogicalOffset : s64;
+}
+
+VOLUME_PHYSICAL_OFFSET :: struct
+{
+    DiskNumber : u32;
+    Offset : s64;
+}
+
+VOLUME_PHYSICAL_OFFSETS :: struct
+{
+    NumberOfPhysicalOffsets : u32;
+    PhysicalOffset : *VOLUME_PHYSICAL_OFFSET;
+}
+
+VOLUME_READ_PLEX_INPUT :: struct
+{
+    ByteOffset : LARGE_INTEGER;
+    Length : u32;
+    PlexNumber : u32;
+}
+
+VOLUME_SET_GPT_ATTRIBUTES_INFORMATION :: struct
+{
+    GptAttributes : u64;
+    RevertOnClose : BOOLEAN;
+    ApplyToAllConnectedVolumes : BOOLEAN;
+    Reserved1 : u16;
+    Reserved2 : u32;
+}
+
+VOLUME_GET_BC_PROPERTIES_INPUT :: struct
+{
+    Version : u32;
+    Reserved1 : u32;
+    LowestByteOffset : u64;
+    HighestByteOffset : u64;
+    AccessType : u32;
+    AccessMode : u32;
+}
+
+VOLUME_GET_BC_PROPERTIES_OUTPUT :: struct
+{
+    MaximumRequestsPerPeriod : u32;
+    MinimumPeriod : u32;
+    MaximumRequestSize : u64;
+    EstimatedTimePerRequest : u32;
+    NumOutStandingRequests : u32;
+    RequestSize : u64;
+}
+
+VOLUME_ALLOCATE_BC_STREAM_INPUT :: struct
+{
+    Version : u32;
+    RequestsPerPeriod : u32;
+    Period : u32;
+    RetryFailures : BOOLEAN;
+    Discardable : BOOLEAN;
+    Reserved1 : [2]BOOLEAN;
+    LowestByteOffset : u64;
+    HighestByteOffset : u64;
+    AccessType : u32;
+    AccessMode : u32;
+}
+
+VOLUME_ALLOCATE_BC_STREAM_OUTPUT :: struct
+{
+    RequestSize : u64;
+    NumOutStandingRequests : u32;
+}
+
+FILE_EXTENT :: struct
+{
+    VolumeOffset : u64;
+    ExtentLength : u64;
+}
+
+VOLUME_CRITICAL_IO :: struct
+{
+    AccessType : u32;
+    ExtentsCount : u32;
+    Extents : *FILE_EXTENT;
+}
+
+VOLUME_ALLOCATION_HINT_INPUT :: struct
+{
+    ClusterSize : u32;
+    NumberOfClusters : u32;
+    StartingClusterNumber : s64;
+}
+
+VOLUME_ALLOCATION_HINT_OUTPUT :: struct
+{
+    Bitmap : *u32;
+}
+
+VOLUME_SHRINK_INFO :: struct
+{
+    VolumeSize : u64;
+}
+
+SHARE_INFO_0 :: struct
+{
+    shi0_netname : PWSTR;
+}
+
+SHARE_INFO_1 :: struct
+{
+    shi1_netname : PWSTR;
+    shi1_type : SHARE_TYPE;
+    shi1_remark : PWSTR;
+}
+
+SHARE_INFO_2 :: struct
+{
+    shi2_netname : PWSTR;
+    shi2_type : SHARE_TYPE;
+    shi2_remark : PWSTR;
+    shi2_permissions : SHARE_INFO_PERMISSIONS;
+    shi2_max_uses : u32;
+    shi2_current_uses : u32;
+    shi2_path : PWSTR;
+    shi2_passwd : PWSTR;
+}
+
+SHARE_INFO_501 :: struct
+{
+    shi501_netname : PWSTR;
+    shi501_type : SHARE_TYPE;
+    shi501_remark : PWSTR;
+    shi501_flags : u32;
+}
+
+SHARE_INFO_502 :: struct
+{
+    shi502_netname : PWSTR;
+    shi502_type : SHARE_TYPE;
+    shi502_remark : PWSTR;
+    shi502_permissions : SHARE_INFO_PERMISSIONS;
+    shi502_max_uses : u32;
+    shi502_current_uses : u32;
+    shi502_path : PWSTR;
+    shi502_passwd : PWSTR;
+    shi502_reserved : u32;
+    shi502_security_descriptor : *SECURITY_DESCRIPTOR;
+}
+
+SHARE_INFO_503 :: struct
+{
+    shi503_netname : PWSTR;
+    shi503_type : SHARE_TYPE;
+    shi503_remark : PWSTR;
+    shi503_permissions : SHARE_INFO_PERMISSIONS;
+    shi503_max_uses : u32;
+    shi503_current_uses : u32;
+    shi503_path : PWSTR;
+    shi503_passwd : PWSTR;
+    shi503_servername : PWSTR;
+    shi503_reserved : u32;
+    shi503_security_descriptor : *SECURITY_DESCRIPTOR;
+}
+
+SHARE_INFO_1004 :: struct
+{
+    shi1004_remark : PWSTR;
+}
+
+SHARE_INFO_1005 :: struct
+{
+    shi1005_flags : u32;
+}
+
+SHARE_INFO_1006 :: struct
+{
+    shi1006_max_uses : u32;
+}
+
+SHARE_INFO_1501 :: struct
+{
+    shi1501_reserved : u32;
+    shi1501_security_descriptor : *SECURITY_DESCRIPTOR;
+}
+
+SHARE_INFO_1503 :: struct
+{
+    shi1503_sharefilter : GUID;
+}
+
+SERVER_ALIAS_INFO_0 :: struct
+{
+    srvai0_alias : PWSTR;
+    srvai0_target : PWSTR;
+    srvai0_default : BOOLEAN;
+    srvai0_reserved : u32;
+}
+
+SESSION_INFO_0 :: struct
+{
+    sesi0_cname : PWSTR;
+}
+
+SESSION_INFO_1 :: struct
+{
+    sesi1_cname : PWSTR;
+    sesi1_username : PWSTR;
+    sesi1_num_opens : u32;
+    sesi1_time : u32;
+    sesi1_idle_time : u32;
+    sesi1_user_flags : SESSION_INFO_USER_FLAGS;
+}
+
+SESSION_INFO_2 :: struct
+{
+    sesi2_cname : PWSTR;
+    sesi2_username : PWSTR;
+    sesi2_num_opens : u32;
+    sesi2_time : u32;
+    sesi2_idle_time : u32;
+    sesi2_user_flags : SESSION_INFO_USER_FLAGS;
+    sesi2_cltype_name : PWSTR;
+}
+
+SESSION_INFO_10 :: struct
+{
+    sesi10_cname : PWSTR;
+    sesi10_username : PWSTR;
+    sesi10_time : u32;
+    sesi10_idle_time : u32;
+}
+
+SESSION_INFO_502 :: struct
+{
+    sesi502_cname : PWSTR;
+    sesi502_username : PWSTR;
+    sesi502_num_opens : u32;
+    sesi502_time : u32;
+    sesi502_idle_time : u32;
+    sesi502_user_flags : SESSION_INFO_USER_FLAGS;
+    sesi502_cltype_name : PWSTR;
+    sesi502_transport : PWSTR;
+}
+
+CONNECTION_INFO_0 :: struct
+{
+    coni0_id : u32;
+}
+
+CONNECTION_INFO_1 :: struct
+{
+    coni1_id : u32;
+    coni1_type : SHARE_TYPE;
+    coni1_num_opens : u32;
+    coni1_num_users : u32;
+    coni1_time : u32;
+    coni1_username : PWSTR;
+    coni1_netname : PWSTR;
+}
+
+FILE_INFO_2 :: struct
+{
+    fi2_id : u32;
+}
+
+FILE_INFO_3 :: struct
+{
+    fi3_id : u32;
+    fi3_permissions : FILE_INFO_FLAGS_PERMISSIONS;
+    fi3_num_locks : u32;
+    fi3_pathname : PWSTR;
+    fi3_username : PWSTR;
+}
+
+SERVER_CERTIFICATE_TYPE :: enum s32
+{
+    QUIC :: 0;
+}
+
+SERVER_CERTIFICATE_INFO_0 :: struct
+{
+    srvci0_name : PWSTR;
+    srvci0_subject : PWSTR;
+    srvci0_issuer : PWSTR;
+    srvci0_thumbprint : PWSTR;
+    srvci0_friendlyname : PWSTR;
+    srvci0_notbefore : PWSTR;
+    srvci0_notafter : PWSTR;
+    srvci0_storelocation : PWSTR;
+    srvci0_storename : PWSTR;
+    srvci0_renewalchain : PWSTR;
+    srvci0_type : u32;
+    srvci0_flags : u32;
+}
+
+STAT_WORKSTATION_0 :: struct
+{
+    StatisticsStartTime : LARGE_INTEGER;
+    BytesReceived : LARGE_INTEGER;
+    SmbsReceived : LARGE_INTEGER;
+    PagingReadBytesRequested : LARGE_INTEGER;
+    NonPagingReadBytesRequested : LARGE_INTEGER;
+    CacheReadBytesRequested : LARGE_INTEGER;
+    NetworkReadBytesRequested : LARGE_INTEGER;
+    BytesTransmitted : LARGE_INTEGER;
+    SmbsTransmitted : LARGE_INTEGER;
+    PagingWriteBytesRequested : LARGE_INTEGER;
+    NonPagingWriteBytesRequested : LARGE_INTEGER;
+    CacheWriteBytesRequested : LARGE_INTEGER;
+    NetworkWriteBytesRequested : LARGE_INTEGER;
+    InitiallyFailedOperations : u32;
+    FailedCompletionOperations : u32;
+    ReadOperations : u32;
+    RandomReadOperations : u32;
+    ReadSmbs : u32;
+    LargeReadSmbs : u32;
+    SmallReadSmbs : u32;
+    WriteOperations : u32;
+    RandomWriteOperations : u32;
+    WriteSmbs : u32;
+    LargeWriteSmbs : u32;
+    SmallWriteSmbs : u32;
+    RawReadsDenied : u32;
+    RawWritesDenied : u32;
+    NetworkErrors : u32;
+    Sessions : u32;
+    FailedSessions : u32;
+    Reconnects : u32;
+    CoreConnects : u32;
+    Lanman20Connects : u32;
+    Lanman21Connects : u32;
+    LanmanNtConnects : u32;
+    ServerDisconnects : u32;
+    HungSessions : u32;
+    UseCount : u32;
+    FailedUseCount : u32;
+    CurrentCommands : u32;
+}
+
+STAT_SERVER_0 :: struct
+{
+    sts0_start : u32;
+    sts0_fopens : u32;
+    sts0_devopens : u32;
+    sts0_jobsqueued : u32;
+    sts0_sopens : u32;
+    sts0_stimedout : u32;
+    sts0_serrorout : u32;
+    sts0_pwerrors : u32;
+    sts0_permerrors : u32;
+    sts0_syserrors : u32;
+    sts0_bytessent_low : u32;
+    sts0_bytessent_high : u32;
+    sts0_bytesrcvd_low : u32;
+    sts0_bytesrcvd_high : u32;
+    sts0_avresponse : u32;
+    sts0_reqbufneed : u32;
+    sts0_bigbufneed : u32;
+}
+
+PFN_IO_COMPLETION :: #type (pContext : *FIO_CONTEXT, lpo : *FH_OVERLAPPED, cb : u32, dwCompletionStatus : u32) -> void #c_call;
+
+FH_OVERLAPPED :: struct
+{
+    Internal : u64;
+    InternalHigh : u64;
+    Offset : u32;
+    OffsetHigh : u32;
+    hEvent : HANDLE;
+    pfnCompletion : PFN_IO_COMPLETION;
+    Reserved1 : u64;
+    Reserved2 : u64;
+    Reserved3 : u64;
+    Reserved4 : u64;
+}
+
+FIO_CONTEXT :: struct
+{
+    m_dwTempHack : u32;
+    m_dwSignature : u32;
+    m_hFile : HANDLE;
+    m_dwLinesOffset : u32;
+    m_dwHeaderLength : u32;
+}
+
+FCACHE_CREATE_CALLBACK :: #type (lpstrName : PSTR, lpvData : *void, cbFileSize : *u32, cbFileSizeHigh : *u32) -> HANDLE #c_call;
+
+FCACHE_RICHCREATE_CALLBACK :: #type (lpstrName : PSTR, lpvData : *void, cbFileSize : *u32, cbFileSizeHigh : *u32, pfDidWeScanIt : *BOOL, pfIsStuffed : *BOOL, pfStoredWithDots : *BOOL, pfStoredWithTerminatingDot : *BOOL) -> HANDLE #c_call;
+
+CACHE_KEY_COMPARE :: #type (cbKey1 : u32, lpbKey1 : *u8, cbKey2 : u32, lpbKey2 : *u8) -> s32 #c_call;
+
+CACHE_KEY_HASH :: #type (lpbKey : *u8, cbKey : u32) -> u32 #c_call;
+
+CACHE_READ_CALLBACK :: #type (cb : u32, lpb : *u8, lpvContext : *void) -> BOOL #c_call;
+
+CACHE_DESTROY_CALLBACK :: #type (cb : u32, lpb : *u8) -> void #c_call;
+
+CACHE_ACCESS_CHECK :: #type (pSecurityDescriptor : *SECURITY_DESCRIPTOR, hClientToken : HANDLE, dwDesiredAccess : u32, GenericMapping : *GENERIC_MAPPING, PrivilegeSet : *PRIVILEGE_SET, PrivilegeSetLength : *u32, GrantedAccess : *u32, AccessStatus : *s32) -> BOOL #c_call;
+
+NAME_CACHE_CONTEXT :: struct
+{
+    m_dwSignature : u32;
+}
+
+IORING_VERSION :: enum s32
+{
+    IORING_VERSION_INVALID :: 0;
+    IORING_VERSION_1 :: 1;
+}
+
+IORING_FEATURE_FLAGS :: enum s32
+{
+    IORING_FEATURE_FLAGS_NONE :: 0;
+    IORING_FEATURE_UM_EMULATION :: 1;
+    IORING_FEATURE_SET_COMPLETION_EVENT :: 2;
+}
+
+IORING_OP_CODE :: enum s32
+{
+    IORING_OP_NOP :: 0;
+    IORING_OP_READ :: 1;
+    IORING_OP_REGISTER_FILES :: 2;
+    IORING_OP_REGISTER_BUFFERS :: 3;
+    IORING_OP_CANCEL :: 4;
+}
+
+IORING_BUFFER_INFO :: struct
+{
+    Address : *void;
+    Length : u32;
+}
+
+IORING_REGISTERED_BUFFER :: struct
+{
+    BufferIndex : u32;
+    Offset : u32;
+}
+
+HIORING__ :: struct
+{
+    unused : s32;
+}
+
+IORING_SQE_FLAGS :: enum s32
+{
+    IOSQE_FLAGS_NONE :: 0;
+}
+
+IORING_CREATE_REQUIRED_FLAGS :: enum s32
+{
+    IORING_CREATE_REQUIRED_FLAGS_NONE :: 0;
+}
+
+IORING_CREATE_ADVISORY_FLAGS :: enum s32
+{
+    IORING_CREATE_ADVISORY_FLAGS_NONE :: 0;
+}
+
+IORING_CREATE_FLAGS :: struct
+{
+    Required : IORING_CREATE_REQUIRED_FLAGS;
+    Advisory : IORING_CREATE_ADVISORY_FLAGS;
+}
+
+IORING_INFO :: struct
+{
+    IoRingVersion : IORING_VERSION;
+    Flags : IORING_CREATE_FLAGS;
+    SubmissionQueueSize : u32;
+    CompletionQueueSize : u32;
+}
+
+IORING_CAPABILITIES :: struct
+{
+    MaxVersion : IORING_VERSION;
+    MaxSubmissionQueueSize : u32;
+    MaxCompletionQueueSize : u32;
+    FeatureFlags : IORING_FEATURE_FLAGS;
+}
+
+IORING_REF_KIND :: enum s32
+{
+    IORING_REF_RAW :: 0;
+    IORING_REF_REGISTERED :: 1;
+}
+
+IORING_HANDLE_REF :: struct
+{
+    Kind : IORING_REF_KIND;
+    Handle : HandleUnion;
+
+    HandleUnion :: union
+    {
+        Handle : HANDLE;
+        Index : u32;
+    }
+}
+
+IORING_BUFFER_REF :: struct
+{
+    Kind : IORING_REF_KIND;
+    Buffer : BufferUnion;
+
+    BufferUnion :: union
+    {
+        Address : *void;
+        IndexAndOffset : IORING_REGISTERED_BUFFER;
+    }
+}
+
+IORING_CQE :: struct
+{
+    UserData : u64;
+    ResultCode : HRESULT;
+    Information : u64;
+}
+
+FILE_ID_128 :: struct
+{
+    Identifier : [16]u8;
+}
+
+FILE_NOTIFY_INFORMATION :: struct
+{
+    NextEntryOffset : u32;
+    Action : FILE_ACTION;
+    FileNameLength : u32;
+    FileName : *u16;
+}
+
+FILE_NOTIFY_EXTENDED_INFORMATION :: struct
+{
+    NextEntryOffset : u32;
+    Action : FILE_ACTION;
+    CreationTime : LARGE_INTEGER;
+    LastModificationTime : LARGE_INTEGER;
+    LastChangeTime : LARGE_INTEGER;
+    LastAccessTime : LARGE_INTEGER;
+    AllocatedLength : LARGE_INTEGER;
+    FileSize : LARGE_INTEGER;
+    FileAttributes : u32;
+    ReparsePointTag : u32;
+    FileId : LARGE_INTEGER;
+    ParentFileId : LARGE_INTEGER;
+    FileNameLength : u32;
+    FileName : *u16;
+}
+
+FILE_SEGMENT_ELEMENT :: union
+{
+    Buffer : *void;
+    Alignment : u64;
+}
+
+REPARSE_GUID_DATA_BUFFER :: struct
+{
+    ReparseTag : u32;
+    ReparseDataLength : u16;
+    Reserved : u16;
+    ReparseGuid : GUID;
+    GenericReparseBuffer : _GenericReparseBuffer_e__Struct;
+
+    _GenericReparseBuffer_e__Struct :: struct
+    {
+        DataBuffer : *u8;
+    }
+}
+
+TAPE_ERASE :: struct
+{
+    Type : ERASE_TAPE_TYPE;
+    Immediate : BOOLEAN;
+}
+
+TAPE_PREPARE :: struct
+{
+    Operation : PREPARE_TAPE_OPERATION;
+    Immediate : BOOLEAN;
+}
+
+TAPE_WRITE_MARKS :: struct
+{
+    Type : TAPEMARK_TYPE;
+    Count : u32;
+    Immediate : BOOLEAN;
+}
+
+TAPE_GET_POSITION :: struct
+{
+    Type : TAPE_POSITION_TYPE;
+    Partition : u32;
+    Offset : LARGE_INTEGER;
+}
+
+TAPE_SET_POSITION :: struct
+{
+    Method : TAPE_POSITION_METHOD;
+    Partition : u32;
+    Offset : LARGE_INTEGER;
+    Immediate : BOOLEAN;
+}
+
+TRANSACTION_OUTCOME :: enum s32
+{
+    TransactionOutcomeUndetermined :: 1;
+    TransactionOutcomeCommitted :: 2;
+    TransactionOutcomeAborted :: 3;
+}
+
+STORAGE_BUS_TYPE :: enum s32
+{
+    BusTypeUnknown :: 0;
+    BusTypeScsi :: 1;
+    BusTypeAtapi :: 2;
+    BusTypeAta :: 3;
+    BusType1394 :: 4;
+    BusTypeSsa :: 5;
+    BusTypeFibre :: 6;
+    BusTypeUsb :: 7;
+    BusTypeRAID :: 8;
+    BusTypeiScsi :: 9;
+    BusTypeSas :: 10;
+    BusTypeSata :: 11;
+    BusTypeSd :: 12;
+    BusTypeMmc :: 13;
+    BusTypeVirtual :: 14;
+    BusTypeFileBackedVirtual :: 15;
+    BusTypeSpaces :: 16;
+    BusTypeNvme :: 17;
+    BusTypeSCM :: 18;
+    BusTypeUfs :: 19;
+    BusTypeMax :: 20;
+    BusTypeMaxReserved :: 127;
+}
+
+OFSTRUCT :: struct
+{
+    cBytes : u8;
+    fFixedDisk : u8;
+    nErrCode : u16;
+    Reserved1 : u16;
+    Reserved2 : u16;
+    szPathName : [128]CHAR;
+}
+
+PFE_EXPORT_FUNC :: #type (pbData : *u8, pvCallbackContext : *void, ulLength : u32) -> u32 #c_call;
+
+PFE_IMPORT_FUNC :: #type (pbData : *u8, pvCallbackContext : *void, ulLength : *u32) -> u32 #c_call;
+
+WIN32_STREAM_ID :: struct
+{
+    dwStreamId : WIN_STREAM_ID;
+    dwStreamAttributes : u32;
+    Size : LARGE_INTEGER;
+    dwStreamNameSize : u32;
+    cStreamName : *u16;
+}
+
+LPPROGRESS_ROUTINE :: #type (TotalFileSize : LARGE_INTEGER, TotalBytesTransferred : LARGE_INTEGER, StreamSize : LARGE_INTEGER, StreamBytesTransferred : LARGE_INTEGER, dwStreamNumber : u32, dwCallbackReason : LPPROGRESS_ROUTINE_CALLBACK_REASON, hSourceFile : HANDLE, hDestinationFile : HANDLE, lpData : *void) -> u32 #c_call;
+
+COPYFILE2_MESSAGE_TYPE :: enum s32
+{
+    COPYFILE2_CALLBACK_NONE :: 0;
+    COPYFILE2_CALLBACK_CHUNK_STARTED :: 1;
+    COPYFILE2_CALLBACK_CHUNK_FINISHED :: 2;
+    COPYFILE2_CALLBACK_STREAM_STARTED :: 3;
+    COPYFILE2_CALLBACK_STREAM_FINISHED :: 4;
+    COPYFILE2_CALLBACK_POLL_CONTINUE :: 5;
+    COPYFILE2_CALLBACK_ERROR :: 6;
+    COPYFILE2_CALLBACK_MAX :: 7;
+}
+
+COPYFILE2_MESSAGE_ACTION :: enum s32
+{
+    COPYFILE2_PROGRESS_CONTINUE :: 0;
+    COPYFILE2_PROGRESS_CANCEL :: 1;
+    COPYFILE2_PROGRESS_STOP :: 2;
+    COPYFILE2_PROGRESS_QUIET :: 3;
+    COPYFILE2_PROGRESS_PAUSE :: 4;
+}
+
+COPYFILE2_COPY_PHASE :: enum s32
+{
+    COPYFILE2_PHASE_NONE :: 0;
+    COPYFILE2_PHASE_PREPARE_SOURCE :: 1;
+    COPYFILE2_PHASE_PREPARE_DEST :: 2;
+    COPYFILE2_PHASE_READ_SOURCE :: 3;
+    COPYFILE2_PHASE_WRITE_DESTINATION :: 4;
+    COPYFILE2_PHASE_SERVER_COPY :: 5;
+    COPYFILE2_PHASE_NAMEGRAFT_COPY :: 6;
+    COPYFILE2_PHASE_MAX :: 7;
+}
+
+COPYFILE2_MESSAGE :: struct
+{
+    Type : COPYFILE2_MESSAGE_TYPE;
+    dwPadding : u32;
+    Info : _Info_e__Union;
+
+    _Info_e__Union :: union
+    {
+        ChunkStarted : _ChunkStarted_e__Struct;
+        ChunkFinished : _ChunkFinished_e__Struct;
+        StreamStarted : _StreamStarted_e__Struct;
+        StreamFinished : _StreamFinished_e__Struct;
+        PollContinue : _PollContinue_e__Struct;
+        Error : _Error_e__Struct;
+
+        _Error_e__Struct :: struct
+        {
+            CopyPhase : COPYFILE2_COPY_PHASE;
+            dwStreamNumber : u32;
+            hrFailure : HRESULT;
+            dwReserved : u32;
+            uliChunkNumber : ULARGE_INTEGER;
+            uliStreamSize : ULARGE_INTEGER;
+            uliStreamBytesTransferred : ULARGE_INTEGER;
+            uliTotalFileSize : ULARGE_INTEGER;
+            uliTotalBytesTransferred : ULARGE_INTEGER;
+        }
+
+        _StreamFinished_e__Struct :: struct
+        {
+            dwStreamNumber : u32;
+            dwReserved : u32;
+            hSourceFile : HANDLE;
+            hDestinationFile : HANDLE;
+            uliStreamSize : ULARGE_INTEGER;
+            uliStreamBytesTransferred : ULARGE_INTEGER;
+            uliTotalFileSize : ULARGE_INTEGER;
+            uliTotalBytesTransferred : ULARGE_INTEGER;
+        }
+
+        _ChunkFinished_e__Struct :: struct
+        {
+            dwStreamNumber : u32;
+            dwFlags : u32;
+            hSourceFile : HANDLE;
+            hDestinationFile : HANDLE;
+            uliChunkNumber : ULARGE_INTEGER;
+            uliChunkSize : ULARGE_INTEGER;
+            uliStreamSize : ULARGE_INTEGER;
+            uliStreamBytesTransferred : ULARGE_INTEGER;
+            uliTotalFileSize : ULARGE_INTEGER;
+            uliTotalBytesTransferred : ULARGE_INTEGER;
+        }
+
+        _PollContinue_e__Struct :: struct
+        {
+            dwReserved : u32;
+        }
+
+        _ChunkStarted_e__Struct :: struct
+        {
+            dwStreamNumber : u32;
+            dwReserved : u32;
+            hSourceFile : HANDLE;
+            hDestinationFile : HANDLE;
+            uliChunkNumber : ULARGE_INTEGER;
+            uliChunkSize : ULARGE_INTEGER;
+            uliStreamSize : ULARGE_INTEGER;
+            uliTotalFileSize : ULARGE_INTEGER;
+        }
+
+        _StreamStarted_e__Struct :: struct
+        {
+            dwStreamNumber : u32;
+            dwReserved : u32;
+            hSourceFile : HANDLE;
+            hDestinationFile : HANDLE;
+            uliStreamSize : ULARGE_INTEGER;
+            uliTotalFileSize : ULARGE_INTEGER;
+        }
+    }
+}
+
+PCOPYFILE2_PROGRESS_ROUTINE :: #type (pMessage : *COPYFILE2_MESSAGE, pvCallbackContext : *void) -> COPYFILE2_MESSAGE_ACTION #c_call;
+
+COPYFILE2_EXTENDED_PARAMETERS :: struct
+{
+    dwSize : u32;
+    dwCopyFlags : u32;
+    pfCancel : *BOOL;
+    pProgressRoutine : PCOPYFILE2_PROGRESS_ROUTINE;
+    pvCallbackContext : *void;
+}
+
+COPYFILE2_EXTENDED_PARAMETERS_V2 :: struct
+{
+    dwSize : u32;
+    dwCopyFlags : u32;
+    pfCancel : *BOOL;
+    pProgressRoutine : PCOPYFILE2_PROGRESS_ROUTINE;
+    pvCallbackContext : *void;
+    dwCopyFlagsV2 : u32;
+    ioDesiredSize : u32;
+    ioDesiredRate : u32;
+    reserved : [8]*void;
+}
+
+FILE_BASIC_INFO :: struct
+{
+    CreationTime : LARGE_INTEGER;
+    LastAccessTime : LARGE_INTEGER;
+    LastWriteTime : LARGE_INTEGER;
+    ChangeTime : LARGE_INTEGER;
+    FileAttributes : u32;
+}
+
+FILE_STANDARD_INFO :: struct
+{
+    AllocationSize : LARGE_INTEGER;
+    EndOfFile : LARGE_INTEGER;
+    NumberOfLinks : u32;
+    DeletePending : BOOLEAN;
+    Directory : BOOLEAN;
+}
+
+FILE_NAME_INFO :: struct
+{
+    FileNameLength : u32;
+    FileName : *u16;
+}
+
+FILE_RENAME_INFO :: struct
+{
+    Anonymous : _Anonymous_e__Union;
+    RootDirectory : HANDLE;
+    FileNameLength : u32;
+    FileName : *u16;
+
+    _Anonymous_e__Union :: union
+    {
+        ReplaceIfExists : BOOLEAN;
+        Flags : u32;
+    }
+}
+
+FILE_ALLOCATION_INFO :: struct
+{
+    AllocationSize : LARGE_INTEGER;
+}
+
+FILE_END_OF_FILE_INFO :: struct
+{
+    EndOfFile : LARGE_INTEGER;
+}
+
+FILE_STREAM_INFO :: struct
+{
+    NextEntryOffset : u32;
+    StreamNameLength : u32;
+    StreamSize : LARGE_INTEGER;
+    StreamAllocationSize : LARGE_INTEGER;
+    StreamName : *u16;
+}
+
+FILE_COMPRESSION_INFO :: struct
+{
+    CompressedFileSize : LARGE_INTEGER;
+    CompressionFormat : u16;
+    CompressionUnitShift : u8;
+    ChunkShift : u8;
+    ClusterShift : u8;
+    Reserved : [3]u8;
+}
+
+FILE_ATTRIBUTE_TAG_INFO :: struct
+{
+    FileAttributes : u32;
+    ReparseTag : u32;
+}
+
+FILE_DISPOSITION_INFO :: struct
+{
+    DeleteFileA : BOOLEAN;
+}
+
+FILE_ID_BOTH_DIR_INFO :: struct
+{
+    NextEntryOffset : u32;
+    FileIndex : u32;
+    CreationTime : LARGE_INTEGER;
+    LastAccessTime : LARGE_INTEGER;
+    LastWriteTime : LARGE_INTEGER;
+    ChangeTime : LARGE_INTEGER;
+    EndOfFile : LARGE_INTEGER;
+    AllocationSize : LARGE_INTEGER;
+    FileAttributes : u32;
+    FileNameLength : u32;
+    EaSize : u32;
+    ShortNameLength : s8;
+    ShortName : [12]u16;
+    FileId : LARGE_INTEGER;
+    FileName : *u16;
+}
+
+FILE_FULL_DIR_INFO :: struct
+{
+    NextEntryOffset : u32;
+    FileIndex : u32;
+    CreationTime : LARGE_INTEGER;
+    LastAccessTime : LARGE_INTEGER;
+    LastWriteTime : LARGE_INTEGER;
+    ChangeTime : LARGE_INTEGER;
+    EndOfFile : LARGE_INTEGER;
+    AllocationSize : LARGE_INTEGER;
+    FileAttributes : u32;
+    FileNameLength : u32;
+    EaSize : u32;
+    FileName : *u16;
+}
+
+PRIORITY_HINT :: enum s32
+{
+    IoPriorityHintVeryLow :: 0;
+    IoPriorityHintLow :: 1;
+    IoPriorityHintNormal :: 2;
+    MaximumIoPriorityHintType :: 3;
+}
+
+FILE_IO_PRIORITY_HINT_INFO :: struct
+{
+    PriorityHint : PRIORITY_HINT;
+}
+
+FILE_ALIGNMENT_INFO :: struct
+{
+    AlignmentRequirement : u32;
+}
+
+FILE_STORAGE_INFO :: struct
+{
+    LogicalBytesPerSector : u32;
+    PhysicalBytesPerSectorForAtomicity : u32;
+    PhysicalBytesPerSectorForPerformance : u32;
+    FileSystemEffectivePhysicalBytesPerSectorForAtomicity : u32;
+    Flags : u32;
+    ByteOffsetForSectorAlignment : u32;
+    ByteOffsetForPartitionAlignment : u32;
+}
+
+FILE_ID_INFO :: struct
+{
+    VolumeSerialNumber : u64;
+    FileId : FILE_ID_128;
+}
+
+FILE_ID_EXTD_DIR_INFO :: struct
+{
+    NextEntryOffset : u32;
+    FileIndex : u32;
+    CreationTime : LARGE_INTEGER;
+    LastAccessTime : LARGE_INTEGER;
+    LastWriteTime : LARGE_INTEGER;
+    ChangeTime : LARGE_INTEGER;
+    EndOfFile : LARGE_INTEGER;
+    AllocationSize : LARGE_INTEGER;
+    FileAttributes : u32;
+    FileNameLength : u32;
+    EaSize : u32;
+    ReparsePointTag : u32;
+    FileId : FILE_ID_128;
+    FileName : *u16;
+}
+
+FILE_REMOTE_PROTOCOL_INFO :: struct
+{
+    StructureVersion : u16;
+    StructureSize : u16;
+    Protocol : u32;
+    ProtocolMajorVersion : u16;
+    ProtocolMinorVersion : u16;
+    ProtocolRevision : u16;
+    Reserved : u16;
+    Flags : u32;
+    GenericReserved : _GenericReserved_e__Struct;
+    ProtocolSpecific : _ProtocolSpecific_e__Union;
+
+    _ProtocolSpecific_e__Union :: union
+    {
+        Smb2 : _Smb2_e__Struct;
+        Reserved : [16]u32;
+
+        _Smb2_e__Struct :: struct
+        {
+            Server : _Server_e__Struct;
+            Share : _Share_e__Struct;
+
+            _Server_e__Struct :: struct
+            {
+                Capabilities : u32;
+            }
+
+            _Share_e__Struct :: struct
+            {
+                Capabilities : u32;
+                CachingFlags : u32;
+            }
+        }
+    }
+
+    _GenericReserved_e__Struct :: struct
+    {
+        Reserved : [8]u32;
+    }
+}
+
+FILE_ID_TYPE :: enum s32
+{
+    FileIdType :: 0;
+    ObjectIdType :: 1;
+    ExtendedFileIdType :: 2;
+    MaximumFileIdType :: 3;
+}
+
+FILE_ID_DESCRIPTOR :: struct
+{
+    dwSize : u32;
+    Type : FILE_ID_TYPE;
+    Anonymous : _Anonymous_e__Union;
+
+    _Anonymous_e__Union :: union
+    {
+        FileId : LARGE_INTEGER;
+        ObjectId : GUID;
+        ExtendedFileId : FILE_ID_128;
+    }
+}
+
+// Functions
+
+SearchPathW :: (lpPath : PWSTR, lpFileName : PWSTR, lpExtension : PWSTR, nBufferLength : u32, lpBuffer : *u16, lpFilePart : *PWSTR) -> u32 #foreign KERNEL32;
+SearchPathA :: (lpPath : PSTR, lpFileName : PSTR, lpExtension : PSTR, nBufferLength : u32, lpBuffer : *u8, lpFilePart : *PSTR) -> u32 #foreign KERNEL32;
+CompareFileTime :: (lpFileTime1 : *FILETIME, lpFileTime2 : *FILETIME) -> s32 #foreign KERNEL32;
+CreateDirectoryA :: (lpPathName : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+CreateDirectoryW :: (lpPathName : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+CreateFileA :: (lpFileName : PSTR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE) -> HANDLE #foreign KERNEL32;
+CreateFileW :: (lpFileName : PWSTR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE) -> HANDLE #foreign KERNEL32;
+DefineDosDeviceW :: (dwFlags : DEFINE_DOS_DEVICE_FLAGS, lpDeviceName : PWSTR, lpTargetPath : PWSTR) -> BOOL #foreign KERNEL32;
+DeleteFileA :: (lpFileName : PSTR) -> BOOL #foreign KERNEL32;
+DeleteFileW :: (lpFileName : PWSTR) -> BOOL #foreign KERNEL32;
+DeleteVolumeMountPointW :: (lpszVolumeMountPoint : PWSTR) -> BOOL #foreign KERNEL32;
+FileTimeToLocalFileTime :: (lpFileTime : *FILETIME, lpLocalFileTime : *FILETIME) -> BOOL #foreign KERNEL32;
+FindClose :: (hFindFile : FindFileHandle) -> BOOL #foreign KERNEL32;
+FindCloseChangeNotification :: (hChangeHandle : FindChangeNotificationHandle) -> BOOL #foreign KERNEL32;
+FindFirstChangeNotificationA :: (lpPathName : PSTR, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE) -> FindChangeNotificationHandle #foreign KERNEL32;
+FindFirstChangeNotificationW :: (lpPathName : PWSTR, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE) -> FindChangeNotificationHandle #foreign KERNEL32;
+FindFirstFileA :: (lpFileName : PSTR, lpFindFileData : *WIN32_FIND_DATAA) -> FindFileHandle #foreign KERNEL32;
+FindFirstFileW :: (lpFileName : PWSTR, lpFindFileData : *WIN32_FIND_DATAW) -> FindFileHandle #foreign KERNEL32;
+FindFirstFileExA :: (lpFileName : PSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : FIND_FIRST_EX_FLAGS) -> FindFileHandle #foreign KERNEL32;
+FindFirstFileExW :: (lpFileName : PWSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : FIND_FIRST_EX_FLAGS) -> FindFileHandle #foreign KERNEL32;
+FindFirstVolumeW :: (lpszVolumeName : *u16, cchBufferLength : u32) -> FindVolumeHandle #foreign KERNEL32;
+FindNextChangeNotification :: (hChangeHandle : FindChangeNotificationHandle) -> BOOL #foreign KERNEL32;
+FindNextFileA :: (hFindFile : FindFileHandle, lpFindFileData : *WIN32_FIND_DATAA) -> BOOL #foreign KERNEL32;
+FindNextFileW :: (hFindFile : HANDLE, lpFindFileData : *WIN32_FIND_DATAW) -> BOOL #foreign KERNEL32;
+FindNextVolumeW :: (hFindVolume : FindVolumeHandle, lpszVolumeName : *u16, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+FindVolumeClose :: (hFindVolume : FindVolumeHandle) -> BOOL #foreign KERNEL32;
+FlushFileBuffers :: (hFile : HANDLE) -> BOOL #foreign KERNEL32;
+GetDiskFreeSpaceA :: (lpRootPathName : PSTR, lpSectorsPerCluster : *u32, lpBytesPerSector : *u32, lpNumberOfFreeClusters : *u32, lpTotalNumberOfClusters : *u32) -> BOOL #foreign KERNEL32;
+GetDiskFreeSpaceW :: (lpRootPathName : PWSTR, lpSectorsPerCluster : *u32, lpBytesPerSector : *u32, lpNumberOfFreeClusters : *u32, lpTotalNumberOfClusters : *u32) -> BOOL #foreign KERNEL32;
+GetDiskFreeSpaceExA :: (lpDirectoryName : PSTR, lpFreeBytesAvailableToCaller : *ULARGE_INTEGER, lpTotalNumberOfBytes : *ULARGE_INTEGER, lpTotalNumberOfFreeBytes : *ULARGE_INTEGER) -> BOOL #foreign KERNEL32;
+GetDiskFreeSpaceExW :: (lpDirectoryName : PWSTR, lpFreeBytesAvailableToCaller : *ULARGE_INTEGER, lpTotalNumberOfBytes : *ULARGE_INTEGER, lpTotalNumberOfFreeBytes : *ULARGE_INTEGER) -> BOOL #foreign KERNEL32;
+GetDiskSpaceInformationA :: (rootPath : PSTR, diskSpaceInfo : *DISK_SPACE_INFORMATION) -> HRESULT #foreign KERNEL32;
+GetDiskSpaceInformationW :: (rootPath : PWSTR, diskSpaceInfo : *DISK_SPACE_INFORMATION) -> HRESULT #foreign KERNEL32;
+GetDriveTypeA :: (lpRootPathName : PSTR) -> u32 #foreign KERNEL32;
+GetDriveTypeW :: (lpRootPathName : PWSTR) -> u32 #foreign KERNEL32;
+GetFileAttributesA :: (lpFileName : PSTR) -> u32 #foreign KERNEL32;
+GetFileAttributesW :: (lpFileName : PWSTR) -> u32 #foreign KERNEL32;
+GetFileAttributesExA :: (lpFileName : PSTR, fInfoLevelId : GET_FILEEX_INFO_LEVELS, lpFileInformation : *void) -> BOOL #foreign KERNEL32;
+GetFileAttributesExW :: (lpFileName : PWSTR, fInfoLevelId : GET_FILEEX_INFO_LEVELS, lpFileInformation : *void) -> BOOL #foreign KERNEL32;
+GetFileInformationByHandle :: (hFile : HANDLE, lpFileInformation : *BY_HANDLE_FILE_INFORMATION) -> BOOL #foreign KERNEL32;
+GetFileSize :: (hFile : HANDLE, lpFileSizeHigh : *u32) -> u32 #foreign KERNEL32;
+GetFileSizeEx :: (hFile : HANDLE, lpFileSize : *LARGE_INTEGER) -> BOOL #foreign KERNEL32;
+GetFileType :: (hFile : HANDLE) -> u32 #foreign KERNEL32;
+GetFinalPathNameByHandleA :: (hFile : HANDLE, lpszFilePath : *u8, cchFilePath : u32, dwFlags : FILE_NAME) -> u32 #foreign KERNEL32;
+GetFinalPathNameByHandleW :: (hFile : HANDLE, lpszFilePath : *u16, cchFilePath : u32, dwFlags : FILE_NAME) -> u32 #foreign KERNEL32;
+GetFileTime :: (hFile : HANDLE, lpCreationTime : *FILETIME, lpLastAccessTime : *FILETIME, lpLastWriteTime : *FILETIME) -> BOOL #foreign KERNEL32;
+GetFullPathNameW :: (lpFileName : PWSTR, nBufferLength : u32, lpBuffer : *u16, lpFilePart : *PWSTR) -> u32 #foreign KERNEL32;
+GetFullPathNameA :: (lpFileName : PSTR, nBufferLength : u32, lpBuffer : *u8, lpFilePart : *PSTR) -> u32 #foreign KERNEL32;
+GetLogicalDrives :: () -> u32 #foreign KERNEL32;
+GetLogicalDriveStringsW :: (nBufferLength : u32, lpBuffer : *u16) -> u32 #foreign KERNEL32;
+GetLongPathNameA :: (lpszShortPath : PSTR, lpszLongPath : *u8, cchBuffer : u32) -> u32 #foreign KERNEL32;
+GetLongPathNameW :: (lpszShortPath : PWSTR, lpszLongPath : *u16, cchBuffer : u32) -> u32 #foreign KERNEL32;
+GetShortPathNameW :: (lpszLongPath : PWSTR, lpszShortPath : *u16, cchBuffer : u32) -> u32 #foreign KERNEL32;
+GetTempFileNameW :: (lpPathName : PWSTR, lpPrefixString : PWSTR, uUnique : u32, lpTempFileName : *[260]u16) -> u32 #foreign KERNEL32;
+GetVolumeInformationByHandleW :: (hFile : HANDLE, lpVolumeNameBuffer : *u16, nVolumeNameSize : u32, lpVolumeSerialNumber : *u32, lpMaximumComponentLength : *u32, lpFileSystemFlags : *u32, lpFileSystemNameBuffer : *u16, nFileSystemNameSize : u32) -> BOOL #foreign KERNEL32;
+GetVolumeInformationW :: (lpRootPathName : PWSTR, lpVolumeNameBuffer : *u16, nVolumeNameSize : u32, lpVolumeSerialNumber : *u32, lpMaximumComponentLength : *u32, lpFileSystemFlags : *u32, lpFileSystemNameBuffer : *u16, nFileSystemNameSize : u32) -> BOOL #foreign KERNEL32;
+GetVolumePathNameW :: (lpszFileName : PWSTR, lpszVolumePathName : *u16, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+LocalFileTimeToFileTime :: (lpLocalFileTime : *FILETIME, lpFileTime : *FILETIME) -> BOOL #foreign KERNEL32;
+LockFile :: (hFile : HANDLE, dwFileOffsetLow : u32, dwFileOffsetHigh : u32, nNumberOfBytesToLockLow : u32, nNumberOfBytesToLockHigh : u32) -> BOOL #foreign KERNEL32;
+LockFileEx :: (hFile : HANDLE, dwFlags : LOCK_FILE_FLAGS, dwReserved : u32, nNumberOfBytesToLockLow : u32, nNumberOfBytesToLockHigh : u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+QueryDosDeviceW :: (lpDeviceName : PWSTR, lpTargetPath : *u16, ucchMax : u32) -> u32 #foreign KERNEL32;
+ReadFile :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToRead : u32, lpNumberOfBytesRead : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+ReadFileEx :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToRead : u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE) -> BOOL #foreign KERNEL32;
+ReadFileScatter :: (hFile : HANDLE, aSegmentArray : *FILE_SEGMENT_ELEMENT, nNumberOfBytesToRead : u32, lpReserved : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+RemoveDirectoryA :: (lpPathName : PSTR) -> BOOL #foreign KERNEL32;
+RemoveDirectoryW :: (lpPathName : PWSTR) -> BOOL #foreign KERNEL32;
+SetEndOfFile :: (hFile : HANDLE) -> BOOL #foreign KERNEL32;
+SetFileAttributesA :: (lpFileName : PSTR, dwFileAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+SetFileAttributesW :: (lpFileName : PWSTR, dwFileAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+SetFileInformationByHandle :: (hFile : HANDLE, FileInformationClass : FILE_INFO_BY_HANDLE_CLASS, lpFileInformation : *void, dwBufferSize : u32) -> BOOL #foreign KERNEL32;
+SetFilePointer :: (hFile : HANDLE, lDistanceToMove : s32, lpDistanceToMoveHigh : *s32, dwMoveMethod : SET_FILE_POINTER_MOVE_METHOD) -> u32 #foreign KERNEL32;
+SetFilePointerEx :: (hFile : HANDLE, liDistanceToMove : LARGE_INTEGER, lpNewFilePointer : *LARGE_INTEGER, dwMoveMethod : SET_FILE_POINTER_MOVE_METHOD) -> BOOL #foreign KERNEL32;
+SetFileTime :: (hFile : HANDLE, lpCreationTime : *FILETIME, lpLastAccessTime : *FILETIME, lpLastWriteTime : *FILETIME) -> BOOL #foreign KERNEL32;
+SetFileValidData :: (hFile : HANDLE, ValidDataLength : s64) -> BOOL #foreign KERNEL32;
+UnlockFile :: (hFile : HANDLE, dwFileOffsetLow : u32, dwFileOffsetHigh : u32, nNumberOfBytesToUnlockLow : u32, nNumberOfBytesToUnlockHigh : u32) -> BOOL #foreign KERNEL32;
+UnlockFileEx :: (hFile : HANDLE, dwReserved : u32, nNumberOfBytesToUnlockLow : u32, nNumberOfBytesToUnlockHigh : u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+WriteFile :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToWrite : u32, lpNumberOfBytesWritten : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+WriteFileEx :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToWrite : u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE) -> BOOL #foreign KERNEL32;
+WriteFileGather :: (hFile : HANDLE, aSegmentArray : *FILE_SEGMENT_ELEMENT, nNumberOfBytesToWrite : u32, lpReserved : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+GetTempPathW :: (nBufferLength : u32, lpBuffer : *u16) -> u32 #foreign KERNEL32;
+GetVolumeNameForVolumeMountPointW :: (lpszVolumeMountPoint : PWSTR, lpszVolumeName : *u16, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+GetVolumePathNamesForVolumeNameW :: (lpszVolumeName : PWSTR, lpszVolumePathNames : *u16, cchBufferLength : u32, lpcchReturnLength : *u32) -> BOOL #foreign KERNEL32;
+CreateFile2 :: (lpFileName : PWSTR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, dwCreationDisposition : FILE_CREATION_DISPOSITION, pCreateExParams : *CREATEFILE2_EXTENDED_PARAMETERS) -> HANDLE #foreign KERNEL32;
+SetFileIoOverlappedRange :: (FileHandle : HANDLE, OverlappedRangeStart : *u8, Length : u32) -> BOOL #foreign KERNEL32;
+GetCompressedFileSizeA :: (lpFileName : PSTR, lpFileSizeHigh : *u32) -> u32 #foreign KERNEL32;
+GetCompressedFileSizeW :: (lpFileName : PWSTR, lpFileSizeHigh : *u32) -> u32 #foreign KERNEL32;
+FindFirstStreamW :: (lpFileName : PWSTR, InfoLevel : STREAM_INFO_LEVELS, lpFindStreamData : *void, dwFlags : u32) -> FindStreamHandle #foreign KERNEL32;
+FindNextStreamW :: (hFindStream : FindStreamHandle, lpFindStreamData : *void) -> BOOL #foreign KERNEL32;
+AreFileApisANSI :: () -> BOOL #foreign KERNEL32;
+GetTempPathA :: (nBufferLength : u32, lpBuffer : *u8) -> u32 #foreign KERNEL32;
+FindFirstFileNameW :: (lpFileName : PWSTR, dwFlags : u32, StringLength : *u32, LinkName : *u16) -> FindFileNameHandle #foreign KERNEL32;
+FindNextFileNameW :: (hFindStream : FindFileNameHandle, StringLength : *u32, LinkName : *u16) -> BOOL #foreign KERNEL32;
+GetVolumeInformationA :: (lpRootPathName : PSTR, lpVolumeNameBuffer : *u8, nVolumeNameSize : u32, lpVolumeSerialNumber : *u32, lpMaximumComponentLength : *u32, lpFileSystemFlags : *u32, lpFileSystemNameBuffer : *u8, nFileSystemNameSize : u32) -> BOOL #foreign KERNEL32;
+GetTempFileNameA :: (lpPathName : PSTR, lpPrefixString : PSTR, uUnique : u32, lpTempFileName : *[260]u8) -> u32 #foreign KERNEL32;
+SetFileApisToOEM :: ()  #foreign KERNEL32;
+SetFileApisToANSI :: ()  #foreign KERNEL32;
+VerFindFileA :: (uFlags : VER_FIND_FILE_FLAGS, szFileName : PSTR, szWinDir : PSTR, szAppDir : PSTR, szCurDir : *u8, puCurDirLen : *u32, szDestDir : *u8, puDestDirLen : *u32) -> VER_FIND_FILE_STATUS #foreign VERSION;
+VerFindFileW :: (uFlags : VER_FIND_FILE_FLAGS, szFileName : PWSTR, szWinDir : PWSTR, szAppDir : PWSTR, szCurDir : *u16, puCurDirLen : *u32, szDestDir : *u16, puDestDirLen : *u32) -> VER_FIND_FILE_STATUS #foreign VERSION;
+VerInstallFileA :: (uFlags : VER_INSTALL_FILE_FLAGS, szSrcFileName : PSTR, szDestFileName : PSTR, szSrcDir : PSTR, szDestDir : PSTR, szCurDir : PSTR, szTmpFile : *u8, puTmpFileLen : *u32) -> VER_INSTALL_FILE_STATUS #foreign VERSION;
+VerInstallFileW :: (uFlags : VER_INSTALL_FILE_FLAGS, szSrcFileName : PWSTR, szDestFileName : PWSTR, szSrcDir : PWSTR, szDestDir : PWSTR, szCurDir : PWSTR, szTmpFile : *u16, puTmpFileLen : *u32) -> VER_INSTALL_FILE_STATUS #foreign VERSION;
+GetFileVersionInfoSizeA :: (lptstrFilename : PSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
+GetFileVersionInfoSizeW :: (lptstrFilename : PWSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
+GetFileVersionInfoA :: (lptstrFilename : PSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
+GetFileVersionInfoW :: (lptstrFilename : PWSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
+GetFileVersionInfoSizeExA :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
+GetFileVersionInfoSizeExW :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PWSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
+GetFileVersionInfoExA :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
+GetFileVersionInfoExW :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PWSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
+VerLanguageNameA :: (wLang : u32, szLang : *u8, cchLang : u32) -> u32 #foreign KERNEL32;
+VerLanguageNameW :: (wLang : u32, szLang : *u16, cchLang : u32) -> u32 #foreign KERNEL32;
+VerQueryValueA :: (pBlock : *void, lpSubBlock : PSTR, lplpBuffer : **void, puLen : *u32) -> BOOL #foreign VERSION;
+VerQueryValueW :: (pBlock : *void, lpSubBlock : PWSTR, lplpBuffer : **void, puLen : *u32) -> BOOL #foreign VERSION;
+LsnEqual :: (plsn1 : *CLS_LSN, plsn2 : *CLS_LSN) -> BOOLEAN #foreign clfsw32;
+LsnLess :: (plsn1 : *CLS_LSN, plsn2 : *CLS_LSN) -> BOOLEAN #foreign clfsw32;
+LsnGreater :: (plsn1 : *CLS_LSN, plsn2 : *CLS_LSN) -> BOOLEAN #foreign clfsw32;
+LsnNull :: (plsn : *CLS_LSN) -> BOOLEAN #foreign clfsw32;
+LsnContainer :: (plsn : *CLS_LSN) -> u32 #foreign clfsw32;
+LsnCreate :: (cidContainer : u32, offBlock : u32, cRecord : u32) -> CLS_LSN #foreign clfsw32;
+LsnBlockOffset :: (plsn : *CLS_LSN) -> u32 #foreign clfsw32;
+LsnRecordSequence :: (plsn : *CLS_LSN) -> u32 #foreign clfsw32;
+LsnInvalid :: (plsn : *CLS_LSN) -> BOOLEAN #foreign clfsw32;
+LsnIncrement :: (plsn : *CLS_LSN) -> CLS_LSN #foreign clfsw32;
+CreateLogFile :: (pszLogFileName : PWSTR, fDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, psaLogFile : *SECURITY_ATTRIBUTES, fCreateDisposition : FILE_CREATION_DISPOSITION, fFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> HANDLE #foreign clfsw32;
+DeleteLogByHandle :: (hLog : HANDLE) -> BOOL #foreign clfsw32;
+DeleteLogFile :: (pszLogFileName : PWSTR, pvReserved : *void) -> BOOL #foreign clfsw32;
+AddLogContainer :: (hLog : HANDLE, pcbContainer : *u64, pwszContainerPath : PWSTR, pReserved : *void) -> BOOL #foreign clfsw32;
+AddLogContainerSet :: (hLog : HANDLE, cContainer : u16, pcbContainer : *u64, rgwszContainerPath : *PWSTR, pReserved : *void) -> BOOL #foreign clfsw32;
+RemoveLogContainer :: (hLog : HANDLE, pwszContainerPath : PWSTR, fForce : BOOL, pReserved : *void) -> BOOL #foreign clfsw32;
+RemoveLogContainerSet :: (hLog : HANDLE, cContainer : u16, rgwszContainerPath : *PWSTR, fForce : BOOL, pReserved : *void) -> BOOL #foreign clfsw32;
+SetLogArchiveTail :: (hLog : HANDLE, plsnArchiveTail : *CLS_LSN, pReserved : *void) -> BOOL #foreign clfsw32;
+SetEndOfLog :: (hLog : HANDLE, plsnEnd : *CLS_LSN, lpOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+TruncateLog :: (pvMarshal : *void, plsnEnd : *CLS_LSN, lpOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+CreateLogContainerScanContext :: (hLog : HANDLE, cFromContainer : u32, cContainers : u32, eScanMode : u8, pcxScan : *CLS_SCAN_CONTEXT, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ScanLogContainers :: (pcxScan : *CLS_SCAN_CONTEXT, eScanMode : u8, pReserved : *void) -> BOOL #foreign clfsw32;
+AlignReservedLog :: (pvMarshal : *void, cReservedRecords : u32, rgcbReservation : *s64, pcbAlignReservation : *s64) -> BOOL #foreign clfsw32;
+AllocReservedLog :: (pvMarshal : *void, cReservedRecords : u32, pcbAdjustment : *s64) -> BOOL #foreign clfsw32;
+FreeReservedLog :: (pvMarshal : *void, cReservedRecords : u32, pcbAdjustment : *s64) -> BOOL #foreign clfsw32;
+GetLogFileInformation :: (hLog : HANDLE, pinfoBuffer : *CLS_INFORMATION, cbBuffer : *u32) -> BOOL #foreign clfsw32;
+SetLogArchiveMode :: (hLog : HANDLE, eMode : CLFS_LOG_ARCHIVE_MODE) -> BOOL #foreign clfsw32;
+ReadLogRestartArea :: (pvMarshal : *void, ppvRestartBuffer : **void, pcbRestartBuffer : *u32, plsn : *CLS_LSN, ppvContext : **void, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReadPreviousLogRestartArea :: (pvReadContext : *void, ppvRestartBuffer : **void, pcbRestartBuffer : *u32, plsnRestart : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+WriteLogRestartArea :: (pvMarshal : *void, pvRestartBuffer : *void, cbRestartBuffer : u32, plsnBase : *CLS_LSN, fFlags : CLFS_FLAG, pcbWritten : *u32, plsnNext : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+GetLogReservationInfo :: (pvMarshal : *void, pcbRecordNumber : *u32, pcbUserReservation : *s64, pcbCommitReservation : *s64) -> BOOL #foreign clfsw32;
+AdvanceLogBase :: (pvMarshal : *void, plsnBase : *CLS_LSN, fFlags : u32, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+CloseAndResetLogFile :: (hLog : HANDLE) -> BOOL #foreign clfsw32;
+CreateLogMarshallingArea :: (hLog : HANDLE, pfnAllocBuffer : CLFS_BLOCK_ALLOCATION, pfnFreeBuffer : CLFS_BLOCK_DEALLOCATION, pvBlockAllocContext : *void, cbMarshallingBuffer : u32, cMaxWriteBuffers : u32, cMaxReadBuffers : u32, ppvMarshal : **void) -> BOOL #foreign clfsw32;
+DeleteLogMarshallingArea :: (pvMarshal : *void) -> BOOL #foreign clfsw32;
+ReserveAndAppendLog :: (pvMarshal : *void, rgWriteEntries : *CLS_WRITE_ENTRY, cWriteEntries : u32, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, cReserveRecords : u32, rgcbReservation : *s64, fFlags : CLFS_FLAG, plsn : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReserveAndAppendLogAligned :: (pvMarshal : *void, rgWriteEntries : *CLS_WRITE_ENTRY, cWriteEntries : u32, cbEntryAlignment : u32, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, cReserveRecords : u32, rgcbReservation : *s64, fFlags : CLFS_FLAG, plsn : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+FlushLogBuffers :: (pvMarshal : *void, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+FlushLogToLsn :: (pvMarshalContext : *void, plsnFlush : *CLS_LSN, plsnLastFlushed : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReadLogRecord :: (pvMarshal : *void, plsnFirst : *CLS_LSN, eContextMode : CLFS_CONTEXT_MODE, ppvReadBuffer : **void, pcbReadBuffer : *u32, peRecordType : *u8, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, ppvReadContext : **void, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReadNextLogRecord :: (pvReadContext : *void, ppvBuffer : **void, pcbBuffer : *u32, peRecordType : *u8, plsnUser : *CLS_LSN, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, plsnRecord : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+TerminateReadLog :: (pvCursorContext : *void) -> BOOL #foreign clfsw32;
+PrepareLogArchive :: (hLog : HANDLE, pszBaseLogFileName : *u16, cLen : u32, plsnLow : *CLS_LSN, plsnHigh : *CLS_LSN, pcActualLength : *u32, poffBaseLogFileData : *u64, pcbBaseLogFileLength : *u64, plsnBase : *CLS_LSN, plsnLast : *CLS_LSN, plsnCurrentArchiveTail : *CLS_LSN, ppvArchiveContext : **void) -> BOOL #foreign clfsw32;
+ReadLogArchiveMetadata :: (pvArchiveContext : *void, cbOffset : u32, cbBytesToRead : u32, pbReadBuffer : *u8, pcbBytesRead : *u32) -> BOOL #foreign clfsw32;
+GetNextLogArchiveExtent :: (pvArchiveContext : *void, rgadExtent : *CLS_ARCHIVE_DESCRIPTOR, cDescriptors : u32, pcDescriptorsReturned : *u32) -> BOOL #foreign clfsw32;
+TerminateLogArchive :: (pvArchiveContext : *void) -> BOOL #foreign clfsw32;
+ValidateLog :: (pszLogFileName : PWSTR, psaLogFile : *SECURITY_ATTRIBUTES, pinfoBuffer : *CLS_INFORMATION, pcbBuffer : *u32) -> BOOL #foreign clfsw32;
+GetLogContainerName :: (hLog : HANDLE, cidLogicalContainer : u32, pwstrContainerName : PWSTR, cLenContainerName : u32, pcActualLenContainerName : *u32) -> BOOL #foreign clfsw32;
+GetLogIoStatistics :: (hLog : HANDLE, pvStatsBuffer : *void, cbStatsBuffer : u32, eStatsClass : CLFS_IOSTATS_CLASS, pcbStatsWritten : *u32) -> BOOL #foreign clfsw32;
+RegisterManageableLogClient :: (hLog : HANDLE, pCallbacks : *LOG_MANAGEMENT_CALLBACKS) -> BOOL #foreign clfsw32;
+DeregisterManageableLogClient :: (hLog : HANDLE) -> BOOL #foreign clfsw32;
+ReadLogNotification :: (hLog : HANDLE, pNotification : *CLFS_MGMT_NOTIFICATION, lpOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+InstallLogPolicy :: (hLog : HANDLE, pPolicy : *CLFS_MGMT_POLICY) -> BOOL #foreign clfsw32;
+RemoveLogPolicy :: (hLog : HANDLE, ePolicyType : CLFS_MGMT_POLICY_TYPE) -> BOOL #foreign clfsw32;
+QueryLogPolicy :: (hLog : HANDLE, ePolicyType : CLFS_MGMT_POLICY_TYPE, pPolicyBuffer : *CLFS_MGMT_POLICY, pcbPolicyBuffer : *u32) -> BOOL #foreign clfsw32;
+SetLogFileSizeWithPolicy :: (hLog : HANDLE, pDesiredSize : *u64, pResultingSize : *u64) -> BOOL #foreign clfsw32;
+HandleLogFull :: (hLog : HANDLE) -> BOOL #foreign clfsw32;
+LogTailAdvanceFailure :: (hLog : HANDLE, dwReason : u32) -> BOOL #foreign clfsw32;
+RegisterForLogWriteNotification :: (hLog : HANDLE, cbThreshold : u32, fEnable : BOOL) -> BOOL #foreign clfsw32;
+QueryUsersOnEncryptedFile :: (lpFileName : PWSTR, pUsers : **ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
+QueryRecoveryAgentsOnEncryptedFile :: (lpFileName : PWSTR, pRecoveryAgents : **ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
+RemoveUsersFromEncryptedFile :: (lpFileName : PWSTR, pHashes : *ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
+AddUsersToEncryptedFile :: (lpFileName : PWSTR, pEncryptionCertificates : *ENCRYPTION_CERTIFICATE_LIST) -> u32 #foreign ADVAPI32;
+SetUserFileEncryptionKey :: (pEncryptionCertificate : *ENCRYPTION_CERTIFICATE) -> u32 #foreign ADVAPI32;
+SetUserFileEncryptionKeyEx :: (pEncryptionCertificate : *ENCRYPTION_CERTIFICATE, dwCapabilities : u32, dwFlags : u32, pvReserved : *void) -> u32 #foreign ADVAPI32;
+FreeEncryptionCertificateHashList :: (pUsers : *ENCRYPTION_CERTIFICATE_HASH_LIST)  #foreign ADVAPI32;
+EncryptionDisable :: (DirPath : PWSTR, Disable : BOOL) -> BOOL #foreign ADVAPI32;
+DuplicateEncryptionInfoFile :: (SrcFileName : PWSTR, DstFileName : PWSTR, dwCreationDistribution : u32, dwAttributes : u32, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> u32 #foreign ADVAPI32;
+GetEncryptedFileMetadata :: (lpFileName : PWSTR, pcbMetadata : *u32, ppbMetadata : **u8) -> u32 #foreign ADVAPI32;
+SetEncryptedFileMetadata :: (lpFileName : PWSTR, pbOldMetadata : *u8, pbNewMetadata : *u8, pOwnerHash : *ENCRYPTION_CERTIFICATE_HASH, dwOperation : u32, pCertificatesAdded : *ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
+FreeEncryptedFileMetadata :: (pbMetadata : *u8)  #foreign ADVAPI32;
+LZStart :: () -> s32 #foreign KERNEL32;
+LZDone :: ()  #foreign KERNEL32;
+CopyLZFile :: (hfSource : s32, hfDest : s32) -> s32 #foreign KERNEL32;
+LZCopy :: (hfSource : s32, hfDest : s32) -> s32 #foreign KERNEL32;
+LZInit :: (hfSource : s32) -> s32 #foreign KERNEL32;
+GetExpandedNameA :: (lpszSource : PSTR, lpszBuffer : *[260]u8) -> s32 #foreign KERNEL32;
+GetExpandedNameW :: (lpszSource : PWSTR, lpszBuffer : *[260]u16) -> s32 #foreign KERNEL32;
+LZOpenFileA :: (lpFileName : PSTR, lpReOpenBuf : *OFSTRUCT, wStyle : LZOPENFILE_STYLE) -> s32 #foreign KERNEL32;
+LZOpenFileW :: (lpFileName : PWSTR, lpReOpenBuf : *OFSTRUCT, wStyle : LZOPENFILE_STYLE) -> s32 #foreign KERNEL32;
+LZSeek :: (hFile : s32, lOffset : s32, iOrigin : s32) -> s32 #foreign KERNEL32;
+LZRead :: (hFile : s32, lpBuffer : PSTR, cbRead : s32) -> s32 #foreign KERNEL32;
+LZClose :: (hFile : s32)  #foreign KERNEL32;
+WofShouldCompressBinaries :: (Volume : PWSTR, Algorithm : *u32) -> BOOL #foreign WOFUTIL;
+WofGetDriverVersion :: (FileOrVolumeHandle : HANDLE, Provider : u32, WofVersion : *u32) -> HRESULT #foreign WOFUTIL;
+WofSetFileDataLocation :: (FileHandle : HANDLE, Provider : u32, ExternalFileInfo : *void, Length : u32) -> HRESULT #foreign WOFUTIL;
+WofIsExternalFile :: (FilePath : PWSTR, IsExternalFile : *BOOL, Provider : *u32, ExternalFileInfo : *void, BufferLength : *u32) -> HRESULT #foreign WOFUTIL;
+WofEnumEntries :: (VolumeName : PWSTR, Provider : u32, EnumProc : WofEnumEntryProc, UserData : *void) -> HRESULT #foreign WOFUTIL;
+WofWimAddEntry :: (VolumeName : PWSTR, WimPath : PWSTR, WimType : u32, WimIndex : u32, DataSourceId : *LARGE_INTEGER) -> HRESULT #foreign WOFUTIL;
+WofWimEnumFiles :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER, EnumProc : WofEnumFilesProc, UserData : *void) -> HRESULT #foreign WOFUTIL;
+WofWimSuspendEntry :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER) -> HRESULT #foreign WOFUTIL;
+WofWimRemoveEntry :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER) -> HRESULT #foreign WOFUTIL;
+WofWimUpdateEntry :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER, NewWimPath : PWSTR) -> HRESULT #foreign WOFUTIL;
+WofFileEnumFiles :: (VolumeName : PWSTR, Algorithm : u32, EnumProc : WofEnumFilesProc, UserData : *void) -> HRESULT #foreign WOFUTIL;
+TxfLogCreateFileReadContext :: (LogPath : PWSTR, BeginningLsn : CLS_LSN, EndingLsn : CLS_LSN, TxfFileId : *TXF_ID, TxfLogContext : **void) -> BOOL #foreign txfw32;
+TxfLogCreateRangeReadContext :: (LogPath : PWSTR, BeginningLsn : CLS_LSN, EndingLsn : CLS_LSN, BeginningVirtualClock : *LARGE_INTEGER, EndingVirtualClock : *LARGE_INTEGER, RecordTypeMask : u32, TxfLogContext : **void) -> BOOL #foreign txfw32;
+TxfLogDestroyReadContext :: (TxfLogContext : *void) -> BOOL #foreign txfw32;
+TxfLogReadRecords :: (TxfLogContext : *void, BufferLength : u32, Buffer : *void, BytesUsed : *u32, RecordCount : *u32) -> BOOL #foreign txfw32;
+TxfReadMetadataInfo :: (FileHandle : HANDLE, TxfFileId : *TXF_ID, LastLsn : *CLS_LSN, TransactionState : *u32, LockingTransaction : *GUID) -> BOOL #foreign txfw32;
+TxfLogRecordGetFileName :: (RecordBuffer : *void, RecordBufferLengthInBytes : u32, NameBuffer : PWSTR, NameBufferLengthInBytes : *u32, TxfId : *TXF_ID) -> BOOL #foreign txfw32;
+TxfLogRecordGetGenericType :: (RecordBuffer : *void, RecordBufferLengthInBytes : u32, GenericType : *u32, VirtualClock : *LARGE_INTEGER) -> BOOL #foreign txfw32;
+TxfSetThreadMiniVersionForCreate :: (MiniVersion : u16)  #foreign txfw32;
+TxfGetThreadMiniVersionForCreate :: (MiniVersion : *u16)  #foreign txfw32;
+CreateTransaction :: (lpTransactionAttributes : *SECURITY_ATTRIBUTES, UOW : *GUID, CreateOptions : u32, IsolationLevel : u32, IsolationFlags : u32, Timeout : u32, Description : PWSTR) -> HANDLE #foreign ktmw32;
+OpenTransaction :: (dwDesiredAccess : u32, TransactionId : *GUID) -> HANDLE #foreign ktmw32;
+CommitTransaction :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
+CommitTransactionAsync :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
+RollbackTransaction :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
+RollbackTransactionAsync :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
+GetTransactionId :: (TransactionHandle : HANDLE, TransactionId : *GUID) -> BOOL #foreign ktmw32;
+GetTransactionInformation :: (TransactionHandle : HANDLE, Outcome : *u32, IsolationLevel : *u32, IsolationFlags : *u32, Timeout : *u32, BufferLength : u32, Description : *u16) -> BOOL #foreign ktmw32;
+SetTransactionInformation :: (TransactionHandle : HANDLE, IsolationLevel : u32, IsolationFlags : u32, Timeout : u32, Description : PWSTR) -> BOOL #foreign ktmw32;
+CreateTransactionManager :: (lpTransactionAttributes : *SECURITY_ATTRIBUTES, LogFileName : PWSTR, CreateOptions : u32, CommitStrength : u32) -> HANDLE #foreign ktmw32;
+OpenTransactionManager :: (LogFileName : PWSTR, DesiredAccess : u32, OpenOptions : u32) -> HANDLE #foreign ktmw32;
+OpenTransactionManagerById :: (TransactionManagerId : *GUID, DesiredAccess : u32, OpenOptions : u32) -> HANDLE #foreign ktmw32;
+RenameTransactionManager :: (LogFileName : PWSTR, ExistingTransactionManagerGuid : *GUID) -> BOOL #foreign ktmw32;
+RollforwardTransactionManager :: (TransactionManagerHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+RecoverTransactionManager :: (TransactionManagerHandle : HANDLE) -> BOOL #foreign ktmw32;
+GetCurrentClockTransactionManager :: (TransactionManagerHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+GetTransactionManagerId :: (TransactionManagerHandle : HANDLE, TransactionManagerId : *GUID) -> BOOL #foreign ktmw32;
+CreateResourceManager :: (lpResourceManagerAttributes : *SECURITY_ATTRIBUTES, ResourceManagerId : *GUID, CreateOptions : u32, TmHandle : HANDLE, Description : PWSTR) -> HANDLE #foreign ktmw32;
+OpenResourceManager :: (dwDesiredAccess : u32, TmHandle : HANDLE, ResourceManagerId : *GUID) -> HANDLE #foreign ktmw32;
+RecoverResourceManager :: (ResourceManagerHandle : HANDLE) -> BOOL #foreign ktmw32;
+GetNotificationResourceManager :: (ResourceManagerHandle : HANDLE, TransactionNotification : *TRANSACTION_NOTIFICATION, NotificationLength : u32, dwMilliseconds : u32, ReturnLength : *u32) -> BOOL #foreign ktmw32;
+GetNotificationResourceManagerAsync :: (ResourceManagerHandle : HANDLE, TransactionNotification : *TRANSACTION_NOTIFICATION, TransactionNotificationLength : u32, ReturnLength : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign ktmw32;
+SetResourceManagerCompletionPort :: (ResourceManagerHandle : HANDLE, IoCompletionPortHandle : HANDLE, CompletionKey : u64) -> BOOL #foreign ktmw32;
+CreateEnlistment :: (lpEnlistmentAttributes : *SECURITY_ATTRIBUTES, ResourceManagerHandle : HANDLE, TransactionHandle : HANDLE, NotificationMask : u32, CreateOptions : u32, EnlistmentKey : *void) -> HANDLE #foreign ktmw32;
+OpenEnlistment :: (dwDesiredAccess : u32, ResourceManagerHandle : HANDLE, EnlistmentId : *GUID) -> HANDLE #foreign ktmw32;
+RecoverEnlistment :: (EnlistmentHandle : HANDLE, EnlistmentKey : *void) -> BOOL #foreign ktmw32;
+GetEnlistmentRecoveryInformation :: (EnlistmentHandle : HANDLE, BufferSize : u32, Buffer : *void, BufferUsed : *u32) -> BOOL #foreign ktmw32;
+GetEnlistmentId :: (EnlistmentHandle : HANDLE, EnlistmentId : *GUID) -> BOOL #foreign ktmw32;
+SetEnlistmentRecoveryInformation :: (EnlistmentHandle : HANDLE, BufferSize : u32, Buffer : *void) -> BOOL #foreign ktmw32;
+PrepareEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+PrePrepareEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+CommitEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+RollbackEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+PrePrepareComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+PrepareComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+ReadOnlyEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+CommitComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+RollbackComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+SinglePhaseReject :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
+NetShareAdd :: (servername : PWSTR, level : u32, buf : *u8, parm_err : *u32) -> u32 #foreign NETAPI32;
+NetShareEnum :: (servername : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
+NetShareEnumSticky :: (servername : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
+NetShareGetInfo :: (servername : PWSTR, netname : PWSTR, level : u32, bufptr : **u8) -> u32 #foreign NETAPI32;
+NetShareSetInfo :: (servername : PWSTR, netname : PWSTR, level : u32, buf : *u8, parm_err : *u32) -> u32 #foreign NETAPI32;
+NetShareDel :: (servername : PWSTR, netname : PWSTR, reserved : u32) -> u32 #foreign NETAPI32;
+NetShareDelSticky :: (servername : PWSTR, netname : PWSTR, reserved : u32) -> u32 #foreign NETAPI32;
+NetShareCheck :: (servername : PWSTR, device : PWSTR, type : *u32) -> u32 #foreign NETAPI32;
+NetShareDelEx :: (servername : PWSTR, level : u32, buf : *u8) -> u32 #foreign NETAPI32;
+NetServerAliasAdd :: (servername : PWSTR, level : u32, buf : *u8) -> u32 #foreign NETAPI32;
+NetServerAliasDel :: (servername : PWSTR, level : u32, buf : *u8) -> u32 #foreign NETAPI32;
+NetServerAliasEnum :: (servername : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resumehandle : *u32) -> u32 #foreign NETAPI32;
+NetSessionEnum :: (servername : PWSTR, UncClientName : PWSTR, username : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
+NetSessionDel :: (servername : PWSTR, UncClientName : PWSTR, username : PWSTR) -> u32 #foreign NETAPI32;
+NetSessionGetInfo :: (servername : PWSTR, UncClientName : PWSTR, username : PWSTR, level : u32, bufptr : **u8) -> u32 #foreign NETAPI32;
+NetConnectionEnum :: (servername : PWSTR, qualifier : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
+NetFileClose :: (servername : PWSTR, fileid : u32) -> u32 #foreign NETAPI32;
+NetFileEnum :: (servername : PWSTR, basepath : PWSTR, username : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u64) -> u32 #foreign NETAPI32;
+NetFileGetInfo :: (servername : PWSTR, fileid : u32, level : u32, bufptr : **u8) -> u32 #foreign NETAPI32;
+NetStatisticsGet :: (ServerName : *s8, Service : *s8, Level : u32, Options : u32, Buffer : **u8) -> u32 #foreign NETAPI32;
+Wow64EnableWow64FsRedirection :: (Wow64FsEnableRedirection : BOOLEAN) -> BOOLEAN #foreign KERNEL32;
+Wow64DisableWow64FsRedirection :: (OldValue : **void) -> BOOL #foreign KERNEL32;
+Wow64RevertWow64FsRedirection :: (OlValue : *void) -> BOOL #foreign KERNEL32;
+GetBinaryTypeA :: (lpApplicationName : PSTR, lpBinaryType : *u32) -> BOOL #foreign KERNEL32;
+GetBinaryTypeW :: (lpApplicationName : PWSTR, lpBinaryType : *u32) -> BOOL #foreign KERNEL32;
+GetShortPathNameA :: (lpszLongPath : PSTR, lpszShortPath : *u8, cchBuffer : u32) -> u32 #foreign KERNEL32;
+GetLongPathNameTransactedA :: (lpszShortPath : PSTR, lpszLongPath : *u8, cchBuffer : u32, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+GetLongPathNameTransactedW :: (lpszShortPath : PWSTR, lpszLongPath : *u16, cchBuffer : u32, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+SetFileCompletionNotificationModes :: (FileHandle : HANDLE, Flags : u8) -> BOOL #foreign KERNEL32;
+SetFileShortNameA :: (hFile : HANDLE, lpShortName : PSTR) -> BOOL #foreign KERNEL32;
+SetFileShortNameW :: (hFile : HANDLE, lpShortName : PWSTR) -> BOOL #foreign KERNEL32;
+SetTapePosition :: (hDevice : HANDLE, dwPositionMethod : TAPE_POSITION_METHOD, dwPartition : u32, dwOffsetLow : u32, dwOffsetHigh : u32, bImmediate : BOOL) -> u32 #foreign KERNEL32;
+GetTapePosition :: (hDevice : HANDLE, dwPositionType : TAPE_POSITION_TYPE, lpdwPartition : *u32, lpdwOffsetLow : *u32, lpdwOffsetHigh : *u32) -> u32 #foreign KERNEL32;
+PrepareTape :: (hDevice : HANDLE, dwOperation : PREPARE_TAPE_OPERATION, bImmediate : BOOL) -> u32 #foreign KERNEL32;
+EraseTape :: (hDevice : HANDLE, dwEraseType : ERASE_TAPE_TYPE, bImmediate : BOOL) -> u32 #foreign KERNEL32;
+CreateTapePartition :: (hDevice : HANDLE, dwPartitionMethod : CREATE_TAPE_PARTITION_METHOD, dwCount : u32, dwSize : u32) -> u32 #foreign KERNEL32;
+WriteTapemark :: (hDevice : HANDLE, dwTapemarkType : TAPEMARK_TYPE, dwTapemarkCount : u32, bImmediate : BOOL) -> u32 #foreign KERNEL32;
+GetTapeStatus :: (hDevice : HANDLE) -> u32 #foreign KERNEL32;
+GetTapeParameters :: (hDevice : HANDLE, dwOperation : GET_TAPE_DRIVE_PARAMETERS_OPERATION, lpdwSize : *u32, lpTapeInformation : *void) -> u32 #foreign KERNEL32;
+SetTapeParameters :: (hDevice : HANDLE, dwOperation : TAPE_INFORMATION_TYPE, lpTapeInformation : *void) -> u32 #foreign KERNEL32;
+EncryptFileA :: (lpFileName : PSTR) -> BOOL #foreign ADVAPI32;
+EncryptFileW :: (lpFileName : PWSTR) -> BOOL #foreign ADVAPI32;
+DecryptFileA :: (lpFileName : PSTR, dwReserved : u32) -> BOOL #foreign ADVAPI32;
+DecryptFileW :: (lpFileName : PWSTR, dwReserved : u32) -> BOOL #foreign ADVAPI32;
+FileEncryptionStatusA :: (lpFileName : PSTR, lpStatus : *u32) -> BOOL #foreign ADVAPI32;
+FileEncryptionStatusW :: (lpFileName : PWSTR, lpStatus : *u32) -> BOOL #foreign ADVAPI32;
+OpenEncryptedFileRawA :: (lpFileName : PSTR, ulFlags : u32, pvContext : **void) -> u32 #foreign ADVAPI32;
+OpenEncryptedFileRawW :: (lpFileName : PWSTR, ulFlags : u32, pvContext : **void) -> u32 #foreign ADVAPI32;
+ReadEncryptedFileRaw :: (pfExportCallback : PFE_EXPORT_FUNC, pvCallbackContext : *void, pvContext : *void) -> u32 #foreign ADVAPI32;
+WriteEncryptedFileRaw :: (pfImportCallback : PFE_IMPORT_FUNC, pvCallbackContext : *void, pvContext : *void) -> u32 #foreign ADVAPI32;
+CloseEncryptedFileRaw :: (pvContext : *void)  #foreign ADVAPI32;
+OpenFile :: (lpFileName : PSTR, lpReOpenBuff : *OFSTRUCT, uStyle : LZOPENFILE_STYLE) -> s32 #foreign KERNEL32;
+BackupRead :: (hFile : HANDLE, lpBuffer : *u8, nNumberOfBytesToRead : u32, lpNumberOfBytesRead : *u32, bAbort : BOOL, bProcessSecurity : BOOL, lpContext : **void) -> BOOL #foreign KERNEL32;
+BackupSeek :: (hFile : HANDLE, dwLowBytesToSeek : u32, dwHighBytesToSeek : u32, lpdwLowByteSeeked : *u32, lpdwHighByteSeeked : *u32, lpContext : **void) -> BOOL #foreign KERNEL32;
+BackupWrite :: (hFile : HANDLE, lpBuffer : *u8, nNumberOfBytesToWrite : u32, lpNumberOfBytesWritten : *u32, bAbort : BOOL, bProcessSecurity : BOOL, lpContext : **void) -> BOOL #foreign KERNEL32;
+GetLogicalDriveStringsA :: (nBufferLength : u32, lpBuffer : *u8) -> u32 #foreign KERNEL32;
+SetSearchPathMode :: (Flags : u32) -> BOOL #foreign KERNEL32;
+CreateDirectoryExA :: (lpTemplateDirectory : PSTR, lpNewDirectory : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+CreateDirectoryExW :: (lpTemplateDirectory : PWSTR, lpNewDirectory : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+CreateDirectoryTransactedA :: (lpTemplateDirectory : PSTR, lpNewDirectory : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+CreateDirectoryTransactedW :: (lpTemplateDirectory : PWSTR, lpNewDirectory : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+RemoveDirectoryTransactedA :: (lpPathName : PSTR, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+RemoveDirectoryTransactedW :: (lpPathName : PWSTR, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+GetFullPathNameTransactedA :: (lpFileName : PSTR, nBufferLength : u32, lpBuffer : *u8, lpFilePart : *PSTR, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+GetFullPathNameTransactedW :: (lpFileName : PWSTR, nBufferLength : u32, lpBuffer : *u16, lpFilePart : *PWSTR, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+DefineDosDeviceA :: (dwFlags : DEFINE_DOS_DEVICE_FLAGS, lpDeviceName : PSTR, lpTargetPath : PSTR) -> BOOL #foreign KERNEL32;
+QueryDosDeviceA :: (lpDeviceName : PSTR, lpTargetPath : *u8, ucchMax : u32) -> u32 #foreign KERNEL32;
+CreateFileTransactedA :: (lpFileName : PSTR, dwDesiredAccess : u32, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE, hTransaction : HANDLE, pusMiniVersion : *TXFS_MINIVERSION, lpExtendedParameter : *void) -> HANDLE #foreign KERNEL32;
+CreateFileTransactedW :: (lpFileName : PWSTR, dwDesiredAccess : u32, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE, hTransaction : HANDLE, pusMiniVersion : *TXFS_MINIVERSION, lpExtendedParameter : *void) -> HANDLE #foreign KERNEL32;
+ReOpenFile :: (hOriginalFile : HANDLE, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> HANDLE #foreign KERNEL32;
+SetFileAttributesTransactedA :: (lpFileName : PSTR, dwFileAttributes : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+SetFileAttributesTransactedW :: (lpFileName : PWSTR, dwFileAttributes : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+GetFileAttributesTransactedA :: (lpFileName : PSTR, fInfoLevelId : GET_FILEEX_INFO_LEVELS, lpFileInformation : *void, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+GetFileAttributesTransactedW :: (lpFileName : PWSTR, fInfoLevelId : GET_FILEEX_INFO_LEVELS, lpFileInformation : *void, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+GetCompressedFileSizeTransactedA :: (lpFileName : PSTR, lpFileSizeHigh : *u32, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+GetCompressedFileSizeTransactedW :: (lpFileName : PWSTR, lpFileSizeHigh : *u32, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+DeleteFileTransactedA :: (lpFileName : PSTR, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+DeleteFileTransactedW :: (lpFileName : PWSTR, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+CheckNameLegalDOS8Dot3A :: (lpName : PSTR, lpOemName : *u8, OemNameSize : u32, pbNameContainsSpaces : *BOOL, pbNameLegal : *BOOL) -> BOOL #foreign KERNEL32;
+CheckNameLegalDOS8Dot3W :: (lpName : PWSTR, lpOemName : *u8, OemNameSize : u32, pbNameContainsSpaces : *BOOL, pbNameLegal : *BOOL) -> BOOL #foreign KERNEL32;
+FindFirstFileTransactedA :: (lpFileName : PSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : u32, hTransaction : HANDLE) -> FindFileHandle #foreign KERNEL32;
+FindFirstFileTransactedW :: (lpFileName : PWSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : u32, hTransaction : HANDLE) -> FindFileHandle #foreign KERNEL32;
+CopyFileA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, bFailIfExists : BOOL) -> BOOL #foreign KERNEL32;
+CopyFileW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, bFailIfExists : BOOL) -> BOOL #foreign KERNEL32;
+CopyFileExA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32) -> BOOL #foreign KERNEL32;
+CopyFileExW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32) -> BOOL #foreign KERNEL32;
+CopyFileTransactedA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+CopyFileTransactedW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+CopyFile2 :: (pwszExistingFileName : PWSTR, pwszNewFileName : PWSTR, pExtendedParameters : *COPYFILE2_EXTENDED_PARAMETERS) -> HRESULT #foreign KERNEL32;
+MoveFileA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR) -> BOOL #foreign KERNEL32;
+MoveFileW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR) -> BOOL #foreign KERNEL32;
+MoveFileExA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
+MoveFileExW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
+MoveFileWithProgressA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
+MoveFileWithProgressW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
+MoveFileTransactedA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+MoveFileTransactedW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+ReplaceFileA :: (lpReplacedFileName : PSTR, lpReplacementFileName : PSTR, lpBackupFileName : PSTR, dwReplaceFlags : REPLACE_FILE_FLAGS, lpExclude : *void, lpReserved : *void) -> BOOL #foreign KERNEL32;
+ReplaceFileW :: (lpReplacedFileName : PWSTR, lpReplacementFileName : PWSTR, lpBackupFileName : PWSTR, dwReplaceFlags : REPLACE_FILE_FLAGS, lpExclude : *void, lpReserved : *void) -> BOOL #foreign KERNEL32;
+CreateHardLinkA :: (lpFileName : PSTR, lpExistingFileName : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+CreateHardLinkW :: (lpFileName : PWSTR, lpExistingFileName : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
+CreateHardLinkTransactedA :: (lpFileName : PSTR, lpExistingFileName : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+CreateHardLinkTransactedW :: (lpFileName : PWSTR, lpExistingFileName : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+FindFirstStreamTransactedW :: (lpFileName : PWSTR, InfoLevel : STREAM_INFO_LEVELS, lpFindStreamData : *void, dwFlags : u32, hTransaction : HANDLE) -> FindStreamHandle #foreign KERNEL32;
+FindFirstFileNameTransactedW :: (lpFileName : PWSTR, dwFlags : u32, StringLength : *u32, LinkName : *u16, hTransaction : HANDLE) -> FindFileNameHandle #foreign KERNEL32;
+SetVolumeLabelA :: (lpRootPathName : PSTR, lpVolumeName : PSTR) -> BOOL #foreign KERNEL32;
+SetVolumeLabelW :: (lpRootPathName : PWSTR, lpVolumeName : PWSTR) -> BOOL #foreign KERNEL32;
+SetFileBandwidthReservation :: (hFile : HANDLE, nPeriodMilliseconds : u32, nBytesPerPeriod : u32, bDiscardable : BOOL, lpTransferSize : *u32, lpNumOutstandingRequests : *u32) -> BOOL #foreign KERNEL32;
+GetFileBandwidthReservation :: (hFile : HANDLE, lpPeriodMilliseconds : *u32, lpBytesPerPeriod : *u32, pDiscardable : *s32, lpTransferSize : *u32, lpNumOutstandingRequests : *u32) -> BOOL #foreign KERNEL32;
+ReadDirectoryChangesW :: (hDirectory : HANDLE, lpBuffer : *void, nBufferLength : u32, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE, lpBytesReturned : *u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE) -> BOOL #foreign KERNEL32;
+ReadDirectoryChangesExW :: (hDirectory : HANDLE, lpBuffer : *void, nBufferLength : u32, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE, lpBytesReturned : *u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE, ReadDirectoryNotifyInformationClass : READ_DIRECTORY_NOTIFY_INFORMATION_CLASS) -> BOOL #foreign KERNEL32;
+FindFirstVolumeA :: (lpszVolumeName : *u8, cchBufferLength : u32) -> FindVolumeHandle #foreign KERNEL32;
+FindNextVolumeA :: (hFindVolume : FindVolumeHandle, lpszVolumeName : *u8, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+FindFirstVolumeMountPointA :: (lpszRootPathName : PSTR, lpszVolumeMountPoint : *u8, cchBufferLength : u32) -> FindVolumeMointPointHandle #foreign KERNEL32;
+FindFirstVolumeMountPointW :: (lpszRootPathName : PWSTR, lpszVolumeMountPoint : *u16, cchBufferLength : u32) -> FindVolumeMointPointHandle #foreign KERNEL32;
+FindNextVolumeMountPointA :: (hFindVolumeMountPoint : FindVolumeMointPointHandle, lpszVolumeMountPoint : *u8, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+FindNextVolumeMountPointW :: (hFindVolumeMountPoint : FindVolumeMointPointHandle, lpszVolumeMountPoint : *u16, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+FindVolumeMountPointClose :: (hFindVolumeMountPoint : FindVolumeMointPointHandle) -> BOOL #foreign KERNEL32;
+SetVolumeMountPointA :: (lpszVolumeMountPoint : PSTR, lpszVolumeName : PSTR) -> BOOL #foreign KERNEL32;
+SetVolumeMountPointW :: (lpszVolumeMountPoint : PWSTR, lpszVolumeName : PWSTR) -> BOOL #foreign KERNEL32;
+DeleteVolumeMountPointA :: (lpszVolumeMountPoint : PSTR) -> BOOL #foreign KERNEL32;
+GetVolumeNameForVolumeMountPointA :: (lpszVolumeMountPoint : PSTR, lpszVolumeName : *u8, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+GetVolumePathNameA :: (lpszFileName : PSTR, lpszVolumePathName : *u8, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
+GetVolumePathNamesForVolumeNameA :: (lpszVolumeName : PSTR, lpszVolumePathNames : *u8, cchBufferLength : u32, lpcchReturnLength : *u32) -> BOOL #foreign KERNEL32;
+GetFileInformationByHandleEx :: (hFile : HANDLE, FileInformationClass : FILE_INFO_BY_HANDLE_CLASS, lpFileInformation : *void, dwBufferSize : u32) -> BOOL #foreign KERNEL32;
+OpenFileById :: (hVolumeHint : HANDLE, lpFileId : *FILE_ID_DESCRIPTOR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> HANDLE #foreign KERNEL32;
+CreateSymbolicLinkA :: (lpSymlinkFileName : PSTR, lpTargetFileName : PSTR, dwFlags : SYMBOLIC_LINK_FLAGS) -> BOOLEAN #foreign KERNEL32;
+CreateSymbolicLinkW :: (lpSymlinkFileName : PWSTR, lpTargetFileName : PWSTR, dwFlags : SYMBOLIC_LINK_FLAGS) -> BOOLEAN #foreign KERNEL32;
+CreateSymbolicLinkTransactedA :: (lpSymlinkFileName : PSTR, lpTargetFileName : PSTR, dwFlags : SYMBOLIC_LINK_FLAGS, hTransaction : HANDLE) -> BOOLEAN #foreign KERNEL32;
+CreateSymbolicLinkTransactedW :: (lpSymlinkFileName : PWSTR, lpTargetFileName : PWSTR, dwFlags : SYMBOLIC_LINK_FLAGS, hTransaction : HANDLE) -> BOOLEAN #foreign KERNEL32;
+NtCreateFile :: (FileHandle : *HANDLE, DesiredAccess : u32, ObjectAttributes : *OBJECT_ATTRIBUTES, IoStatusBlock : *IO_STATUS_BLOCK, AllocationSize : *LARGE_INTEGER, FileAttributes : u32, ShareAccess : FILE_SHARE_MODE, CreateDisposition : NT_CREATE_FILE_DISPOSITION, CreateOptions : u32, EaBuffer : *void, EaLength : u32) -> NTSTATUS #foreign ntdll;
+
+// Unicode aliases
+
+#if UNICODE then WIN32_FIND_DATA :: WIN32_FIND_DATAW;
+else             WIN32_FIND_DATA :: WIN32_FIND_DATAA;
+#if UNICODE then NTMS_DRIVEINFORMATION :: NTMS_DRIVEINFORMATIONW;
+else             NTMS_DRIVEINFORMATION :: NTMS_DRIVEINFORMATIONA;
+#if UNICODE then NTMS_CHANGERINFORMATION :: NTMS_CHANGERINFORMATIONW;
+else             NTMS_CHANGERINFORMATION :: NTMS_CHANGERINFORMATIONA;
+#if UNICODE then NTMS_PMIDINFORMATION :: NTMS_PMIDINFORMATIONW;
+else             NTMS_PMIDINFORMATION :: NTMS_PMIDINFORMATIONA;
+#if UNICODE then NTMS_PARTITIONINFORMATION :: NTMS_PARTITIONINFORMATIONW;
+else             NTMS_PARTITIONINFORMATION :: NTMS_PARTITIONINFORMATIONA;
+#if UNICODE then NTMS_DRIVETYPEINFORMATION :: NTMS_DRIVETYPEINFORMATIONW;
+else             NTMS_DRIVETYPEINFORMATION :: NTMS_DRIVETYPEINFORMATIONA;
+#if UNICODE then NTMS_CHANGERTYPEINFORMATION :: NTMS_CHANGERTYPEINFORMATIONW;
+else             NTMS_CHANGERTYPEINFORMATION :: NTMS_CHANGERTYPEINFORMATIONA;
+#if UNICODE then NTMS_LIBREQUESTINFORMATION :: NTMS_LIBREQUESTINFORMATIONW;
+else             NTMS_LIBREQUESTINFORMATION :: NTMS_LIBREQUESTINFORMATIONA;
+#if UNICODE then NTMS_OPREQUESTINFORMATION :: NTMS_OPREQUESTINFORMATIONW;
+else             NTMS_OPREQUESTINFORMATION :: NTMS_OPREQUESTINFORMATIONA;
+#if UNICODE then NTMS_OBJECTINFORMATION :: NTMS_OBJECTINFORMATIONW;
+else             NTMS_OBJECTINFORMATION :: NTMS_OBJECTINFORMATIONA;
+#if UNICODE then NTMS_I1_LIBREQUESTINFORMATION :: NTMS_I1_LIBREQUESTINFORMATIONW;
+else             NTMS_I1_LIBREQUESTINFORMATION :: NTMS_I1_LIBREQUESTINFORMATIONA;
+#if UNICODE then NTMS_I1_PMIDINFORMATION :: NTMS_I1_PMIDINFORMATIONW;
+else             NTMS_I1_PMIDINFORMATION :: NTMS_I1_PMIDINFORMATIONA;
+#if UNICODE then NTMS_I1_PARTITIONINFORMATION :: NTMS_I1_PARTITIONINFORMATIONW;
+else             NTMS_I1_PARTITIONINFORMATION :: NTMS_I1_PARTITIONINFORMATIONA;
+#if UNICODE then NTMS_I1_OPREQUESTINFORMATION :: NTMS_I1_OPREQUESTINFORMATIONW;
+else             NTMS_I1_OPREQUESTINFORMATION :: NTMS_I1_OPREQUESTINFORMATIONA;
+#if UNICODE then NTMS_I1_OBJECTINFORMATION :: NTMS_I1_OBJECTINFORMATIONW;
+else             NTMS_I1_OBJECTINFORMATION :: NTMS_I1_OBJECTINFORMATIONA;
+#if UNICODE then SearchPath :: SearchPathW;
+else             SearchPath :: SearchPathA;
+#if UNICODE then CreateDirectory :: CreateDirectoryW;
+else             CreateDirectory :: CreateDirectoryA;
+#if UNICODE then CreateFile :: CreateFileW;
+else             CreateFile :: CreateFileA;
+#if UNICODE then DefineDosDevice :: DefineDosDeviceW;
+else             DefineDosDevice :: DefineDosDeviceA;
+#if UNICODE then DeleteFile :: DeleteFileW;
+else             DeleteFile :: DeleteFileA;
+#if UNICODE then DeleteVolumeMountPoint :: DeleteVolumeMountPointW;
+else             DeleteVolumeMountPoint :: DeleteVolumeMountPointA;
+#if UNICODE then FindFirstChangeNotification :: FindFirstChangeNotificationW;
+else             FindFirstChangeNotification :: FindFirstChangeNotificationA;
+#if UNICODE then FindFirstFile :: FindFirstFileW;
+else             FindFirstFile :: FindFirstFileA;
+#if UNICODE then FindFirstFileEx :: FindFirstFileExW;
+else             FindFirstFileEx :: FindFirstFileExA;
+#if UNICODE then FindFirstVolume :: FindFirstVolumeW;
+else             FindFirstVolume :: FindFirstVolumeA;
+#if UNICODE then FindNextFile :: FindNextFileW;
+else             FindNextFile :: FindNextFileA;
+#if UNICODE then FindNextVolume :: FindNextVolumeW;
+else             FindNextVolume :: FindNextVolumeA;
+#if UNICODE then GetDiskFreeSpace :: GetDiskFreeSpaceW;
+else             GetDiskFreeSpace :: GetDiskFreeSpaceA;
+#if UNICODE then GetDiskFreeSpaceEx :: GetDiskFreeSpaceExW;
+else             GetDiskFreeSpaceEx :: GetDiskFreeSpaceExA;
+#if UNICODE then GetDiskSpaceInformation :: GetDiskSpaceInformationW;
+else             GetDiskSpaceInformation :: GetDiskSpaceInformationA;
+#if UNICODE then GetDriveType :: GetDriveTypeW;
+else             GetDriveType :: GetDriveTypeA;
+#if UNICODE then GetFileAttributes :: GetFileAttributesW;
+else             GetFileAttributes :: GetFileAttributesA;
+#if UNICODE then GetFileAttributesEx :: GetFileAttributesExW;
+else             GetFileAttributesEx :: GetFileAttributesExA;
+#if UNICODE then GetFinalPathNameByHandle :: GetFinalPathNameByHandleW;
+else             GetFinalPathNameByHandle :: GetFinalPathNameByHandleA;
+#if UNICODE then GetFullPathName :: GetFullPathNameW;
+else             GetFullPathName :: GetFullPathNameA;
+#if UNICODE then GetLogicalDriveStrings :: GetLogicalDriveStringsW;
+else             GetLogicalDriveStrings :: GetLogicalDriveStringsA;
+#if UNICODE then GetLongPathName :: GetLongPathNameW;
+else             GetLongPathName :: GetLongPathNameA;
+#if UNICODE then GetShortPathName :: GetShortPathNameW;
+else             GetShortPathName :: GetShortPathNameA;
+#if UNICODE then GetTempFileName :: GetTempFileNameW;
+else             GetTempFileName :: GetTempFileNameA;
+#if UNICODE then GetVolumeInformation :: GetVolumeInformationW;
+else             GetVolumeInformation :: GetVolumeInformationA;
+#if UNICODE then GetVolumePathName :: GetVolumePathNameW;
+else             GetVolumePathName :: GetVolumePathNameA;
+#if UNICODE then QueryDosDevice :: QueryDosDeviceW;
+else             QueryDosDevice :: QueryDosDeviceA;
+#if UNICODE then RemoveDirectory :: RemoveDirectoryW;
+else             RemoveDirectory :: RemoveDirectoryA;
+#if UNICODE then SetFileAttributes :: SetFileAttributesW;
+else             SetFileAttributes :: SetFileAttributesA;
+#if UNICODE then GetTempPath :: GetTempPathW;
+else             GetTempPath :: GetTempPathA;
+#if UNICODE then GetVolumeNameForVolumeMountPoint :: GetVolumeNameForVolumeMountPointW;
+else             GetVolumeNameForVolumeMountPoint :: GetVolumeNameForVolumeMountPointA;
+#if UNICODE then GetVolumePathNamesForVolumeName :: GetVolumePathNamesForVolumeNameW;
+else             GetVolumePathNamesForVolumeName :: GetVolumePathNamesForVolumeNameA;
+#if UNICODE then GetCompressedFileSize :: GetCompressedFileSizeW;
+else             GetCompressedFileSize :: GetCompressedFileSizeA;
+#if UNICODE then VerFindFile :: VerFindFileW;
+else             VerFindFile :: VerFindFileA;
+#if UNICODE then VerInstallFile :: VerInstallFileW;
+else             VerInstallFile :: VerInstallFileA;
+#if UNICODE then GetFileVersionInfoSize :: GetFileVersionInfoSizeW;
+else             GetFileVersionInfoSize :: GetFileVersionInfoSizeA;
+#if UNICODE then GetFileVersionInfo :: GetFileVersionInfoW;
+else             GetFileVersionInfo :: GetFileVersionInfoA;
+#if UNICODE then GetFileVersionInfoSizeEx :: GetFileVersionInfoSizeExW;
+else             GetFileVersionInfoSizeEx :: GetFileVersionInfoSizeExA;
+#if UNICODE then GetFileVersionInfoEx :: GetFileVersionInfoExW;
+else             GetFileVersionInfoEx :: GetFileVersionInfoExA;
+#if UNICODE then VerLanguageName :: VerLanguageNameW;
+else             VerLanguageName :: VerLanguageNameA;
+#if UNICODE then VerQueryValue :: VerQueryValueW;
+else             VerQueryValue :: VerQueryValueA;
+#if UNICODE then GetExpandedName :: GetExpandedNameW;
+else             GetExpandedName :: GetExpandedNameA;
+#if UNICODE then LZOpenFile :: LZOpenFileW;
+else             LZOpenFile :: LZOpenFileA;
+#if UNICODE then GetBinaryType :: GetBinaryTypeW;
+else             GetBinaryType :: GetBinaryTypeA;
+#if UNICODE then GetLongPathNameTransacted :: GetLongPathNameTransactedW;
+else             GetLongPathNameTransacted :: GetLongPathNameTransactedA;
+#if UNICODE then SetFileShortName :: SetFileShortNameW;
+else             SetFileShortName :: SetFileShortNameA;
+#if UNICODE then EncryptFile :: EncryptFileW;
+else             EncryptFile :: EncryptFileA;
+#if UNICODE then DecryptFile :: DecryptFileW;
+else             DecryptFile :: DecryptFileA;
+#if UNICODE then FileEncryptionStatus :: FileEncryptionStatusW;
+else             FileEncryptionStatus :: FileEncryptionStatusA;
+#if UNICODE then OpenEncryptedFileRaw :: OpenEncryptedFileRawW;
+else             OpenEncryptedFileRaw :: OpenEncryptedFileRawA;
+#if UNICODE then CreateDirectoryEx :: CreateDirectoryExW;
+else             CreateDirectoryEx :: CreateDirectoryExA;
+#if UNICODE then CreateDirectoryTransacted :: CreateDirectoryTransactedW;
+else             CreateDirectoryTransacted :: CreateDirectoryTransactedA;
+#if UNICODE then RemoveDirectoryTransacted :: RemoveDirectoryTransactedW;
+else             RemoveDirectoryTransacted :: RemoveDirectoryTransactedA;
+#if UNICODE then GetFullPathNameTransacted :: GetFullPathNameTransactedW;
+else             GetFullPathNameTransacted :: GetFullPathNameTransactedA;
+#if UNICODE then CreateFileTransacted :: CreateFileTransactedW;
+else             CreateFileTransacted :: CreateFileTransactedA;
+#if UNICODE then SetFileAttributesTransacted :: SetFileAttributesTransactedW;
+else             SetFileAttributesTransacted :: SetFileAttributesTransactedA;
+#if UNICODE then GetFileAttributesTransacted :: GetFileAttributesTransactedW;
+else             GetFileAttributesTransacted :: GetFileAttributesTransactedA;
+#if UNICODE then GetCompressedFileSizeTransacted :: GetCompressedFileSizeTransactedW;
+else             GetCompressedFileSizeTransacted :: GetCompressedFileSizeTransactedA;
+#if UNICODE then DeleteFileTransacted :: DeleteFileTransactedW;
+else             DeleteFileTransacted :: DeleteFileTransactedA;
+#if UNICODE then CheckNameLegalDOS8Dot3 :: CheckNameLegalDOS8Dot3W;
+else             CheckNameLegalDOS8Dot3 :: CheckNameLegalDOS8Dot3A;
+#if UNICODE then FindFirstFileTransacted :: FindFirstFileTransactedW;
+else             FindFirstFileTransacted :: FindFirstFileTransactedA;
+#if UNICODE then CopyFile :: CopyFileW;
+else             CopyFile :: CopyFileA;
+#if UNICODE then CopyFileEx :: CopyFileExW;
+else             CopyFileEx :: CopyFileExA;
+#if UNICODE then CopyFileTransacted :: CopyFileTransactedW;
+else             CopyFileTransacted :: CopyFileTransactedA;
+#if UNICODE then MoveFile :: MoveFileW;
+else             MoveFile :: MoveFileA;
+#if UNICODE then MoveFileEx :: MoveFileExW;
+else             MoveFileEx :: MoveFileExA;
+#if UNICODE then MoveFileWithProgress :: MoveFileWithProgressW;
+else             MoveFileWithProgress :: MoveFileWithProgressA;
+#if UNICODE then MoveFileTransacted :: MoveFileTransactedW;
+else             MoveFileTransacted :: MoveFileTransactedA;
+#if UNICODE then ReplaceFile :: ReplaceFileW;
+else             ReplaceFile :: ReplaceFileA;
+#if UNICODE then CreateHardLink :: CreateHardLinkW;
+else             CreateHardLink :: CreateHardLinkA;
+#if UNICODE then CreateHardLinkTransacted :: CreateHardLinkTransactedW;
+else             CreateHardLinkTransacted :: CreateHardLinkTransactedA;
+#if UNICODE then SetVolumeLabel :: SetVolumeLabelW;
+else             SetVolumeLabel :: SetVolumeLabelA;
+#if UNICODE then FindFirstVolumeMountPoint :: FindFirstVolumeMountPointW;
+else             FindFirstVolumeMountPoint :: FindFirstVolumeMountPointA;
+#if UNICODE then FindNextVolumeMountPoint :: FindNextVolumeMountPointW;
+else             FindNextVolumeMountPoint :: FindNextVolumeMountPointA;
+#if UNICODE then SetVolumeMountPoint :: SetVolumeMountPointW;
+else             SetVolumeMountPoint :: SetVolumeMountPointA;
+#if UNICODE then CreateSymbolicLink :: CreateSymbolicLinkW;
+else             CreateSymbolicLink :: CreateSymbolicLinkA;
+#if UNICODE then CreateSymbolicLinkTransacted :: CreateSymbolicLinkTransactedW;
+else             CreateSymbolicLinkTransacted :: CreateSymbolicLinkTransactedA;
+
+// System libraries
+
+#scope_file
+
+KERNEL32 :: #system_library "KERNEL32";
+VERSION :: #system_library "VERSION";
+clfsw32 :: #system_library "clfsw32";
+ADVAPI32 :: #system_library "ADVAPI32";
+WOFUTIL :: #system_library "WOFUTIL";
+txfw32 :: #system_library "txfw32";
+ktmw32 :: #system_library "ktmw32";
+NETAPI32 :: #system_library "NETAPI32";
+ntdll :: #system_library "ntdll";
