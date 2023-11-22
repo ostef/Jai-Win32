@@ -1,8 +1,6 @@
-#module_parameters (UNICODE := true);
+// The following GUID stuff was hand-written to be automatically
+// copy-pasted into Foundation, because it is not present in the metadata
 
-#load "Generated/all_modules.jai";
-
-// For some reason this is not part of the metadata
 GUID :: union
 {
     Data1 : u32;
@@ -11,23 +9,19 @@ GUID :: union
     Data4 : [8]u8;
 }
 
-#scope_file
-
-// Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
-assert :: (arg: bool, loc := #caller_location) {
-    if arg return;
-
-    if context.handling_assertion_failure  return;  // Avoid infinite loops.
-	context.handling_assertion_failure = true;
-
-    context.assertion_failed(loc, "Assertion failed.");
-	context.handling_assertion_failure = false;
-} @NoProfile
-
-#scope_export
-
 MakeGUID :: (str : string) -> GUID #must
 {
+    // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
+    assert :: (arg: bool, loc := #caller_location) {
+        if arg return;
+
+        if context.handling_assertion_failure  return;  // Avoid infinite loops.
+        context.handling_assertion_failure = true;
+
+        context.assertion_failed(loc, "Assertion failed.");
+        context.handling_assertion_failure = false;
+    } @NoProfile
+
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
         ToDigit :: inline (char : u8) -> int #must

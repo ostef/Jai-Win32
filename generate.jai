@@ -45,6 +45,8 @@ Handle_Type_Names :: string.[
 GenerationContext :: struct
 {
     generate_WIN32_ERROR_enum := false;
+    bundle_modules := false;
+    output_jai_module_dir := "Win32";
 
     generate_for_architecture := "X64";
     handle_type_set : Set (string);
@@ -88,8 +90,11 @@ FindOrAddModule :: (module_name : string) -> *Win32Module
     return result;
 }
 
-AddDependency :: (module_name : string, type_name : string)
+AddDependency :: (for_module : *Win32Module, module_name : string, type_name : string)
 {
+    if module_name != for_module.name
+        find_or_add (*for_module.module_dependencies, module_name);
+
     module := FindOrAddModule (module_name);
 
     _, new := find_or_add (*module.types_to_generate, type_name);
@@ -207,6 +212,7 @@ Win32Module :: struct
     parsed : bool;
     generate_entirely : bool;
     types_to_generate : Set (string);
+    module_dependencies : Set (string);
     source_code : string;
 }
 
@@ -231,56 +237,60 @@ ParseModule :: (module : *Win32Module)
     }
 }
 
-CollectDependencies :: (using type : Win32Type)
+CollectDependencies :: (module : *Win32Module, using type : Win32Type)
 {
     if type.Kind ==
     {
     case .ApiRef;
-        AddDependency (type.Api, type.Name);
+        AddDependency (module, type.Api, type.Name);
+    case .Native;
+        if Name == "Guid"
+            AddDependency (module, "Foundation", "GUID");
+
     case .Array; #through;
     case .LPArray; #through;
     case .PointerTo;
-        CollectDependencies (type.Child);
+        CollectDependencies (module, type.Child);
     }
 }
 
-CollectDependencies :: (using constant : Win32Constant)
+CollectDependencies :: (module : *Win32Module, using constant : Win32Constant)
 {
-    CollectDependencies (Type);
+    CollectDependencies (module, Type);
 }
 
-CollectDependencies :: (using typedef : Win32TypeDefinition)
+CollectDependencies :: (module : *Win32Module, using typedef : Win32TypeDefinition)
 {
     if Kind ==
     {
     case .NativeTypedef;
-        CollectDependencies (Def);
+        CollectDependencies (module, Def);
 
     case .Union; #through;
     case .Struct;
         for Fields
-            CollectDependencies (it.Type);
+            CollectDependencies (module, it.Type);
 
         for NestedTypes
-            CollectDependencies (it);
+            CollectDependencies (module, it);
 
     case .FunctionPointer;
-        CollectDependencies (ReturnType);
+        CollectDependencies (module, ReturnType);
         for Params
-            CollectDependencies (it.Type);
+            CollectDependencies (module, it.Type);
 
     case .Com;
-        CollectDependencies (Interface);
+        CollectDependencies (module, Interface);
         for Methods
-            CollectDependencies (it);
+            CollectDependencies (module, it);
     }
 }
 
-CollectDependencies :: (using func : Win32Function)
+CollectDependencies :: (module : *Win32Module, using func : Win32Function)
 {
-    CollectDependencies (ReturnType);
+    CollectDependencies (module, ReturnType);
     for Params
-        CollectDependencies (it.Type);
+        CollectDependencies (module, it.Type);
  }
 
 CollectModuleDependencies :: (module : *Win32Module)
@@ -288,19 +298,19 @@ CollectModuleDependencies :: (module : *Win32Module)
     for module.Types
     {
         if ShouldGenerateType (module, it)
-            CollectDependencies (it);
+            CollectDependencies (module, it);
     }
 
     for module.Constants
     {
         if ShouldGenerateConstant (module, it)
-            CollectDependencies (it);
+            CollectDependencies (module, it);
     }
 
     for module.Functions
     {
         if ShouldGenerateFunction (module, it)
-            CollectDependencies (it);
+            CollectDependencies (module, it);
     }
 }
 
@@ -1117,6 +1127,31 @@ GenerateModule :: (module : *Win32Module)
 
     append (*builder, "\n");
 
+    if context.gen_ctx.bundle_modules
+    {
+        append (*builder, "// This module depends on:\n");
+        for _, dep : module.module_dependencies
+            print_to_builder (*builder, "// %\n", dep);
+    }
+    else
+    {
+        append (*builder, "#module_parameters (UNICODE := true);\n\n");
+        for _, dep : module.module_dependencies
+            print_to_builder (*builder, "#import \"%/%\" (UNICODE);\n", context.gen_ctx.output_jai_module_dir, dep);
+    }
+
+    // Append hand-written GUID stuff
+    if module.name == "Foundation"
+    {
+        append (*builder, "// The following GUID stuff was hand-written then copy-pasted here, because it is not present in the metadata\n\n");
+
+        guid_contents, ok := read_entire_file ("GUID.jai");
+        assert (ok);
+
+        append (*builder, guid_contents);
+    }
+
+    append (*builder, "\n");
     append (*builder, "// Constants\n\n");
 
     for module.Constants
@@ -1231,11 +1266,16 @@ Main :: (arguments : []string) -> int
             print (" -exe (compile this into an executable; for now this removes the ability to compile the generated code automatically)\n");
         }
 
+        print (" -generate_WIN32_ERROR_enum (generate the huge WIN32_ERROR enum in module Foundation; if this option is not set, the enum members will be replaced by a u32)\n");
+        print (" -bundle_modules (bundle all generated modules into one big Jai module; if this option is not set, we will output a Jai module for each input Win32 module)\n");
+        print (" -output_jai_module_dir DIR\n");
+
         ReturnWithoutCompiling (0);
     }
 
     module_arguments : [..]string;
     next_is_arch := false;
+    next_is_output_jai_module_dir := false;
     clean := false;
     import_GL := false;
     exe := false;
@@ -1262,6 +1302,11 @@ Main :: (arguments : []string) -> int
             }
 
             generate_for_architecture = it;
+        }
+        else if next_is_output_jai_module_dir
+        {
+            output_jai_module_dir = it;
+            next_is_output_jai_module_dir = false;
         }
         else if it ==
         {
@@ -1291,6 +1336,12 @@ Main :: (arguments : []string) -> int
 
         case "-generate_WIN32_ERROR_enum";
             generate_WIN32_ERROR_enum = true;
+
+        case "-bundle_modules";
+            bundle_modules = true;
+
+        case "-output_jai_module_dir";
+            next_is_output_jai_module_dir = true;
 
         case;
             if it.count > 0 && it[0] == #char "-"
@@ -1450,13 +1501,18 @@ Main :: (arguments : []string) -> int
     make_directory_if_it_does_not_exist ("Generated/");
 
     all_modules_builder : String_Builder;
+    if bundle_modules
+        append (*all_modules_builder, "#module_parameters (UNICODE := true);\n\n");
+
     for modules
     {
         write_entire_file (sprint ("Generated/%.jai", it.name), it.source_code);
-        print_to_builder (*all_modules_builder, "#load \"%.jai\";\n", it.name);
+        if bundle_modules
+            print_to_builder (*all_modules_builder, "#load \"%.jai\";\n", it.name);
     }
 
-    write_entire_file ("Generated/all_modules.jai", *all_modules_builder);
+    if bundle_modules
+        write_entire_file ("Generated/all_modules.jai", *all_modules_builder);
 
     // Compile all modules to catch errors
     if #compile_time
@@ -1468,10 +1524,45 @@ Main :: (arguments : []string) -> int
         options.dead_code_elimination = .NONE;
         set_build_options (options, ws);
 
-        compiler_begin_intercept (ws, .SKIP_ALL);
+        compiler_begin_intercept (ws);
+
         if import_GL
             add_build_string ("#import \"GL\" (ENABLE_ALL_EXTENSIONS = true);", ws);
-        add_build_string ("#import, file \"../module.jai\";", ws);
+
+        if bundle_modules
+        {
+            add_build_string ("#import, file \"all_modules.jai\";", ws);
+        }
+        else
+        {
+            for modules
+                add_build_string (sprint ("#import \"%/%\";", output_jai_module_dir, it.name), ws);
+        }
+
+        while true
+        {
+            msg := compiler_wait_for_message ();
+            if msg.kind == .COMPLETE
+                break;
+
+            if msg.kind == .FAILED_IMPORT
+            {
+                import := cast (*Message_Failed_Import) msg;
+
+                if starts_with (import.target_module_name, sprint ("%/", output_jai_module_dir))
+                {
+                    name_without_directory := import.target_module_name;
+                    name_without_directory.data += output_jai_module_dir.count + 1;
+                    name_without_directory.count -= output_jai_module_dir.count + 1;
+
+                    final_name := sprint ("Generated/%.jai", name_without_directory);
+                    //print ("Remapping % to %\n", import.target_module_name, final_name);
+
+                    provide_import (msg.workspace, import, .PATH_TO_FILE, final_name);
+                }
+            }
+        }
+
         compiler_end_intercept (ws);
     }
 
