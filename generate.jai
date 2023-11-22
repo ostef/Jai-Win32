@@ -320,6 +320,7 @@ CollectModuleDependencies :: (module : *Win32Module)
 
 Win32ValueType :: enum
 {
+    Null;
     Byte;
     UInt16;
     Int16;
@@ -495,6 +496,7 @@ AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
 {
     if #complete type ==
     {
+    case .Null; append (builder, "<null>");
     case .Byte; append (builder, "u8");
     case .UInt16; append (builder, "u16");
     case .Int16; append (builder, "s16");
@@ -716,7 +718,11 @@ GenerateTypeDeclaration :: (builder : *String_Builder, using type : Win32TypeDef
         else
             append (builder, "enum ");
 
-        AppendValueType (builder, IntegerBase);
+        if IntegerBase == .Null
+            append (builder, "s32");
+        else
+            AppendValueType (builder, IntegerBase);
+
         append (builder, "\n");
         Indent ();
         append (builder, "{\n");
