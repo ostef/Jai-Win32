@@ -1093,6 +1093,8 @@ AppendIdentifier :: (builder : *String_Builder, str : string)
     if str ==
     {
     case "context"; #through;
+    case "remove"; #through;
+    case "defer"; #through;
     case "string"; #through;
     case "u8"; #through;
     case "s8"; #through;
@@ -1104,6 +1106,10 @@ AppendIdentifier :: (builder : *String_Builder, str : string)
     case "s64"; #through;
     case "float32"; #through;
     case "float64"; #through;
+    case "Type"; #through;
+    case "Any"; #through;
+    case "Code"; #through;
+    case "Type_Info"; #through;
     case "GUID";
         print_to_builder (builder, "_%", str);
 
