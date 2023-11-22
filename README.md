@@ -13,7 +13,7 @@ Valid options are:
 * `-clean` (delete the Generated directory and its contents)
 * `-import_GL` (import GL module to check for name clashes with Graphics.OpenGL)
 * `-exe` (compile this into an executable; for now this removes the ability to compile the generated code automatically)
-* `-generate_WIN32_ERROR_enum` (generate the huge WIN32_ERROR enum in module Foundation; if this option is not set, the enum members will be replaced by a u32)
+* `-generate_WIN32_ERROR_enum` (generate the huge WIN32_ERROR enum in module Foundation; if this option is not set, the enum will be replaced by a u32)
 * `-bundle_modules` (bundle all generated modules into one big Jai module; if this option is not set, we will output a Jai module for each input Win32 module)
 * `-output_jai_module_dir DIR`
 
