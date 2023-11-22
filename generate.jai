@@ -364,6 +364,7 @@ Win32TypeKind :: enum
     Array;
     PointerTo;
     LPArray;
+    MissingClrType;
 }
 
 Win32Type :: struct
@@ -377,6 +378,8 @@ Win32Type :: struct
         Api : string;
         Parents : []string;
     };
+
+    Namespace : string; // MissingClrType
 
     struct // Array, PointerTo and LPArray
     {
@@ -569,6 +572,9 @@ AppendType :: (builder : *String_Builder, using type : Win32Type, pointer_to_com
     if #complete Kind ==
     {
     case .Null;
+    case .MissingClrType;
+        append (builder, "void");
+
     case .Native;
         AppendNativeType (builder, Name);
 
