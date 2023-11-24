@@ -309,6 +309,9 @@ main :: ()
 }
 
 Win32_Module_Code :: #string JAI
+// If you import Win32 as is, you will get common used stuff
+// like file system functions, memory functions and windowing
+
 #module_parameters (UNICODE := true);
 
 #scope_file
@@ -317,6 +320,7 @@ Basics     :: #import "Win32/Basics" (UNICODE);
 Time       :: #import "Win32/Time" (UNICODE);
 FileSystem :: #import "Win32/FileSystem" (UNICODE);
 Memory     :: #import "Win32/Memory" (UNICODE);
+GDI_Basics :: #import "Win32/GDI_Basics" (UNICODE);
 WindowsAndMessaging :: #import "Win32/WindowsAndMessaging" (UNICODE);
 
 #scope_export
@@ -325,5 +329,6 @@ using Basics;
 using Time;
 using FileSystem;
 using Memory;
+using GDI_Basics;
 using WindowsAndMessaging;
 JAI
