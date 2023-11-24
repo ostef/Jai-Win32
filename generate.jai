@@ -323,6 +323,9 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
 
             AppendType (builder, it.type);
 
+            if packing_size != 0
+                appendf (builder, " #align %", packing_size);
+
             append (builder, ";");
 
             // Generate attributes as comments
@@ -340,7 +343,12 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
         }
 
         Indent ();
-        append (builder, "}\n");
+        append (builder, "}");
+
+        if packing_size != 0
+            append (builder, "#no_padding");
+
+        append (builder, "\n");
 
     case .NativeTypedef;
         AppendType (builder, def);
