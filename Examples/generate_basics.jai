@@ -121,6 +121,12 @@ main :: ()
         if ShouldIgnoreSymbol (it)
             continue;
 
+        if starts_with (it.name, "FORMAT_MESSAGE_")
+        {
+            SetOutputModule (it, "Win32/Basics");
+            continue it;
+        }
+
         // Most constant in Foundation are error codes, which should be in different modules
         // (there is D3D stuff, GDI stuff...). We hand-pick what we actually want here.
         if it.module == "Foundation"
@@ -177,6 +183,10 @@ main :: ()
                 SetOutputModule (const, output_module);
             }
 
+            SetOutputModule (it, "Win32/Basics");
+            continue it;
+
+        case "FORMAT_MESSAGE_OPTIONS";
             SetOutputModule (it, "Win32/Basics");
             continue it;
 
@@ -274,10 +284,29 @@ main :: ()
 
         if it.name ==
         {
+        case "GetModuleHandleW"; #through;
+        case "GetModuleHandleA"; #through;
+        case "GetModuleFileNameW"; #through;
+        case "GetModuleFileNameA"; #through;
+        case "GetUserNameW"; #through;
+        case "GetUserNameA"; #through;
+        case "GetComputerNameW"; #through;
+        case "GetComputerNameA";
+            SetOutputModule (it, "Win32/Basics");
+            continue it;
+
+        case "FormatMessageW"; #through;
+        case "FormatMessageA";
+            SetOutputModule (it, "Win32/Basics");
+            continue it;
 
         case "QueryPerformanceCounter"; #through;
         case "QueryPerformanceFrequency";
             SetOutputModule (it, "Win32/Basics");
+            continue it;
+
+        case "GetSystemTimePreciseAsFileTime";
+            SetOutputModule (it, "Win32/Time");
             continue it;
         }
 
@@ -295,7 +324,7 @@ main :: ()
         ResolveModuleDependencies (it);
 
     if context.generator.has_errors
-        return;
+        exit (1);
 
     make_directory_if_it_does_not_exist ("Generated");
     make_directory_if_it_does_not_exist ("Generated/Win32");
