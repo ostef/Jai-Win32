@@ -628,18 +628,12 @@ GenerateModuleSourceCode :: (module : *Module) -> string #must
             array_add (*all_dlls, it.dll_import);
     }
 
-    /*
     append (*builder, "\n// Unicode aliases\n\n");
-    for module.UnicodeAliases
+    for module.unicode_aliases
     {
-        if !ShouldGenerateFunction (module, sprint ("%W", it))
-        || !ShouldGenerateFunction (module, sprint ("%A", it))
-            continue;
-
         appendf (*builder, "#if UNICODE then %1 :: %1W;\n", it);
         appendf (*builder, "else             %1 :: %1A;\n", it);
     }
-    */
 
     append (*builder, "\n// System libraries\n\n");
     append (*builder, "#scope_file\n\n");

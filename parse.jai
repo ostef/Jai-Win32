@@ -314,9 +314,14 @@ ParseModule :: (module_name : string) -> *Module
         ParseFunction (module, it.object);
     }
 
-    module.unicode_aliases = NewArray (unicode_aliases.count, string);
     for unicode_aliases
-        module.unicode_aliases[it_index] = get_as (it, string);
+    {
+        alias := get_as (it, string);
+        array_add (*module.unicode_aliases, alias);
+
+        dummy : void;
+        table_add (*module.unicode_alias_set, alias, dummy);
+    }
 
     return module;
 }

@@ -71,7 +71,7 @@ Module :: struct
     constants : [..]*Win32Constant;
     types : [..]*Win32TypeDefinition;
     functions : [..]*Win32Function;
-    unicode_aliases : []string;
+    unicode_aliases : [..]string;
 
     // This is separate from types because we want to generate
     // things in approximately the original order they were put
@@ -80,6 +80,8 @@ Module :: struct
     // name, but we still want dependency resolution to be able to find
     // it via the original name.
     type_table : Table (string, *Win32TypeDefinition);
+    function_table : Table (string, *Win32Function);
+    unicode_alias_set : Set (string);
     dependencies : Set (string);
 }
 
@@ -160,12 +162,15 @@ AddTypeDefinition :: inline (module : *Module, typedef : *Win32TypeDefinition)
 
 AddFunction :: inline (module : *Module, function : *Win32Function)
 {
+    assert (function.name != "");
+
     if module.is_output_module
         function.output_module = module.name;
     else
         function.module = module.name;
 
     array_add (*module.functions, function);
+    table_add (*module.function_table, function.name, function);
 }
 
 SetOutputModule :: inline (const : *Win32Constant, module_name : string)
@@ -194,6 +199,23 @@ SetOutputModule :: inline (func : *Win32Function, module_name : string)
 
     module := FindOutputModule (module_name);
     assert (module != null, "Could not find output module %", module_name);
+
+    unicode_alias := func.name;
+    unicode_alias.count -= 1;
+
+    if !table_contains (*module.unicode_alias_set, unicode_alias)
+    {
+        input_module := FindInputModule (func.module);
+        assert (input_module != null);
+
+        if table_contains (*input_module.unicode_alias_set, unicode_alias)
+        {
+            array_add (*module.unicode_aliases, unicode_alias);
+
+            dummy : void;
+            table_add (*module.unicode_alias_set, unicode_alias, dummy);
+        }
+    }
 
     AddFunction (module, func);
 }
