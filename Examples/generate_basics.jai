@@ -360,4 +360,6 @@ using FileSystem;
 using Memory;
 using GDI_Basics;
 using WindowsAndMessaging;
+
+OS_Error_Code :: WIN32_ERROR;
 JAI
