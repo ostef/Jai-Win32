@@ -602,7 +602,7 @@ AllInputFunctions :: (gen : *Generator, body : Code, flags : For_Flags) #expand
 
 GUID_Code :: #string JAI
 // The following GUID stuff was hand-written to be automatically
-// copy-pasted into Foundation, because it is not present in the metadata
+// copy-pasted here, because it is not present in the metadata
 
 GUID :: union
 {

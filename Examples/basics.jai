@@ -72,6 +72,20 @@ ShouldIgnoreSymbol :: inline (using symbol : Win32Symbol) -> bool
     return false;
 }
 
+GetFoundationConstantOutputModule :: (name : string) -> string #must
+{
+    if name ==
+    {
+    case "INVALID_HANDLE_VALUE"; #through;
+    case "MAX_PATH"; #through;
+    case "STRICT";
+        return "Win32/Basics";
+
+    case;
+        return "";
+    }
+}
+
 main :: ()
 {
     context.allocator = temp;
@@ -107,6 +121,17 @@ main :: ()
         if ShouldIgnoreSymbol (it)
             continue;
 
+        // Most constant in Foundation are error codes, which should be in different modules
+        // (there is D3D stuff, GDI stuff...). We hand-pick what we actually want here.
+        if it.module == "Foundation"
+        {
+            output_module := GetFoundationConstantOutputModule (it.name);
+            if output_module
+                SetOutputModule (it, output_module);
+
+            continue it;
+        }
+
         for redir : Module_Redirection_Table
         {
             if it.module == redir[0]
@@ -120,6 +145,9 @@ main :: ()
     for :AllInputTypeDefinitions context.generator
     {
         if ShouldIgnoreSymbol (it)
+            continue;
+
+        if it.name == "NTSTATUS_FACILITY_CODE"
             continue;
 
         if array_find (Handle_Type_Names, it.name)
@@ -137,7 +165,16 @@ main :: ()
 
             for val : it.values
             {
-                // Do constants
+                output_module := GetFoundationConstantOutputModule (val.name);
+                if !output_module
+                    continue;
+
+                const := New (Win32Constant);
+                const.name = val.name;
+                const.type = it.def;
+                const.value_type = .UInt32;
+                const.int_value = val.value;
+                SetOutputModule (const, output_module);
             }
 
             SetOutputModule (it, "Win32/Basics");

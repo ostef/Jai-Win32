@@ -592,7 +592,6 @@ GenerateModuleSourceCode :: (module : *Module) -> string #must
     // Append hand-written GUID stuff
     if module.name == "Win32/Basics"
     {
-        append (*builder, "\n");
         append (*builder, GUID_Code);
     }
 
