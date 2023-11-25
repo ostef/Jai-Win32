@@ -314,6 +314,9 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
 
             append (builder, "    ");
 
+            if starts_with (it.name, "Anonymous")
+                append (builder, "using, except (.[\"Anonymous\",\"Anonymous1\",\"Anonymous2\",\"Anonymous3\",\"Anonymous4\",\"Anonymous5\"]) ");
+
             // @Incomplete: see commit about struct member names clashing
             if it.name == it.type.name
                 append (builder, "_");
