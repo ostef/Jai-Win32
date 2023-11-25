@@ -97,8 +97,8 @@ main :: ()
     CreateOutputModule ("Win32/File_System");
     CreateOutputModule ("Win32/Memory");
     CreateOutputModule ("Win32/Console");
-    CreateOutputModule ("Win32/Windows_And_Messaging");
     CreateOutputModule ("Win32/GDI_Basics");
+    CreateOutputModule ("Win32/Windows_And_Messaging");
     /*
     CreateOutputModule ("Win32/OpenGL");
     CreateOutputModule ("Win32/DXGI_Basics");
@@ -185,6 +185,7 @@ main :: ()
             SetOutputModule (it, "Win32/Basics");
             continue it;
 
+        case "STD_HANDLE"; #through;
         case "LIST_ENTRY"; #through;
         case "SLIST_HEADER"; #through;
         case "SLIST_ENTRY"; #through;
@@ -326,6 +327,9 @@ main :: ()
             SetOutputModule (it, "Win32/GDI_Basics");
             continue it;
 
+        case "GetStdHandle"; #through;
+        case "SetStdHandle"; #through;
+        case "SetStdHandleEx"; #through;
         case "GetModuleHandleW"; #through;
         case "GetModuleHandleA"; #through;
         case "GetModuleFileNameW"; #through;
@@ -387,6 +391,7 @@ Win32_Module_Code :: #string JAI
 #scope_file
 
 Basics     :: #import "Win32/Basics" (UNICODE);
+Threads    :: #import "Win32/Threads" (UNICODE);
 Time       :: #import "Win32/Time" (UNICODE);
 FileSystem :: #import "Win32/File_System" (UNICODE);
 Memory     :: #import "Win32/Memory" (UNICODE);
