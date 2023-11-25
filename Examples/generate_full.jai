@@ -1,4 +1,4 @@
-// This example program generates bindings for basic Win32 stuff
+// This example program generates bindings for all of Win32 stuffs
 
 #import "Basic";
 #import "Compiler";
