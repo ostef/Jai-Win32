@@ -240,7 +240,7 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
     append (builder, "\n");
 }
 
-GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level := 0)
+GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level := 0, as_type_declaration := true)
 {
     if kind == .Com
     {
@@ -249,8 +249,11 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
     }
 
     Indent ();
-    AppendIdentifier (builder, name);
-    append (builder, " :: ");
+    if as_type_declaration
+    {
+        AppendIdentifier (builder, name);
+        append (builder, " :: ");
+    }
 
     if #complete kind ==
     {
@@ -310,21 +313,39 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
 
         for fields
         {
-            Indent ();
+            is_anonymous : bool;
+            anonymous_typedef : *Win32TypeDefinition;
+            if starts_with (it.name, "Anonymous") && starts_with (it.type.name, "_Anonymous")
+            {
+                for * nested : nested_types
+                {
+                    if nested.name == it.type.name
+                    {
+                        is_anonymous = true;
+                        anonymous_typedef = nested;
+                        break;
+                    }
+                }
+            }
 
-            append (builder, "    ");
+            if is_anonymous
+            {
+                GenerateTypeDefinition (builder, anonymous_typedef, indent_level + 1, as_type_declaration = false);
+            }
+            else
+            {
+                Indent ();
+                append (builder, "    ");
 
-            if starts_with (it.name, "Anonymous")
-                append (builder, "using, except (.[\"Anonymous\",\"Anonymous1\",\"Anonymous2\",\"Anonymous3\",\"Anonymous4\",\"Anonymous5\"]) ");
+                // @Incomplete: see commit about struct member names clashing
+                if it.name == it.type.name
+                    append (builder, "_");
 
-            // @Incomplete: see commit about struct member names clashing
-            if it.name == it.type.name
-                append (builder, "_");
+                AppendIdentifier (builder, it.name);
+                append (builder, " : ");
 
-            AppendIdentifier (builder, it.name);
-            append (builder, " : ");
-
-            AppendType (builder, it.type);
+                AppendType (builder, it.type);
+            }
 
             if packing_size != 0
                 appendf (builder, " #align %", packing_size);
@@ -333,13 +354,24 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
 
             // Generate attributes as comments
             if it.attrs != 0
+            {
                 appendf (builder, " // %", it.attrs);
+                if is_anonymous
+                    appendf (builder, " Anonymous");
+            }
+            else if is_anonymous
+            {
+                appendf (builder, " // Anonymous");
+            }
 
             append (builder, "\n");
         }
 
         for nested_types
         {
+            if starts_with (it.name, "_Anonymous")
+                continue;
+
             append (builder, "\n");
 
             GenerateTypeDefinition (builder, it, indent_level + 1);
@@ -349,9 +381,10 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
         append (builder, "}");
 
         if packing_size != 0
-            append (builder, "#no_padding");
+            append (builder, " #no_padding");
 
-        append (builder, "\n");
+        if as_type_declaration
+            append (builder, "\n");
 
     case .NativeTypedef;
         AppendType (builder, def);
