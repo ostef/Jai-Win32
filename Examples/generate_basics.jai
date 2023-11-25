@@ -15,6 +15,7 @@
 
 Module_Redirection_Table :: [2]string.[
     .["Foundation","Win32/Basics"],
+    .["System.Threading","Win32/Threads"],
     .["System.Time","Win32/Time"],
     .["System.IO","Win32/File_System"],
     .["Storage.FileSystem","Win32/File_System"],
@@ -91,6 +92,7 @@ main :: ()
     InitWin32Database ("../win32json/api");
 
     CreateOutputModule ("Win32/Basics");
+    CreateOutputModule ("Win32/Threads");
     CreateOutputModule ("Win32/Time");
     CreateOutputModule ("Win32/File_System");
     CreateOutputModule ("Win32/Memory");
@@ -181,6 +183,12 @@ main :: ()
             SetOutputModule (it, "Win32/Basics");
             continue it;
 
+        case "LIST_ENTRY"; #through;
+        case "SLIST_HEADER"; #through;
+        case "SLIST_ENTRY"; #through;
+        case "PROCESSOR_NUMBER"; #through;
+        case "GROUP_AFFINITY"; #through;
+        case "RTL_UMS_SCHEDULER_REASON"; #through;
         case "FORMAT_MESSAGE_OPTIONS";
             SetOutputModule (it, "Win32/Basics");
             continue it;
@@ -202,6 +210,7 @@ main :: ()
         case "ACL"; #through;
         case "LUID_AND_ATTRIBUTES"; #through;
         case "TOKEN_PRIVILEGES_ATTRIBUTES"; #through;
+        case "TOKEN_ACCESS_MASK"; #through;
         case "SECURITY_DESCRIPTOR";
             SetOutputModule (it, "Win32/Basics");
             continue it;
