@@ -22,12 +22,12 @@ Module_Redirection_Table :: [2]string.[
     .["System.Memory","Win32/Memory"],
     .["System.Console","Win32/Console"],
     .["UI.WindowsAndMessaging","Win32/Windows_And_Messaging"],
-    .["Graphics.OpenGL","Win32/OpenGL"],
-    .["Graphics.Dxgi.Common","Win32/DXGI_Basics"],
-    .["Graphics.Hlsl","Win32/Direct3D"],
-    .["Graphics.Direct3D","Win32/Direct3D"],
-    .["Graphics.Direct3D11","Win32/Direct3D11"],
-    .["Graphics.Direct3D12","Win32/Direct3D12"],
+    //.["Graphics.OpenGL","Win32/OpenGL"],
+    //.["Graphics.Dxgi.Common","Win32/DXGI_Basics"],
+    //.["Graphics.Hlsl","Win32/Direct3D"],
+    //.["Graphics.Direct3D","Win32/Direct3D"],
+    //.["Graphics.Direct3D11","Win32/Direct3D11"],
+    //.["Graphics.Direct3D12","Win32/Direct3D12"],
 ];
 
 Handle_Type_Names :: string.[
@@ -99,11 +99,13 @@ main :: ()
     CreateOutputModule ("Win32/Console");
     CreateOutputModule ("Win32/Windows_And_Messaging");
     CreateOutputModule ("Win32/GDI_Basics");
+    /*
     CreateOutputModule ("Win32/OpenGL");
     CreateOutputModule ("Win32/DXGI_Basics");
     CreateOutputModule ("Win32/Direct3D");
     CreateOutputModule ("Win32/Direct3D11");
     CreateOutputModule ("Win32/Direct3D12");
+    */
 
     void_type : Win32Type;
     void_type.kind = .Native;
@@ -236,6 +238,7 @@ main :: ()
             SetOutputModule (it, "Win32/GDI_Basics");
             continue it;
 
+        /*
         case "IDXGISwapChain"; #through;
         case "IDXGIAdapter"; #through;
         case "IDXGIObject"; #through;
@@ -252,6 +255,7 @@ main :: ()
         case "DXGI_ADAPTER_DESC";
             SetOutputModule (it, "Win32/DXGI_Basics");
             continue it;
+        */
 
         case "HMONITOR"; #through;
         case "HBITMAP"; #through;
