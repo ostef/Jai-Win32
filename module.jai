@@ -246,7 +246,7 @@ Win32Symbol :: struct
     platform : string;
 }
 
-Win32AttributeFlags :: enum
+Win32AttributeFlags :: enum_flags
 {
     In;
     Out;
