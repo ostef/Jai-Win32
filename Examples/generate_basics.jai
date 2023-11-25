@@ -16,13 +16,14 @@
 Module_Redirection_Table :: [2]string.[
     .["Foundation","Win32/Basics"],
     .["System.Time","Win32/Time"],
-    .["System.IO","Win32/FileSystem"],
-    .["Storage.FileSystem","Win32/FileSystem"],
+    .["System.IO","Win32/File_System"],
+    .["Storage.FileSystem","Win32/File_System"],
     .["System.Memory","Win32/Memory"],
     .["System.Console","Win32/Console"],
-    .["UI.WindowsAndMessaging","Win32/WindowsAndMessaging"],
+    .["UI.WindowsAndMessaging","Win32/Windows_And_Messaging"],
     .["Graphics.OpenGL","Win32/OpenGL"],
     .["Graphics.Dxgi.Common","Win32/DXGI_Basics"],
+    .["Graphics.Hlsl","Win32/Direct3D"],
     .["Graphics.Direct3D","Win32/Direct3D"],
     .["Graphics.Direct3D11","Win32/Direct3D11"],
     .["Graphics.Direct3D12","Win32/Direct3D12"],
@@ -90,17 +91,14 @@ main :: ()
 {
     context.allocator = temp;
 
-    // set_build_options_dc (.{do_output=false, write_added_strings=false});
-    set_working_directory ("../");
-
-    InitWin32Database ();
+    InitWin32Database ("../win32json/api");
 
     CreateOutputModule ("Win32/Basics");
     CreateOutputModule ("Win32/Time");
-    CreateOutputModule ("Win32/FileSystem");
+    CreateOutputModule ("Win32/File_System");
     CreateOutputModule ("Win32/Memory");
     CreateOutputModule ("Win32/Console");
-    CreateOutputModule ("Win32/WindowsAndMessaging");
+    CreateOutputModule ("Win32/Windows_And_Messaging");
     CreateOutputModule ("Win32/GDI_Basics");
     CreateOutputModule ("Win32/OpenGL");
     CreateOutputModule ("Win32/DXGI_Basics");
@@ -213,12 +211,23 @@ main :: ()
 
         case "IO_STATUS_BLOCK"; #through;
         case "OBJECT_ATTRIBUTES";
-            SetOutputModule (it, "Win32/FileSystem");
+            SetOutputModule (it, "Win32/File_System");
             continue it;
 
         case "POWER_SETTING_REGISTER_NOTIFICATION_FLAGS"; #through;
         case "HELPINFO";
-            SetOutputModule (it, "Win32/WindowsAndMessaging");
+            SetOutputModule (it, "Win32/Windows_And_Messaging");
+            continue it;
+
+        case "ROP_CODE"; #through;
+        case "CreatedHDC"; #through;
+        case "DEVMODEA"; #through;
+        case "DEVMODEW"; #through;
+        case "GET_DCX_FLAGS"; #through;
+        case "ENUM_DISPLAY_SETTINGS_MODE"; #through;
+        case "DISPLAY_DEVICEA"; #through;
+        case "DISPLAY_DEVICEW";
+            SetOutputModule (it, "Win32/GDI_Basics");
             continue it;
 
         case "IDXGISwapChain"; #through;
@@ -284,6 +293,29 @@ main :: ()
 
         if it.name ==
         {
+        case "BitBlt"; #through;
+        case "CancelDC"; #through;
+        case "CreateDCA"; #through;
+        case "CreateDCW"; #through;
+        case "DeleteDC"; #through;
+        case "SaveDC"; #through;
+        case "UpdateWindow"; #through;
+        case "WindowFromDC"; #through;
+        case "GetDC"; #through;
+        case "GetDCEx"; #through;
+        case "ReleaseDC"; #through;
+        case "ClientToScreen"; #through;
+        case "ScreenToClient"; #through;
+        case "EnumDisplayMonitor"; #through;
+        case "EnumDisplaySettingsA"; #through;
+        case "EnumDisplaySettingsW"; #through;
+        case "EnumDisplaySettingsExA"; #through;
+        case "EnumDisplaySettingsExW"; #through;
+        case "EnumDisplayDevicesA"; #through;
+        case "EnumDisplayDevicesW";
+            SetOutputModule (it, "Win32/GDI_Basics");
+            continue it;
+
         case "GetModuleHandleW"; #through;
         case "GetModuleHandleA"; #through;
         case "GetModuleFileNameW"; #through;
@@ -326,8 +358,7 @@ main :: ()
     if context.generator.has_errors
         exit (1);
 
-    make_directory_if_it_does_not_exist ("Generated");
-    make_directory_if_it_does_not_exist ("Generated/Win32");
+    make_directory_if_it_does_not_exist ("Generated/Win32", recursive = true);
 
     for context.generator.output_modules
         GenerateModuleSourceCodeToFile (it);
@@ -347,10 +378,10 @@ Win32_Module_Code :: #string JAI
 
 Basics     :: #import "Win32/Basics" (UNICODE);
 Time       :: #import "Win32/Time" (UNICODE);
-FileSystem :: #import "Win32/FileSystem" (UNICODE);
+FileSystem :: #import "Win32/File_System" (UNICODE);
 Memory     :: #import "Win32/Memory" (UNICODE);
 GDI_Basics :: #import "Win32/GDI_Basics" (UNICODE);
-WindowsAndMessaging :: #import "Win32/WindowsAndMessaging" (UNICODE);
+Windows_And_Messaging :: #import "Win32/Windows_And_Messaging" (UNICODE);
 
 #scope_export
 
@@ -359,7 +390,7 @@ using Time;
 using FileSystem;
 using Memory;
 using GDI_Basics;
-using WindowsAndMessaging;
+using Windows_And_Messaging;
 
 OS_Error_Code :: WIN32_ERROR;
 JAI

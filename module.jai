@@ -8,9 +8,9 @@
 #load "parse.jai";
 #load "generate.jai";
 
-InitWin32Database :: (except : []string = .[])
+InitWin32Database :: (directory := "win32json/api", except : []string = .[])
 {
-    all_modules := file_list ("win32json/api");
+    all_modules := file_list (directory);
     for all_modules
     {
         module_name := path_strip_extension (path_filename (it));
@@ -24,7 +24,7 @@ InitWin32Database :: (except : []string = .[])
             }
         }
 
-        ParseModule (module_name);
+        ParseModule (it);
     }
 
     for context.generator.input_modules

@@ -282,10 +282,11 @@ ParseFunction :: (module : *Module, func : *JSON_Object)
     AddFunction (module, result);
 }
 
-ParseModule :: (module_name : string) -> *Module
+ParseModule :: (filename : string) -> *Module
 {
-    json_filename := sprint ("win32json/api/%.json", module_name);
-    success, json_file := json_parse_file (json_filename);
+    module_name := path_strip_extension (path_filename (filename));
+
+    success, json_file := json_parse_file (filename);
     if !success
         return null;
 

@@ -656,7 +656,7 @@ GenerateModuleSourceCode :: (module : *Module) -> string #must
 
 GenerateModuleSourceCodeToFile :: (module : *Module, output_directory := "Generated")
 {
-    make_directory_if_it_does_not_exist ("Generated/");
+    make_directory_if_it_does_not_exist (output_directory, recursive = true);
 
     source_code := GenerateModuleSourceCode (module);
 
