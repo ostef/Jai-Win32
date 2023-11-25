@@ -63,9 +63,6 @@ Libs_To_Ignore :: string.[
 
 ShouldIgnoreSymbol :: inline (using symbol : Win32Symbol) -> bool
 {
-    if architectures != 0 && !(architectures & .X64)
-        return true;
-
     // Ignore most of OpenGL because they are already declared in module GL
     if module == "Graphics.OpenGL" && (starts_with (name, "GL_") || starts_with (name, "gl"))
         return true;

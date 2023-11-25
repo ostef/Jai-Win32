@@ -57,6 +57,8 @@ Generator :: struct
 {
     has_errors : bool;
 
+    architecture := Win32Architecture.X64;
+
     input_modules : Table (string, *Module);
     output_modules : Table (string, *Module);
 }
@@ -221,6 +223,13 @@ SetOutputModule :: inline (func : *Win32Function, module_name : string)
 }
 
 Win32ArchitectureFlags :: enum_flags
+{
+    X86;
+    X64;
+    Arm64;
+}
+
+Win32Architecture :: enum
 {
     X86;
     X64;

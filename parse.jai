@@ -120,6 +120,11 @@ ParseConstant :: (module : *Module, const : *JSON_Object)
 
 ParseTypeDefinition :: (module : *Module, typedef : *JSON_Object)
 {
+    architectures_array := JsonGet (typedef, "Architectures", []JSON_Value);
+    architectures := ParseJsonArrayAsEnumFlags (Win32ArchitectureFlags, architectures_array);
+    if architectures != 0 && !((cast (int) architectures) & (1 << cast (int) context.generator.architecture))
+        return;
+
     result := New (Win32TypeDefinition);
     ParseTypeDefinition (module, result, typedef);
 
@@ -128,14 +133,18 @@ ParseTypeDefinition :: (module : *Module, typedef : *JSON_Object)
 
 ParseTypeDefinition :: (module : *Module, result : *Win32TypeDefinition, typedef : *JSON_Object)
 {
+    architectures_array := JsonGet (typedef, "Architectures", []JSON_Value);
+    architectures := ParseJsonArrayAsEnumFlags (Win32ArchitectureFlags, architectures_array);
+    if architectures != 0 && !((cast (int) architectures) & (1 << cast (int) context.generator.architecture))
+        return;
+
     name := JsonGet (typedef, "Name", string);
-    architectures := JsonGet (typedef, "Architectures", []JSON_Value);
     platform := JsonGet (typedef, "Platform", string, allow_null = true);
     kind := JsonGet (typedef, "Kind", string);
 
     result.name = name;
     StringToEnumValue (*result.kind, kind);
-    ParseJsonArrayAsEnumFlags (*result.architectures, architectures);
+    result.architectures = architectures;
     result.platform = platform;
 
     if kind ==
@@ -189,11 +198,22 @@ ParseTypeDefinition :: (module : *Module, result : *Win32TypeDefinition, typedef
         if nested_types.count > 0
             result.nested_types = NewArray (nested_types.count, Win32TypeDefinition);
 
+        actual_count := 0;
         for nested_types
         {
             obj := get_as (it, JSON_Object);
+
+            architectures_array := JsonGet (*obj, "Architectures", []JSON_Value);
+            architectures := ParseJsonArrayAsEnumFlags (Win32ArchitectureFlags, architectures_array);
+            if architectures != 0 && !((cast (int) architectures) & (1 << cast (int) context.generator.architecture))
+                continue;
+
+            defer actual_count += 1;
+
             ParseTypeDefinition (module, *result.nested_types[it_index], *obj);
         }
+
+        result.nested_types.count = actual_count;
 
     case "FunctionPointer";
         ParseFunctionType (module, *result.function_pointer, typedef);
@@ -216,17 +236,24 @@ ParseTypeDefinition :: (module : *Module, result : *Win32TypeDefinition, typedef
         if methods.count != 0
             result.methods = NewArray (methods.count, Win32Method);
 
+        actual_count := 0;
         for methods
         {
-            result.methods[it_index].name = JsonGet (it, "Name", string);
+            architectures_array := JsonGet (it, "Architectures", []JSON_Value);
+            architectures := ParseJsonArrayAsEnumFlags (Win32ArchitectureFlags, architectures_array);
+            if architectures != 0 && !((cast (int) architectures) & (1 << cast (int) context.generator.architecture))
+                continue;
 
-            architectures := JsonGet (it, "Architectures", []JSON_Value);
-            ParseJsonArrayAsEnumFlags (*result.methods[it_index].architectures, architectures);
+            defer actual_count += 1;
 
-            result.methods[it_index].platform = JsonGet (it, "Platform", string, allow_null = true);
+            result.methods[actual_count].name = JsonGet (it, "Name", string);
+            result.methods[actual_count].architectures = architectures;
+            result.methods[actual_count].platform = JsonGet (it, "Platform", string, allow_null = true);
 
-            ParseFunctionType (module, *result.methods[it_index], it.object);
+            ParseFunctionType (module, *result.methods[actual_count], it.object);
         }
+
+        result.methods.count = actual_count;
 
     case "ComClassID";
         result.guid = JsonGet (typedef, "Guid", string);
@@ -267,12 +294,15 @@ ParseFunctionType :: (module : *Module, target : *Win32FunctionType, func : *JSO
 
 ParseFunction :: (module : *Module, func : *JSON_Object)
 {
+    architectures_array := JsonGet (func, "Architectures", []JSON_Value);
+    architectures := ParseJsonArrayAsEnumFlags (Win32ArchitectureFlags, architectures_array);
+    if architectures != 0 && !((cast (int) architectures) & (1 << cast (int) context.generator.architecture))
+        return;
+
     result := New (Win32Function);
 
     result.name = JsonGet (func, "Name", string);
-
-    architectures := JsonGet (func, "Architectures", []JSON_Value);
-    ParseJsonArrayAsEnumFlags (*result.architectures, architectures);
+    result.architectures = architectures;
 
     result.platform = JsonGet (func, "Platform", string, allow_null = true);
     result.dll_import = JsonGet (func, "DllImport", string);

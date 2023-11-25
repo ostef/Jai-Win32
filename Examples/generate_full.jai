@@ -31,24 +31,6 @@ Handle_Type_Names :: string.[
     "PSID", "AUTHZ_AUDIT_EVENT_HANDLE", "HeapHandle", "HDPA", "HDSA", "CreatedHDC",
 ];
 
-Libs_To_Ignore :: string.[
-    "PeerDist",
-    "NETSH",
-    "icu",
-    "WINSPOOL",
-    "api-ms-win-core-*",
-    "ntdllk",
-    "d3dcsx",
-];
-
-ShouldIgnoreSymbol :: inline (using symbol : Win32Symbol) -> bool
-{
-    if architectures != 0 && !(architectures & .X64)
-        return true;
-
-    return false;
-}
-
 main :: ()
 {
     context.allocator = temp;
@@ -68,20 +50,11 @@ main :: ()
 
     for :AllInputConstants context.generator
     {
-        if ShouldIgnoreSymbol (it)
-            continue;
-
         SetOutputModule (it, it.module);
     }
 
     for :AllInputTypeDefinitions context.generator
     {
-        if ShouldIgnoreSymbol (it)
-        {
-            print ("Ignoring %, architectures %\n", it.name, it.architectures);
-            continue;
-        }
-
         if array_find (Handle_Type_Names, it.name)
         {
             it.kind = .NativeTypedef;
@@ -93,9 +66,6 @@ main :: ()
 
     for :AllInputFunctions context.generator
     {
-        if ShouldIgnoreSymbol (it)
-            continue;
-
         SetOutputModule (it, it.module);
     }
 
