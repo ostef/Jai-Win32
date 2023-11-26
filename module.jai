@@ -58,6 +58,7 @@ Generator :: struct
     has_errors : bool;
 
     architecture := Win32Architecture.X64;
+    dependency_queue : [..]struct { module : string; name : string; };
 
     input_modules : Table (string, *Module);
     output_modules : Table (string, *Module);
@@ -462,16 +463,27 @@ ResolveModuleDependencies :: (module : *Module)
         ResolveTypeDefinitionDependencies (module, it);
 
     for module.functions
+    {
+        array_add (*context.generator.dependency_queue, .{it.module, it.name});
+        defer pop (*context.generator.dependency_queue);
+
         ResolveFunctionDependencies (module, it);
+    }
 }
 
 ResolveConstantDependencies :: (source_module : *Module, using const : *Win32Constant)
 {
+    array_add (*context.generator.dependency_queue, .{module, name});
+    defer pop (*context.generator.dependency_queue);
+
     ResolveTypeDependencies (source_module, *type);
 }
 
 ResolveTypeDefinitionDependencies :: (source_module : *Module, using typedef : *Win32TypeDefinition)
 {
+    array_add (*context.generator.dependency_queue, .{module, name});
+    defer pop (*context.generator.dependency_queue);
+
     if kind ==
     {
     case .NativeTypedef;
@@ -502,11 +514,31 @@ ResolveFunctionDependencies :: (source_module : *Module, using func : *Win32Func
         ResolveTypeDependencies (source_module, *it.type);
 }
 
+LogDependencyQueue :: ()
+{
+    builder : String_Builder;
+
+    for context.generator.dependency_queue
+    {
+        if it_index != 0
+            append (*builder, "\n");
+
+        appendf (*builder, "    % (module %)", it.name, it.module);
+    }
+
+    append (*builder, " <- unresolved");
+
+    log_error ("Dependency queue:\n%", builder_to_string (*builder));
+}
+
 ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, enclosing_typedef : *Win32TypeDefinition = null)
 {
     if kind ==
     {
     case .ApiRef;
+        array_add (*context.generator.dependency_queue, .{api, name});
+        defer pop (*context.generator.dependency_queue);
+
         // If the type comes from the same module, we look in the enclosing typedef first
         if !resolved_symbol && enclosing_typedef && api == source_module.name
         {
@@ -531,6 +563,8 @@ ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, en
                 else
                     log_error ("Could not find dependency %.%", api, name);
 
+                LogDependencyQueue ();
+
                 context.generator.has_errors = true;
 
                 return;
@@ -541,6 +575,9 @@ ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, en
         {
             log_error ("Error: unresolved dependency % => %.%",
                 source_module.name, resolved_symbol.module, resolved_symbol.name, );
+
+            LogDependencyQueue ();
+
             context.generator.has_errors = true;
 
             return;
