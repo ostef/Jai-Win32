@@ -1,7 +1,6 @@
 #import "Basic";
 
 Win32 :: #import "Win32" (
-    File_System = true,
     GDI_Basics = true,
     WGL = true,
     Windows_And_Messaging = true,
