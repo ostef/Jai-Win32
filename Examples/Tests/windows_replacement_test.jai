@@ -24,7 +24,7 @@
 
     import_path : [..]string;
     array_add (*import_path, ..get_build_options ().import_path);
-    array_add (*import_path, "Generated");
+    array_add (*import_path, "../Generated");
     options.import_path = import_path;
 
     set_build_options (options, ws);
