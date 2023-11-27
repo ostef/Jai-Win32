@@ -1,3 +1,9 @@
+// @Todo: handle dependencies on module that have not been loaded.
+// Currently it is basically impossible to have anything in the
+// `except` array when initializing the database, because almost
+// all modules have other modules that depend on them, so we always
+// have to take the performance hit of loading modules we don't need.
+
 #import "Basic";
 #import "Hash_Table";
 #import "Compiler";
