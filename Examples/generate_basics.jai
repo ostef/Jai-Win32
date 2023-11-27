@@ -417,6 +417,10 @@ main :: ()
     ok := write_entire_file ("Generated/Win32/module.jai", Win32_Module_Code);
     if !ok
         log_error ("Error: Could not write file Generated/Win32/module.jai");
+
+    ok = write_entire_file ("Generated/Win32/README.md", Readme);
+    if !ok
+        log_error ("Error: Could not write file Generated/Win32/README.md");
 }
 
 Win32_Module_Code :: #string JAI
@@ -469,3 +473,9 @@ using _Basics;
 #if WGL
     using _WGL;
 JAI
+
+Readme :: #string END
+This module was generated using `Examples/generate_basics.jai` from [Jai-Win32-Generator](https://github.com/ostef/Jai-Win32-Generator)
+
+If you find anything that is missing or is in the wrong module, you can create an issue there.
+END
