@@ -1,8 +1,13 @@
+#import "Basic";
+
 Win32 :: #import "Win32" (
     File_System = true,
     GDI_Basics = true,
+    WGL = true,
     Windows_And_Messaging = true,
 );
+
+#import "GL";
 
 g_quit := false;
 
@@ -23,6 +28,7 @@ main :: ()
 
     wndclass : Win32.WNDCLASSEXW;
     wndclass.cbSize = size_of (Win32.WNDCLASSEXW);
+    wndclass.style = .CS_DBLCLKS | .CS_OWNDC;
     wndclass.lpfnWndProc = WndProc;
     wndclass.hInstance = Win32.GetModuleHandleW (null);
     wndclass.lpszClassName = Utf8ToWide ("WindowClass");
@@ -45,6 +51,34 @@ main :: ()
 
     defer Win32.DestroyWindow (hwnd);
 
+    hdc := Win32.GetDC (hwnd);
+
+    pfd : Win32.PIXELFORMATDESCRIPTOR;
+    pfd.nSize = size_of (Win32.PIXELFORMATDESCRIPTOR);
+    pfd.nVersion = 1;
+    pfd.dwFlags = Win32.PFD_DRAW_TO_WINDOW | Win32.PFD_SUPPORT_OPENGL | Win32.PFD_DOUBLEBUFFER;
+    pfd.iPixelType = Win32.PFD_TYPE_RGBA;
+    pfd.cColorBits = 32;
+    pfd.cDepthBits = 24;
+    pfd.cStencilBits = 8;
+
+    pixel_format := Win32.ChoosePixelFormat (hdc, *pfd);
+    Win32.SetPixelFormat (hdc, pixel_format, *pfd);
+
+    hglrc := Win32.wglCreateContext (hdc);
+    defer Win32.wglDeleteContext (hglrc);
+
+    Win32.wglMakeCurrent (hdc, hglrc);
+
+    GetGLProcAddress :: (name : *u8) -> *void #c_call
+    {
+        return cast (*void) Win32.wglGetProcAddress (name);
+    }
+
+    gl_load (*gl, GetGLProcAddress);
+
+    assert (glGenVertexArrays != null, "Could not load GL functions");
+
     while !g_quit
     {
         msg : Win32.MSG;
@@ -53,6 +87,11 @@ main :: ()
             Win32.TranslateMessage (*msg);
             Win32.DispatchMessageW (*msg);
         }
+
+        glClearColor (0.2, 0.4, 0.8, 1.0);
+        glClear (GL_COLOR_BUFFER_BIT);
+
+        Win32.SwapBuffers (hdc);
     }
 }
 
