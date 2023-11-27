@@ -13,6 +13,7 @@
 // output fully and that exists mostly because they have dependencies
 // of other modules in them.
 
+// Redirects stuff from input module redir[0] to output module redir[1]
 Module_Redirection_Table :: [2]string.[
     .["Foundation","Win32/Basics"],
     .["System.Threading","Win32/Threads"],
@@ -112,7 +113,7 @@ main :: ()
         if starts_with (it.name, "FORMAT_MESSAGE_")
         {
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
         }
 
         if starts_with (it.name, "WGL")
@@ -129,19 +130,19 @@ main :: ()
             if output_module
                 SetOutputModule (it, output_module);
 
-            continue it;
+            continue;
         }
 
         if starts_with (it.name, "PFD_")
         {
             SetOutputModule (it, "Win32/GDI_Basics");
-            continue it;
+            continue;
         }
 
         if starts_with (it.name, "CP_")
         {
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
         }
 
         for redir : Module_Redirection_Table
@@ -193,7 +194,7 @@ main :: ()
             }
 
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "STD_HANDLE"; #through;
         case "LIST_ENTRY"; #through;
@@ -205,7 +206,7 @@ main :: ()
         case "FORMAT_MESSAGE_OPTIONS"; #through;
         case "MULTI_BYTE_TO_WIDE_CHAR_FLAGS";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "IUnknown"; #through;
         case "IEnumConnectionPoints"; #through;
@@ -214,7 +215,7 @@ main :: ()
         case "IConnectionPointContainer"; #through;
         case "CONNECTDATA";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "GENERIC_MAPPING"; #through;
         case "PRIVILEGE_SET"; #through;
@@ -227,17 +228,17 @@ main :: ()
         case "SECURITY_ATTRIBUTES"; #through;
         case "SECURITY_DESCRIPTOR";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "IO_STATUS_BLOCK"; #through;
         case "OBJECT_ATTRIBUTES";
             SetOutputModule (it, "Win32/File_System");
-            continue it;
+            continue;
 
         case "POWER_SETTING_REGISTER_NOTIFICATION_FLAGS"; #through;
         case "HELPINFO";
             SetOutputModule (it, "Win32/Windows_And_Messaging");
-            continue it;
+            continue;
 
         case "ROP_CODE"; #through;
         case "CreatedHDC"; #through;
@@ -249,7 +250,7 @@ main :: ()
         case "DISPLAY_DEVICEA"; #through;
         case "DISPLAY_DEVICEW";
             SetOutputModule (it, "Win32/GDI_Basics");
-            continue it;
+            continue;
 
         case "HMONITOR"; #through;
         case "HBITMAP"; #through;
@@ -258,7 +259,7 @@ main :: ()
         case "PIXELFORMATDESCRIPTOR"; #through;
         case "LAYERPLANEDESCRIPTOR";
             SetOutputModule (it, "Win32/GDI_Basics");
-            continue it;
+            continue;
 
         case "HRGN"; #through;
         case "BLENDFUNCTION"; #through;
@@ -267,13 +268,13 @@ main :: ()
         case "LOGFONTA"; #through;
         case "LOGFONTW";
            SetOutputModule (it, "Win32/GDI_Basics");
-           continue it;
+           continue;
 
         case "HGLRC"; #through;
         case "GLYPHMETRICSFLOAT"; #through;
         case "POINTFLOAT";
             SetOutputModule (it, "Win32/WGL");
-            continue it;
+            continue;
 
         /*
         case "IDXGISwapChain"; #through;
@@ -291,7 +292,7 @@ main :: ()
         case "DXGI_OUTPUT_DESC"; #through;
         case "DXGI_ADAPTER_DESC";
             SetOutputModule (it, "Win32/DXGI_Basics");
-            continue it;
+            continue;
         */
         }
 
@@ -325,7 +326,7 @@ main :: ()
         if starts_with (it.name, "wgl")
         {
             SetOutputModule (it, "Win32/WGL");
-            continue it;
+            continue;
         }
 
         if it.name ==
@@ -334,7 +335,7 @@ main :: ()
         case "MultiByteToWideChar"; #through;
         case "WideCharToMultiByte";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "BitBlt"; #through;
         case "CancelDC"; #through;
@@ -362,7 +363,7 @@ main :: ()
         case "SetPixelFormat"; #through;
         case "SwapBuffers";
             SetOutputModule (it, "Win32/GDI_Basics");
-            continue it;
+            continue;
 
         case "GetStdHandle"; #through;
         case "SetStdHandle"; #through;
@@ -376,21 +377,21 @@ main :: ()
         case "GetComputerNameW"; #through;
         case "GetComputerNameA";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "FormatMessageW"; #through;
         case "FormatMessageA";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "QueryPerformanceCounter"; #through;
         case "QueryPerformanceFrequency";
             SetOutputModule (it, "Win32/Basics");
-            continue it;
+            continue;
 
         case "GetSystemTimePreciseAsFileTime";
             SetOutputModule (it, "Win32/Time");
-            continue it;
+            continue;
         }
 
         for redir : Module_Redirection_Table
@@ -482,5 +483,10 @@ JAI
 Readme :: #string END
 This module was generated using `Examples/generate_basics.jai` from [Jai-Win32-Generator](https://github.com/ostef/Jai-Win32-Generator)
 
-If you find anything that is missing or is in the wrong module, you can create an issue there.
+## How to use
+This module is divided into different submodules, but importing these individually is inconvenient because you would not be able to namespace them with the same name.
+
+For ease of use there is a base sentinel module that you import with the name "Win32", and you select what parts of the Win32 API you want using module parameters. See module.jai and other example files in [the repository](https://github.com/ostef/Jai-Win32-Generator) for more information.
+
+The sentinel module #imports the other modules instead of #loading them to prevent different instantiations of Win32 to create duplicate symbols.
 END
