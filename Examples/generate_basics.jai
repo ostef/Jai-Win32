@@ -90,6 +90,7 @@ main :: ()
     CreateOutputModule ("Win32/Console");
     CreateOutputModule ("Win32/GDI_Basics");
     CreateOutputModule ("Win32/Windows_And_Messaging");
+    CreateOutputModule ("Win32/WGL");
     /*
     CreateOutputModule ("Win32/OpenGL");
     CreateOutputModule ("Win32/DXGI_Basics");
@@ -112,6 +113,12 @@ main :: ()
         {
             SetOutputModule (it, "Win32/Basics");
             continue it;
+        }
+
+        if starts_with (it.name, "WGL")
+        {
+            SetOutputModule (it, "Win32/WGL");
+            continue;
         }
 
         // Most constant in Foundation are error codes, which should be in different modules
@@ -157,6 +164,12 @@ main :: ()
         {
             it.kind = .NativeTypedef;
             it.def = void_pointer_type;
+        }
+
+        if starts_with (it.name, "WGL")
+        {
+            SetOutputModule (it, "Win32/WGL");
+            continue;
         }
 
         if it.name ==
@@ -242,7 +255,9 @@ main :: ()
         case "HMONITOR"; #through;
         case "HBITMAP"; #through;
         case "HBRUSH"; #through;
-        case "HDC";
+        case "HDC"; #through;
+        case "PIXELFORMATDESCRIPTOR"; #through;
+        case "LAYERPLANEDESCRIPTOR";
             SetOutputModule (it, "Win32/GDI_Basics");
             continue it;
 
@@ -254,6 +269,12 @@ main :: ()
         case "LOGFONTW";
            SetOutputModule (it, "Win32/GDI_Basics");
            continue it;
+
+        case "HGLRC"; #through;
+        case "GLYPHMETRICSFLOAT"; #through;
+        case "POINTFLOAT";
+            SetOutputModule (it, "Win32/WGL");
+            continue it;
 
         /*
         case "IDXGISwapChain"; #through;
@@ -302,6 +323,12 @@ main :: ()
         if it.name == "GetSystemLeapSecondInformation"
             continue;
 
+        if starts_with (it.name, "wgl")
+        {
+            SetOutputModule (it, "Win32/WGL");
+            continue it;
+        }
+
         if it.name ==
         {
         case "IsValidCodePage"; #through;
@@ -329,7 +356,12 @@ main :: ()
         case "EnumDisplaySettingsExA"; #through;
         case "EnumDisplaySettingsExW"; #through;
         case "EnumDisplayDevicesA"; #through;
-        case "EnumDisplayDevicesW";
+        case "EnumDisplayDevicesW"; #through;
+        case "ChoosePixelFormat"; #through;
+        case "DescribePixelFormat"; #through;
+        case "GetPixelFormat"; #through;
+        case "SetPixelFormat"; #through;
+        case "SwapBuffers";
             SetOutputModule (it, "Win32/GDI_Basics");
             continue it;
 
@@ -396,7 +428,8 @@ Win32_Module_Code :: #string JAI
     File_System := false,
     Memory := false,
     GDI_Basics := false,
-    Windows_And_Messaging := false
+    Windows_And_Messaging := false,
+    WGL := false
 );
 
 #scope_file
@@ -415,6 +448,8 @@ _Basics     :: #import "Win32/Basics" (UNICODE);
     _GDI_Basics :: #import "Win32/GDI_Basics" (UNICODE);
 #if Windows_And_Messaging
     _Windows_And_Messaging :: #import "Win32/Windows_And_Messaging" (UNICODE);
+#if WGL
+    _WGL :: #import "Win32/WGL" (UNICODE);
 
 #scope_export
 
@@ -432,6 +467,8 @@ using _Basics;
     using _GDI_Basics;
 #if Windows_And_Messaging
     using _Windows_And_Messaging;
+#if WGL
+    using _WGL;
 
 OS_Error_Code :: WIN32_ERROR;
 JAI
