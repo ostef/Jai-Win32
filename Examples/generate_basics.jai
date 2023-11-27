@@ -62,15 +62,6 @@ Libs_To_Ignore :: string.[
     "d3dcsx",
 ];
 
-ShouldIgnoreSymbol :: inline (using symbol : Win32Symbol) -> bool
-{
-    // Ignore most of OpenGL because they are already declared in module GL
-    if module == "Graphics.OpenGL" && (starts_with (name, "GL_") || starts_with (name, "gl"))
-        return true;
-
-    return false;
-}
-
 GetFoundationConstantOutputModule :: (name : string) -> string #must
 {
     if name ==
@@ -117,9 +108,6 @@ main :: ()
 
     for :AllInputConstants context.generator
     {
-        if ShouldIgnoreSymbol (it)
-            continue;
-
         if starts_with (it.name, "FORMAT_MESSAGE_")
         {
             SetOutputModule (it, "Win32/Basics");
@@ -137,6 +125,19 @@ main :: ()
             continue it;
         }
 
+        if it.name ==
+        {
+        case "CP_ACP"; #through;
+        case "CP_OEMCP"; #through;
+        case "CP_MACCP"; #through;
+        case "CP_THREAD_ACP"; #through;
+        case "CP_SYMBOL"; #through;
+        case "CP_UTF7"; #through;
+        case "CP_UTF8";
+            SetOutputModule (it, "Win32/Basics");
+            continue it;
+        }
+
         for redir : Module_Redirection_Table
         {
             if it.module == redir[0]
@@ -149,9 +150,6 @@ main :: ()
 
     for :AllInputTypeDefinitions context.generator
     {
-        if ShouldIgnoreSymbol (it)
-            continue;
-
         if it.name == "NTSTATUS_FACILITY_CODE"
             continue;
 
@@ -192,7 +190,8 @@ main :: ()
         case "PROCESSOR_NUMBER"; #through;
         case "GROUP_AFFINITY"; #through;
         case "RTL_UMS_SCHEDULER_REASON"; #through;
-        case "FORMAT_MESSAGE_OPTIONS";
+        case "FORMAT_MESSAGE_OPTIONS"; #through;
+        case "MULTI_BYTE_TO_WIDE_CHAR_FLAGS";
             SetOutputModule (it, "Win32/Basics");
             continue it;
 
@@ -205,7 +204,6 @@ main :: ()
             SetOutputModule (it, "Win32/Basics");
             continue it;
 
-        case "SECURITY_ATTRIBUTES"; #through;
         case "GENERIC_MAPPING"; #through;
         case "PRIVILEGE_SET"; #through;
         case "SID"; #through;
@@ -214,6 +212,7 @@ main :: ()
         case "LUID_AND_ATTRIBUTES"; #through;
         case "TOKEN_PRIVILEGES_ATTRIBUTES"; #through;
         case "TOKEN_ACCESS_MASK"; #through;
+        case "SECURITY_ATTRIBUTES"; #through;
         case "SECURITY_DESCRIPTOR";
             SetOutputModule (it, "Win32/Basics");
             continue it;
@@ -234,10 +233,27 @@ main :: ()
         case "DEVMODEW"; #through;
         case "GET_DCX_FLAGS"; #through;
         case "ENUM_DISPLAY_SETTINGS_MODE"; #through;
+        case "MONITORENUMPROC"; #through;
         case "DISPLAY_DEVICEA"; #through;
         case "DISPLAY_DEVICEW";
             SetOutputModule (it, "Win32/GDI_Basics");
             continue it;
+
+        case "HMONITOR"; #through;
+        case "HBITMAP"; #through;
+        case "HBRUSH"; #through;
+        case "HDC";
+            SetOutputModule (it, "Win32/GDI_Basics");
+            continue it;
+
+        case "HRGN"; #through;
+        case "BLENDFUNCTION"; #through;
+        case "EMR"; #through;
+        case "HENHMETAFILE"; #through;
+        case "LOGFONTA"; #through;
+        case "LOGFONTW";
+           SetOutputModule (it, "Win32/GDI_Basics");
+           continue it;
 
         /*
         case "IDXGISwapChain"; #through;
@@ -257,19 +273,6 @@ main :: ()
             SetOutputModule (it, "Win32/DXGI_Basics");
             continue it;
         */
-
-        case "HMONITOR"; #through;
-        case "HBITMAP"; #through;
-        case "HBRUSH"; #through;
-        case "HDC"; #through;
-        case "HRGN"; #through;
-        case "BLENDFUNCTION"; #through;
-        case "EMR"; #through;
-        case "HENHMETAFILE"; #through;
-        case "LOGFONTA"; #through;
-        case "LOGFONTW";
-            SetOutputModule (it, "Win32/GDI_Basics");
-            continue it;
         }
 
         for redir : Module_Redirection_Table
@@ -284,9 +287,6 @@ main :: ()
 
     for :AllInputFunctions context.generator
     {
-        if ShouldIgnoreSymbol (it)
-            continue;
-
         for lib : Libs_To_Ignore
         {
             if WildcardStarMatch (lib, it.dll_import)
@@ -304,6 +304,12 @@ main :: ()
 
         if it.name ==
         {
+        case "IsValidCodePage"; #through;
+        case "MultiByteToWideChar"; #through;
+        case "WideCharToMultiByte";
+            SetOutputModule (it, "Win32/Basics");
+            continue it;
+
         case "BitBlt"; #through;
         case "CancelDC"; #through;
         case "CreateDCA"; #through;
@@ -317,7 +323,7 @@ main :: ()
         case "ReleaseDC"; #through;
         case "ClientToScreen"; #through;
         case "ScreenToClient"; #through;
-        case "EnumDisplayMonitor"; #through;
+        case "EnumDisplayMonitors"; #through;
         case "EnumDisplaySettingsA"; #through;
         case "EnumDisplaySettingsW"; #through;
         case "EnumDisplaySettingsExA"; #through;
