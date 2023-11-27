@@ -132,15 +132,14 @@ main :: ()
             continue it;
         }
 
-        if it.name ==
+        if starts_with (it.name, "PFD_")
         {
-        case "CP_ACP"; #through;
-        case "CP_OEMCP"; #through;
-        case "CP_MACCP"; #through;
-        case "CP_THREAD_ACP"; #through;
-        case "CP_SYMBOL"; #through;
-        case "CP_UTF7"; #through;
-        case "CP_UTF8";
+            SetOutputModule (it, "Win32/GDI_Basics");
+            continue it;
+        }
+
+        if starts_with (it.name, "CP_")
+        {
             SetOutputModule (it, "Win32/Basics");
             continue it;
         }
