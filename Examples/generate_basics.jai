@@ -428,6 +428,7 @@ Win32_Module_Code :: #string JAI
     UNICODE := true,
     Threads := false,
     Time := false,
+    Console := false,
     File_System := false,
     Memory := false,
     GDI_Basics := false,
@@ -443,6 +444,8 @@ _Basics     :: #import "Win32/Basics" (UNICODE);
     _Threads    :: #import "Win32/Threads" (UNICODE);
 #if Time
     _Time       :: #import "Win32/Time" (UNICODE);
+#if Console
+    _Console    :: #import "Win32/Console" (UNICODE);
 #if File_System
     _File_System :: #import "Win32/File_System" (UNICODE);
 #if Memory
@@ -462,6 +465,8 @@ using _Basics;
     using _Threads;
 #if Time
     using _Time;
+#if Console
+    using _Console;
 #if File_System
     using _File_System;
 #if Memory
