@@ -468,6 +468,4 @@ using _Basics;
     using _Windows_And_Messaging;
 #if WGL
     using _WGL;
-
-OS_Error_Code :: WIN32_ERROR;
 JAI
