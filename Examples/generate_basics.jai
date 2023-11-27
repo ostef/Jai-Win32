@@ -389,29 +389,49 @@ main :: ()
 }
 
 Win32_Module_Code :: #string JAI
-// If you import Win32 as is, most common stuff will get imported
-
-#module_parameters (UNICODE := true);
+#module_parameters (
+    UNICODE := true,
+    Threads := false,
+    Time := false,
+    File_System := false,
+    Memory := false,
+    GDI_Basics := false,
+    Windows_And_Messaging := false
+);
 
 #scope_file
 
-Basics     :: #import "Win32/Basics" (UNICODE);
-Threads    :: #import "Win32/Threads" (UNICODE);
-Time       :: #import "Win32/Time" (UNICODE);
-FileSystem :: #import "Win32/File_System" (UNICODE);
-Memory     :: #import "Win32/Memory" (UNICODE);
-GDI_Basics :: #import "Win32/GDI_Basics" (UNICODE);
-Windows_And_Messaging :: #import "Win32/Windows_And_Messaging" (UNICODE);
+_Basics     :: #import "Win32/Basics" (UNICODE);
+
+#if Threads
+    _Threads    :: #import "Win32/Threads" (UNICODE);
+#if Time
+    _Time       :: #import "Win32/Time" (UNICODE);
+#if File_System
+    _File_System :: #import "Win32/File_System" (UNICODE);
+#if Memory
+    _Memory     :: #import "Win32/Memory" (UNICODE);
+#if GDI_Basics
+    _GDI_Basics :: #import "Win32/GDI_Basics" (UNICODE);
+#if Windows_And_Messaging
+    _Windows_And_Messaging :: #import "Win32/Windows_And_Messaging" (UNICODE);
 
 #scope_export
 
-using Basics;
-using Threads;
-using Time;
-using FileSystem;
-using Memory;
-using GDI_Basics;
-using Windows_And_Messaging;
+using _Basics;
+
+#if Threads
+    using _Threads;
+#if Time
+    using _Time;
+#if File_System
+    using _File_System;
+#if Memory
+    using _Memory;
+#if GDI_Basics
+    using _GDI_Basics;
+#if Windows_And_Messaging
+    using _Windows_And_Messaging;
 
 OS_Error_Code :: WIN32_ERROR;
 JAI
