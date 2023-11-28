@@ -96,7 +96,7 @@ WideToUtf8 :: (data : *u16, allocator := context.allocator) -> string #must, suc
     if result_length <= 0
         return "", false;
 
-    utf8_data := cast (*u8) allocator.proc (.ALLOCATE, result_length, 0, null, allocator.data);
+    utf8_data := cast (*u8) alloc (result_length, allocator);
 
     written := Win32.WideCharToMultiByte (Win32.CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
     if written > 0
@@ -116,7 +116,7 @@ Utf8ToWide :: (utf8_str : string, allocator := context.allocator) -> wide_str : 
 {
     if !utf8_str
     {
-        wide_str := cast (*u16) allocator.proc (.ALLOCATE, size_of (u16), 0, null, allocator.data);
+        wide_str := cast (*u16) alloc (size_of (u16), allocator);
         wide_str[0] = 0;
 
         return wide_str, 0;
@@ -126,7 +126,7 @@ Utf8ToWide :: (utf8_str : string, allocator := context.allocator) -> wide_str : 
     if result_length <= 0
         return null, 0;
 
-    wide_str := cast (*u16) allocator.proc (.ALLOCATE, (result_length + 1) * size_of (u16), 0, null, allocator.data);
+    wide_str := cast (*u16) alloc ((result_length + 1) * size_of (u16), allocator);
     written := Win32.MultiByteToWideChar (Win32.CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, wide_str, result_length);
     if written > 0
     {
