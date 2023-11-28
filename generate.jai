@@ -690,11 +690,13 @@ GenerateModuleSourceCode :: (module : *Module) -> string #must
     return builder_to_string (*builder);
 }
 
-GenerateModuleSourceCodeToFile :: (module : *Module, output_directory := "Generated")
+GenerateModuleSourceCodeToFile :: (module : *Module, output_directory := "Generated") -> string
 {
     make_directory_if_it_does_not_exist (output_directory, recursive = true);
 
     source_code := GenerateModuleSourceCode (module);
 
     write_entire_file (sprint ("%/%.jai", output_directory, module.name), source_code);
+
+    return source_code;
 }
