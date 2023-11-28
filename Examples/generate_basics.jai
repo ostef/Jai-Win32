@@ -82,7 +82,16 @@ main :: ()
 {
     context.allocator = temp;
 
+    start_time := current_time_monotonic ();
+
+    start_parse_time := start_time;
+
     InitWin32Database ("../win32json/api");
+
+    end_parse_time := current_time_monotonic ();
+    total_parse_time := end_parse_time - start_parse_time;
+
+    start_user_time := current_time_monotonic ();
 
     CreateOutputModule ("Win32/Basics");
     CreateOutputModule ("Win32/Threads");
@@ -110,8 +119,12 @@ main :: ()
     void_pointer_type.kind = .PointerTo;
     void_pointer_type.child = *void_type;
 
+    total_symbol_count := 0;
+
     for :AllInputConstants context.generator
     {
+        total_symbol_count += 1;
+
         if starts_with (it.name, "FORMAT_MESSAGE_")
         {
             SetOutputModule (it, "Win32/Basics");
@@ -159,6 +172,8 @@ main :: ()
 
     for :AllInputTypeDefinitions context.generator
     {
+        total_symbol_count += 1;
+
         if it.name == "NTSTATUS_FACILITY_CODE"
             continue;
 
@@ -310,6 +325,8 @@ main :: ()
 
     for :AllInputFunctions context.generator
     {
+        total_symbol_count += 1;
+
         for lib : Libs_To_Ignore
         {
             if WildcardStarMatch (lib, it.dll_import)
@@ -415,6 +432,9 @@ main :: ()
     for context.generator.output_modules
         ResolveModuleDependencies (it);
 
+    end_user_time := current_time_monotonic ();
+    total_user_time := end_user_time - start_user_time;
+
     if context.generator.has_errors
         exit (1);
 
@@ -433,8 +453,6 @@ main :: ()
         total_lines_of_code_generated += 1;
     }
 
-    log ("Generated % lines of code for % different modules", total_lines_of_code_generated, context.generator.output_modules.count);
-
     ok := write_entire_file ("Generated/Win32/module.jai", Win32_Module_Code);
     if !ok
         log_error ("Error: Could not write file Generated/Win32/module.jai");
@@ -442,6 +460,27 @@ main :: ()
     ok = write_entire_file ("Generated/Win32/README.md", Readme);
     if !ok
         log_error ("Error: Could not write file Generated/Win32/README.md");
+
+    end_time := current_time_monotonic ();
+    total_time := end_time - start_time;
+
+    log (
+
+#string END
+Traversed % different symbols across % input modules
+Outputted % modules, generated % lines of code
+Timing information:
+  Total:     % seconds
+  Parsing:   % seconds
+  Traversal: % seconds
+END,
+        total_symbol_count, context.generator.input_modules.count,
+        context.generator.output_modules.count, total_lines_of_code_generated,
+        to_float64_seconds (total_time),
+        to_float64_seconds (total_parse_time),
+        to_float64_seconds (total_user_time)
+    );
+
 }
 
 Win32_Module_Code :: #string JAI
