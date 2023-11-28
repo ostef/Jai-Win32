@@ -24,6 +24,9 @@ Module_Redirection_Table :: [2]string.[
     .["System.Console","Win32/Console"],
     .["UI.WindowsAndMessaging","Win32/Windows_And_Messaging"],
     .["System.LibraryLoader","Win32/Library_Loader"],
+    .["UI.Input","Win32/Input"],
+    .["UI.Input.KeyboardAndMouse","Win32/Input"],
+    .["UI.HiDpi","Win32/HiDpi"],
     //.["Graphics.OpenGL","Win32/OpenGL"],
     //.["Graphics.Dxgi.Common","Win32/DXGI_Basics"],
     //.["Graphics.Hlsl","Win32/Direct3D"],
@@ -103,6 +106,8 @@ main :: ()
     CreateOutputModule ("Win32/Windows_And_Messaging");
     CreateOutputModule ("Win32/WGL");
     CreateOutputModule ("Win32/Library_Loader");
+    CreateOutputModule ("Win32/Input");
+    CreateOutputModule ("Win32/HiDpi");
     /*
     CreateOutputModule ("Win32/OpenGL");
     CreateOutputModule ("Win32/DXGI_Basics");
@@ -128,6 +133,12 @@ main :: ()
         if starts_with (it.name, "FORMAT_MESSAGE_")
         {
             SetOutputModule (it, "Win32/Basics");
+            continue;
+        }
+
+        if starts_with (it.name, "WM_")
+        {
+            SetOutputModule (it, "Win32/Windows_And_Messaging");
             continue;
         }
 
@@ -252,6 +263,7 @@ main :: ()
             SetOutputModule (it, "Win32/File_System");
             continue;
 
+        case "CLIPBOARD_FORMATS"; #through;
         case "POWER_SETTING_REGISTER_NOTIFICATION_FLAGS"; #through;
         case "HELPINFO";
             SetOutputModule (it, "Win32/Windows_And_Messaging");
@@ -263,9 +275,13 @@ main :: ()
         case "DEVMODEW"; #through;
         case "GET_DCX_FLAGS"; #through;
         case "ENUM_DISPLAY_SETTINGS_MODE"; #through;
+        case "MONITOR_FROM_FLAGS"; #through;
         case "MONITORENUMPROC"; #through;
         case "DISPLAY_DEVICEA"; #through;
-        case "DISPLAY_DEVICEW";
+        case "DISPLAY_DEVICEW"; #through;
+        case "MONITORINFO"; #through;
+        case "MONITORINFOEXA"; #through;
+        case "MONITORINFOEXW";
             SetOutputModule (it, "Win32/GDI_Basics");
             continue;
 
@@ -293,6 +309,9 @@ main :: ()
             SetOutputModule (it, "Win32/WGL");
             continue;
 
+        case "HKL";
+            SetOutputModule (it, "Win32/Input");
+            continue;
         /*
         case "IDXGISwapChain"; #through;
         case "IDXGIAdapter"; #through;
@@ -327,6 +346,12 @@ main :: ()
     {
         total_symbol_count += 1;
 
+        // What the hell?
+        if it.dll_import == "api-ms-win-shcore-scaling-l1-1-1"
+        {
+            it.dll_import = "Shcore";
+        }
+
         for lib : Libs_To_Ignore
         {
             if WildcardStarMatch (lib, it.dll_import)
@@ -346,6 +371,12 @@ main :: ()
         if it.name == "wglGetProcAddress" || it.name == "GetProcAddress"
         {
             it.return_type = void_pointer_type;
+        }
+
+        if it.module == "System.DataExchange" && contains (it.name, "Clipboard")
+        {
+            SetOutputModule (it, "Win32/Windows_And_Messaging");
+            continue;
         }
 
         if starts_with (it.name, "wgl")
@@ -375,6 +406,10 @@ main :: ()
         case "ReleaseDC"; #through;
         case "ClientToScreen"; #through;
         case "ScreenToClient"; #through;
+        case "MonitorFromPoint"; #through;
+        case "MonitorFromRect"; #through;
+        case "GetMonitorInfoA"; #through;
+        case "GetMonitorInfoW"; #through;
         case "EnumDisplayMonitors"; #through;
         case "EnumDisplaySettingsA"; #through;
         case "EnumDisplaySettingsW"; #through;
@@ -494,7 +529,9 @@ Win32_Module_Code :: #string JAI
     GDI_Basics := false,
     Windows_And_Messaging := false,
     WGL := false,
-    Library_Loader := false
+    Library_Loader := false,
+    Input := false,
+    HiDpi := false
 );
 
 #scope_file
@@ -519,6 +556,10 @@ _Basics     :: #import "Win32/Basics" (UNICODE);
     _WGL :: #import "Win32/WGL" (UNICODE);
 #if Library_Loader
     _Library_Loader :: #import "Win32/Library_Loader" (UNICODE);
+#if Input
+    _Input :: #import "Win32/Input" (UNICODE);
+#if HiDpi
+    _HiDpi :: #import "Win32/HiDpi" (UNICODE);
 
 #scope_export
 
@@ -542,6 +583,10 @@ using _Basics;
     using _WGL;
 #if Library_Loader
     using _Library_Loader;
+#if Input
+    using _Input;
+#if HiDpi
+    using _HiDpi;
 JAI
 
 Readme :: #string END
