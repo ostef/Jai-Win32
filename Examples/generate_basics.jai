@@ -23,6 +23,7 @@ Module_Redirection_Table :: [2]string.[
     .["System.Memory","Win32/Memory"],
     .["System.Console","Win32/Console"],
     .["UI.WindowsAndMessaging","Win32/Windows_And_Messaging"],
+    .["System.LibraryLoader","Win32/Library_Loader"],
     //.["Graphics.OpenGL","Win32/OpenGL"],
     //.["Graphics.Dxgi.Common","Win32/DXGI_Basics"],
     //.["Graphics.Hlsl","Win32/Direct3D"],
@@ -92,6 +93,7 @@ main :: ()
     CreateOutputModule ("Win32/GDI_Basics");
     CreateOutputModule ("Win32/Windows_And_Messaging");
     CreateOutputModule ("Win32/WGL");
+    CreateOutputModule ("Win32/Library_Loader");
     /*
     CreateOutputModule ("Win32/OpenGL");
     CreateOutputModule ("Win32/DXGI_Basics");
@@ -434,7 +436,8 @@ Win32_Module_Code :: #string JAI
     Memory := false,
     GDI_Basics := false,
     Windows_And_Messaging := false,
-    WGL := false
+    WGL := false,
+    Library_Loader := false
 );
 
 #scope_file
@@ -457,6 +460,8 @@ _Basics     :: #import "Win32/Basics" (UNICODE);
     _Windows_And_Messaging :: #import "Win32/Windows_And_Messaging" (UNICODE);
 #if WGL
     _WGL :: #import "Win32/WGL" (UNICODE);
+#if Library_Loader
+    _Library_Loader :: #import "Win32/Library_Loader" (UNICODE);
 
 #scope_export
 
@@ -478,6 +483,8 @@ using _Basics;
     using _Windows_And_Messaging;
 #if WGL
     using _WGL;
+#if Library_Loader
+    using _Library_Loader;
 JAI
 
 Readme :: #string END
