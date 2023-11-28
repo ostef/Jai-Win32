@@ -420,8 +420,20 @@ main :: ()
 
     make_directory_if_it_does_not_exist ("Generated/Win32", recursive = true);
 
+    total_lines_of_code_generated := 0;
     for context.generator.output_modules
-        GenerateModuleSourceCodeToFile (it);
+    {
+        code := GenerateModuleSourceCodeToFile (it);
+        for i : 0..code.count - 1 #no_abc
+        {
+            if code[i] == #char "\n"
+                total_lines_of_code_generated += 1;
+        }
+
+        total_lines_of_code_generated += 1;
+    }
+
+    log ("Generated % lines of code for % different modules", total_lines_of_code_generated, context.generator.output_modules.count);
 
     ok := write_entire_file ("Generated/Win32/module.jai", Win32_Module_Code);
     if !ok
