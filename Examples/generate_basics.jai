@@ -325,6 +325,12 @@ main :: ()
         if it.name == "GetSystemLeapSecondInformation"
             continue;
 
+        // Make GetProcAddress and wglGetProcAddress return a *void instead of a procedure type
+        if it.name == "wglGetProcAddress" || it.name == "GetProcAddress"
+        {
+            it.return_type = void_pointer_type;
+        }
+
         if starts_with (it.name, "wgl")
         {
             SetOutputModule (it, "Win32/WGL");

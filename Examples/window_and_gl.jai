@@ -69,12 +69,7 @@ main :: ()
 
     Win32.wglMakeCurrent (hdc, hglrc);
 
-    GetGLProcAddress :: (name : *u8) -> *void #c_call
-    {
-        return cast (*void) Win32.wglGetProcAddress (name);
-    }
-
-    gl_load (*gl, GetGLProcAddress);
+    gl_load (*gl, Win32.wglGetProcAddress);
 
     assert (glGenVertexArrays != null, "Could not load GL functions");
 
