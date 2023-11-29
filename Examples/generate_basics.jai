@@ -6,6 +6,7 @@
 #import "File_Utilities";
 #import "Hash_Table";
 #import "String";
+#import "Sort";
 
 #import, file "../module.jai";
 
@@ -465,7 +466,13 @@ main :: ()
     }
 
     for context.generator.output_modules
+    {
         ResolveModuleDependencies (it);
+
+        quick_sort (it.constants, (a, b) => compare_strings (a.name, b.name));
+        quick_sort (it.types, (a, b) => compare_strings (a.name, b.name));
+        quick_sort (it.functions, (a, b) => compare_strings (a.name, b.name));
+    }
 
     end_user_time := current_time_monotonic ();
     total_user_time := end_user_time - start_user_time;
