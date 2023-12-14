@@ -66,6 +66,7 @@ Libs_To_Ignore :: string.[
     "api-ms-win-core-*",
     "ntdllk",
     "d3dcsx",
+    "MrmSupport",
 ];
 
 GetFoundationConstantOutputModule :: (name : string) -> string #must
@@ -512,15 +513,15 @@ main :: ()
 Traversed % different symbols across % input modules
 Outputted % modules, generated % lines of code
 Timing information:
-  Total:     % seconds
   Parsing:   % seconds
   Traversal: % seconds
+  Total:     % seconds
 END,
         total_symbol_count, context.generator.input_modules.count,
         context.generator.output_modules.count, total_lines_of_code_generated,
-        to_float64_seconds (total_time),
         to_float64_seconds (total_parse_time),
-        to_float64_seconds (total_user_time)
+        to_float64_seconds (total_user_time),
+        to_float64_seconds (total_time)
     );
 
 }
