@@ -161,6 +161,12 @@ main :: ()
             continue;
         }
 
+        if it.module == "Devices.HumanInterfaceDevice" && starts_with (it.name, "MOUSE_")
+        {
+            SetOutputModule (it, "Win32/Input");
+            continue;
+        }
+
         if starts_with (it.name, "PFD_")
         {
             SetOutputModule (it, "Win32/GDI_Basics");
