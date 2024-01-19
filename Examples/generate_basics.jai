@@ -320,6 +320,7 @@ main :: ()
         case "HKL";
             SetOutputModule (it, "Win32/Input");
             continue;
+
         /*
         case "IDXGISwapChain"; #through;
         case "IDXGIAdapter"; #through;
@@ -395,6 +396,11 @@ main :: ()
 
         if it.name ==
         {
+        case "timeBeginPeriod"; #through;
+        case "timeEndPeriod";
+            SetOutputModule (it, "Win32/Time");
+            continue;
+
         case "IsValidCodePage"; #through;
         case "MultiByteToWideChar"; #through;
         case "WideCharToMultiByte";
