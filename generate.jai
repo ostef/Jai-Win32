@@ -508,7 +508,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             Indent ();
             append (builder, "#as using, except (.[\"base\"]) base : ");
             AppendType (builder, interface_type, pointer_to_com = false);
-            append (builder, ";\n\n");
+            append (builder, "VTable;\n\n");
         }
 
         for methods

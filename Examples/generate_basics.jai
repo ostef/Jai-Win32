@@ -376,6 +376,19 @@ main :: ()
         if it.name == "GetSystemLeapSecondInformation"
             continue;
 
+        if it.name ==
+        {
+        case "ExpungeConsoleCommandHistoryA"; #through;
+        case "ExpungeConsoleCommandHistoryW"; #through;
+        case "GetConsoleCommandHistoryA"; #through;
+        case "GetConsoleCommandHistoryW"; #through;
+        case "GetConsoleCommandHistoryLengthA"; #through;
+        case "GetConsoleCommandHistoryLengthW"; #through;
+        case "SetConsoleNumberOfCommandsA"; #through;
+        case "SetConsoleNumberOfCommandsW";
+            continue;
+        }
+
         // Make GetProcAddress and wglGetProcAddress return a *void instead of a procedure type
         if it.name == "wglGetProcAddress" || it.name == "GetProcAddress"
         {
