@@ -454,7 +454,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             Indent ();
 
             AppendIdentifier (builder, method.name);
-            appendf (builder, " :: (this : *");
+            appendf (builder, " :: inline (this : *");
             AppendIdentifier (builder, name);
 
             if method.params.count > 0
