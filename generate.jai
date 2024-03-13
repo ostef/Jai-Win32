@@ -564,10 +564,10 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
         return false;
 
     // Optional means you can pass null, so it needs to stay a pointer
-    if attrs | .Optional
+    if attrs & .Optional
         return false;
 
-    return (attrs | .Const) && (attrs | .In);
+    return (attrs & .Const) && (attrs & .In);
 }
 
 GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using method : Win32Method)
