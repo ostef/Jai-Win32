@@ -84,9 +84,15 @@ GetFoundationConstantOutputModule :: (name : string) -> string #must
 
 HandleDirectXSymbol :: (sym : *$T) -> bool #must
 {
-    if sym.module == "Graphics.Direct3D.Fxc" || sym.module == "Graphics.Direct3D11"
-    || sym.module == "Graphics.Direct3D11on12"
+    if sym.module ==
+    {
+    case "Graphics.Direct3D.Fxc"; #through;
+    case "Graphics.Direct3D11"; #through;
+    case "Graphics.Direct3D11on12"; #through;
+    case "Graphics.Direct3D10"; #through;
+    case "Graphics.Direct3D9";
         return true;
+    }
 
     if starts_with (sym.name, "D3D12") || starts_with (sym.name, "ID3D12")
     {
@@ -97,6 +103,20 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
     // Ignore dx11 stuff
     if starts_with (sym.name, "D3DX11") || starts_with (sym.name, "ID3DX11")
     || starts_with (sym.name, "D3D11") || starts_with (sym.name, "ID3D11")
+    {
+        return true;
+    }
+
+    // Ignore dx10 stuff
+    if starts_with (sym.name, "D3DX10") || starts_with (sym.name, "ID3DX10")
+    || starts_with (sym.name, "D3D10") || starts_with (sym.name, "ID3D10")
+    {
+        return true;
+    }
+
+    // Ignore dx9 stuff
+    if starts_with (sym.name, "D3DX9") || starts_with (sym.name, "ID3DX9")
+    || starts_with (sym.name, "D3D9") || starts_with (sym.name, "ID3D9")
     {
         return true;
     }
