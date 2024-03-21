@@ -1,4 +1,4 @@
-// This example program generates bindings for all of Win32 stuffs
+// This example program generates bindings for all the available Win32 API
 
 #import "Basic";
 #import "Compiler";
@@ -76,5 +76,5 @@ main :: ()
         exit (1);
 
     for context.generator.output_modules
-        GenerateModuleSourceCodeToFile (it, "Generated/Full");
+        GenerateModuleSourceCodeToFile (it, output_directory = "Generated/All");
 }
