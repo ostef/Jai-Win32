@@ -64,6 +64,9 @@ Generator :: struct
     has_errors : bool;
 
     architecture := Win32Architecture.X64;
+    // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
+    generate_wrapper_function_for_REFIID_params := true;
+
     dependency_queue : [..]struct { module : string; name : string; };
 
     input_modules : Table (string, *Module);

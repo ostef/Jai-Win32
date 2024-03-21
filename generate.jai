@@ -552,14 +552,15 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
     appendf (builder, "}\n");
 }
 
-AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, const_ref_wrapper := false)
+AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, const_ref_wrapper := false, guid_const_ref_wrapper := false)
 {
     for params
     {
         if it_index != 0
             append (builder, ", ");
 
-        const_ref := const_ref_wrapper && ParamIsConstRef (it);
+        const_ref := (const_ref_wrapper && ParamIsConstRef (it))
+            || (guid_const_ref_wrapper && ParamIsREFIID (it));
         if const_ref
             append (builder, "/*const ref*/ ");
 
@@ -600,6 +601,14 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
     return (attrs & .Const) && (attrs & .In);
 }
 
+ParamIsREFIID :: inline (using param : Win32FunctionParam) -> bool #must
+{
+    if !ParamIsConstRef (param)
+        return false;
+
+    return type.child.kind == .Native && type.child.native_type == .Guid;
+}
+
 GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using method : Win32Method)
 {
     AppendIdentifier (builder, name);
@@ -625,9 +634,48 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
     append (builder, " #cpp_method;\n");
 }
 
+FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool
+{
+    if !context.generator.generate_wrapper_function_for_REFIID_params
+        return false;
+
+    for func.params
+    {
+        if ParamIsREFIID (it)
+            return true;
+    }
+
+    return false;
+}
+
 GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
 {
+    needs_REFIID_wrapper := FunctionNeedsWrapperForREFIIDParam (func);
+    if needs_REFIID_wrapper
+    {
+        append (builder, "\n");
+        AppendIdentifier (builder, name);
+        append (builder, " :: inline (");
+        AppendParamList (builder, params, guid_const_ref_wrapper = true);
+
+        if HasReturnValue (func)
+        {
+            append (builder, ") -> ");
+            AppendType (builder, return_type);
+            append (builder, " #no_context");
+        }
+        else
+        {
+            append (builder, ") #no_context");
+        }
+
+        append (builder, "\n{\n    ");
+    }
+
     AppendIdentifier (builder, name);
+    if needs_REFIID_wrapper
+        append (builder, "_Original");
+
     append (builder, " :: (");
     AppendParamList (builder, params);
 
@@ -645,9 +693,39 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     {
         append (builder, " #foreign ");
         AppendStringAsIdentifier (builder, dll_import);
+
+        if needs_REFIID_wrapper
+        {
+            append (builder, " ");
+            AppendStringLiteral (builder, name);
+        }
     }
 
     append (builder, ";\n");
+
+    if needs_REFIID_wrapper
+    {
+        if HasReturnValue (func)
+            append (builder, "    return ");
+        else
+            append (builder, "    ");
+
+        AppendIdentifier (builder, name);
+        append (builder, "_Original (");
+
+        for params
+        {
+            if it_index != 0
+                append (builder, ", ");
+
+            if ParamIsREFIID (it)
+                append (builder, "*");
+
+            AppendIdentifier (builder, it.name);
+        }
+
+        append (builder, ");\n}\n\n");
+    }
 }
 
 GenerateModuleSourceCode :: inline (module : *Module) -> string #must
