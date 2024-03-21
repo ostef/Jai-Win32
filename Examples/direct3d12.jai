@@ -8,7 +8,6 @@ Win32 :: #import "Win32";
 GraphicsContext :: struct
 {
     factory : *IDXGIFactory4;
-    debug_controller : *ID3D12Debug3;
     device : *ID3D12Device8;
     debug_device : *ID3D12DebugDevice2;
     command_queue : *ID3D12CommandQueue;
@@ -24,13 +23,10 @@ InitGraphicsContext :: (using ctx : *GraphicsContext, $Debug := true) -> bool
         dc : *ID3D12Debug;
         if D3D12GetDebugInterface (dc.UUID, xx *dc) >= 0
         {
-            if dc.QueryInterface (dc, debug_controller.UUID, xx *debug_controller) >= 0
-            {
-                dxgi_factory_flags |= DXGI_CREATE_FACTORY_DEBUG;
+            dxgi_factory_flags |= DXGI_CREATE_FACTORY_DEBUG;
 
-                debug_controller.EnableDebugLayer (debug_controller);
-                debug_controller.SetEnableGPUBasedValidation (debug_controller, 1);
-            }
+            dc.EnableDebugLayer (dc);
+            print ("D3D12: Enabled debug layer\n");
 
             dc.Release (dc);
             dc = null;
