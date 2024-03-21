@@ -28,12 +28,11 @@ Module_Redirection_Table :: [2]string.[
     .["UI.Input","Win32/Input"],
     .["UI.Input.KeyboardAndMouse","Win32/Input"],
     .["UI.HiDpi","Win32/HiDpi"],
-    //.["Graphics.OpenGL","Win32/OpenGL"],
-    //.["Graphics.Dxgi.Common","Win32/DXGI_Basics"],
+    .["Graphics.Dxgi","DirectX/DXGI"],
+    .["Graphics.Dxgi.Common","DirectX/DXGI"],
     //.["Graphics.Hlsl","Win32/Direct3D"],
-    //.["Graphics.Direct3D","Win32/Direct3D"],
-    //.["Graphics.Direct3D11","Win32/Direct3D11"],
-    //.["Graphics.Direct3D12","Win32/Direct3D12"],
+    .["Graphics.Direct3D","DirectX/Direct3D"],
+    .["Graphics.Direct3D12","DirectX/Direct3D12"],
 ];
 
 Handle_Type_Names :: string.[
@@ -83,6 +82,40 @@ GetFoundationConstantOutputModule :: (name : string) -> string #must
     }
 }
 
+HandleDirectXSymbol :: (sym : *$T) -> bool #must
+{
+    if sym.module == "Graphics.Direct3D.Fxc" || sym.module == "Graphics.Direct3D11"
+    || sym.module == "Graphics.Direct3D11on12"
+        return true;
+
+    if starts_with (sym.name, "D3D12") || starts_with (sym.name, "ID3D12")
+    {
+        SetOutputModule (sym, "DirectX/Direct3D12");
+        return true;
+    }
+
+    // Ignore dx11 stuff
+    if starts_with (sym.name, "D3DX11") || starts_with (sym.name, "ID3DX11")
+    || starts_with (sym.name, "D3D11") || starts_with (sym.name, "ID3D11")
+    {
+        return true;
+    }
+
+    if starts_with (sym.name, "D3D") || starts_with (sym.name, "ID3D")
+    {
+        SetOutputModule (sym, "DirectX/Direct3D");
+        return true;
+    }
+
+    if starts_with (sym.name, "DXGI") || starts_with (sym.name, "IDXGI")
+    {
+        SetOutputModule (sym, "DirectX/DXGI");
+        return true;
+    }
+
+    return false;
+}
+
 main :: ()
 {
     context.allocator = temp;
@@ -110,13 +143,9 @@ main :: ()
     CreateOutputModule ("Win32/Library_Loader");
     CreateOutputModule ("Win32/Input");
     CreateOutputModule ("Win32/HiDpi");
-    /*
-    CreateOutputModule ("Win32/OpenGL");
-    CreateOutputModule ("Win32/DXGI_Basics");
-    CreateOutputModule ("Win32/Direct3D");
-    CreateOutputModule ("Win32/Direct3D11");
-    CreateOutputModule ("Win32/Direct3D12");
-    */
+    CreateOutputModule ("DirectX/DXGI");
+    CreateOutputModule ("DirectX/Direct3D");
+    CreateOutputModule ("DirectX/Direct3D12");
 
     void_type : Win32Type;
     void_type.kind = .Native;
@@ -131,6 +160,9 @@ main :: ()
     for :AllInputConstants context.generator
     {
         total_symbol_count += 1;
+
+        if HandleDirectXSymbol (it)
+            continue;
 
         if starts_with (it.name, "FORMAT_MESSAGE_")
         {
@@ -192,6 +224,9 @@ main :: ()
     for :AllInputTypeDefinitions context.generator
     {
         total_symbol_count += 1;
+
+        if HandleDirectXSymbol (it)
+            continue;
 
         if it.name == "NTSTATUS_FACILITY_CODE"
             continue;
@@ -320,25 +355,6 @@ main :: ()
         case "HKL";
             SetOutputModule (it, "Win32/Input");
             continue;
-
-        /*
-        case "IDXGISwapChain"; #through;
-        case "IDXGIAdapter"; #through;
-        case "IDXGIObject"; #through;
-        case "IDXGIDeviceSubObject"; #through;
-        case "IDXGIOutput"; #through;
-        case "IDXGISurface"; #through;
-        case "DXGI_FRAME_STATISTICS"; #through;
-        case "DXGI_HDR_METADATA_TYPE"; #through;
-        case "DXGI_SWAP_EFFECT"; #through;
-        case "DXGI_SWAP_CHAIN_DESC"; #through;
-        case "DXGI_MAPPED_RECT"; #through;
-        case "DXGI_SURFACE_DESC"; #through;
-        case "DXGI_OUTPUT_DESC"; #through;
-        case "DXGI_ADAPTER_DESC";
-            SetOutputModule (it, "Win32/DXGI_Basics");
-            continue;
-        */
         }
 
         for redir : Module_Redirection_Table
@@ -354,6 +370,9 @@ main :: ()
     for :AllInputFunctions context.generator
     {
         total_symbol_count += 1;
+
+        if HandleDirectXSymbol (it)
+            continue;
 
         // What the hell?
         if it.dll_import == "api-ms-win-shcore-scaling-l1-1-1"
@@ -507,11 +526,22 @@ main :: ()
         exit (1);
 
     make_directory_if_it_does_not_exist ("Generated/Win32", recursive = true);
+    make_directory_if_it_does_not_exist ("Generated/DirectX", recursive = true);
+
+    make_directory_if_it_does_not_exist ("Generated/Win32/Examples", recursive = true);
+    make_directory_if_it_does_not_exist ("Generated/DirectX/Examples", recursive = true);
+
+    copy_file ("window_and_gl.jai", "Generated/Win32/Examples/window_and_gl.jai");
+    copy_file ("direct3d12.jai", "Generated/DirectX/Examples/direct3d12.jai");
 
     total_lines_of_code_generated := 0;
     for context.generator.output_modules
     {
-        code := GenerateModuleSourceCodeToFile (it);
+        additional_code : string;
+        if it.name == "Win32/Basics"
+            additional_code = Additional_Basics_Code;
+
+        code := GenerateModuleSourceCodeToFile (it, additional_code);
         for i : 0..code.count - 1 #no_abc
         {
             if code[i] == #char "\n"
@@ -620,6 +650,155 @@ using _Basics;
     using _Input;
 #if HiDpi
     using _HiDpi;
+JAI
+
+Additional_Basics_Code :: #string JAI
+// The following stuff was hand-written to be automatically
+// copy-pasted here, because it is not present in the metadata
+
+HIWORD :: (wparam: WPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
+}
+
+LOWORD :: (wparam: WPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) (wparam);
+}
+
+HIWORD :: (lparam: LPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
+}
+
+LOWORD :: (lparam: LPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) (lparam);
+}
+
+MAKELANGID :: (p : u16, s : u16) -> u16 #must #expand
+{
+    return (s << 10) | p;
+}
+
+GUID :: struct
+{
+    Data1 : u32;
+    Data2 : u16;
+    Data3 : u16;
+    Data4 : [8]u8;
+}
+
+MakeGUID :: (str : string) -> GUID #must
+{
+    // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
+    assert :: (arg: bool, loc := #caller_location) {
+        if arg return;
+
+        if context.handling_assertion_failure  return;  // Avoid infinite loops.
+        context.handling_assertion_failure = true;
+
+        context.assertion_failed(loc, "Assertion failed.");
+        context.handling_assertion_failure = false;
+    } @NoProfile
+
+    ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
+    {
+        ToDigit :: inline (char : u8) -> int #must
+        {
+            if char >= #char "0" && char <= #char "9"
+                return char - #char "0";
+
+            if char >= #char "a" && char <= #char "f"
+                return 10 + char - #char "a";
+
+            if char >= #char "A" && char <= #char "F"
+                return 10 + char - #char "A";
+
+            return -1;
+        }
+
+        end := offset;
+        result : int;
+        while end < str.count
+        {
+            digit := ToDigit (str[end]);
+            if digit < 0
+                break;
+
+            result *= 16;
+            result += digit;
+            end += 1;
+        }
+
+        return result, end - offset;
+    }
+
+    assert (str.count == 36);
+
+    offset := 0;
+
+    a, adv := ParseHexInt (str, offset);
+
+    assert (adv == 8);
+    assert (str[offset + adv] == #char "-");
+
+    offset += adv + 1;
+
+    b:, adv = ParseHexInt (str, offset);
+
+    assert (adv == 4);
+    assert (str[offset + adv] == #char "-");
+
+    offset += adv + 1;
+
+    c:, adv = ParseHexInt (str, offset);
+
+    assert (adv == 4);
+    assert (str[offset + adv] == #char "-");
+
+    offset += adv + 1;
+
+    result := GUID.{ Data1 = xx a, Data2 = xx b, Data3 = xx c };
+
+    s := str;
+    s.data += offset;
+    s.count = 2;
+
+    value:, adv = ParseHexInt (s, 0);
+
+    assert (adv == 2);
+
+    result.Data4[0] = xx value;
+    offset += 2;
+    s.data += 2;
+
+    value, adv = ParseHexInt (s, 0);
+
+    assert (adv == 2);
+    assert (str[offset + adv] == #char "-");
+
+    result.Data4[1] = xx value;
+    offset += 3;
+
+    for i : 2..7
+    {
+        s := str;
+        s.data += offset;
+        s.count = 2;
+
+        value, adv = ParseHexInt (s, 0);
+
+        assert (adv == 2);
+
+        result.Data4[i] = xx value;
+        offset += 2;
+    }
+
+    assert (offset == str.count);
+
+    return result;
+}
 JAI
 
 Readme :: #string END

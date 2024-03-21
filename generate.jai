@@ -228,8 +228,23 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
     case .String;
         AppendStringLiteral (builder, str_value);
 
-    case .PropertyKey; append (builder, "PROPERTYKEY");
-        appendf (builder, "#run PROPERTYKEY.{ MakeGUID (\"%\"), % }", property_key.fmtid, property_key.pid);
+    case .PropertyKey;
+
+        {
+            prev := context.print_style.default_format_int;
+            defer context.print_style.default_format_int = prev;
+
+            context.print_style.default_format_int.base = 16;
+
+            guid_value := MakeGUID (property_key.fmtid);
+
+            appendf (builder, "PROPERTYKEY.{ .{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]}, % }",
+                guid_value.Data1, guid_value.Data2, guid_value.Data3,
+                guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
+                guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7],
+                FormatInt.{value=property_key.pid, base=10}
+            );
+        }
     }
 
     append (builder, ";");
@@ -424,9 +439,24 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
         defer indent_level -= 1;
 
         Indent ();
-        append (builder, "UUID :: ");
-        AppendIdentifier (builder, name);
-        append (builder, "_UUID;\n\n");
+
+        {
+            prev := context.print_style.default_format_int;
+            defer context.print_style.default_format_int = prev;
+
+            context.print_style.default_format_int.base = 16;
+
+            guid_value := MakeGUID (guid);
+
+            appendf (builder, "UUID :: GUID.{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]};\n\n",
+                guid_value.Data1, guid_value.Data2, guid_value.Data3,
+                guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
+                guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7]
+            );
+        }
+
+        //AppendIdentifier (builder, name);
+        //append (builder, "_UUID;\n\n");
 
         if interface_type.kind != .Null
         {
@@ -620,48 +650,56 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     append (builder, ";\n");
 }
 
-GenerateModuleSourceCode :: (module : *Module) -> string #must
+GenerateModuleSourceCode :: inline (module : *Module) -> string #must
 {
     builder : String_Builder;
 
-    append (*builder, "// This file was auto generated\n\n");
-    append (*builder, "#module_parameters (UNICODE := true);\n\n");
+    GenerateModuleSourceCode (*builder, module);
+
+    return builder_to_string (*builder);
+}
+
+GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
+{
+    append (builder, "// This file was auto generated\n\n");
+    append (builder, "#module_parameters (UNICODE := true);\n\n");
 
     for _, dep : module.dependencies
     {
         if dep != module.name
-            appendf (*builder, "#import \"%\" (UNICODE);\n", dep);
+        {
+            // @Hack (stefan): If we #import "Windows" we assume it's the original Jai
+            // module, which does not have a UNICODE parameter.
+            if dep == "Windows"
+                appendf (builder, "#import \"%\";\n", dep);
+            else
+                appendf (builder, "#import \"%\" (UNICODE);\n", dep);
+        }
     }
 
-    // Append hand-written stuff
-    if module.name == "Win32/Basics"
-    {
-        append (*builder, Additional_Basics_Code);
-    }
-
-    append (*builder, "\n");
-    append (*builder, "// Constants\n\n");
+    append (builder, "\n");
+    append (builder, "// Constants\n\n");
 
     for module.constants
-        GenerateConstant (*builder, it);
+        GenerateConstant (builder, it);
 
-    append (*builder, "\n");
+    append (builder, "\n");
 
-    append (*builder, "// Types\n\n");
+    append (builder, "// Types\n\n");
 
     for module.types
     {
         if it_index != 0
-            append (*builder, "\n");
-        GenerateTypeDefinition (*builder, it);
+            append (builder, "\n");
+        GenerateTypeDefinition (builder, it);
     }
 
-    append (*builder, "\n// Functions\n\n");
+    append (builder, "\n// Functions\n\n");
 
     all_dlls : [..]string;
     for module.functions
     {
-        GenerateFunction (*builder, it);
+        GenerateFunction (builder, it);
 
         // Not sure how this is possible but let's handle it
         if !it.dll_import
@@ -671,66 +709,48 @@ GenerateModuleSourceCode :: (module : *Module) -> string #must
             array_add (*all_dlls, it.dll_import);
     }
 
-    append (*builder, "\n// Unicode aliases\n\n");
+    append (builder, "\n// Unicode aliases\n\n");
     for module.unicode_aliases
     {
-        appendf (*builder, "#if UNICODE then %1 :: %1W;\n", it);
-        appendf (*builder, "else             %1 :: %1A;\n", it);
+        appendf (builder, "#if UNICODE then %1 :: %1W;\n", it);
+        appendf (builder, "else             %1 :: %1A;\n", it);
     }
 
-    append (*builder, "\n// System libraries\n\n");
-    append (*builder, "#scope_file\n\n");
+    append (builder, "\n// System libraries\n\n");
+    append (builder, "#scope_file\n\n");
 
     for all_dlls
     {
-        AppendStringAsIdentifier (*builder, it);
-        appendf (*builder, " :: #system_library \"%\";\n", it);
+        AppendStringAsIdentifier (builder, it);
+        appendf (builder, " :: #system_library \"%\";\n", it);
     }
+
+    if all_dlls.count
+        append (builder, "\n");
+}
+
+GenerateModuleSourceCodeToFile :: (module : *Module, additional_code := "", output_directory := "Generated") -> string
+{
+    make_directory_if_it_does_not_exist (output_directory, recursive = true);
+
+    builder : String_Builder;
+
+    GenerateModuleSourceCode (*builder, module);
+
+    if additional_code
+    {
+        append (*builder, "#scope_export\n\n");
+        append (*builder, additional_code);
+    }
+
+    source_code := builder_to_string (*builder);
+
+    write_entire_file (sprint ("%/%.jai", output_directory, module.name), source_code);
 
     return builder_to_string (*builder);
 }
 
-GenerateModuleSourceCodeToFile :: (module : *Module, output_directory := "Generated") -> string
-{
-    make_directory_if_it_does_not_exist (output_directory, recursive = true);
-
-    source_code := GenerateModuleSourceCode (module);
-
-    write_entire_file (sprint ("%/%.jai", output_directory, module.name), source_code);
-
-    return source_code;
-}
-
-Additional_Basics_Code :: #string JAI
-// The following stuff was hand-written to be automatically
-// copy-pasted here, because it is not present in the metadata
-
-HIWORD :: (wparam: WPARAM) -> s16 #must #expand
-{
-    return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
-}
-
-LOWORD :: (wparam: WPARAM) -> s16 #must #expand
-{
-    return cast, no_check (s16) (wparam);
-}
-
-HIWORD :: (lparam: LPARAM) -> s16 #must #expand
-{
-    return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
-}
-
-LOWORD :: (lparam: LPARAM) -> s16 #must #expand
-{
-    return cast, no_check (s16) (lparam);
-}
-
-MAKELANGID :: (p : u16, s : u16) -> u16 #must #expand
-{
-    return (s << 10) | p;
-}
-
-GUID :: union
+GUID :: struct
 {
     Data1 : u32;
     Data2 : u16;
@@ -740,17 +760,6 @@ GUID :: union
 
 MakeGUID :: (str : string) -> GUID #must
 {
-    // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
-    assert :: (arg: bool, loc := #caller_location) {
-        if arg return;
-
-        if context.handling_assertion_failure  return;  // Avoid infinite loops.
-        context.handling_assertion_failure = true;
-
-        context.assertion_failed(loc, "Assertion failed.");
-        context.handling_assertion_failure = false;
-    } @NoProfile
-
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
         ToDigit :: inline (char : u8) -> int #must
@@ -783,7 +792,10 @@ MakeGUID :: (str : string) -> GUID #must
         return result, end - offset;
     }
 
-    assert (str.count == 36);
+    if str.count == 0
+        return .{};
+
+    assert (str.count == 36, "GUID length is not valid (got %)", str.count);
 
     offset := 0;
 
@@ -848,4 +860,3 @@ MakeGUID :: (str : string) -> GUID #must
 
     return result;
 }
-JAI
