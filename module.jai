@@ -66,6 +66,7 @@ Generator :: struct
     architecture := Win32Architecture.X64;
     // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
     generate_wrapper_function_for_REFIID_params := true;
+    generate_additional_enum_type_for_non_scoped_enums := true;
 
     dependency_queue : [..]struct { module : string; name : string; };
 

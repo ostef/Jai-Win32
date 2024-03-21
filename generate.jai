@@ -56,6 +56,9 @@ AppendIdentifier :: (builder : *String_Builder, str : string)
         appendf (builder, "_%", str);
 
     case;
+        if is_digit (str[0])
+            append (builder, "_");
+
         append (builder, str);
     }
 }
@@ -255,6 +258,72 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
     append (builder, "\n");
 }
 
+GenerateScopedEnumTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level : int, remove_name_prefix : bool)
+{
+    if flags
+        append (builder, "enum_flags ");
+    else
+        append (builder, "enum ");
+
+    if integer_base == .Null
+        append (builder, "s32");
+    else
+        AppendValueType (builder, integer_base);
+
+    append (builder, "\n");
+    Indent ();
+    append (builder, "{\n");
+
+    for values
+    {
+        Indent ();
+            append (builder, "    ");
+
+        identifier := it.name;
+        if remove_name_prefix
+        {
+            start_index := 0;
+            while start_index < min (identifier.count, name.count)
+            && identifier[start_index] == name[start_index]
+                start_index += 1;
+
+            if start_index < identifier.count && identifier[start_index] == #char "_"
+                start_index += 1;
+
+            identifier.data += start_index;
+            identifier.count -= start_index;
+
+            if identifier.count == 0
+            {
+                print ("WARNING: when generating scoped enum type %, identifier % was reduced to nothing when removing the name prefix. We'll use the full name instead.", name, it.name);
+                identifier = it.name;
+            }
+        }
+
+        AppendIdentifier (builder, identifier);
+        if integer_base ==
+        {
+        case .Byte;
+            print_to_builder (builder, " :: %;\n", cast, no_check (u8) it.value);
+        case .UInt16;
+            print_to_builder (builder, " :: %;\n", cast, no_check (u16) it.value);
+        case .Int16;
+            print_to_builder (builder, " :: %;\n", cast, no_check (s16) it.value);
+        case .UInt32;
+            print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
+        case .Int32;
+            print_to_builder (builder, " :: %;\n", cast, no_check (s32) it.value);
+        case .UInt64;
+            print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
+        case .Int64;
+            print_to_builder (builder, " :: %;\n", cast, no_check (s64) it.value);
+        }
+    }
+
+    Indent ();
+    append (builder, "}\n");
+}
+
 GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level := 0, as_type_declaration := true)
 {
     if kind == .Com
@@ -277,21 +346,11 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
         // enum because most of the time an enum is expected it's specified as an
         // integer type, so .SOMETHING namespacing does not work and it makes it
         // even less convenient to use.
-        if scoped
+        // If context.generator.generate_additional_enum_type_for_non_scoped_enums we generate
+        // an enum type anyway, but we also try to remove the name prefix
+        if scoped || context.generator.generate_additional_enum_type_for_non_scoped_enums
         {
-            if flags
-                append (builder, "enum_flags ");
-            else
-                append (builder, "enum ");
-
-            if integer_base == .Null
-                append (builder, "s32");
-            else
-                AppendValueType (builder, integer_base);
-
-            append (builder, "\n");
-            Indent ();
-            append (builder, "{\n");
+            GenerateScopedEnumTypeDefinition (builder, type, indent_level, !scoped);
         }
         else
         {
@@ -303,36 +362,34 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
             append (builder, ";\n");
         }
 
-        for values
+        if !scoped
         {
-            Indent ();
-            if scoped
-                append (builder, "    ");
+            if context.generator.generate_additional_enum_type_for_non_scoped_enums
+                append (builder, "\n");
 
-            AppendIdentifier (builder, it.name);
-            if integer_base ==
+            for values
             {
-            case .Byte;
-                print_to_builder (builder, " :: %;\n", cast, no_check (u8) it.value);
-            case .UInt16;
-                print_to_builder (builder, " :: %;\n", cast, no_check (u16) it.value);
-            case .Int16;
-                print_to_builder (builder, " :: %;\n", cast, no_check (s16) it.value);
-            case .UInt32;
-                print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
-            case .Int32;
-                print_to_builder (builder, " :: %;\n", cast, no_check (s32) it.value);
-            case .UInt64;
-                print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
-            case .Int64;
-                print_to_builder (builder, " :: %;\n", cast, no_check (s64) it.value);
-            }
-        }
+                Indent ();
 
-        if scoped
-        {
-            Indent ();
-            append (builder, "}\n");
+                AppendIdentifier (builder, it.name);
+                if integer_base ==
+                {
+                case .Byte;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (u8) it.value);
+                case .UInt16;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (u16) it.value);
+                case .Int16;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (s16) it.value);
+                case .UInt32;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
+                case .Int32;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (s32) it.value);
+                case .UInt64;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
+                case .Int64;
+                    print_to_builder (builder, " :: %;\n", cast, no_check (s64) it.value);
+                }
+            }
         }
 
     case .Struct; #through;
