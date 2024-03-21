@@ -232,22 +232,19 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
         AppendStringLiteral (builder, str_value);
 
     case .PropertyKey;
+        prev := context.print_style.default_format_int;
+        defer context.print_style.default_format_int = prev;
 
-        {
-            prev := context.print_style.default_format_int;
-            defer context.print_style.default_format_int = prev;
+        context.print_style.default_format_int.base = 16;
 
-            context.print_style.default_format_int.base = 16;
+        guid_value := MakeGUID (property_key.fmtid);
 
-            guid_value := MakeGUID (property_key.fmtid);
-
-            appendf (builder, "PROPERTYKEY.{ .{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]}, % }",
-                guid_value.Data1, guid_value.Data2, guid_value.Data3,
-                guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
-                guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7],
-                FormatInt.{value=property_key.pid, base=10}
-            );
-        }
+        appendf (builder, "PROPERTYKEY.{ .{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]}, % }",
+            guid_value.Data1, guid_value.Data2, guid_value.Data3,
+            guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
+            guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7],
+            FormatInt.{value=property_key.pid, base=10}
+        );
     }
 
     append (builder, ";");
@@ -277,7 +274,7 @@ GenerateScopedEnumTypeDefinition :: (builder : *String_Builder, using type : Win
     for values
     {
         Indent ();
-            append (builder, "    ");
+        append (builder, "    ");
 
         identifier := it.name;
         if remove_name_prefix
@@ -730,7 +727,7 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
     append (builder, " #cpp_method;\n");
 }
 
-FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool
+FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool #must
 {
     if !context.generator.generate_wrapper_function_for_REFIID_params
         return false;
@@ -844,7 +841,8 @@ GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
         {
             // @Hack (stefan): If we #import "Windows" we assume it's the original Jai
             // module, which does not have a UNICODE parameter.
-            if dep == "Windows"
+            if context.generator.treat_generated_Windows_import_as_original_jai_module &&
+            dep == "Windows"
                 appendf (builder, "#import \"%\";\n", dep);
             else
                 appendf (builder, "#import \"%\" (UNICODE);\n", dep);
