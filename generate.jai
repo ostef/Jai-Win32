@@ -282,20 +282,40 @@ GenerateScopedEnumTypeDefinition :: (builder : *String_Builder, using type : Win
         identifier := it.name;
         if remove_name_prefix
         {
-            start_index := 0;
-            while start_index < min (identifier.count, name.count)
-            && identifier[start_index] == name[start_index]
-                start_index += 1;
+            // Handle enum value name prefixed with FLAG_ while the name ends with FLAGS_
+            // which is pretty common in the Direct3D API
+            if starts_with (identifier, name)
+            {
+                identifier.data += name.count;
+                identifier.count -= name.count;
+            }
+            else if ends_with (name, "FLAGS")
+            {
+                name_without_flags := name;
+                name_without_flags.count -= "FLAGS".count;
 
-            if start_index < identifier.count && identifier[start_index] == #char "_"
-                start_index += 1;
+                if starts_with (identifier, name_without_flags)
+                {
+                    identifier.data += name_without_flags.count;
+                    identifier.count -= name_without_flags.count;
+                }
 
-            identifier.data += start_index;
-            identifier.count -= start_index;
+                if starts_with (identifier, "FLAG")
+                {
+                    identifier.data += "FLAG".count;
+                    identifier.count -= "FLAG".count;
+                }
+            }
+
+            if identifier.count > 0 && identifier[0] == #char "_"
+            {
+                identifier.data += 1;
+                identifier.count -= 1;
+            }
 
             if identifier.count == 0
             {
-                print ("WARNING: when generating scoped enum type %, identifier % was reduced to nothing when removing the name prefix. We'll use the full name instead.", name, it.name);
+                print ("WARNING: when generating scoped enum type %, identifier % was reduced to nothing when removing the name prefix. We'll use the full name instead.\n", name, it.name);
                 identifier = it.name;
             }
         }
