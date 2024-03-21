@@ -71,7 +71,6 @@ END,
             );
         }
 
-
         if !best_adapter
         {
             best_adapter = adapter;
