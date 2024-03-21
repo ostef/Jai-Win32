@@ -273,26 +273,42 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
     if #complete kind ==
     {
     case .Enum;
-        // @Todo: handle Scoped
+        // We only generate a list of constants at current scope with non scoped
+        // enum because most of the time an enum is expected it's specified as an
+        // integer type, so .SOMETHING namespacing does not work and it makes it
+        // even less convenient to use.
+        if scoped
+        {
+            if flags
+                append (builder, "enum_flags ");
+            else
+                append (builder, "enum ");
 
-        if flags
-            append (builder, "enum_flags ");
+            if integer_base == .Null
+                append (builder, "s32");
+            else
+                AppendValueType (builder, integer_base);
+
+            append (builder, "\n");
+            Indent ();
+            append (builder, "{\n");
+        }
         else
-            append (builder, "enum ");
+        {
+            if integer_base == .Null
+                append (builder, "s32");
+            else
+                AppendValueType (builder, integer_base);
 
-        if integer_base == .Null
-            append (builder, "s32");
-        else
-            AppendValueType (builder, integer_base);
-
-        append (builder, "\n");
-        Indent ();
-        append (builder, "{\n");
+            append (builder, ";\n");
+        }
 
         for values
         {
             Indent ();
-            append (builder, "    ");
+            if scoped
+                append (builder, "    ");
+
             AppendIdentifier (builder, it.name);
             if integer_base ==
             {
@@ -313,8 +329,11 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
             }
         }
 
-        Indent ();
-        append (builder, "}\n");
+        if scoped
+        {
+            Indent ();
+            append (builder, "}\n");
+        }
 
     case .Struct; #through;
     case .Union;
