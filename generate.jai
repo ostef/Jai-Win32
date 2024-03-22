@@ -1,925 +1,621 @@
-#scope_module
+// This example program generates bindings for basic Win32 stuff
 
-appendf :: (builder : *String_Builder, format_string : string, args: ..Any) -> bool
+#import "Basic";
+#import "Compiler";
+#import "File";
+#import "File_Utilities";
+#import "Hash_Table";
+#import "String";
+#import "Sort";
+
+#import, dir "Generator";
+
+// Modules that have 'Basics' in their name are modules that we don't
+// output fully and that exists mostly because they have dependencies
+// of other modules in them.
+
+// Redirects stuff from input module redir[0] to output module redir[1]
+Module_Redirection_Table :: [2]string.[
+    .["Foundation", "%/Basics"],
+    .["System.Threading", "%/Threads"],
+    .["System.Time", "%/Time"],
+    .["System.IO", "%/File_System"],
+    .["Storage.FileSystem", "%/File_System"],
+    .["System.Memory", "%/Memory"],
+    .["System.Console", "%/Console"],
+    .["UI.WindowsAndMessaging", "%/Windows_And_Messaging"],
+    .["System.LibraryLoader", "%/Library_Loader"],
+    .["UI.Input", "%/Input"],
+    .["UI.Input.KeyboardAndMouse", "%/Input"],
+    .["UI.HiDpi", "%/HiDpi"],
+    .["Graphics.Dxgi", "%/DXGI"],
+    .["Graphics.Dxgi.Common", "%/DXGI"],
+    //.["Graphics.Hlsl", "%/Direct3D"],
+    .["Graphics.Direct3D", "%/Direct3D"],
+    .["Graphics.Direct3D12", "%/Direct3D12"],
+];
+
+Handle_Type_Names :: string.[
+    "HANDLE", "HINSTANCE", "SOCKET",
+    "HICON", "HCURSOR", "HBRUSH", "HSYNTHETICPOINTERDEVICE", "HPROPSHEETPAGE",
+    "HIMAGELIST", "HTREEITEM", "HCOLORSPACE", "HCRYPTASYNC", "HCERTCHAINENGINE",
+    "HCOMDB", "HKEY", "HWINWATCH", "HWINSTA", "HDESK", "HSTRING", "HSZ", "HCONV",
+    "HCONVLIST", "HDDEDATA", "HRASCONN", "HAMSICONTEXT", "HAMSISESSION",
+    "HCMNOTIFICATION", "HKL", "HIFTIMESTAMPCHANGE", "HWSAEVENT", "HTASK",
+    "HWINEVENTHOOK", "HUIANODE", "HUIAPATTERNOBJECT", "HUIATEXTRANGE",
+    "HUIAEVENT", "HMIDI", "HMIDIIN", "HMIDIOUT", "HMIDISTRM", "HMIXER",
+    "HMIXEROBJ", "HWAVE", "HWAVEOUT", "HWAVEIN", "HMMIO", "HDRVR",
+    "HACMDRIVERID", "HACMDRIVER", "HACMSTREAM", "HACMOBJ", "HIC", "HVIDEO",
+    "HSWDEVICE", "HINTERACTIONCONTEXT", "HRAWINPUT", "HRECOALT", "HRECOCONTEXT",
+    "HRECOGNIZER", "HRECOLATTICE", "HRECOWORDLIST", "HIMC", "HIMCC",
+    "HSAVEDUILANGUAGES", "HRSRC", "HSURF", "HPOWERNOTIFY", "HUMPD", "HSTR",
+    "HSPRITE", "HSEMAPHORE", "HLSURF", "HFASTMUTEX", "HDRVOBJ", "HDEV", "HBM",
+    "HPCON", "HMENU", "HACCEL", "HDROP", "HPSXA", "HDC", "HGDIOBJ", "HBITMAP",
+    "HRGN", "HPEN", "HBRUSH", "HFONT", "HMETAFILE", "HENHMETAFILE", "HMONITOR",
+    "HPALETTE", "HWND", "HHOOK", "HGESTUREINFO", "HTOUCHINPUT", "HGLRC",
+    "HFILTER", "HPTPROVIDER", "HPSS", "HPSSWALK", "HSTRING_BUFFER", "JET_SESID",
+    "PSID", "AUTHZ_AUDIT_EVENT_HANDLE", "HeapHandle", "HDPA", "HDSA", "CreatedHDC",
+];
+
+Libs_To_Ignore :: string.[
+    "PeerDist",
+    "NETSH",
+    "icu",
+    "WINSPOOL",
+    "api-ms-win-core-*",
+    "ntdllk",
+    "d3dcsx",
+    "MrmSupport",
+];
+
+GetFoundationConstantOutputModule :: (name : string) -> string #must
 {
-    return print_to_builder (builder, format_string, ..args);
-} @PrintLike
-
-#scope_export
-
-// print_item_to_builder does not escape everything (like tabs) so we roll our own
-AppendStringLiteral :: (builder : *String_Builder, str : string)
-{
-    append (builder, "\"");
-
-    for i : 0..str.count - 1
+    if name ==
     {
-        if str[i] ==
-        {
-        case #char "\t";
-            append (builder, "\\t");
-        case #char "\n";
-            append (builder, "\\n");
-        case #char "\r";
-            append (builder, "\\r");
-        case;
-            append (builder, str[i]);
-        }
-    }
-
-    append (builder, "\"");
-}
-
-AppendIdentifier :: (builder : *String_Builder, str : string)
-{
-    if str ==
-    {
-    case "context"; #through;
-    case "remove"; #through;
-    case "defer"; #through;
-    case "string"; #through;
-    case "u8"; #through;
-    case "s8"; #through;
-    case "u16"; #through;
-    case "s16"; #through;
-    case "u32"; #through;
-    case "s32"; #through;
-    case "u64"; #through;
-    case "s64"; #through;
-    case "float32"; #through;
-    case "float64"; #through;
-    case "Type"; #through;
-    case "Any"; #through;
-    case "Code"; #through;
-    case "Type_Info"; #through;
-    case "GUID";
-        appendf (builder, "_%", str);
+    case "INVALID_HANDLE_VALUE"; #through;
+    case "MAX_PATH"; #through;
+    case "STRICT";
+        return sprint ("%/Basics", output_dir);
 
     case;
-        if is_digit (str[0])
-            append (builder, "_");
-
-        append (builder, str);
+        return "";
     }
 }
 
-AppendStringAsIdentifier :: (builder : *String_Builder, str : string)
+HandleDirectXSymbol :: (sym : *$T) -> bool #must
 {
-    for i : 0..str.count - 1
+    if sym.module ==
     {
-        if i == 0 && is_digit (str[i])
-            append (builder, #char "_");
-
-        if is_alnum (str[i])
-            append (builder, str[i]);
-        else
-            append (builder, #char "_");
-    }
-}
-
-#scope_file
-
-Indent :: () #expand
-{
-    for 0..`indent_level - 1
-        append (`builder, "    ");
-}
-
-#scope_export
-
-AppendValueType :: (builder : *String_Builder, type : Win32ValueType)
-{
-    if #complete type ==
-    {
-    case .Null; append (builder, "<null>");
-    case .Byte; append (builder, "u8");
-    case .UInt16; append (builder, "u16");
-    case .Int16; append (builder, "s16");
-    case .UInt32; append (builder, "u32");
-    case .Int32; append (builder, "s32");
-    case .UInt64; append (builder, "u64");
-    case .Int64; append (builder, "s64");
-    case .Single; append (builder, "float");
-    case .Double; append (builder, "float64");
-    case .String; append (builder, "string"); // @Todo: Is this correct?
-    case .PropertyKey; append (builder, "PROPERTYKEY");
-    }
-}
-
-AppendNativeType :: (builder : *String_Builder, type : Win32NativeType)
-{
-    if #complete type ==
-    {
-    case .Invalid; append (builder, "<invalid>");
-    case .Void; append (builder, "void");
-    case .Boolean; append (builder, "bool");
-    case .SByte; append (builder, "s8");
-    case .Byte; append (builder, "u8");
-    case .UInt16; append (builder, "u16");
-    case .Int16; append (builder, "s16");
-    case .UInt32; append (builder, "u32");
-    case .Int32; append (builder, "s32");
-    case .UInt64; append (builder, "u64");
-    case .Int64; append (builder, "s64");
-    // This is actually a WCHAR. This is confusing and absolutely not helpful to name this Char but whatever...
-    case .Char; append (builder, "u16");
-    case .Single; append (builder, "float");
-    case .Double; append (builder, "float64");
-
-    // Should it be *u8 ? This is only ever used for constants, so I guess
-    // it's fine if we use the string type (we don't even print the NativeType
-    // for constants at the moment)
-    case .String; append (builder, "string");
-
-    // This is used for handles, which users usually expect to be *void so we have a special case for them
-    // @Incomplete: these are probably different on different architectures,
-    // especially X86
-    case .IntPtr; append (builder, "s64");
-    case .UIntPtr; append (builder, "u64");
-    case .Guid; append (builder, "GUID");
-    }
-}
-
-AppendType :: (builder : *String_Builder, using type : Win32Type, pointer_to_com := true)
-{
-    if #complete kind ==
-    {
-    case .Null;
-    case .MissingClrType;
-        append (builder, "void");
-
-    case .Native;
-        AppendNativeType (builder, native_type);
-
-    case .ApiRef;
-        if target_kind == .Com && pointer_to_com
-            append (builder, "*");
-        append (builder, name);
-
-    case .Array;
-        if count >= 0
-            print_to_builder (builder, "[%]", count);
-        else
-            append (builder, "*");
-
-        if child
-            AppendType (builder, child);
-        else
-            append (builder, "<invalid>");
-
-    case .LPArray;
-        // I think all the other stuff about LPArray is metadata about the parameter
-        // (I don't know what the NullNullTerm is...)
-        // https://learn.microsoft.com/en-us/dotnet/framework/interop/default-marshalling-for-arrays
-
-        // Fixed size arrays cannot be passed as arguments to #c_call procedure,
-        // we either have to pass a pointer to the elem type or a pointer to the array.
-        if count >= 0
-            print_to_builder (builder, "*[%]", count);
-        else
-            append (builder, "*");
-
-        if child
-            AppendType (builder, child);
-        else
-            append (builder, "<invalid>");
-
-    case .PointerTo;
-        append (builder, "*");
-        if child
-            AppendType (builder, child);
-        else
-            append (builder, "<invalid>");
-    }
-}
-
-GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
-{
-    AppendIdentifier (builder, name);
-
-    if type.kind == .ApiRef && type.name != "PROPERTYKEY"
-    {
-        append (builder, " :: cast, no_check (");
-        AppendType (builder, type);
-        append (builder, ") ");
-    }
-    else
-    {
-        append (builder, " :: ");
+    case "Graphics.Direct3D.Fxc"; #through;
+    case "Graphics.Direct3D11"; #through;
+    case "Graphics.Direct3D11on12"; #through;
+    case "Graphics.Direct3D10"; #through;
+    case "Graphics.Direct3D9";
+        return true;
     }
 
-    if #complete value_type ==
+    if starts_with (sym.name, "D3D12") || starts_with (sym.name, "ID3D12")
     {
-    case .Null;
-        append (builder, "<null>");
-
-    case .Byte; #through;
-    case .UInt16; #through;
-    case .UInt32; #through;
-    case .UInt64;
-        appendf (builder, "%", cast, no_check (u64) int_value);
-
-    case .Int16; #through;
-    case .Int32; #through;
-    case .Int64;
-        appendf (builder, "%", cast, no_check (s64) int_value);
-
-    case .Single; #through;
-    case .Double;
-        appendf (builder, "%", FormatFloat.{value=float_value, zero_removal=.ONE_ZERO_AFTER_DECIMAL});
-
-    case .String;
-        AppendStringLiteral (builder, str_value);
-
-    case .PropertyKey;
-        prev := context.print_style.default_format_int;
-        defer context.print_style.default_format_int = prev;
-
-        context.print_style.default_format_int.base = 16;
-
-        guid_value := MakeGUID (property_key.fmtid);
-
-        appendf (builder, "PROPERTYKEY.{ .{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]}, % }",
-            guid_value.Data1, guid_value.Data2, guid_value.Data3,
-            guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
-            guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7],
-            FormatInt.{value=property_key.pid, base=10}
-        );
+        SetOutputModule (sym, sprint ("%/Direct3D12", output_dir));
+        return true;
     }
 
-    append (builder, ";");
-
-    if attrs != 0
-        appendf (builder, "// %", attrs);
-
-    append (builder, "\n");
-}
-
-GenerateScopedEnumTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level : int, remove_name_prefix : bool)
-{
-    if flags
-        append (builder, "enum_flags ");
-    else
-        append (builder, "enum ");
-
-    if integer_base == .Null
-        append (builder, "s32");
-    else
-        AppendValueType (builder, integer_base);
-
-    append (builder, "\n");
-    Indent ();
-    append (builder, "{\n");
-
-    for values
+    // Ignore dx11 stuff
+    if starts_with (sym.name, "D3DX11") || starts_with (sym.name, "ID3DX11")
+    || starts_with (sym.name, "D3D11") || starts_with (sym.name, "ID3D11")
     {
-        Indent ();
-        append (builder, "    ");
-
-        identifier := it.name;
-        if remove_name_prefix
-        {
-            // Handle enum value name prefixed with FLAG_ while the name ends with FLAGS_
-            // which is pretty common in the Direct3D API
-            if starts_with (identifier, name)
-            {
-                identifier.data += name.count;
-                identifier.count -= name.count;
-            }
-            else if ends_with (name, "FLAGS")
-            {
-                name_without_flags := name;
-                name_without_flags.count -= "FLAGS".count;
-
-                if starts_with (identifier, name_without_flags)
-                {
-                    identifier.data += name_without_flags.count;
-                    identifier.count -= name_without_flags.count;
-                }
-
-                if starts_with (identifier, "FLAG")
-                {
-                    identifier.data += "FLAG".count;
-                    identifier.count -= "FLAG".count;
-                }
-            }
-
-            if identifier.count > 0 && identifier[0] == #char "_"
-            {
-                identifier.data += 1;
-                identifier.count -= 1;
-            }
-
-            if identifier.count == 0
-            {
-                print ("WARNING: when generating scoped enum type %, identifier % was reduced to nothing when removing the name prefix. We'll use the full name instead.\n", name, it.name);
-                identifier = it.name;
-            }
-        }
-
-        AppendIdentifier (builder, identifier);
-        if integer_base ==
-        {
-        case .Byte;
-            print_to_builder (builder, " :: %;\n", cast, no_check (u8) it.value);
-        case .UInt16;
-            print_to_builder (builder, " :: %;\n", cast, no_check (u16) it.value);
-        case .Int16;
-            print_to_builder (builder, " :: %;\n", cast, no_check (s16) it.value);
-        case .UInt32;
-            print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
-        case .Int32;
-            print_to_builder (builder, " :: %;\n", cast, no_check (s32) it.value);
-        case .UInt64;
-            print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
-        case .Int64;
-            print_to_builder (builder, " :: %;\n", cast, no_check (s64) it.value);
-        }
+        return true;
     }
 
-    Indent ();
-    append (builder, "}\n");
-}
-
-GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefinition, indent_level := 0, as_type_declaration := true)
-{
-    if kind == .Com
+    // Ignore dx10 stuff
+    if starts_with (sym.name, "D3DX10") || starts_with (sym.name, "ID3DX10")
+    || starts_with (sym.name, "D3D10") || starts_with (sym.name, "ID3D10")
     {
-        GenerateCOMInterface (builder, type, indent_level);
-        return;
+        return true;
     }
 
-    Indent ();
-    if as_type_declaration
+    // Ignore dx9 stuff
+    if starts_with (sym.name, "D3DX9") || starts_with (sym.name, "ID3DX9")
+    || starts_with (sym.name, "D3D9") || starts_with (sym.name, "ID3D9")
     {
-        AppendIdentifier (builder, name);
-        append (builder, " :: ");
+        return true;
     }
 
-    if #complete kind ==
+    if starts_with (sym.name, "D3D") || starts_with (sym.name, "ID3D")
     {
-    case .Enum;
-        // We only generate a list of constants at current scope with non scoped
-        // enum because most of the time an enum is expected it's specified as an
-        // integer type, so .SOMETHING namespacing does not work and it makes it
-        // even less convenient to use.
-        // If context.generator.generate_additional_enum_type_for_non_scoped_enums we generate
-        // an enum type anyway, but we also try to remove the name prefix
-        if scoped || context.generator.generate_additional_enum_type_for_non_scoped_enums
-        {
-            GenerateScopedEnumTypeDefinition (builder, type, indent_level, !scoped);
-        }
-        else
-        {
-            if integer_base == .Null
-                append (builder, "s32");
-            else
-                AppendValueType (builder, integer_base);
-
-            append (builder, ";\n");
-        }
-
-        if !scoped
-        {
-            if context.generator.generate_additional_enum_type_for_non_scoped_enums
-                append (builder, "\n");
-
-            for values
-            {
-                Indent ();
-
-                AppendIdentifier (builder, it.name);
-                if integer_base ==
-                {
-                case .Byte;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (u8) it.value);
-                case .UInt16;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (u16) it.value);
-                case .Int16;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (s16) it.value);
-                case .UInt32;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
-                case .Int32;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (s32) it.value);
-                case .UInt64;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (u32) it.value);
-                case .Int64;
-                    print_to_builder (builder, " :: %;\n", cast, no_check (s64) it.value);
-                }
-            }
-        }
-
-    case .Struct; #through;
-    case .Union;
-        if kind == .Struct
-            append (builder, "struct\n");
-        else
-            append (builder, "union\n");
-
-        Indent ();
-        append (builder, "{\n");
-
-        for fields
-        {
-            is_anonymous : bool;
-            anonymous_typedef : *Win32TypeDefinition;
-            if starts_with (it.name, "Anonymous") && starts_with (it.type.name, "_Anonymous")
-            {
-                for * nested : nested_types
-                {
-                    if nested.name == it.type.name
-                    {
-                        is_anonymous = true;
-                        anonymous_typedef = nested;
-                        break;
-                    }
-                }
-            }
-
-            if is_anonymous
-            {
-                GenerateTypeDefinition (builder, anonymous_typedef, indent_level + 1, as_type_declaration = false);
-            }
-            else
-            {
-                Indent ();
-                append (builder, "    ");
-
-                // @Incomplete: see commit about struct member names clashing
-                if it.name == it.type.name
-                    append (builder, "_");
-
-                AppendIdentifier (builder, it.name);
-                append (builder, " : ");
-
-                AppendType (builder, it.type);
-            }
-
-            if packing_size != 0
-                appendf (builder, " #align %", packing_size);
-
-            append (builder, ";");
-
-            // Generate attributes as comments
-            if it.attrs != 0
-            {
-                appendf (builder, " // %", it.attrs);
-                if is_anonymous
-                    appendf (builder, " Anonymous");
-            }
-            else if is_anonymous
-            {
-                appendf (builder, " // Anonymous");
-            }
-
-            append (builder, "\n");
-        }
-
-        for nested_types
-        {
-            if starts_with (it.name, "_Anonymous")
-                continue;
-
-            append (builder, "\n");
-
-            GenerateTypeDefinition (builder, it, indent_level + 1);
-        }
-
-        Indent ();
-        append (builder, "}");
-
-        if packing_size != 0
-            append (builder, " #no_padding");
-
-        if as_type_declaration
-            append (builder, "\n");
-
-    case .NativeTypedef;
-        AppendType (builder, def);
-        append (builder, ";\n");
-
-    case .FunctionPointer;
-        append (builder, "#type (");
-
-        AppendParamList (builder, params);
-
-        append (builder, ") -> ");
-        AppendType (builder, return_type);
-        append (builder, " #c_call;\n");
-
-    case .Com;
-        // Handled above
-    case .ComClassID;
-        appendf (builder, "\"%\";\n", guid);
-    }
-}
-
-GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDefinition, indent_level := 0)
-{
-    Indent ();
-    AppendIdentifier (builder, name);
-    appendf (builder, "_UUID :: \"%\";\n", guid);
-
-    Indent ();
-    AppendIdentifier (builder, name);
-    append (builder, " :: struct\n");
-
-    Indent ();
-    appendf (builder, "{\n");
-
-    {
-        indent_level += 1;
-        defer indent_level -= 1;
-
-        Indent ();
-
-        {
-            prev := context.print_style.default_format_int;
-            defer context.print_style.default_format_int = prev;
-
-            context.print_style.default_format_int.base = 16;
-
-            guid_value := MakeGUID (guid);
-
-            appendf (builder, "UUID :: GUID.{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]};\n\n",
-                guid_value.Data1, guid_value.Data2, guid_value.Data3,
-                guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
-                guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7]
-            );
-        }
-
-        //AppendIdentifier (builder, name);
-        //append (builder, "_UUID;\n\n");
-
-        if interface_type.kind != .Null
-        {
-            Indent ();
-
-            append (builder, "#as using, except (.[\"vtable\", \"base\", \"UUID\"]) base : ");
-            AppendType (builder, interface_type, pointer_to_com = false);
-            append (builder, ";\n\n");
-
-            Indent ();
-            append (builder, "#place base;\n");
-        }
-
-        Indent ();
-        append (builder, "vtable : *");
-        AppendIdentifier (builder, name);
-        append (builder, "VTable;\n");
-
-        // Generate wrappers for the methods
-        for method : methods
-        {
-            if it_index == 0
-                append (builder, "\n");
-
-            Indent ();
-
-            AppendIdentifier (builder, method.name);
-            appendf (builder, " :: inline (this : *");
-            AppendIdentifier (builder, name);
-
-            if method.params.count > 0
-                append (builder, ", ");
-            AppendParamList (builder, method.params, const_ref_wrapper = true);
-
-            if HasReturnValue (method)
-            {
-                appendf (builder, ") -> ");
-                AppendType (builder, method.return_type);
-                append (builder, " #no_context { return this.vtable.");
-            }
-            else
-            {
-                appendf (builder, ") #no_context { this.vtable.");
-            }
-
-            AppendIdentifier (builder, method.name);
-            append (builder, " (this");
-
-            for method.params
-            {
-                append (builder, ", ");
-
-                if ParamIsConstRef (it)
-                    append (builder, "*");
-
-                AppendIdentifier (builder, it.name);
-            }
-
-            append (builder, "); }\n");
-        }
+        SetOutputModule (sym, sprint ("%/Direct3D", output_dir));
+        return true;
     }
 
-    Indent ();
-    append (builder, "}\n\n");
-
-    // Generate VTable struct
-    Indent ();
-    appendf (builder, "%VTable :: struct\n", name);
-
-    Indent ();
-    appendf (builder, "{\n");
-
+    if starts_with (sym.name, "DXGI") || starts_with (sym.name, "IDXGI")
     {
-        indent_level += 1;
-        defer indent_level -= 1;
-
-        if interface_type.kind != .Null
-        {
-            Indent ();
-            append (builder, "#as using, except (.[\"base\"]) base : ");
-            AppendType (builder, interface_type, pointer_to_com = false);
-            append (builder, "VTable;\n\n");
-        }
-
-        for methods
-        {
-            Indent ();
-            GenerateVirtualMethod (builder, name, it);
-        }
-    }
-
-    Indent ();
-    appendf (builder, "}\n");
-}
-
-AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, const_ref_wrapper := false, guid_const_ref_wrapper := false)
-{
-    for params
-    {
-        if it_index != 0
-            append (builder, ", ");
-
-        const_ref := (const_ref_wrapper && ParamIsConstRef (it))
-            || (guid_const_ref_wrapper && ParamIsREFIID (it));
-        if const_ref
-            append (builder, "/*const ref*/ ");
-
-        // @Incomplete: we do this to prevent the param name clashing with the
-        // type name, which happens a few times, but a more robust thing would be to
-        // check for name clashes against all types
-        if it.name == it.type.name
-            append (builder, "_");
-
-        AppendIdentifier (builder, it.name);
-        appendf (builder, " : ");
-
-        if const_ref
-            AppendType (builder, it.type.child);
-        else
-            AppendType (builder, it.type);
-    }
-}
-
-HasReturnValue :: inline (using func : Win32FunctionType) -> bool #must
-{
-    return !(return_type.kind == .Native && return_type.native_type == .Void);
-}
-
-ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
-{
-    if type.kind != .PointerTo || !type.child
-        return false;
-
-    // void pointers cannot be const ref (they would decay into param : void)
-    if type.child.kind == .Native && type.child.native_type == .Void
-        return false;
-
-    // Optional means you can pass null, so it needs to stay a pointer
-    if attrs & .Optional
-        return false;
-
-    return (attrs & .Const) && (attrs & .In);
-}
-
-ParamIsREFIID :: inline (using param : Win32FunctionParam) -> bool #must
-{
-    if !ParamIsConstRef (param)
-        return false;
-
-    return type.child.kind == .Native && type.child.native_type == .Guid;
-}
-
-GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, using method : Win32Method)
-{
-    AppendIdentifier (builder, name);
-    append (builder, " : (");
-
-    append (builder, "this : *");
-    AppendIdentifier (builder, interface_name);
-
-    if params.count > 0
-        append (builder, ", ");
-    AppendParamList (builder, params);
-
-    if HasReturnValue (method)
-    {
-        append (builder, ") -> ");
-        AppendType (builder, return_type);
-    }
-    else
-    {
-        append (builder, ")");
-    }
-
-    append (builder, " #cpp_method;\n");
-}
-
-FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool #must
-{
-    if !context.generator.generate_wrapper_function_for_REFIID_params
-        return false;
-
-    for func.params
-    {
-        if ParamIsREFIID (it)
-            return true;
+        SetOutputModule (sym, sprint ("%/DXGI", output_dir));
+        return true;
     }
 
     return false;
 }
 
-GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
+output_dir : string;
+
+main :: ()
 {
-    needs_REFIID_wrapper := FunctionNeedsWrapperForREFIIDParam (func);
-    if needs_REFIID_wrapper
+    context.allocator = temp;
+
+    start_time := current_time_monotonic ();
+
+    start_parse_time := start_time;
+
+    output_dir = get_working_directory ();
+    output_dir = path_filename (output_dir);
+
+    InitWin32Database ("Generator/win32json/api");
+
+    end_parse_time := current_time_monotonic ();
+    total_parse_time := end_parse_time - start_parse_time;
+
+    start_user_time := current_time_monotonic ();
+
+    CreateOutputModule (sprint ("%/Basics", output_dir));
+    CreateOutputModule (sprint ("%/Threads", output_dir));
+    CreateOutputModule (sprint ("%/Time", output_dir));
+    CreateOutputModule (sprint ("%/File_System", output_dir));
+    CreateOutputModule (sprint ("%/Memory", output_dir));
+    CreateOutputModule (sprint ("%/Console", output_dir));
+    CreateOutputModule (sprint ("%/GDI_Basics", output_dir));
+    CreateOutputModule (sprint ("%/Windows_And_Messaging", output_dir));
+    CreateOutputModule (sprint ("%/WGL", output_dir));
+    CreateOutputModule (sprint ("%/Library_Loader", output_dir));
+    CreateOutputModule (sprint ("%/Input", output_dir));
+    CreateOutputModule (sprint ("%/HiDpi", output_dir));
+    CreateOutputModule (sprint ("%/DXGI", output_dir));
+    CreateOutputModule (sprint ("%/Direct3D", output_dir));
+    CreateOutputModule (sprint ("%/Direct3D12", output_dir));
+
+    void_type : Win32Type;
+    void_type.kind = .Native;
+    void_type.native_type = .Void;
+
+    void_pointer_type : Win32Type;
+    void_pointer_type.kind = .PointerTo;
+    void_pointer_type.child = *void_type;
+
+    total_symbol_count := 0;
+
+    for :AllInputConstants context.generator
     {
-        append (builder, "\n");
-        AppendIdentifier (builder, name);
-        append (builder, " :: inline (");
-        AppendParamList (builder, params, guid_const_ref_wrapper = true);
+        total_symbol_count += 1;
 
-        if HasReturnValue (func)
-        {
-            append (builder, ") -> ");
-            AppendType (builder, return_type);
-            append (builder, " #no_context");
-        }
-        else
-        {
-            append (builder, ") #no_context");
-        }
-
-        append (builder, "\n{\n    ");
-    }
-
-    AppendIdentifier (builder, name);
-    if needs_REFIID_wrapper
-        append (builder, "_Original");
-
-    append (builder, " :: (");
-    AppendParamList (builder, params);
-
-    if HasReturnValue (func)
-    {
-        append (builder, ") -> ");
-        AppendType (builder, return_type);
-    }
-    else
-    {
-        append (builder, ") ");
-    }
-
-    if dll_import
-    {
-        append (builder, " #foreign ");
-        AppendStringAsIdentifier (builder, dll_import);
-
-        if needs_REFIID_wrapper
-        {
-            append (builder, " ");
-            AppendStringLiteral (builder, name);
-        }
-    }
-
-    append (builder, ";\n");
-
-    if needs_REFIID_wrapper
-    {
-        if HasReturnValue (func)
-            append (builder, "    return ");
-        else
-            append (builder, "    ");
-
-        AppendIdentifier (builder, name);
-        append (builder, "_Original (");
-
-        for params
-        {
-            if it_index != 0
-                append (builder, ", ");
-
-            if ParamIsREFIID (it)
-                append (builder, "*");
-
-            AppendIdentifier (builder, it.name);
-        }
-
-        append (builder, ");\n}\n\n");
-    }
-}
-
-GenerateModuleSourceCode :: inline (module : *Module) -> string #must
-{
-    builder : String_Builder;
-
-    GenerateModuleSourceCode (*builder, module);
-
-    return builder_to_string (*builder);
-}
-
-GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
-{
-    append (builder, "// This file was auto generated\n\n");
-    append (builder, "#module_parameters (UNICODE := true);\n\n");
-
-    for _, dep : module.dependencies
-    {
-        if dep != module.name
-        {
-            // @Hack (stefan): If we #import "Windows" we assume it's the original Jai
-            // module, which does not have a UNICODE parameter.
-            if context.generator.treat_generated_Windows_import_as_original_jai_module &&
-            dep == "Windows"
-                appendf (builder, "#import \"%\";\n", dep);
-            else
-                appendf (builder, "#import \"%\" (UNICODE);\n", dep);
-        }
-    }
-
-    append (builder, "\n");
-    append (builder, "// Constants\n\n");
-
-    for module.constants
-        GenerateConstant (builder, it);
-
-    append (builder, "\n");
-
-    append (builder, "// Types\n\n");
-
-    for module.types
-    {
-        if it_index != 0
-            append (builder, "\n");
-        GenerateTypeDefinition (builder, it);
-    }
-
-    append (builder, "\n// Functions\n\n");
-
-    all_dlls : [..]string;
-    for module.functions
-    {
-        GenerateFunction (builder, it);
-
-        // Not sure how this is possible but let's handle it
-        if !it.dll_import
+        if HandleDirectXSymbol (it)
             continue;
 
-        if !array_find (all_dlls, it.dll_import)
-            array_add (*all_dlls, it.dll_import);
+        if starts_with (it.name, "FORMAT_MESSAGE_")
+        {
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+        }
+
+        if starts_with (it.name, "WM_")
+        {
+            SetOutputModule (it, sprint ("%/Windows_And_Messaging", output_dir));
+            continue;
+        }
+
+        if starts_with (it.name, "WGL")
+        {
+            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            continue;
+        }
+
+        // Most constant in Foundation are error codes, which should be in different modules
+        // (there is D3D stuff, GDI stuff...). We hand-pick what we actually want here.
+        if it.module == "Foundation"
+        {
+            output_module := GetFoundationConstantOutputModule (it.name);
+            if output_module
+                SetOutputModule (it, output_module);
+
+            continue;
+        }
+
+        if it.module == "Devices.HumanInterfaceDevice" && starts_with (it.name, "MOUSE_")
+        {
+            SetOutputModule (it, sprint ("%/Input", output_dir));
+            continue;
+        }
+
+        if starts_with (it.name, "PFD_")
+        {
+            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            continue;
+        }
+
+        if starts_with (it.name, "CP_")
+        {
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+        }
+
+        for redir : Module_Redirection_Table
+        {
+            if it.module == redir[0]
+            {
+                SetOutputModule (it, sprint (redir[1], output_dir));
+                continue it;
+            }
+        }
     }
 
-    append (builder, "\n// Unicode aliases\n\n");
-    for module.unicode_aliases
+    for :AllInputTypeDefinitions context.generator
     {
-        appendf (builder, "#if UNICODE then %1 :: %1W;\n", it);
-        appendf (builder, "else             %1 :: %1A;\n", it);
+        total_symbol_count += 1;
+
+        if HandleDirectXSymbol (it)
+            continue;
+
+        if it.name == "NTSTATUS_FACILITY_CODE"
+            continue;
+
+        if array_find (Handle_Type_Names, it.name)
+        {
+            it.kind = .NativeTypedef;
+            it.def = void_pointer_type;
+        }
+
+        if starts_with (it.name, "WGL")
+        {
+            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            continue;
+        }
+
+        if it.name ==
+        {
+        case "WIN32_ERROR";
+            it.kind = .NativeTypedef;
+            it.def.kind = .Native;
+            it.def.native_type = .UInt32;
+
+            for val : it.values
+            {
+                output_module := GetFoundationConstantOutputModule (val.name);
+                if !output_module
+                    continue;
+
+                const := New (Win32Constant);
+                const.name = val.name;
+                const.type = it.def;
+                const.value_type = .UInt32;
+                const.int_value = val.value;
+                SetOutputModule (const, output_module);
+            }
+
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "STD_HANDLE"; #through;
+        case "LIST_ENTRY"; #through;
+        case "SLIST_HEADER"; #through;
+        case "SLIST_ENTRY"; #through;
+        case "PROCESSOR_NUMBER"; #through;
+        case "GROUP_AFFINITY"; #through;
+        case "RTL_UMS_SCHEDULER_REASON"; #through;
+        case "FORMAT_MESSAGE_OPTIONS"; #through;
+        case "MULTI_BYTE_TO_WIDE_CHAR_FLAGS";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "IUnknown"; #through;
+        case "IEnumConnectionPoints"; #through;
+        case "IEnumConnections"; #through;
+        case "IConnectionPoint"; #through;
+        case "IConnectionPointContainer"; #through;
+        case "CONNECTDATA";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "GENERIC_MAPPING"; #through;
+        case "PRIVILEGE_SET"; #through;
+        case "SID"; #through;
+        case "SID_IDENTIFIER_AUTHORITY"; #through;
+        case "ACL"; #through;
+        case "LUID_AND_ATTRIBUTES"; #through;
+        case "TOKEN_PRIVILEGES_ATTRIBUTES"; #through;
+        case "TOKEN_ACCESS_MASK"; #through;
+        case "SECURITY_ATTRIBUTES"; #through;
+        case "SECURITY_DESCRIPTOR";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "IO_STATUS_BLOCK"; #through;
+        case "OBJECT_ATTRIBUTES";
+            SetOutputModule (it, sprint ("%/File_System", output_dir));
+            continue;
+
+        case "CLIPBOARD_FORMATS"; #through;
+        case "POWER_SETTING_REGISTER_NOTIFICATION_FLAGS"; #through;
+        case "HELPINFO";
+            SetOutputModule (it, sprint ("%/Windows_And_Messaging", output_dir));
+            continue;
+
+        case "ROP_CODE"; #through;
+        case "CreatedHDC"; #through;
+        case "DEVMODEA"; #through;
+        case "DEVMODEW"; #through;
+        case "GET_DCX_FLAGS"; #through;
+        case "ENUM_DISPLAY_SETTINGS_MODE"; #through;
+        case "MONITOR_FROM_FLAGS"; #through;
+        case "MONITORENUMPROC"; #through;
+        case "DISPLAY_DEVICEA"; #through;
+        case "DISPLAY_DEVICEW"; #through;
+        case "MONITORINFO"; #through;
+        case "MONITORINFOEXA"; #through;
+        case "MONITORINFOEXW";
+            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            continue;
+
+        case "HMONITOR"; #through;
+        case "HBITMAP"; #through;
+        case "HBRUSH"; #through;
+        case "HDC"; #through;
+        case "PIXELFORMATDESCRIPTOR"; #through;
+        case "LAYERPLANEDESCRIPTOR";
+            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            continue;
+
+        case "HRGN"; #through;
+        case "BLENDFUNCTION"; #through;
+        case "EMR"; #through;
+        case "HENHMETAFILE"; #through;
+        case "LOGFONTA"; #through;
+        case "LOGFONTW";
+           SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+           continue;
+
+        case "HGLRC"; #through;
+        case "GLYPHMETRICSFLOAT"; #through;
+        case "POINTFLOAT";
+            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            continue;
+
+        case "HKL";
+            SetOutputModule (it, sprint ("%/Input", output_dir));
+            continue;
+        }
+
+        for redir : Module_Redirection_Table
+        {
+            if it.module == redir[0]
+            {
+                SetOutputModule (it, sprint (redir[1], output_dir));
+                continue it;
+            }
+        }
     }
 
-    append (builder, "\n// System libraries\n\n");
-    append (builder, "#scope_file\n\n");
-
-    for all_dlls
+    for :AllInputFunctions context.generator
     {
-        AppendStringAsIdentifier (builder, it);
-        appendf (builder, " :: #system_library \"%\";\n", it);
+        total_symbol_count += 1;
+
+        if HandleDirectXSymbol (it)
+            continue;
+
+        // What the hell?
+        if it.dll_import == "api-ms-win-shcore-scaling-l1-1-1"
+        {
+            it.dll_import = "Shcore";
+        }
+
+        for lib : Libs_To_Ignore
+        {
+            if WildcardStarMatch (lib, it.dll_import)
+                continue it;
+        }
+
+        if it.name == "AreShortNamesEnabled"
+            continue;
+        if starts_with (it.name, "GetTempPath2")
+            continue;
+        if starts_with (it.name, "GetSystemWow64Directory2")
+            continue;
+        if it.name == "GetSystemLeapSecondInformation"
+            continue;
+
+        if it.name ==
+        {
+        case "ExpungeConsoleCommandHistoryA"; #through;
+        case "ExpungeConsoleCommandHistoryW"; #through;
+        case "GetConsoleCommandHistoryA"; #through;
+        case "GetConsoleCommandHistoryW"; #through;
+        case "GetConsoleCommandHistoryLengthA"; #through;
+        case "GetConsoleCommandHistoryLengthW"; #through;
+        case "SetConsoleNumberOfCommandsA"; #through;
+        case "SetConsoleNumberOfCommandsW";
+            continue;
+        }
+
+        // Make GetProcAddress and wglGetProcAddress return a *void instead of a procedure type
+        if it.name == "wglGetProcAddress" || it.name == "GetProcAddress"
+        {
+            it.return_type = void_pointer_type;
+        }
+
+        if it.module == "System.DataExchange" && contains (it.name, "Clipboard")
+        {
+            SetOutputModule (it, sprint ("%/Windows_And_Messaging", output_dir));
+            continue;
+        }
+
+        if starts_with (it.name, "wgl")
+        {
+            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            continue;
+        }
+
+        if it.name ==
+        {
+        case "timeBeginPeriod"; #through;
+        case "timeEndPeriod";
+            SetOutputModule (it, sprint ("%/Time", output_dir));
+            continue;
+
+        case "IsValidCodePage"; #through;
+        case "MultiByteToWideChar"; #through;
+        case "WideCharToMultiByte";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "BitBlt"; #through;
+        case "CancelDC"; #through;
+        case "CreateDCA"; #through;
+        case "CreateDCW"; #through;
+        case "DeleteDC"; #through;
+        case "SaveDC"; #through;
+        case "UpdateWindow"; #through;
+        case "WindowFromDC"; #through;
+        case "GetDC"; #through;
+        case "GetDCEx"; #through;
+        case "ReleaseDC"; #through;
+        case "ClientToScreen"; #through;
+        case "ScreenToClient"; #through;
+        case "MonitorFromPoint"; #through;
+        case "MonitorFromRect"; #through;
+        case "GetMonitorInfoA"; #through;
+        case "GetMonitorInfoW"; #through;
+        case "EnumDisplayMonitors"; #through;
+        case "EnumDisplaySettingsA"; #through;
+        case "EnumDisplaySettingsW"; #through;
+        case "EnumDisplaySettingsExA"; #through;
+        case "EnumDisplaySettingsExW"; #through;
+        case "EnumDisplayDevicesA"; #through;
+        case "EnumDisplayDevicesW"; #through;
+        case "ChoosePixelFormat"; #through;
+        case "DescribePixelFormat"; #through;
+        case "GetPixelFormat"; #through;
+        case "SetPixelFormat"; #through;
+        case "SwapBuffers";
+            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            continue;
+
+        case "GetStdHandle"; #through;
+        case "SetStdHandle"; #through;
+        case "SetStdHandleEx"; #through;
+        case "GetModuleHandleW"; #through;
+        case "GetModuleHandleA"; #through;
+        case "GetModuleFileNameW"; #through;
+        case "GetModuleFileNameA"; #through;
+        case "GetUserNameW"; #through;
+        case "GetUserNameA"; #through;
+        case "GetComputerNameW"; #through;
+        case "GetComputerNameA";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "FormatMessageW"; #through;
+        case "FormatMessageA";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "QueryPerformanceCounter"; #through;
+        case "QueryPerformanceFrequency";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+
+        case "GetSystemTimePreciseAsFileTime";
+            SetOutputModule (it, sprint ("%/Time", output_dir));
+            continue;
+        }
+
+        for redir : Module_Redirection_Table
+        {
+            if it.module == redir[0]
+            {
+                SetOutputModule (it, sprint (redir[1], output_dir));
+                continue it;
+            }
+        }
     }
 
-    if all_dlls.count
-        append (builder, "\n");
+    for context.generator.output_modules
+    {
+        ResolveModuleDependencies (it);
+
+        quick_sort (it.constants, (a, b) => compare_strings (a.name, b.name));
+        quick_sort (it.types, (a, b) => compare_strings (a.name, b.name));
+        quick_sort (it.functions, (a, b) => compare_strings (a.name, b.name));
+    }
+
+    end_user_time := current_time_monotonic ();
+    total_user_time := end_user_time - start_user_time;
+
+    if context.generator.has_errors
+        exit (1);
+
+    total_lines_of_code_generated := 0;
+    for context.generator.output_modules
+    {
+        additional_code : string;
+        if it.name == sprint ("%/Basics", output_dir)
+            additional_code = Additional_Basics_Code;
+
+        code := GenerateModuleSourceCodeToFile (it, additional_code, output_directory="..");
+        for i : 0..code.count - 1 #no_abc
+        {
+            if code[i] == #char "\n"
+                total_lines_of_code_generated += 1;
+        }
+
+        total_lines_of_code_generated += 1;
+    }
+
+    end_time := current_time_monotonic ();
+    total_time := end_time - start_time;
+
+    log (
+
+#string END
+Traversed % different symbols across % input modules
+Outputted % modules, generated % lines of code
+Timing information:
+  Parsing:   % seconds
+  Traversal: % seconds
+  Total:     % seconds
+END,
+        total_symbol_count, context.generator.input_modules.count,
+        context.generator.output_modules.count, total_lines_of_code_generated,
+        to_float64_seconds (total_parse_time),
+        to_float64_seconds (total_user_time),
+        to_float64_seconds (total_time)
+    );
+
 }
 
-GenerateModuleSourceCodeToFile :: (module : *Module, additional_code := "", output_directory := "Generated") -> string
+Additional_Basics_Code :: #string JAI
+// The following stuff was hand-written to be automatically
+// copy-pasted here, because it is not present in the metadata
+
+HIWORD :: (wparam: WPARAM) -> s16 #must #expand
 {
-    make_directory_if_it_does_not_exist (output_directory, recursive = true);
+    return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
+}
 
-    builder : String_Builder;
+LOWORD :: (wparam: WPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) (wparam);
+}
 
-    GenerateModuleSourceCode (*builder, module);
+HIWORD :: (lparam: LPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
+}
 
-    if additional_code
-    {
-        append (*builder, "#scope_export\n\n");
-        append (*builder, additional_code);
-    }
+LOWORD :: (lparam: LPARAM) -> s16 #must #expand
+{
+    return cast, no_check (s16) (lparam);
+}
 
-    source_code := builder_to_string (*builder);
-
-    write_entire_file (sprint ("%/%.jai", output_directory, module.name), source_code);
-
-    return builder_to_string (*builder);
+MAKELANGID :: (p : u16, s : u16) -> u16 #must #expand
+{
+    return (s << 10) | p;
 }
 
 GUID :: struct
@@ -932,6 +628,17 @@ GUID :: struct
 
 MakeGUID :: (str : string) -> GUID #must
 {
+    // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
+    assert :: (arg: bool, loc := #caller_location) {
+        if arg return;
+
+        if context.handling_assertion_failure  return;  // Avoid infinite loops.
+        context.handling_assertion_failure = true;
+
+        context.assertion_failed(loc, "Assertion failed.");
+        context.handling_assertion_failure = false;
+    } @NoProfile
+
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
         ToDigit :: inline (char : u8) -> int #must
@@ -964,10 +671,7 @@ MakeGUID :: (str : string) -> GUID #must
         return result, end - offset;
     }
 
-    if str.count == 0
-        return .{};
-
-    assert (str.count == 36, "GUID length is not valid (got %)", str.count);
+    assert (str.count == 36);
 
     offset := 0;
 
@@ -1032,3 +736,4 @@ MakeGUID :: (str : string) -> GUID #must
 
     return result;
 }
+JAI

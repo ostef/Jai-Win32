@@ -1,4 +1,5 @@
 // This example program generates bindings for all the available Win32 API
+// It's there mainly for reference, you wouldn't typically use this
 
 #import "Basic";
 #import "Compiler";
@@ -7,7 +8,7 @@
 #import "Hash_Table";
 #import "String";
 
-#import, file "../module.jai";
+#import, dir "Generator";
 
 Handle_Type_Names :: string.[
     "HANDLE", "HINSTANCE", "SOCKET",
@@ -35,7 +36,7 @@ main :: ()
 {
     context.allocator = temp;
 
-    InitWin32Database (directory = "../win32json/api");
+    InitWin32Database (directory = "Generator/win32json/api");
 
     for context.generator.input_modules
         CreateOutputModule (it.name);
