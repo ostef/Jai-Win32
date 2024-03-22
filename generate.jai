@@ -30,7 +30,7 @@ Module_Redirection_Table :: [2]string.[
     .["UI.HiDpi", "%/HiDpi"],
     .["Graphics.Dxgi", "%/DXGI"],
     .["Graphics.Dxgi.Common", "%/DXGI"],
-    //.["Graphics.Hlsl", "%/Direct3D"],
+    .["Graphics.Direct3D.Dxc", "%/DXC"],
     .["Graphics.Direct3D", "%/Direct3D"],
     .["Graphics.Direct3D12", "%/Direct3D12"],
 ];
@@ -86,6 +86,7 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
 {
     if sym.module ==
     {
+    case "Graphics.Hlsl"; #through;
     case "Graphics.Direct3D.Fxc"; #through;
     case "Graphics.Direct3D11"; #through;
     case "Graphics.Direct3D11on12"; #through;
@@ -121,9 +122,17 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
         return true;
     }
 
+    if starts_with (sym.name, "Dxc") || starts_with (sym.name, "DXC") || starts_with (sym.name, "IDxc")
+    {
+        SetOutputModule (sym, sprint ("%/DXC", output_dir));
+
+        return true;
+    }
+
     if starts_with (sym.name, "D3D") || starts_with (sym.name, "ID3D")
     {
         SetOutputModule (sym, sprint ("%/Direct3D", output_dir));
+
         return true;
     }
 
@@ -169,6 +178,7 @@ main :: ()
     CreateOutputModule (sprint ("%/Input", output_dir));
     CreateOutputModule (sprint ("%/HiDpi", output_dir));
     CreateOutputModule (sprint ("%/DXGI", output_dir));
+    CreateOutputModule (sprint ("%/DXC", output_dir));
     CreateOutputModule (sprint ("%/Direct3D", output_dir));
     CreateOutputModule (sprint ("%/Direct3D12", output_dir));
 
@@ -304,6 +314,11 @@ main :: ()
             SetOutputModule (it, sprint ("%/Basics", output_dir));
             continue;
 
+        case "IMalloc"; #through;
+        case "IStream"; #through;
+        case "ISequentialStream"; #through;
+        case "STREAM_SEEK"; #through;
+        case "STATSTG"; #through;
         case "IUnknown"; #through;
         case "IEnumConnectionPoints"; #through;
         case "IEnumConnections"; #through;

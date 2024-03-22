@@ -279,6 +279,94 @@ IEnumConnectionsVTable :: struct
     Clone : (this : *IEnumConnections, ppEnum : **IEnumConnections) -> HRESULT #cpp_method;
 }
 
+IMalloc_UUID :: "00000002-0000-0000-c000-000000000046";
+IMalloc :: struct
+{
+    UUID :: GUID.{0x2,0x0,0x0,.[0xc0,0x0,0x0,0x0,0x0,0x0,0x0,0x46]};
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *IMallocVTable;
+
+    Alloc :: inline (this : *IMalloc, cb : u64) -> *void #no_context { return this.vtable.Alloc (this, cb); }
+    Realloc :: inline (this : *IMalloc, pv : *void, cb : u64) -> *void #no_context { return this.vtable.Realloc (this, pv, cb); }
+    Free :: inline (this : *IMalloc, pv : *void) #no_context { this.vtable.Free (this, pv); }
+    GetSize :: inline (this : *IMalloc, pv : *void) -> u64 #no_context { return this.vtable.GetSize (this, pv); }
+    DidAlloc :: inline (this : *IMalloc, pv : *void) -> s32 #no_context { return this.vtable.DidAlloc (this, pv); }
+    HeapMinimize :: inline (this : *IMalloc) #no_context { this.vtable.HeapMinimize (this); }
+}
+
+IMallocVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Alloc : (this : *IMalloc, cb : u64) -> *void #cpp_method;
+    Realloc : (this : *IMalloc, pv : *void, cb : u64) -> *void #cpp_method;
+    Free : (this : *IMalloc, pv : *void) #cpp_method;
+    GetSize : (this : *IMalloc, pv : *void) -> u64 #cpp_method;
+    DidAlloc : (this : *IMalloc, pv : *void) -> s32 #cpp_method;
+    HeapMinimize : (this : *IMalloc) #cpp_method;
+}
+
+ISequentialStream_UUID :: "0c733a30-2a1c-11ce-ade5-00aa0044773d";
+ISequentialStream :: struct
+{
+    UUID :: GUID.{0xc733a30,0x2a1c,0x11ce,.[0xad,0xe5,0x0,0xaa,0x0,0x44,0x77,0x3d]};
+
+    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *ISequentialStreamVTable;
+
+    Read :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #no_context { return this.vtable.Read (this, pv, cb, pcbRead); }
+    Write :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #no_context { return this.vtable.Write (this, pv, cb, pcbWritten); }
+}
+
+ISequentialStreamVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Read : (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #cpp_method;
+    Write : (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #cpp_method;
+}
+
+IStream_UUID :: "0000000c-0000-0000-c000-000000000046";
+IStream :: struct
+{
+    UUID :: GUID.{0xc,0x0,0x0,.[0xc0,0x0,0x0,0x0,0x0,0x0,0x0,0x46]};
+
+    #as using, except (.["vtable", "base", "UUID"]) base : ISequentialStream;
+
+    #place base;
+    vtable : *IStreamVTable;
+
+    Seek :: inline (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #no_context { return this.vtable.Seek (this, dlibMove, dwOrigin, plibNewPosition); }
+    SetSize :: inline (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #no_context { return this.vtable.SetSize (this, libNewSize); }
+    CopyTo :: inline (this : *IStream, pstm : *IStream, cb : ULARGE_INTEGER, pcbRead : *ULARGE_INTEGER, pcbWritten : *ULARGE_INTEGER) -> HRESULT #no_context { return this.vtable.CopyTo (this, pstm, cb, pcbRead, pcbWritten); }
+    Commit :: inline (this : *IStream, grfCommitFlags : u32) -> HRESULT #no_context { return this.vtable.Commit (this, grfCommitFlags); }
+    Revert :: inline (this : *IStream) -> HRESULT #no_context { return this.vtable.Revert (this); }
+    LockRegion :: inline (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #no_context { return this.vtable.LockRegion (this, libOffset, cb, dwLockType); }
+    UnlockRegion :: inline (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #no_context { return this.vtable.UnlockRegion (this, libOffset, cb, dwLockType); }
+    Stat :: inline (this : *IStream, pstatstg : *STATSTG, grfStatFlag : u32) -> HRESULT #no_context { return this.vtable.Stat (this, pstatstg, grfStatFlag); }
+    Clone :: inline (this : *IStream, ppstm : **IStream) -> HRESULT #no_context { return this.vtable.Clone (this, ppstm); }
+}
+
+IStreamVTable :: struct
+{
+    #as using, except (.["base"]) base : ISequentialStreamVTable;
+
+    Seek : (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #cpp_method;
+    SetSize : (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #cpp_method;
+    CopyTo : (this : *IStream, pstm : *IStream, cb : ULARGE_INTEGER, pcbRead : *ULARGE_INTEGER, pcbWritten : *ULARGE_INTEGER) -> HRESULT #cpp_method;
+    Commit : (this : *IStream, grfCommitFlags : u32) -> HRESULT #cpp_method;
+    Revert : (this : *IStream) -> HRESULT #cpp_method;
+    LockRegion : (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #cpp_method;
+    UnlockRegion : (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #cpp_method;
+    Stat : (this : *IStream, pstatstg : *STATSTG, grfStatFlag : u32) -> HRESULT #cpp_method;
+    Clone : (this : *IStream, ppstm : **IStream) -> HRESULT #cpp_method;
+}
+
 IUnknown_UUID :: "00000000-0000-0000-c000-000000000046";
 IUnknown :: struct
 {
@@ -485,6 +573,21 @@ SLIST_HEADER :: union
     }
 }
 
+STATSTG :: struct
+{
+    pwcsName : PWSTR;
+    type : u32;
+    cbSize : ULARGE_INTEGER;
+    mtime : FILETIME;
+    ctime : FILETIME;
+    atime : FILETIME;
+    grfMode : u32;
+    grfLocksSupported : u32;
+    clsid : GUID;
+    grfStateBits : u32;
+    reserved : u32;
+}
+
 STD_HANDLE :: enum u32
 {
     STD_INPUT_HANDLE :: 4294967286;
@@ -495,6 +598,17 @@ STD_HANDLE :: enum u32
 STD_INPUT_HANDLE :: 4294967286;
 STD_OUTPUT_HANDLE :: 4294967285;
 STD_ERROR_HANDLE :: 4294967284;
+
+STREAM_SEEK :: enum u32
+{
+    SET :: 0;
+    CUR :: 1;
+    END :: 2;
+}
+
+STREAM_SEEK_SET :: 0;
+STREAM_SEEK_CUR :: 1;
+STREAM_SEEK_END :: 2;
 
 SYSTEMTIME :: struct
 {
