@@ -919,7 +919,7 @@ GenerateModuleSourceCodeToFile :: (module : *Module, additional_code := "", outp
 
     write_entire_file (sprint ("%/%.jai", output_directory, module.name), source_code);
 
-    return builder_to_string (*builder);
+    return source_code;
 }
 
 GUID :: struct
