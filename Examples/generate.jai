@@ -28,11 +28,11 @@ Module_Redirection_Table :: [2]string.[
     .["UI.Input","Win32/Input"],
     .["UI.Input.KeyboardAndMouse","Win32/Input"],
     .["UI.HiDpi","Win32/HiDpi"],
-    .["Graphics.Dxgi","DirectX/DXGI"],
-    .["Graphics.Dxgi.Common","DirectX/DXGI"],
+    .["Graphics.Dxgi","Win32/DXGI"],
+    .["Graphics.Dxgi.Common","Win32/DXGI"],
     //.["Graphics.Hlsl","Win32/Direct3D"],
-    .["Graphics.Direct3D","DirectX/Direct3D"],
-    .["Graphics.Direct3D12","DirectX/Direct3D12"],
+    .["Graphics.Direct3D","Win32/Direct3D"],
+    .["Graphics.Direct3D12","Win32/Direct3D12"],
 ];
 
 Handle_Type_Names :: string.[
@@ -96,7 +96,7 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
 
     if starts_with (sym.name, "D3D12") || starts_with (sym.name, "ID3D12")
     {
-        SetOutputModule (sym, "DirectX/Direct3D12");
+        SetOutputModule (sym, "Win32/Direct3D12");
         return true;
     }
 
@@ -123,13 +123,13 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
 
     if starts_with (sym.name, "D3D") || starts_with (sym.name, "ID3D")
     {
-        SetOutputModule (sym, "DirectX/Direct3D");
+        SetOutputModule (sym, "Win32/Direct3D");
         return true;
     }
 
     if starts_with (sym.name, "DXGI") || starts_with (sym.name, "IDXGI")
     {
-        SetOutputModule (sym, "DirectX/DXGI");
+        SetOutputModule (sym, "Win32/DXGI");
         return true;
     }
 
@@ -163,9 +163,9 @@ main :: ()
     CreateOutputModule ("Win32/Library_Loader");
     CreateOutputModule ("Win32/Input");
     CreateOutputModule ("Win32/HiDpi");
-    CreateOutputModule ("DirectX/DXGI");
-    CreateOutputModule ("DirectX/Direct3D");
-    CreateOutputModule ("DirectX/Direct3D12");
+    CreateOutputModule ("Win32/DXGI");
+    CreateOutputModule ("Win32/Direct3D");
+    CreateOutputModule ("Win32/Direct3D12");
 
     void_type : Win32Type;
     void_type.kind = .Native;
@@ -546,13 +546,10 @@ main :: ()
         exit (1);
 
     make_directory_if_it_does_not_exist ("Generated/Win32", recursive = true);
-    make_directory_if_it_does_not_exist ("Generated/DirectX", recursive = true);
-
     make_directory_if_it_does_not_exist ("Generated/Win32/Examples", recursive = true);
-    make_directory_if_it_does_not_exist ("Generated/DirectX/Examples", recursive = true);
 
     copy_file ("window_and_gl.jai", "Generated/Win32/Examples/window_and_gl.jai");
-    copy_file ("direct3d12.jai", "Generated/DirectX/Examples/direct3d12.jai");
+    copy_file ("direct3d12.jai", "Generated/Win32/Examples/direct3d12.jai");
 
     total_lines_of_code_generated := 0;
     for context.generator.output_modules

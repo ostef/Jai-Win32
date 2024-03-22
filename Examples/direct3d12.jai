@@ -1,9 +1,9 @@
 #import "Basic";
 
 Win32 :: #import "Win32";
-#import "DirectX/DXGI";
-#import "DirectX/Direct3D";
-#import "DirectX/Direct3D12";
+#import "Win32/DXGI";
+#import "Win32/Direct3D";
+#import "Win32/Direct3D12";
 
 GraphicsContext :: struct
 {
