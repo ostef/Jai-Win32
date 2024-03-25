@@ -193,6 +193,22 @@ AppendType :: (builder : *String_Builder, using type : Win32Type, pointer_to_com
     }
 }
 
+AppendStringAsGUIDStruct :: (builder : *String_Builder, str : string)
+{
+    prev := context.print_style.default_format_int;
+    defer context.print_style.default_format_int = prev;
+
+    context.print_style.default_format_int.base = 16;
+
+    guid_value := MakeGUID (str);
+
+    appendf (builder, "GUID.{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]}",
+        guid_value.Data1, guid_value.Data2, guid_value.Data3,
+        guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
+        guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7]
+    );
+}
+
 GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
 {
     AppendIdentifier (builder, name);
@@ -229,7 +245,10 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
         appendf (builder, "%", FormatFloat.{value=float_value, zero_removal=.ONE_ZERO_AFTER_DECIMAL});
 
     case .String;
-        AppendStringLiteral (builder, str_value);
+        if context.generator.generate_clsid_constants_as_guid && starts_with (name, "CLSID_")
+            AppendStringAsGUIDStruct (builder, str_value);
+        else
+            AppendStringLiteral (builder, str_value);
 
     case .PropertyKey;
         prev := context.print_style.default_format_int;
@@ -239,12 +258,9 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
 
         guid_value := MakeGUID (property_key.fmtid);
 
-        appendf (builder, "PROPERTYKEY.{ .{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]}, % }",
-            guid_value.Data1, guid_value.Data2, guid_value.Data3,
-            guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
-            guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7],
-            FormatInt.{value=property_key.pid, base=10}
-        );
+        appendf (builder, "PROPERTYKEY.{ ");
+        AppendStringAsGUIDStruct (builder, property_key.fmtid);
+        appendf (builder, ", % }", property_key.pid);
     }
 
     append (builder, ";");
@@ -533,20 +549,9 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
 
         Indent ();
 
-        {
-            prev := context.print_style.default_format_int;
-            defer context.print_style.default_format_int = prev;
-
-            context.print_style.default_format_int.base = 16;
-
-            guid_value := MakeGUID (guid);
-
-            appendf (builder, "UUID :: GUID.{0x%,0x%,0x%,.[0x%,0x%,0x%,0x%,0x%,0x%,0x%,0x%]};\n\n",
-                guid_value.Data1, guid_value.Data2, guid_value.Data3,
-                guid_value.Data4[0], guid_value.Data4[1], guid_value.Data4[2], guid_value.Data4[3],
-                guid_value.Data4[4], guid_value.Data4[5], guid_value.Data4[6], guid_value.Data4[7]
-            );
-        }
+        append (builder, "UUID :: ");
+        AppendStringAsGUIDStruct (builder, guid);
+        append (builder, ";\n\n");
 
         //AppendIdentifier (builder, name);
         //append (builder, "_UUID;\n\n");

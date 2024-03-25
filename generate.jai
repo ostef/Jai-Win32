@@ -585,6 +585,8 @@ main :: ()
         additional_code : string;
         if it.name == sprint ("%/Basics", output_dir)
             additional_code = Additional_Basics_Code;
+        else if it.name == sprint ("%/DXC", output_dir)
+            additional_code = Additional_DXC_Code;
 
         code := GenerateModuleSourceCodeToFile (it, additional_code, output_directory="..");
         for i : 0..code.count - 1 #no_abc
@@ -766,3 +768,13 @@ MakeGUID :: (str : string) -> GUID #must
     return result;
 }
 JAI
+
+Additional_DXC_Code :: #run -> string
+{
+    builder : String_Builder;
+    append (*builder, "CLSID_DxcUtils :: ");
+    AppendStringAsGUIDStruct (*builder, "6245d6af-66e0-48fd-80b4-4d271796748c");
+    append (*builder, ";\n");
+
+    return builder_to_string (*builder);
+};

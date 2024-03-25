@@ -8,10 +8,10 @@
 
 // Constants
 
-CLSID_D3D12Debug :: "f2352aeb-dd84-49fe-b97b-a9dcfdcc1b4f";
-CLSID_D3D12DeviceRemovedExtendedData :: "4a75bbc4-9ff4-4ad8-9f18-abae84dc5ff2";
-CLSID_D3D12SDKConfiguration :: "7cda6aca-a03e-49c8-9458-0334d20e07ce";
-CLSID_D3D12Tools :: "e38216b1-3c8c-4833-aa09-0a06b65d96c8";
+CLSID_D3D12Debug :: GUID.{0xf2352aeb,0xdd84,0x49fe,.[0xb9,0x7b,0xa9,0xdc,0xfd,0xcc,0x1b,0x4f]};
+CLSID_D3D12DeviceRemovedExtendedData :: GUID.{0x4a75bbc4,0x9ff4,0x4ad8,.[0x9f,0x18,0xab,0xae,0x84,0xdc,0x5f,0xf2]};
+CLSID_D3D12SDKConfiguration :: GUID.{0x7cda6aca,0xa03e,0x49c8,.[0x94,0x58,0x3,0x34,0xd2,0xe,0x7,0xce]};
+CLSID_D3D12Tools :: GUID.{0xe38216b1,0x3c8c,0x4833,.[0xaa,0x9,0xa,0x6,0xb6,0x5d,0x96,0xc8]};
 D3D12ExperimentalShaderModels :: "76f5573e-f13a-40f5-b297-81ce9e18933f";
 D3D12MetaCommand :: "c734c97e-8077-48c8-9fdc-d9d1dd31dd77";
 D3D12TiledResourceTier4 :: "c9c4725f-a81a-4f56-8c5b-c51039d694fb";

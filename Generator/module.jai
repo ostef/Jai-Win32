@@ -72,6 +72,7 @@ Generator :: struct
     generate_wrapper_function_for_REFIID_params := true;
     generate_additional_enum_type_for_non_scoped_enums := true;
     treat_generated_Windows_import_as_original_jai_module := true;
+    generate_clsid_constants_as_guid := true;
 
     dependency_queue : [..]struct { module : string; name : string; };
 
