@@ -199,6 +199,14 @@ main :: ()
         if HandleDirectXSymbol (it)
             continue;
 
+        if it.name ==
+        {
+        case "INFINITE"; #through;
+        case "IGNORE";
+            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            continue;
+        }
+
         if starts_with (it.name, "FORMAT_MESSAGE_")
         {
             SetOutputModule (it, sprint ("%/Basics", output_dir));
@@ -444,7 +452,13 @@ main :: ()
         case "GetConsoleCommandHistoryLengthA"; #through;
         case "GetConsoleCommandHistoryLengthW"; #through;
         case "SetConsoleNumberOfCommandsA"; #through;
-        case "SetConsoleNumberOfCommandsW";
+        case "SetConsoleNumberOfCommandsW"; #through;
+        case "GetMachineTypeAttributes"; #through;
+        case "GetNumaNodeProcessorMask2"; #through;
+        case "GetProcessDefaultCpuSetMasks"; #through;
+        case "SetProcessDefaultCpuSetMasks"; #through;
+        case "GetThreadSelectedCpuSetMasks"; #through;
+        case "SetThreadSelectedCpuSetMasks";
             continue;
         }
 

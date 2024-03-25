@@ -1110,7 +1110,6 @@ GetCurrentUmsThread :: () -> *void #foreign KERNEL32;
 GetExitCodeProcess :: (hProcess : HANDLE, lpExitCode : *u32) -> BOOL #foreign KERNEL32;
 GetExitCodeThread :: (hThread : HANDLE, lpExitCode : *u32) -> BOOL #foreign KERNEL32;
 GetGuiResources :: (hProcess : HANDLE, uiFlags : GET_GUI_RESOURCES_FLAGS) -> u32 #foreign USER32;
-GetMachineTypeAttributes :: (Machine : u16, MachineTypeAttributes : *MACHINE_ATTRIBUTES) -> HRESULT #foreign KERNEL32;
 GetMaximumProcessorCount :: (GroupNumber : u16) -> u32 #foreign KERNEL32;
 GetMaximumProcessorGroupCount :: () -> u16 #foreign KERNEL32;
 GetNextUmsListItem :: (UmsContext : *void) -> *void #foreign KERNEL32;
@@ -1119,7 +1118,6 @@ GetNumaAvailableMemoryNodeEx :: (Node : u16, AvailableBytes : *u64) -> BOOL #for
 GetNumaHighestNodeNumber :: (HighestNodeNumber : *u32) -> BOOL #foreign KERNEL32;
 GetNumaNodeNumberFromHandle :: (hFile : HANDLE, NodeNumber : *u16) -> BOOL #foreign KERNEL32;
 GetNumaNodeProcessorMask :: (Node : u8, ProcessorMask : *u64) -> BOOL #foreign KERNEL32;
-GetNumaNodeProcessorMask2 :: (NodeNumber : u16, ProcessorMasks : *GROUP_AFFINITY, ProcessorMaskCount : u16, RequiredMaskCount : *u16) -> BOOL #foreign KERNEL32;
 GetNumaNodeProcessorMaskEx :: (Node : u16, ProcessorMask : *GROUP_AFFINITY) -> BOOL #foreign KERNEL32;
 GetNumaProcessorNode :: (Processor : u8, NodeNumber : *u8) -> BOOL #foreign KERNEL32;
 GetNumaProcessorNodeEx :: (Processor : *PROCESSOR_NUMBER, NodeNumber : *u16) -> BOOL #foreign KERNEL32;
@@ -1128,7 +1126,6 @@ GetNumaProximityNodeEx :: (ProximityId : u32, NodeNumber : *u16) -> BOOL #foreig
 GetPriorityClass :: (hProcess : HANDLE) -> u32 #foreign KERNEL32;
 GetProcessAffinityMask :: (hProcess : HANDLE, lpProcessAffinityMask : *u64, lpSystemAffinityMask : *u64) -> BOOL #foreign KERNEL32;
 GetProcessDEPPolicy :: (hProcess : HANDLE, lpFlags : *u32, lpPermanent : *BOOL) -> BOOL #foreign KERNEL32;
-GetProcessDefaultCpuSetMasks :: (Process : HANDLE, CpuSetMasks : *GROUP_AFFINITY, CpuSetMaskCount : u16, RequiredMaskCount : *u16) -> BOOL #foreign KERNEL32;
 GetProcessDefaultCpuSets :: (Process : HANDLE, CpuSetIds : *u32, CpuSetIdCount : u32, RequiredIdCount : *u32) -> BOOL #foreign KERNEL32;
 GetProcessGroupAffinity :: (hProcess : HANDLE, GroupCount : *u16, GroupArray : *u16) -> BOOL #foreign KERNEL32;
 GetProcessHandleCount :: (hProcess : HANDLE, pdwHandleCount : *u32) -> BOOL #foreign KERNEL32;
@@ -1153,7 +1150,6 @@ GetThreadIdealProcessorEx :: (hThread : HANDLE, lpIdealProcessor : *PROCESSOR_NU
 GetThreadInformation :: (hThread : HANDLE, ThreadInformationClass : THREAD_INFORMATION_CLASS, ThreadInformation : *void, ThreadInformationSize : u32) -> BOOL #foreign KERNEL32;
 GetThreadPriority :: (hThread : HANDLE) -> s32 #foreign KERNEL32;
 GetThreadPriorityBoost :: (hThread : HANDLE, pDisablePriorityBoost : *BOOL) -> BOOL #foreign KERNEL32;
-GetThreadSelectedCpuSetMasks :: (Thread : HANDLE, CpuSetMasks : *GROUP_AFFINITY, CpuSetMaskCount : u16, RequiredMaskCount : *u16) -> BOOL #foreign KERNEL32;
 GetThreadSelectedCpuSets :: (Thread : HANDLE, CpuSetIds : *u32, CpuSetIdCount : u32, RequiredIdCount : *u32) -> BOOL #foreign KERNEL32;
 GetThreadTimes :: (hThread : HANDLE, lpCreationTime : *FILETIME, lpExitTime : *FILETIME, lpKernelTime : *FILETIME, lpUserTime : *FILETIME) -> BOOL #foreign KERNEL32;
 GetUmsCompletionListEvent :: (UmsCompletionList : *void, UmsCompletionEvent : *HANDLE) -> BOOL #foreign KERNEL32;
@@ -1230,7 +1226,6 @@ SetPriorityClass :: (hProcess : HANDLE, dwPriorityClass : PROCESS_CREATION_FLAGS
 SetProcessAffinityMask :: (hProcess : HANDLE, dwProcessAffinityMask : u64) -> BOOL #foreign KERNEL32;
 SetProcessAffinityUpdateMode :: (hProcess : HANDLE, dwFlags : PROCESS_AFFINITY_AUTO_UPDATE_FLAGS) -> BOOL #foreign KERNEL32;
 SetProcessDEPPolicy :: (dwFlags : PROCESS_DEP_FLAGS) -> BOOL #foreign KERNEL32;
-SetProcessDefaultCpuSetMasks :: (Process : HANDLE, CpuSetMasks : *GROUP_AFFINITY, CpuSetMaskCount : u16) -> BOOL #foreign KERNEL32;
 SetProcessDefaultCpuSets :: (Process : HANDLE, CpuSetIds : *u32, CpuSetIdCount : u32) -> BOOL #foreign KERNEL32;
 SetProcessDynamicEHContinuationTargets :: (Process : HANDLE, NumberOfTargets : u16, Targets : *PROCESS_DYNAMIC_EH_CONTINUATION_TARGET) -> BOOL #foreign KERNEL32;
 SetProcessDynamicEnforcedCetCompatibleRanges :: (Process : HANDLE, NumberOfRanges : u16, Ranges : *PROCESS_DYNAMIC_ENFORCED_ADDRESS_RANGE) -> BOOL #foreign KERNEL32;
@@ -1255,7 +1250,6 @@ SetThreadIdealProcessorEx :: (hThread : HANDLE, lpIdealProcessor : *PROCESSOR_NU
 SetThreadInformation :: (hThread : HANDLE, ThreadInformationClass : THREAD_INFORMATION_CLASS, ThreadInformation : *void, ThreadInformationSize : u32) -> BOOL #foreign KERNEL32;
 SetThreadPriority :: (hThread : HANDLE, nPriority : THREAD_PRIORITY) -> BOOL #foreign KERNEL32;
 SetThreadPriorityBoost :: (hThread : HANDLE, bDisablePriorityBoost : BOOL) -> BOOL #foreign KERNEL32;
-SetThreadSelectedCpuSetMasks :: (Thread : HANDLE, CpuSetMasks : *GROUP_AFFINITY, CpuSetMaskCount : u16) -> BOOL #foreign KERNEL32;
 SetThreadSelectedCpuSets :: (Thread : HANDLE, CpuSetIds : *u32, CpuSetIdCount : u32) -> BOOL #foreign KERNEL32;
 SetThreadStackGuarantee :: (StackSizeInBytes : *u32) -> BOOL #foreign KERNEL32;
 SetThreadToken :: (Thread : *HANDLE, Token : HANDLE) -> BOOL #foreign ADVAPI32;
