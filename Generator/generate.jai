@@ -583,6 +583,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
         AppendIdentifier (builder, name);
         append (builder, "VTable;\n");
 
+        const_ref_wrapper := context.generator.handle_const_refs_in_COM_interface_wrappers;
         // Generate wrappers for the methods
         for method : methods
         {
@@ -597,7 +598,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
 
             if method.params.count > 0
                 append (builder, ", ");
-            AppendParamList (builder, method.params, const_ref_wrapper = true);
+            AppendParamList (builder, method.params, const_ref_wrapper=const_ref_wrapper);
 
             if HasReturnValue (method)
             {
@@ -617,7 +618,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             {
                 append (builder, ", ");
 
-                if ParamIsConstRef (it)
+                if const_ref_wrapper && ParamIsConstRef (it)
                     append (builder, "*");
 
                 AppendIdentifier (builder, it.name);
@@ -699,7 +700,7 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
         return false;
 
     // void pointers cannot be const ref (they would decay into param : void)
-    if type.child.kind == .Native && type.child.native_type == .Void
+    if type.child.kind == .Native && type.child.native_type != .Void
         return false;
 
     // Optional means you can pass null, so it needs to stay a pointer

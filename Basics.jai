@@ -218,7 +218,7 @@ IConnectionPointContainer :: struct
     vtable : *IConnectionPointContainerVTable;
 
     EnumConnectionPoints :: inline (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #no_context { return this.vtable.EnumConnectionPoints (this, ppEnum); }
-    FindConnectionPoint :: inline (this : *IConnectionPointContainer, /*const ref*/ riid : GUID, ppCP : **IConnectionPoint) -> HRESULT #no_context { return this.vtable.FindConnectionPoint (this, *riid, ppCP); }
+    FindConnectionPoint :: inline (this : *IConnectionPointContainer, riid : *GUID, ppCP : **IConnectionPoint) -> HRESULT #no_context { return this.vtable.FindConnectionPoint (this, riid, ppCP); }
 }
 
 IConnectionPointContainerVTable :: struct
@@ -376,7 +376,7 @@ IUnknown :: struct
 
     vtable : *IUnknownVTable;
 
-    QueryInterface :: inline (this : *IUnknown, /*const ref*/ riid : GUID, ppvObject : **void) -> HRESULT #no_context { return this.vtable.QueryInterface (this, *riid, ppvObject); }
+    QueryInterface :: inline (this : *IUnknown, riid : *GUID, ppvObject : **void) -> HRESULT #no_context { return this.vtable.QueryInterface (this, riid, ppvObject); }
     AddRef :: inline (this : *IUnknown) -> u32 #no_context { return this.vtable.AddRef (this); }
     Release :: inline (this : *IUnknown) -> u32 #no_context { return this.vtable.Release (this); }
 }

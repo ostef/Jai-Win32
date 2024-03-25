@@ -69,7 +69,14 @@ Generator :: struct
 
     architecture := Win32Architecture.X64;
     // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
-    generate_wrapper_function_for_REFIID_params := true;
+
+    // @Note: we disabled handling of const refs because we cannot accurately differentiate
+    // between a parameter that was originally a pointer and a parameter that is actually a
+    // const reference. We're keeping the code for it though in case we get enough info to
+    // handle that when we parse the metadata files directly.
+    handle_const_refs_in_COM_interface_wrappers := false;
+    generate_wrapper_function_for_REFIID_params := false;
+
     generate_additional_enum_type_for_non_scoped_enums := true;
     treat_generated_Windows_import_as_original_jai_module := true;
     generate_clsid_constants_as_guid := true;

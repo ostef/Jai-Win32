@@ -370,8 +370,8 @@ IDxcCompiler3 :: struct
     #place base;
     vtable : *IDxcCompiler3VTable;
 
-    Compile :: inline (this : *IDxcCompiler3, /*const ref*/ pSource : DxcBuffer, pArguments : *PWSTR, argCount : u32, pIncludeHandler : *IDxcIncludeHandler, /*const ref*/ riid : GUID, ppResult : **void) -> HRESULT #no_context { return this.vtable.Compile (this, *pSource, pArguments, argCount, pIncludeHandler, *riid, ppResult); }
-    Disassemble :: inline (this : *IDxcCompiler3, /*const ref*/ pObject : DxcBuffer, /*const ref*/ riid : GUID, ppResult : **void) -> HRESULT #no_context { return this.vtable.Disassemble (this, *pObject, *riid, ppResult); }
+    Compile :: inline (this : *IDxcCompiler3, pSource : *DxcBuffer, pArguments : *PWSTR, argCount : u32, pIncludeHandler : *IDxcIncludeHandler, riid : *GUID, ppResult : **void) -> HRESULT #no_context { return this.vtable.Compile (this, pSource, pArguments, argCount, pIncludeHandler, riid, ppResult); }
+    Disassemble :: inline (this : *IDxcCompiler3, pObject : *DxcBuffer, riid : *GUID, ppResult : **void) -> HRESULT #no_context { return this.vtable.Disassemble (this, pObject, riid, ppResult); }
 }
 
 IDxcCompiler3VTable :: struct
@@ -451,7 +451,7 @@ IDxcContainerReflection :: struct
     GetPartKind :: inline (this : *IDxcContainerReflection, idx : u32, pResult : *u32) -> HRESULT #no_context { return this.vtable.GetPartKind (this, idx, pResult); }
     GetPartContent :: inline (this : *IDxcContainerReflection, idx : u32, ppResult : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetPartContent (this, idx, ppResult); }
     FindFirstPartKind :: inline (this : *IDxcContainerReflection, kind : u32, pResult : *u32) -> HRESULT #no_context { return this.vtable.FindFirstPartKind (this, kind, pResult); }
-    GetPartReflection :: inline (this : *IDxcContainerReflection, idx : u32, /*const ref*/ iid : GUID, ppvObject : **void) -> HRESULT #no_context { return this.vtable.GetPartReflection (this, idx, *iid, ppvObject); }
+    GetPartReflection :: inline (this : *IDxcContainerReflection, idx : u32, iid : *GUID, ppvObject : **void) -> HRESULT #no_context { return this.vtable.GetPartReflection (this, idx, iid, ppvObject); }
 }
 
 IDxcContainerReflectionVTable :: struct
@@ -477,7 +477,7 @@ IDxcExtraOutputs :: struct
     vtable : *IDxcExtraOutputsVTable;
 
     GetOutputCount :: inline (this : *IDxcExtraOutputs) -> u32 #no_context { return this.vtable.GetOutputCount (this); }
-    GetOutput :: inline (this : *IDxcExtraOutputs, uIndex : u32, /*const ref*/ iid : GUID, ppvObject : **void, ppOutputType : **IDxcBlobUtf16, ppOutputName : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetOutput (this, uIndex, *iid, ppvObject, ppOutputType, ppOutputName); }
+    GetOutput :: inline (this : *IDxcExtraOutputs, uIndex : u32, iid : *GUID, ppvObject : **void, ppOutputType : **IDxcBlobUtf16, ppOutputName : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetOutput (this, uIndex, iid, ppvObject, ppOutputType, ppOutputName); }
 }
 
 IDxcExtraOutputsVTable :: struct
@@ -721,7 +721,7 @@ IDxcResult :: struct
     vtable : *IDxcResultVTable;
 
     HasOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #no_context { return this.vtable.HasOutput (this, dxcOutKind); }
-    GetOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND, /*const ref*/ iid : GUID, ppvObject : **void, ppOutputName : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetOutput (this, dxcOutKind, *iid, ppvObject, ppOutputName); }
+    GetOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND, iid : *GUID, ppvObject : **void, ppOutputName : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetOutput (this, dxcOutKind, iid, ppvObject, ppOutputName); }
     GetNumOutputs :: inline (this : *IDxcResult) -> u32 #no_context { return this.vtable.GetNumOutputs (this); }
     GetOutputByIndex :: inline (this : *IDxcResult, Index : u32) -> DXC_OUT_KIND #no_context { return this.vtable.GetOutputByIndex (this, Index); }
     PrimaryOutput :: inline (this : *IDxcResult) -> DXC_OUT_KIND #no_context { return this.vtable.PrimaryOutput (this); }
@@ -757,8 +757,8 @@ IDxcUtils :: struct
     CreateDefaultIncludeHandler :: inline (this : *IDxcUtils, ppResult : **IDxcIncludeHandler) -> HRESULT #no_context { return this.vtable.CreateDefaultIncludeHandler (this, ppResult); }
     GetBlobAsUtf8 :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf8) -> HRESULT #no_context { return this.vtable.GetBlobAsUtf8 (this, pBlob, pBlobEncoding); }
     GetBlobAsUtf16 :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetBlobAsUtf16 (this, pBlob, pBlobEncoding); }
-    GetDxilContainerPart :: inline (this : *IDxcUtils, /*const ref*/ pShader : DxcBuffer, DxcPart : u32, ppPartData : **void, pPartSizeInBytes : *u32) -> HRESULT #no_context { return this.vtable.GetDxilContainerPart (this, *pShader, DxcPart, ppPartData, pPartSizeInBytes); }
-    CreateReflection :: inline (this : *IDxcUtils, /*const ref*/ pData : DxcBuffer, /*const ref*/ iid : GUID, ppvReflection : **void) -> HRESULT #no_context { return this.vtable.CreateReflection (this, *pData, *iid, ppvReflection); }
+    GetDxilContainerPart :: inline (this : *IDxcUtils, pShader : *DxcBuffer, DxcPart : u32, ppPartData : **void, pPartSizeInBytes : *u32) -> HRESULT #no_context { return this.vtable.GetDxilContainerPart (this, pShader, DxcPart, ppPartData, pPartSizeInBytes); }
+    CreateReflection :: inline (this : *IDxcUtils, pData : *DxcBuffer, iid : *GUID, ppvReflection : **void) -> HRESULT #no_context { return this.vtable.CreateReflection (this, pData, iid, ppvReflection); }
     BuildArguments :: inline (this : *IDxcUtils, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, ppArgs : **IDxcCompilerArgs) -> HRESULT #no_context { return this.vtable.BuildArguments (this, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, ppArgs); }
     GetPDBContents :: inline (this : *IDxcUtils, pPDBBlob : *IDxcBlob, ppHash : **IDxcBlob, ppContainer : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetPDBContents (this, pPDBBlob, ppHash, ppContainer); }
 }
@@ -886,27 +886,9 @@ IDxcVersionInfo3VTable :: struct
 
 // Functions
 
-
-DXCoreCreateAdapterFactory :: inline (/*const ref*/ riid : GUID, ppvFactory : **void) -> HRESULT #no_context
-{
-    DXCoreCreateAdapterFactory_Original :: (riid : *GUID, ppvFactory : **void) -> HRESULT #foreign DXCORE "DXCoreCreateAdapterFactory";
-    return DXCoreCreateAdapterFactory_Original (*riid, ppvFactory);
-}
-
-
-DxcCreateInstance :: inline (/*const ref*/ rclsid : GUID, /*const ref*/ riid : GUID, ppv : **void) -> HRESULT #no_context
-{
-    DxcCreateInstance_Original :: (rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler "DxcCreateInstance";
-    return DxcCreateInstance_Original (*rclsid, *riid, ppv);
-}
-
-
-DxcCreateInstance2 :: inline (pMalloc : *IMalloc, /*const ref*/ rclsid : GUID, /*const ref*/ riid : GUID, ppv : **void) -> HRESULT #no_context
-{
-    DxcCreateInstance2_Original :: (pMalloc : *IMalloc, rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler "DxcCreateInstance2";
-    return DxcCreateInstance2_Original (pMalloc, *rclsid, *riid, ppv);
-}
-
+DXCoreCreateAdapterFactory :: (riid : *GUID, ppvFactory : **void) -> HRESULT #foreign DXCORE;
+DxcCreateInstance :: (rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
+DxcCreateInstance2 :: (pMalloc : *IMalloc, rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
 
 // Unicode aliases
 

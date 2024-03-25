@@ -1198,13 +1198,7 @@ QueryDepthSList :: (ListHead : *SLIST_HEADER) -> u16 #foreign KERNEL32;
 QueryFullProcessImageNameA :: (hProcess : HANDLE, dwFlags : PROCESS_NAME_FORMAT, lpExeName : *u8, lpdwSize : *u32) -> BOOL #foreign KERNEL32;
 QueryFullProcessImageNameW :: (hProcess : HANDLE, dwFlags : PROCESS_NAME_FORMAT, lpExeName : *u16, lpdwSize : *u32) -> BOOL #foreign KERNEL32;
 QueryProcessAffinityUpdateMode :: (hProcess : HANDLE, lpdwFlags : *PROCESS_AFFINITY_AUTO_UPDATE_FLAGS) -> BOOL #foreign KERNEL32;
-
-QueryProtectedPolicy :: inline (/*const ref*/ PolicyGuid : GUID, PolicyValue : *u64) -> BOOL #no_context
-{
-    QueryProtectedPolicy_Original :: (PolicyGuid : *GUID, PolicyValue : *u64) -> BOOL #foreign KERNEL32 "QueryProtectedPolicy";
-    return QueryProtectedPolicy_Original (*PolicyGuid, PolicyValue);
-}
-
+QueryProtectedPolicy :: (PolicyGuid : *GUID, PolicyValue : *u64) -> BOOL #foreign KERNEL32;
 QueryThreadpoolStackInformation :: (ptpp : PTP_POOL, ptpsi : *TP_POOL_STACK_INFORMATION) -> BOOL #foreign KERNEL32;
 QueryUmsThreadInformation :: (UmsThread : *void, UmsThreadInfoClass : RTL_UMS_THREAD_INFO_CLASS, UmsThreadInformation : *void, UmsThreadInformationLength : u32, ReturnLength : *u32) -> BOOL #foreign KERNEL32;
 QueueUserAPC :: (pfnAPC : PAPCFUNC, hThread : HANDLE, dwData : u64) -> u32 #foreign KERNEL32;
@@ -1235,13 +1229,7 @@ SetProcessPriorityBoost :: (hProcess : HANDLE, bDisablePriorityBoost : BOOL) -> 
 SetProcessRestrictionExemption :: (fEnableExemption : BOOL) -> BOOL #foreign USER32;
 SetProcessShutdownParameters :: (dwLevel : u32, dwFlags : u32) -> BOOL #foreign KERNEL32;
 SetProcessWorkingSetSize :: (hProcess : HANDLE, dwMinimumWorkingSetSize : u64, dwMaximumWorkingSetSize : u64) -> BOOL #foreign KERNEL32;
-
-SetProtectedPolicy :: inline (/*const ref*/ PolicyGuid : GUID, PolicyValue : u64, OldPolicyValue : *u64) -> BOOL #no_context
-{
-    SetProtectedPolicy_Original :: (PolicyGuid : *GUID, PolicyValue : u64, OldPolicyValue : *u64) -> BOOL #foreign KERNEL32 "SetProtectedPolicy";
-    return SetProtectedPolicy_Original (*PolicyGuid, PolicyValue, OldPolicyValue);
-}
-
+SetProtectedPolicy :: (PolicyGuid : *GUID, PolicyValue : u64, OldPolicyValue : *u64) -> BOOL #foreign KERNEL32;
 SetThreadAffinityMask :: (hThread : HANDLE, dwThreadAffinityMask : u64) -> u64 #foreign KERNEL32;
 SetThreadDescription :: (hThread : HANDLE, lpThreadDescription : PWSTR) -> HRESULT #foreign KERNEL32;
 SetThreadGroupAffinity :: (hThread : HANDLE, GroupAffinity : *GROUP_AFFINITY, PreviousGroupAffinity : *GROUP_AFFINITY) -> BOOL #foreign KERNEL32;

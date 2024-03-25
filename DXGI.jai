@@ -1846,7 +1846,7 @@ IDXGIAdapter :: struct
 
     EnumOutputs :: inline (this : *IDXGIAdapter, Output : u32, ppOutput : **IDXGIOutput) -> HRESULT #no_context { return this.vtable.EnumOutputs (this, Output, ppOutput); }
     GetDesc :: inline (this : *IDXGIAdapter, pDesc : *DXGI_ADAPTER_DESC) -> HRESULT #no_context { return this.vtable.GetDesc (this, pDesc); }
-    CheckInterfaceSupport :: inline (this : *IDXGIAdapter, /*const ref*/ InterfaceName : GUID, pUMDVersion : *LARGE_INTEGER) -> HRESULT #no_context { return this.vtable.CheckInterfaceSupport (this, *InterfaceName, pUMDVersion); }
+    CheckInterfaceSupport :: inline (this : *IDXGIAdapter, InterfaceName : *GUID, pUMDVersion : *LARGE_INTEGER) -> HRESULT #no_context { return this.vtable.CheckInterfaceSupport (this, InterfaceName, pUMDVersion); }
 }
 
 IDXGIAdapterVTable :: struct
@@ -2003,8 +2003,8 @@ IDXGIDecodeSwapChain :: struct
     vtable : *IDXGIDecodeSwapChainVTable;
 
     PresentBuffer :: inline (this : *IDXGIDecodeSwapChain, BufferToPresent : u32, SyncInterval : u32, Flags : u32) -> HRESULT #no_context { return this.vtable.PresentBuffer (this, BufferToPresent, SyncInterval, Flags); }
-    SetSourceRect :: inline (this : *IDXGIDecodeSwapChain, /*const ref*/ pRect : RECT) -> HRESULT #no_context { return this.vtable.SetSourceRect (this, *pRect); }
-    SetTargetRect :: inline (this : *IDXGIDecodeSwapChain, /*const ref*/ pRect : RECT) -> HRESULT #no_context { return this.vtable.SetTargetRect (this, *pRect); }
+    SetSourceRect :: inline (this : *IDXGIDecodeSwapChain, pRect : *RECT) -> HRESULT #no_context { return this.vtable.SetSourceRect (this, pRect); }
+    SetTargetRect :: inline (this : *IDXGIDecodeSwapChain, pRect : *RECT) -> HRESULT #no_context { return this.vtable.SetTargetRect (this, pRect); }
     SetDestSize :: inline (this : *IDXGIDecodeSwapChain, Width : u32, Height : u32) -> HRESULT #no_context { return this.vtable.SetDestSize (this, Width, Height); }
     GetSourceRect :: inline (this : *IDXGIDecodeSwapChain, pRect : *RECT) -> HRESULT #no_context { return this.vtable.GetSourceRect (this, pRect); }
     GetTargetRect :: inline (this : *IDXGIDecodeSwapChain, pRect : *RECT) -> HRESULT #no_context { return this.vtable.GetTargetRect (this, pRect); }
@@ -2039,7 +2039,7 @@ IDXGIDevice :: struct
     vtable : *IDXGIDeviceVTable;
 
     GetAdapter :: inline (this : *IDXGIDevice, pAdapter : **IDXGIAdapter) -> HRESULT #no_context { return this.vtable.GetAdapter (this, pAdapter); }
-    CreateSurface :: inline (this : *IDXGIDevice, /*const ref*/ pDesc : DXGI_SURFACE_DESC, NumSurfaces : u32, Usage : u32, pSharedResource : *DXGI_SHARED_RESOURCE, ppSurface : **IDXGISurface) -> HRESULT #no_context { return this.vtable.CreateSurface (this, *pDesc, NumSurfaces, Usage, pSharedResource, ppSurface); }
+    CreateSurface :: inline (this : *IDXGIDevice, pDesc : *DXGI_SURFACE_DESC, NumSurfaces : u32, Usage : u32, pSharedResource : *DXGI_SHARED_RESOURCE, ppSurface : **IDXGISurface) -> HRESULT #no_context { return this.vtable.CreateSurface (this, pDesc, NumSurfaces, Usage, pSharedResource, ppSurface); }
     QueryResourceResidency :: inline (this : *IDXGIDevice, ppResources : **IUnknown, pResidencyStatus : *DXGI_RESIDENCY, NumResources : u32) -> HRESULT #no_context { return this.vtable.QueryResourceResidency (this, ppResources, pResidencyStatus, NumResources); }
     SetGPUThreadPriority :: inline (this : *IDXGIDevice, Priority : s32) -> HRESULT #no_context { return this.vtable.SetGPUThreadPriority (this, Priority); }
     GetGPUThreadPriority :: inline (this : *IDXGIDevice, pPriority : *s32) -> HRESULT #no_context { return this.vtable.GetGPUThreadPriority (this, pPriority); }
@@ -2154,7 +2154,7 @@ IDXGIDeviceSubObject :: struct
     #place base;
     vtable : *IDXGIDeviceSubObjectVTable;
 
-    GetDevice :: inline (this : *IDXGIDeviceSubObject, /*const ref*/ riid : GUID, ppDevice : **void) -> HRESULT #no_context { return this.vtable.GetDevice (this, *riid, ppDevice); }
+    GetDevice :: inline (this : *IDXGIDeviceSubObject, riid : *GUID, ppDevice : **void) -> HRESULT #no_context { return this.vtable.GetDevice (this, riid, ppDevice); }
 }
 
 IDXGIDeviceSubObjectVTable :: struct
@@ -2247,8 +2247,8 @@ IDXGIFactory2 :: struct
     vtable : *IDXGIFactory2VTable;
 
     IsWindowedStereoEnabled :: inline (this : *IDXGIFactory2) -> BOOL #no_context { return this.vtable.IsWindowedStereoEnabled (this); }
-    CreateSwapChainForHwnd :: inline (this : *IDXGIFactory2, pDevice : *IUnknown, hWnd : HWND, /*const ref*/ pDesc : DXGI_SWAP_CHAIN_DESC1, pFullscreenDesc : *DXGI_SWAP_CHAIN_FULLSCREEN_DESC, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForHwnd (this, pDevice, hWnd, *pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain); }
-    CreateSwapChainForCoreWindow :: inline (this : *IDXGIFactory2, pDevice : *IUnknown, pWindow : *IUnknown, /*const ref*/ pDesc : DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForCoreWindow (this, pDevice, pWindow, *pDesc, pRestrictToOutput, ppSwapChain); }
+    CreateSwapChainForHwnd :: inline (this : *IDXGIFactory2, pDevice : *IUnknown, hWnd : HWND, pDesc : *DXGI_SWAP_CHAIN_DESC1, pFullscreenDesc : *DXGI_SWAP_CHAIN_FULLSCREEN_DESC, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForHwnd (this, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain); }
+    CreateSwapChainForCoreWindow :: inline (this : *IDXGIFactory2, pDevice : *IUnknown, pWindow : *IUnknown, pDesc : *DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForCoreWindow (this, pDevice, pWindow, pDesc, pRestrictToOutput, ppSwapChain); }
     GetSharedResourceAdapterLuid :: inline (this : *IDXGIFactory2, hResource : HANDLE, pLuid : *LUID) -> HRESULT #no_context { return this.vtable.GetSharedResourceAdapterLuid (this, hResource, pLuid); }
     RegisterStereoStatusWindow :: inline (this : *IDXGIFactory2, WindowHandle : HWND, wMsg : u32, pdwCookie : *u32) -> HRESULT #no_context { return this.vtable.RegisterStereoStatusWindow (this, WindowHandle, wMsg, pdwCookie); }
     RegisterStereoStatusEvent :: inline (this : *IDXGIFactory2, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #no_context { return this.vtable.RegisterStereoStatusEvent (this, hEvent, pdwCookie); }
@@ -2256,7 +2256,7 @@ IDXGIFactory2 :: struct
     RegisterOcclusionStatusWindow :: inline (this : *IDXGIFactory2, WindowHandle : HWND, wMsg : u32, pdwCookie : *u32) -> HRESULT #no_context { return this.vtable.RegisterOcclusionStatusWindow (this, WindowHandle, wMsg, pdwCookie); }
     RegisterOcclusionStatusEvent :: inline (this : *IDXGIFactory2, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #no_context { return this.vtable.RegisterOcclusionStatusEvent (this, hEvent, pdwCookie); }
     UnregisterOcclusionStatus :: inline (this : *IDXGIFactory2, dwCookie : u32) #no_context { this.vtable.UnregisterOcclusionStatus (this, dwCookie); }
-    CreateSwapChainForComposition :: inline (this : *IDXGIFactory2, pDevice : *IUnknown, /*const ref*/ pDesc : DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForComposition (this, pDevice, *pDesc, pRestrictToOutput, ppSwapChain); }
+    CreateSwapChainForComposition :: inline (this : *IDXGIFactory2, pDevice : *IUnknown, pDesc : *DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForComposition (this, pDevice, pDesc, pRestrictToOutput, ppSwapChain); }
 }
 
 IDXGIFactory2VTable :: struct
@@ -2306,8 +2306,8 @@ IDXGIFactory4 :: struct
     #place base;
     vtable : *IDXGIFactory4VTable;
 
-    EnumAdapterByLuid :: inline (this : *IDXGIFactory4, AdapterLuid : LUID, /*const ref*/ riid : GUID, ppvAdapter : **void) -> HRESULT #no_context { return this.vtable.EnumAdapterByLuid (this, AdapterLuid, *riid, ppvAdapter); }
-    EnumWarpAdapter :: inline (this : *IDXGIFactory4, /*const ref*/ riid : GUID, ppvAdapter : **void) -> HRESULT #no_context { return this.vtable.EnumWarpAdapter (this, *riid, ppvAdapter); }
+    EnumAdapterByLuid :: inline (this : *IDXGIFactory4, AdapterLuid : LUID, riid : *GUID, ppvAdapter : **void) -> HRESULT #no_context { return this.vtable.EnumAdapterByLuid (this, AdapterLuid, riid, ppvAdapter); }
+    EnumWarpAdapter :: inline (this : *IDXGIFactory4, riid : *GUID, ppvAdapter : **void) -> HRESULT #no_context { return this.vtable.EnumWarpAdapter (this, riid, ppvAdapter); }
 }
 
 IDXGIFactory4VTable :: struct
@@ -2348,7 +2348,7 @@ IDXGIFactory6 :: struct
     #place base;
     vtable : *IDXGIFactory6VTable;
 
-    EnumAdapterByGpuPreference :: inline (this : *IDXGIFactory6, Adapter : u32, GpuPreference : DXGI_GPU_PREFERENCE, /*const ref*/ riid : GUID, ppvAdapter : **void) -> HRESULT #no_context { return this.vtable.EnumAdapterByGpuPreference (this, Adapter, GpuPreference, *riid, ppvAdapter); }
+    EnumAdapterByGpuPreference :: inline (this : *IDXGIFactory6, Adapter : u32, GpuPreference : DXGI_GPU_PREFERENCE, riid : *GUID, ppvAdapter : **void) -> HRESULT #no_context { return this.vtable.EnumAdapterByGpuPreference (this, Adapter, GpuPreference, riid, ppvAdapter); }
 }
 
 IDXGIFactory6VTable :: struct
@@ -2390,7 +2390,7 @@ IDXGIFactoryMedia :: struct
     #place base;
     vtable : *IDXGIFactoryMediaVTable;
 
-    CreateSwapChainForCompositionSurfaceHandle :: inline (this : *IDXGIFactoryMedia, pDevice : *IUnknown, hSurface : HANDLE, /*const ref*/ pDesc : DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForCompositionSurfaceHandle (this, pDevice, hSurface, *pDesc, pRestrictToOutput, ppSwapChain); }
+    CreateSwapChainForCompositionSurfaceHandle :: inline (this : *IDXGIFactoryMedia, pDevice : *IUnknown, hSurface : HANDLE, pDesc : *DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #no_context { return this.vtable.CreateSwapChainForCompositionSurfaceHandle (this, pDevice, hSurface, pDesc, pRestrictToOutput, ppSwapChain); }
     CreateDecodeSwapChainForCompositionSurfaceHandle :: inline (this : *IDXGIFactoryMedia, pDevice : *IUnknown, hSurface : HANDLE, pDesc : *DXGI_DECODE_SWAP_CHAIN_DESC, pYuvDecodeBuffers : *IDXGIResource, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGIDecodeSwapChain) -> HRESULT #no_context { return this.vtable.CreateDecodeSwapChainForCompositionSurfaceHandle (this, pDevice, hSurface, pDesc, pYuvDecodeBuffers, pRestrictToOutput, ppSwapChain); }
 }
 
@@ -2526,10 +2526,10 @@ IDXGIObject :: struct
     #place base;
     vtable : *IDXGIObjectVTable;
 
-    SetPrivateData :: inline (this : *IDXGIObject, /*const ref*/ Name : GUID, DataSize : u32, pData : *void) -> HRESULT #no_context { return this.vtable.SetPrivateData (this, *Name, DataSize, pData); }
-    SetPrivateDataInterface :: inline (this : *IDXGIObject, /*const ref*/ Name : GUID, pUnknown : *IUnknown) -> HRESULT #no_context { return this.vtable.SetPrivateDataInterface (this, *Name, pUnknown); }
-    GetPrivateData :: inline (this : *IDXGIObject, /*const ref*/ Name : GUID, pDataSize : *u32, pData : *void) -> HRESULT #no_context { return this.vtable.GetPrivateData (this, *Name, pDataSize, pData); }
-    GetParent :: inline (this : *IDXGIObject, /*const ref*/ riid : GUID, ppParent : **void) -> HRESULT #no_context { return this.vtable.GetParent (this, *riid, ppParent); }
+    SetPrivateData :: inline (this : *IDXGIObject, Name : *GUID, DataSize : u32, pData : *void) -> HRESULT #no_context { return this.vtable.SetPrivateData (this, Name, DataSize, pData); }
+    SetPrivateDataInterface :: inline (this : *IDXGIObject, Name : *GUID, pUnknown : *IUnknown) -> HRESULT #no_context { return this.vtable.SetPrivateDataInterface (this, Name, pUnknown); }
+    GetPrivateData :: inline (this : *IDXGIObject, Name : *GUID, pDataSize : *u32, pData : *void) -> HRESULT #no_context { return this.vtable.GetPrivateData (this, Name, pDataSize, pData); }
+    GetParent :: inline (this : *IDXGIObject, riid : *GUID, ppParent : **void) -> HRESULT #no_context { return this.vtable.GetParent (this, riid, ppParent); }
 }
 
 IDXGIObjectVTable :: struct
@@ -2554,12 +2554,12 @@ IDXGIOutput :: struct
 
     GetDesc :: inline (this : *IDXGIOutput, pDesc : *DXGI_OUTPUT_DESC) -> HRESULT #no_context { return this.vtable.GetDesc (this, pDesc); }
     GetDisplayModeList :: inline (this : *IDXGIOutput, EnumFormat : DXGI_FORMAT, Flags : u32, pNumModes : *u32, pDesc : *DXGI_MODE_DESC) -> HRESULT #no_context { return this.vtable.GetDisplayModeList (this, EnumFormat, Flags, pNumModes, pDesc); }
-    FindClosestMatchingMode :: inline (this : *IDXGIOutput, /*const ref*/ pModeToMatch : DXGI_MODE_DESC, pClosestMatch : *DXGI_MODE_DESC, pConcernedDevice : *IUnknown) -> HRESULT #no_context { return this.vtable.FindClosestMatchingMode (this, *pModeToMatch, pClosestMatch, pConcernedDevice); }
+    FindClosestMatchingMode :: inline (this : *IDXGIOutput, pModeToMatch : *DXGI_MODE_DESC, pClosestMatch : *DXGI_MODE_DESC, pConcernedDevice : *IUnknown) -> HRESULT #no_context { return this.vtable.FindClosestMatchingMode (this, pModeToMatch, pClosestMatch, pConcernedDevice); }
     WaitForVBlank :: inline (this : *IDXGIOutput) -> HRESULT #no_context { return this.vtable.WaitForVBlank (this); }
     TakeOwnership :: inline (this : *IDXGIOutput, pDevice : *IUnknown, Exclusive : BOOL) -> HRESULT #no_context { return this.vtable.TakeOwnership (this, pDevice, Exclusive); }
     ReleaseOwnership :: inline (this : *IDXGIOutput) #no_context { this.vtable.ReleaseOwnership (this); }
     GetGammaControlCapabilities :: inline (this : *IDXGIOutput, pGammaCaps : *DXGI_GAMMA_CONTROL_CAPABILITIES) -> HRESULT #no_context { return this.vtable.GetGammaControlCapabilities (this, pGammaCaps); }
-    SetGammaControl :: inline (this : *IDXGIOutput, /*const ref*/ pArray : DXGI_GAMMA_CONTROL) -> HRESULT #no_context { return this.vtable.SetGammaControl (this, *pArray); }
+    SetGammaControl :: inline (this : *IDXGIOutput, pArray : *DXGI_GAMMA_CONTROL) -> HRESULT #no_context { return this.vtable.SetGammaControl (this, pArray); }
     GetGammaControl :: inline (this : *IDXGIOutput, pArray : *DXGI_GAMMA_CONTROL) -> HRESULT #no_context { return this.vtable.GetGammaControl (this, pArray); }
     SetDisplaySurface :: inline (this : *IDXGIOutput, pScanoutSurface : *IDXGISurface) -> HRESULT #no_context { return this.vtable.SetDisplaySurface (this, pScanoutSurface); }
     GetDisplaySurfaceData :: inline (this : *IDXGIOutput, pDestination : *IDXGISurface) -> HRESULT #no_context { return this.vtable.GetDisplaySurfaceData (this, pDestination); }
@@ -2595,7 +2595,7 @@ IDXGIOutput1 :: struct
     vtable : *IDXGIOutput1VTable;
 
     GetDisplayModeList1 :: inline (this : *IDXGIOutput1, EnumFormat : DXGI_FORMAT, Flags : u32, pNumModes : *u32, pDesc : *DXGI_MODE_DESC1) -> HRESULT #no_context { return this.vtable.GetDisplayModeList1 (this, EnumFormat, Flags, pNumModes, pDesc); }
-    FindClosestMatchingMode1 :: inline (this : *IDXGIOutput1, /*const ref*/ pModeToMatch : DXGI_MODE_DESC1, pClosestMatch : *DXGI_MODE_DESC1, pConcernedDevice : *IUnknown) -> HRESULT #no_context { return this.vtable.FindClosestMatchingMode1 (this, *pModeToMatch, pClosestMatch, pConcernedDevice); }
+    FindClosestMatchingMode1 :: inline (this : *IDXGIOutput1, pModeToMatch : *DXGI_MODE_DESC1, pClosestMatch : *DXGI_MODE_DESC1, pConcernedDevice : *IUnknown) -> HRESULT #no_context { return this.vtable.FindClosestMatchingMode1 (this, pModeToMatch, pClosestMatch, pConcernedDevice); }
     GetDisplaySurfaceData1 :: inline (this : *IDXGIOutput1, pDestination : *IDXGIResource) -> HRESULT #no_context { return this.vtable.GetDisplaySurfaceData1 (this, pDestination); }
     DuplicateOutput :: inline (this : *IDXGIOutput1, pDevice : *IUnknown, ppOutputDuplication : **IDXGIOutputDuplication) -> HRESULT #no_context { return this.vtable.DuplicateOutput (this, pDevice, ppOutputDuplication); }
 }
@@ -2850,7 +2850,7 @@ IDXGISurface2 :: struct
     #place base;
     vtable : *IDXGISurface2VTable;
 
-    GetResource :: inline (this : *IDXGISurface2, /*const ref*/ riid : GUID, ppParentResource : **void, pSubresourceIndex : *u32) -> HRESULT #no_context { return this.vtable.GetResource (this, *riid, ppParentResource, pSubresourceIndex); }
+    GetResource :: inline (this : *IDXGISurface2, riid : *GUID, ppParentResource : **void, pSubresourceIndex : *u32) -> HRESULT #no_context { return this.vtable.GetResource (this, riid, ppParentResource, pSubresourceIndex); }
 }
 
 IDXGISurface2VTable :: struct
@@ -2871,12 +2871,12 @@ IDXGISwapChain :: struct
     vtable : *IDXGISwapChainVTable;
 
     Present :: inline (this : *IDXGISwapChain, SyncInterval : u32, Flags : u32) -> HRESULT #no_context { return this.vtable.Present (this, SyncInterval, Flags); }
-    GetBuffer :: inline (this : *IDXGISwapChain, Buffer : u32, /*const ref*/ riid : GUID, ppSurface : **void) -> HRESULT #no_context { return this.vtable.GetBuffer (this, Buffer, *riid, ppSurface); }
+    GetBuffer :: inline (this : *IDXGISwapChain, Buffer : u32, riid : *GUID, ppSurface : **void) -> HRESULT #no_context { return this.vtable.GetBuffer (this, Buffer, riid, ppSurface); }
     SetFullscreenState :: inline (this : *IDXGISwapChain, Fullscreen : BOOL, pTarget : *IDXGIOutput) -> HRESULT #no_context { return this.vtable.SetFullscreenState (this, Fullscreen, pTarget); }
     GetFullscreenState :: inline (this : *IDXGISwapChain, pFullscreen : *BOOL, ppTarget : **IDXGIOutput) -> HRESULT #no_context { return this.vtable.GetFullscreenState (this, pFullscreen, ppTarget); }
     GetDesc :: inline (this : *IDXGISwapChain, pDesc : *DXGI_SWAP_CHAIN_DESC) -> HRESULT #no_context { return this.vtable.GetDesc (this, pDesc); }
     ResizeBuffers :: inline (this : *IDXGISwapChain, BufferCount : u32, Width : u32, Height : u32, NewFormat : DXGI_FORMAT, SwapChainFlags : u32) -> HRESULT #no_context { return this.vtable.ResizeBuffers (this, BufferCount, Width, Height, NewFormat, SwapChainFlags); }
-    ResizeTarget :: inline (this : *IDXGISwapChain, /*const ref*/ pNewTargetParameters : DXGI_MODE_DESC) -> HRESULT #no_context { return this.vtable.ResizeTarget (this, *pNewTargetParameters); }
+    ResizeTarget :: inline (this : *IDXGISwapChain, pNewTargetParameters : *DXGI_MODE_DESC) -> HRESULT #no_context { return this.vtable.ResizeTarget (this, pNewTargetParameters); }
     GetContainingOutput :: inline (this : *IDXGISwapChain, ppOutput : **IDXGIOutput) -> HRESULT #no_context { return this.vtable.GetContainingOutput (this, ppOutput); }
     GetFrameStatistics :: inline (this : *IDXGISwapChain, pStats : *DXGI_FRAME_STATISTICS) -> HRESULT #no_context { return this.vtable.GetFrameStatistics (this, pStats); }
     GetLastPresentCount :: inline (this : *IDXGISwapChain, pLastPresentCount : *u32) -> HRESULT #no_context { return this.vtable.GetLastPresentCount (this, pLastPresentCount); }
@@ -2911,11 +2911,11 @@ IDXGISwapChain1 :: struct
     GetDesc1 :: inline (this : *IDXGISwapChain1, pDesc : *DXGI_SWAP_CHAIN_DESC1) -> HRESULT #no_context { return this.vtable.GetDesc1 (this, pDesc); }
     GetFullscreenDesc :: inline (this : *IDXGISwapChain1, pDesc : *DXGI_SWAP_CHAIN_FULLSCREEN_DESC) -> HRESULT #no_context { return this.vtable.GetFullscreenDesc (this, pDesc); }
     GetHwnd :: inline (this : *IDXGISwapChain1, pHwnd : *HWND) -> HRESULT #no_context { return this.vtable.GetHwnd (this, pHwnd); }
-    GetCoreWindow :: inline (this : *IDXGISwapChain1, /*const ref*/ refiid : GUID, ppUnk : **void) -> HRESULT #no_context { return this.vtable.GetCoreWindow (this, *refiid, ppUnk); }
-    Present1 :: inline (this : *IDXGISwapChain1, SyncInterval : u32, PresentFlags : u32, /*const ref*/ pPresentParameters : DXGI_PRESENT_PARAMETERS) -> HRESULT #no_context { return this.vtable.Present1 (this, SyncInterval, PresentFlags, *pPresentParameters); }
+    GetCoreWindow :: inline (this : *IDXGISwapChain1, refiid : *GUID, ppUnk : **void) -> HRESULT #no_context { return this.vtable.GetCoreWindow (this, refiid, ppUnk); }
+    Present1 :: inline (this : *IDXGISwapChain1, SyncInterval : u32, PresentFlags : u32, pPresentParameters : *DXGI_PRESENT_PARAMETERS) -> HRESULT #no_context { return this.vtable.Present1 (this, SyncInterval, PresentFlags, pPresentParameters); }
     IsTemporaryMonoSupported :: inline (this : *IDXGISwapChain1) -> BOOL #no_context { return this.vtable.IsTemporaryMonoSupported (this); }
     GetRestrictToOutput :: inline (this : *IDXGISwapChain1, ppRestrictToOutput : **IDXGIOutput) -> HRESULT #no_context { return this.vtable.GetRestrictToOutput (this, ppRestrictToOutput); }
-    SetBackgroundColor :: inline (this : *IDXGISwapChain1, /*const ref*/ pColor : DXGI_RGBA) -> HRESULT #no_context { return this.vtable.SetBackgroundColor (this, *pColor); }
+    SetBackgroundColor :: inline (this : *IDXGISwapChain1, pColor : *DXGI_RGBA) -> HRESULT #no_context { return this.vtable.SetBackgroundColor (this, pColor); }
     GetBackgroundColor :: inline (this : *IDXGISwapChain1, pColor : *DXGI_RGBA) -> HRESULT #no_context { return this.vtable.GetBackgroundColor (this, pColor); }
     SetRotation :: inline (this : *IDXGISwapChain1, Rotation : DXGI_MODE_ROTATION) -> HRESULT #no_context { return this.vtable.SetRotation (this, Rotation); }
     GetRotation :: inline (this : *IDXGISwapChain1, pRotation : *DXGI_MODE_ROTATION) -> HRESULT #no_context { return this.vtable.GetRotation (this, pRotation); }
@@ -2953,7 +2953,7 @@ IDXGISwapChain2 :: struct
     SetMaximumFrameLatency :: inline (this : *IDXGISwapChain2, MaxLatency : u32) -> HRESULT #no_context { return this.vtable.SetMaximumFrameLatency (this, MaxLatency); }
     GetMaximumFrameLatency :: inline (this : *IDXGISwapChain2, pMaxLatency : *u32) -> HRESULT #no_context { return this.vtable.GetMaximumFrameLatency (this, pMaxLatency); }
     GetFrameLatencyWaitableObject :: inline (this : *IDXGISwapChain2) -> HANDLE #no_context { return this.vtable.GetFrameLatencyWaitableObject (this); }
-    SetMatrixTransform :: inline (this : *IDXGISwapChain2, /*const ref*/ pMatrix : DXGI_MATRIX_3X2_F) -> HRESULT #no_context { return this.vtable.SetMatrixTransform (this, *pMatrix); }
+    SetMatrixTransform :: inline (this : *IDXGISwapChain2, pMatrix : *DXGI_MATRIX_3X2_F) -> HRESULT #no_context { return this.vtable.SetMatrixTransform (this, pMatrix); }
     GetMatrixTransform :: inline (this : *IDXGISwapChain2, pMatrix : *DXGI_MATRIX_3X2_F) -> HRESULT #no_context { return this.vtable.GetMatrixTransform (this, pMatrix); }
 }
 
@@ -3064,35 +3064,11 @@ IDXGraphicsAnalysisVTable :: struct
 
 // Functions
 
-
-CreateDXGIFactory :: inline (/*const ref*/ riid : GUID, ppFactory : **void) -> HRESULT #no_context
-{
-    CreateDXGIFactory_Original :: (riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi "CreateDXGIFactory";
-    return CreateDXGIFactory_Original (*riid, ppFactory);
-}
-
-
-CreateDXGIFactory1 :: inline (/*const ref*/ riid : GUID, ppFactory : **void) -> HRESULT #no_context
-{
-    CreateDXGIFactory1_Original :: (riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi "CreateDXGIFactory1";
-    return CreateDXGIFactory1_Original (*riid, ppFactory);
-}
-
-
-CreateDXGIFactory2 :: inline (Flags : u32, /*const ref*/ riid : GUID, ppFactory : **void) -> HRESULT #no_context
-{
-    CreateDXGIFactory2_Original :: (Flags : u32, riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi "CreateDXGIFactory2";
-    return CreateDXGIFactory2_Original (Flags, *riid, ppFactory);
-}
-
+CreateDXGIFactory :: (riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi;
+CreateDXGIFactory1 :: (riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi;
+CreateDXGIFactory2 :: (Flags : u32, riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi;
 DXGIDeclareAdapterRemovalSupport :: () -> HRESULT #foreign dxgi;
-
-DXGIGetDebugInterface1 :: inline (Flags : u32, /*const ref*/ riid : GUID, pDebug : **void) -> HRESULT #no_context
-{
-    DXGIGetDebugInterface1_Original :: (Flags : u32, riid : *GUID, pDebug : **void) -> HRESULT #foreign dxgi "DXGIGetDebugInterface1";
-    return DXGIGetDebugInterface1_Original (Flags, *riid, pDebug);
-}
-
+DXGIGetDebugInterface1 :: (Flags : u32, riid : *GUID, pDebug : **void) -> HRESULT #foreign dxgi;
 
 // Unicode aliases
 
