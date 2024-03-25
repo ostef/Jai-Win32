@@ -21,7 +21,7 @@ InitGraphicsContext :: (using ctx : *GraphicsContext, $Debug := true) -> bool
     #if Debug
     {
         dc : *ID3D12Debug;
-        if D3D12GetDebugInterface (dc.UUID, xx *dc) >= 0
+        if D3D12GetDebugInterface (*dc.UUID, xx *dc) >= 0
         {
             dxgi_factory_flags |= DXGI_CREATE_FACTORY_DEBUG;
 
@@ -33,7 +33,7 @@ InitGraphicsContext :: (using ctx : *GraphicsContext, $Debug := true) -> bool
         }
     }
 
-    result := CreateDXGIFactory2 (dxgi_factory_flags, factory.UUID, xx *factory);
+    result := CreateDXGIFactory2 (dxgi_factory_flags, *factory.UUID, xx *factory);
     if result < 0
         return false;
 
@@ -101,7 +101,7 @@ END,
     best_adapter.GetDesc1 (best_adapter, *best_adapter_desc);
     print ("D3D12: Using adapter %\n", WideToUtf8 (best_adapter_desc.Description.data,, temp));
 
-    result = D3D12CreateDevice (best_adapter, D3D_FEATURE_LEVEL_12_0, device.UUID, xx *device);
+    result = D3D12CreateDevice (best_adapter, D3D_FEATURE_LEVEL_12_0, *device.UUID, xx *device);
     if result < 0
         return false;
 
@@ -112,7 +112,7 @@ END,
 
     #if Debug
     {
-        result = device.QueryInterface (device, debug_device.UUID, xx *debug_device);
+        result = device.QueryInterface (device, *debug_device.UUID, xx *debug_device);
         if result < 0
             print ("D3D12: Could not create debug device\n");
     }
@@ -122,11 +122,11 @@ END,
     queue_desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
     queue_desc._Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
-    result = device.CreateCommandQueue (device, *queue_desc, command_queue.UUID, xx *command_queue);
+    result = device.CreateCommandQueue (device, *queue_desc, *command_queue.UUID, xx *command_queue);
     if result < 0
         return false;
 
-    result = device.CreateCommandAllocator (device, queue_desc._Type, command_allocator.UUID, xx *command_allocator);
+    result = device.CreateCommandAllocator (device, queue_desc._Type, *command_allocator.UUID, xx *command_allocator);
     if result < 0
         return false;
 
