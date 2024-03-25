@@ -649,6 +649,12 @@ MAKELANGID :: (p : u16, s : u16) -> u16 #must #expand
     return (s << 10) | p;
 }
 
+SafeRelease :: inline (obj : *IUnknown)
+{
+    if obj
+        obj.Release (obj);
+}
+
 GUID :: struct
 {
     Data1 : u32;
