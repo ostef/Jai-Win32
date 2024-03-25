@@ -295,8 +295,6 @@ GenerateScopedEnumTypeDefinition :: (builder : *String_Builder, using type : Win
         identifier := it.name;
         if remove_name_prefix
         {
-            // Handle enum value name prefixed with FLAG_ while the name ends with FLAGS_
-            // which is pretty common in the Direct3D API
             if starts_with (identifier, name)
             {
                 identifier.data += name.count;
@@ -317,6 +315,18 @@ GenerateScopedEnumTypeDefinition :: (builder : *String_Builder, using type : Win
                 {
                     identifier.data += "FLAG".count;
                     identifier.count -= "FLAG".count;
+                }
+            }
+            // Handle different usage of plural/singular in enum names and value names
+            else if to_lower(name[name.count - 1]) == #char "s"
+            {
+                singular_name := name;
+                singular_name.count -= 1;
+
+                if starts_with (identifier, singular_name)
+                {
+                    identifier.data += singular_name.count;
+                    identifier.count -= singular_name.count;
                 }
             }
 
