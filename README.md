@@ -1,5 +1,7 @@
 # [Jai-Win32](https://github.com/ostef/Jai-Win32)
 
+> git clone https://github.com/ostef/Jai-Win32 Win32
+
 Win32 auto-generated bindings for the Jai programming language.
 
 This module uses the metadata from Microsoft to generate the bindings: https://github.com/marlersoft/win32json, as well as my fork of the Jaison library to parse Json files: https://github.com/ostef/jaison.
