@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -1291,37 +1289,6 @@ WakeByAddressSingle :: (Address : *void)  #foreign vertdll;
 WakeConditionVariable :: (ConditionVariable : *RTL_CONDITION_VARIABLE)  #foreign KERNEL32;
 WinExec :: (lpCmdLine : PSTR, uCmdShow : u32) -> u32 #foreign KERNEL32;
 Wow64SuspendThread :: (hThread : HANDLE) -> u32 #foreign KERNEL32;
-
-// Unicode aliases
-
-#if UNICODE then CreateMutex :: CreateMutexW;
-else             CreateMutex :: CreateMutexA;
-#if UNICODE then CreateEvent :: CreateEventW;
-else             CreateEvent :: CreateEventA;
-#if UNICODE then OpenEvent :: OpenEventW;
-else             OpenEvent :: OpenEventA;
-#if UNICODE then CreateMutexEx :: CreateMutexExW;
-else             CreateMutexEx :: CreateMutexExA;
-#if UNICODE then CreateEventEx :: CreateEventExW;
-else             CreateEventEx :: CreateEventExA;
-#if UNICODE then CreateSemaphoreEx :: CreateSemaphoreExW;
-else             CreateSemaphoreEx :: CreateSemaphoreExA;
-#if UNICODE then CreateSemaphore :: CreateSemaphoreW;
-else             CreateSemaphore :: CreateSemaphoreA;
-#if UNICODE then CreateProcess :: CreateProcessW;
-else             CreateProcess :: CreateProcessA;
-#if UNICODE then GetStartupInfo :: GetStartupInfoW;
-else             GetStartupInfo :: GetStartupInfoA;
-#if UNICODE then CreateProcessAsUser :: CreateProcessAsUserW;
-else             CreateProcessAsUser :: CreateProcessAsUserA;
-#if UNICODE then CreatePrivateNamespace :: CreatePrivateNamespaceW;
-else             CreatePrivateNamespace :: CreatePrivateNamespaceA;
-#if UNICODE then OpenPrivateNamespace :: OpenPrivateNamespaceW;
-else             OpenPrivateNamespace :: OpenPrivateNamespaceA;
-#if UNICODE then CreateBoundaryDescriptor :: CreateBoundaryDescriptorW;
-else             CreateBoundaryDescriptor :: CreateBoundaryDescriptorA;
-#if UNICODE then QueryFullProcessImageName :: QueryFullProcessImageNameW;
-else             QueryFullProcessImageName :: QueryFullProcessImageNameA;
 
 // System libraries
 

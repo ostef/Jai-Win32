@@ -1,9 +1,7 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
-#import "Win32/GDI_Basics" (UNICODE);
+#import "Win32/Basics";
+#import "Win32/GDI_Basics";
 
 // Constants
 
@@ -120,9 +118,6 @@ SetProcessDpiAwarenessContext :: (value : DPI_AWARENESS_CONTEXT) -> BOOL #foreig
 SetThreadDpiAwarenessContext :: (dpiContext : DPI_AWARENESS_CONTEXT) -> DPI_AWARENESS_CONTEXT #foreign USER32;
 SetThreadDpiHostingBehavior :: (value : DPI_HOSTING_BEHAVIOR) -> DPI_HOSTING_BEHAVIOR #foreign USER32;
 SystemParametersInfoForDpi :: (uiAction : u32, uiParam : u32, pvParam : *void, fWinIni : u32, dpi : u32) -> BOOL #foreign USER32;
-
-// Unicode aliases
-
 
 // System libraries
 

@@ -81,6 +81,13 @@ Generator :: struct
     treat_generated_Windows_import_as_original_jai_module := true;
     generate_clsid_constants_as_guid := true;
 
+    // Importing a module with an argument being the same as its default value still
+    // create a different module instance than not specifying the default value. As long
+    // as this is how module parameters work I suggest leaving this to false. The UNICODE
+    // parameter isn't very useful anyways since most of the time we use explicitly the W
+    // or A versions
+    generate_unicode_aliases := false;
+
     dependency_queue : [..]struct { module : string; name : string; };
 
     input_modules : Table (string, *Module);

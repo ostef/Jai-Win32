@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -140,41 +138,6 @@ SetDllDirectoryW :: (lpPathName : PWSTR) -> BOOL #foreign KERNEL32;
 SizeofResource :: (hModule : HINSTANCE, hResInfo : HRSRC) -> u32 #foreign KERNEL32;
 UpdateResourceA :: (hUpdate : HANDLE, lpType : PSTR, lpName : PSTR, wLanguage : u16, lpData : *void, cb : u32) -> BOOL #foreign KERNEL32;
 UpdateResourceW :: (hUpdate : HANDLE, lpType : PWSTR, lpName : PWSTR, wLanguage : u16, lpData : *void, cb : u32) -> BOOL #foreign KERNEL32;
-
-// Unicode aliases
-
-#if UNICODE then FindResourceEx :: FindResourceExW;
-else             FindResourceEx :: FindResourceExA;
-#if UNICODE then GetModuleHandleEx :: GetModuleHandleExW;
-else             GetModuleHandleEx :: GetModuleHandleExA;
-#if UNICODE then LoadLibraryEx :: LoadLibraryExW;
-else             LoadLibraryEx :: LoadLibraryExA;
-#if UNICODE then EnumResourceLanguagesEx :: EnumResourceLanguagesExW;
-else             EnumResourceLanguagesEx :: EnumResourceLanguagesExA;
-#if UNICODE then EnumResourceNamesEx :: EnumResourceNamesExW;
-else             EnumResourceNamesEx :: EnumResourceNamesExA;
-#if UNICODE then EnumResourceTypesEx :: EnumResourceTypesExW;
-else             EnumResourceTypesEx :: EnumResourceTypesExA;
-#if UNICODE then FindResource :: FindResourceW;
-else             FindResource :: FindResourceA;
-#if UNICODE then LoadLibrary :: LoadLibraryW;
-else             LoadLibrary :: LoadLibraryA;
-#if UNICODE then EnumResourceNames :: EnumResourceNamesW;
-else             EnumResourceNames :: EnumResourceNamesA;
-#if UNICODE then EnumResourceTypes :: EnumResourceTypesW;
-else             EnumResourceTypes :: EnumResourceTypesA;
-#if UNICODE then EnumResourceLanguages :: EnumResourceLanguagesW;
-else             EnumResourceLanguages :: EnumResourceLanguagesA;
-#if UNICODE then BeginUpdateResource :: BeginUpdateResourceW;
-else             BeginUpdateResource :: BeginUpdateResourceA;
-#if UNICODE then UpdateResource :: UpdateResourceW;
-else             UpdateResource :: UpdateResourceA;
-#if UNICODE then EndUpdateResource :: EndUpdateResourceW;
-else             EndUpdateResource :: EndUpdateResourceA;
-#if UNICODE then SetDllDirectory :: SetDllDirectoryW;
-else             SetDllDirectory :: SetDllDirectoryA;
-#if UNICODE then GetDllDirectory :: GetDllDirectoryW;
-else             GetDllDirectory :: GetDllDirectoryA;
 
 // System libraries
 

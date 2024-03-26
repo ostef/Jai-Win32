@@ -1,7 +1,5 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
 
 // Constants
 
@@ -738,19 +736,6 @@ SysReleaseString :: (bstrString : BSTR)  #foreign OLEAUT32;
 SysStringByteLen :: (bstr : BSTR) -> u32 #foreign OLEAUT32;
 SysStringLen :: (pbstr : BSTR) -> u32 #foreign OLEAUT32;
 WideCharToMultiByte :: (CodePage : u32, dwFlags : u32, lpWideCharStr : *u16, cchWideChar : s32, lpMultiByteStr : PSTR, cbMultiByte : s32, lpDefaultChar : PSTR, lpUsedDefaultChar : *s32) -> s32 #foreign KERNEL32;
-
-// Unicode aliases
-
-#if UNICODE then GetModuleFileName :: GetModuleFileNameW;
-else             GetModuleFileName :: GetModuleFileNameA;
-#if UNICODE then GetModuleHandle :: GetModuleHandleW;
-else             GetModuleHandle :: GetModuleHandleA;
-#if UNICODE then GetComputerName :: GetComputerNameW;
-else             GetComputerName :: GetComputerNameA;
-#if UNICODE then GetUserName :: GetUserNameW;
-else             GetUserName :: GetUserNameA;
-#if UNICODE then FormatMessage :: FormatMessageW;
-else             FormatMessage :: FormatMessageA;
 
 // System libraries
 

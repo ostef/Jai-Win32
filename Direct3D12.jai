@@ -1,10 +1,8 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
-#import "Win32/DXGI" (UNICODE);
-#import "Win32/Direct3D" (UNICODE);
+#import "Win32/Basics";
+#import "Win32/DXGI";
+#import "Win32/Direct3D";
 
 // Constants
 
@@ -11472,9 +11470,6 @@ D3D12GetDebugInterface :: (riid : *GUID, ppvDebug : **void) -> HRESULT #foreign 
 D3D12GetInterface :: (rclsid : *GUID, riid : *GUID, ppvDebug : **void) -> HRESULT #foreign d3d12;
 D3D12SerializeRootSignature :: (pRootSignature : *D3D12_ROOT_SIGNATURE_DESC, Version : D3D_ROOT_SIGNATURE_VERSION, ppBlob : **ID3DBlob, ppErrorBlob : **ID3DBlob) -> HRESULT #foreign d3d12;
 D3D12SerializeVersionedRootSignature :: (pRootSignature : *D3D12_VERSIONED_ROOT_SIGNATURE_DESC, ppBlob : **ID3DBlob, ppErrorBlob : **ID3DBlob) -> HRESULT #foreign d3d12;
-
-// Unicode aliases
-
 
 // System libraries
 

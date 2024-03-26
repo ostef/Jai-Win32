@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -1297,25 +1295,6 @@ VkKeyScanW :: (ch : u16) -> s16 #foreign USER32;
 _TrackMouseEvent :: (lpEventTrack : *TRACKMOUSEEVENT) -> BOOL #foreign COMCTL32;
 keybd_event :: (bVk : u8, bScan : u8, dwFlags : KEYBD_EVENT_FLAGS, dwExtraInfo : u64)  #foreign USER32;
 mouse_event :: (dwFlags : MOUSE_EVENT_FLAGS, dx : s32, dy : s32, dwData : u32, dwExtraInfo : u64)  #foreign USER32;
-
-// Unicode aliases
-
-#if UNICODE then LoadKeyboardLayout :: LoadKeyboardLayoutW;
-else             LoadKeyboardLayout :: LoadKeyboardLayoutA;
-#if UNICODE then GetKeyboardLayoutName :: GetKeyboardLayoutNameW;
-else             GetKeyboardLayoutName :: GetKeyboardLayoutNameA;
-#if UNICODE then GetKeyNameText :: GetKeyNameTextW;
-else             GetKeyNameText :: GetKeyNameTextA;
-#if UNICODE then VkKeyScan :: VkKeyScanW;
-else             VkKeyScan :: VkKeyScanA;
-#if UNICODE then VkKeyScanEx :: VkKeyScanExW;
-else             VkKeyScanEx :: VkKeyScanExA;
-#if UNICODE then MapVirtualKey :: MapVirtualKeyW;
-else             MapVirtualKey :: MapVirtualKeyA;
-#if UNICODE then MapVirtualKeyEx :: MapVirtualKeyExW;
-else             MapVirtualKeyEx :: MapVirtualKeyExA;
-#if UNICODE then GetRawInputDeviceInfo :: GetRawInputDeviceInfoW;
-else             GetRawInputDeviceInfo :: GetRawInputDeviceInfoA;
 
 // System libraries
 

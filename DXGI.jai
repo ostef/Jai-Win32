@@ -1,9 +1,7 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
-#import "Win32/GDI_Basics" (UNICODE);
+#import "Win32/Basics";
+#import "Win32/GDI_Basics";
 
 // Constants
 
@@ -3069,9 +3067,6 @@ CreateDXGIFactory1 :: (riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxg
 CreateDXGIFactory2 :: (Flags : u32, riid : *GUID, ppFactory : **void) -> HRESULT #foreign dxgi;
 DXGIDeclareAdapterRemovalSupport :: () -> HRESULT #foreign dxgi;
 DXGIGetDebugInterface1 :: (Flags : u32, riid : *GUID, pDebug : **void) -> HRESULT #foreign dxgi;
-
-// Unicode aliases
-
 
 // System libraries
 

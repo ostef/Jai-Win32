@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -1966,9 +1964,6 @@ ID3DIncludeVTable :: struct
 PFN_DESTRUCTION_CALLBACK :: #type (pData : *void) -> void #c_call;
 
 // Functions
-
-
-// Unicode aliases
 
 
 // System libraries

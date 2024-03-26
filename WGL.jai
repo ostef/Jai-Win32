@@ -1,9 +1,7 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
-#import "Win32/GDI_Basics" (UNICODE);
+#import "Win32/Basics";
+#import "Win32/GDI_Basics";
 
 // Constants
 
@@ -88,13 +86,6 @@ wglUseFontBitmapsA :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32) -
 wglUseFontBitmapsW :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32) -> BOOL #foreign OPENGL32;
 wglUseFontOutlinesA :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32, param4 : float, param5 : float, param6 : s32, param7 : *GLYPHMETRICSFLOAT) -> BOOL #foreign OPENGL32;
 wglUseFontOutlinesW :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32, param4 : float, param5 : float, param6 : s32, param7 : *GLYPHMETRICSFLOAT) -> BOOL #foreign OPENGL32;
-
-// Unicode aliases
-
-#if UNICODE then wglUseFontBitmaps :: wglUseFontBitmapsW;
-else             wglUseFontBitmaps :: wglUseFontBitmapsA;
-#if UNICODE then wglUseFontOutlines :: wglUseFontOutlinesW;
-else             wglUseFontOutlines :: wglUseFontOutlinesA;
 
 // System libraries
 

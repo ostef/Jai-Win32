@@ -849,7 +849,8 @@ GenerateModuleSourceCode :: inline (module : *Module) -> string #must
 GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
 {
     append (builder, "// This file was auto generated\n\n");
-    append (builder, "#module_parameters (UNICODE := true);\n\n");
+    if context.generator.generate_unicode_aliases
+        append (builder, "#module_parameters (UNICODE := true);\n\n");
 
     for _, dep : module.dependencies
     {
@@ -857,8 +858,8 @@ GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
         {
             // @Hack (stefan): If we #import "Windows" we assume it's the original Jai
             // module, which does not have a UNICODE parameter.
-            if context.generator.treat_generated_Windows_import_as_original_jai_module &&
-            dep == "Windows"
+            if !context.generator.generate_unicode_aliases ||
+            (dep == "Windows" && context.generator.treat_generated_Windows_import_as_original_jai_module)
                 appendf (builder, "#import \"%\";\n", dep);
             else
                 appendf (builder, "#import \"%\" (UNICODE);\n", dep);
@@ -897,11 +898,14 @@ GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
             array_add (*all_dlls, it.dll_import);
     }
 
-    append (builder, "\n// Unicode aliases\n\n");
-    for module.unicode_aliases
+    if context.generator.generate_unicode_aliases
     {
-        appendf (builder, "#if UNICODE then %1 :: %1W;\n", it);
-        appendf (builder, "else             %1 :: %1A;\n", it);
+        append (builder, "\n// Unicode aliases\n\n");
+        for module.unicode_aliases
+        {
+            appendf (builder, "#if UNICODE then %1 :: %1W;\n", it);
+            appendf (builder, "else             %1 :: %1A;\n", it);
+        }
     }
 
     append (builder, "\n// System libraries\n\n");

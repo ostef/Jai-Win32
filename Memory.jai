@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -550,17 +548,6 @@ VirtualProtectEx :: (hProcess : HANDLE, lpAddress : *void, dwSize : u64, flNewPr
 VirtualQuery :: (lpAddress : *void, lpBuffer : *MEMORY_BASIC_INFORMATION, dwLength : u64) -> u64 #foreign KERNEL32;
 VirtualQueryEx :: (hProcess : HANDLE, lpAddress : *void, lpBuffer : *MEMORY_BASIC_INFORMATION, dwLength : u64) -> u64 #foreign KERNEL32;
 VirtualUnlock :: (lpAddress : *void, dwSize : u64) -> BOOL #foreign KERNEL32;
-
-// Unicode aliases
-
-#if UNICODE then CreateFileMapping :: CreateFileMappingW;
-else             CreateFileMapping :: CreateFileMappingA;
-#if UNICODE then OpenFileMapping :: OpenFileMappingW;
-else             OpenFileMapping :: OpenFileMappingA;
-#if UNICODE then CreateFileMappingNuma :: CreateFileMappingNumaW;
-else             CreateFileMappingNuma :: CreateFileMappingNumaA;
-#if UNICODE then IsBadStringPtr :: IsBadStringPtrW;
-else             IsBadStringPtr :: IsBadStringPtrA;
 
 // System libraries
 

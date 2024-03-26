@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -422,19 +420,6 @@ SetPixelFormat :: (hdc : HDC, format : s32, ppfd : *PIXELFORMATDESCRIPTOR) -> BO
 SwapBuffers :: (param0 : HDC) -> BOOL #foreign GDI32;
 UpdateWindow :: (hWnd : HWND) -> BOOL #foreign USER32;
 WindowFromDC :: (hDC : HDC) -> HWND #foreign USER32;
-
-// Unicode aliases
-
-#if UNICODE then CreateDC :: CreateDCW;
-else             CreateDC :: CreateDCA;
-#if UNICODE then EnumDisplaySettings :: EnumDisplaySettingsW;
-else             EnumDisplaySettings :: EnumDisplaySettingsA;
-#if UNICODE then EnumDisplaySettingsEx :: EnumDisplaySettingsExW;
-else             EnumDisplaySettingsEx :: EnumDisplaySettingsExA;
-#if UNICODE then EnumDisplayDevices :: EnumDisplayDevicesW;
-else             EnumDisplayDevices :: EnumDisplayDevicesA;
-#if UNICODE then GetMonitorInfo :: GetMonitorInfoW;
-else             GetMonitorInfo :: GetMonitorInfoA;
 
 // System libraries
 

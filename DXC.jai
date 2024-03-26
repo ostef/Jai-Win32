@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -889,9 +887,6 @@ IDxcVersionInfo3VTable :: struct
 DXCoreCreateAdapterFactory :: (riid : *GUID, ppvFactory : **void) -> HRESULT #foreign DXCORE;
 DxcCreateInstance :: (rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
 DxcCreateInstance2 :: (pMalloc : *IMalloc, rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
-
-// Unicode aliases
-
 
 // System libraries
 

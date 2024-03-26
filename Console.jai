@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -345,49 +343,6 @@ WriteConsoleOutputCharacterA :: (hConsoleOutput : HANDLE, lpCharacter : *u8, nLe
 WriteConsoleOutputCharacterW :: (hConsoleOutput : HANDLE, lpCharacter : *u16, nLength : u32, dwWriteCoord : COORD, lpNumberOfCharsWritten : *u32) -> BOOL #foreign KERNEL32;
 WriteConsoleOutputW :: (hConsoleOutput : HANDLE, lpBuffer : *CHAR_INFO, dwBufferSize : COORD, dwBufferCoord : COORD, lpWriteRegion : *SMALL_RECT) -> BOOL #foreign KERNEL32;
 WriteConsoleW :: (hConsoleOutput : HANDLE, lpBuffer : *void, nNumberOfCharsToWrite : u32, lpNumberOfCharsWritten : *u32, lpReserved : *void) -> BOOL #foreign KERNEL32;
-
-// Unicode aliases
-
-#if UNICODE then ReadConsoleInput :: ReadConsoleInputW;
-else             ReadConsoleInput :: ReadConsoleInputA;
-#if UNICODE then PeekConsoleInput :: PeekConsoleInputW;
-else             PeekConsoleInput :: PeekConsoleInputA;
-#if UNICODE then ReadConsole :: ReadConsoleW;
-else             ReadConsole :: ReadConsoleA;
-#if UNICODE then WriteConsole :: WriteConsoleW;
-else             WriteConsole :: WriteConsoleA;
-#if UNICODE then FillConsoleOutputCharacter :: FillConsoleOutputCharacterW;
-else             FillConsoleOutputCharacter :: FillConsoleOutputCharacterA;
-#if UNICODE then WriteConsoleOutputCharacter :: WriteConsoleOutputCharacterW;
-else             WriteConsoleOutputCharacter :: WriteConsoleOutputCharacterA;
-#if UNICODE then ReadConsoleOutputCharacter :: ReadConsoleOutputCharacterW;
-else             ReadConsoleOutputCharacter :: ReadConsoleOutputCharacterA;
-#if UNICODE then WriteConsoleInput :: WriteConsoleInputW;
-else             WriteConsoleInput :: WriteConsoleInputA;
-#if UNICODE then ScrollConsoleScreenBuffer :: ScrollConsoleScreenBufferW;
-else             ScrollConsoleScreenBuffer :: ScrollConsoleScreenBufferA;
-#if UNICODE then WriteConsoleOutput :: WriteConsoleOutputW;
-else             WriteConsoleOutput :: WriteConsoleOutputA;
-#if UNICODE then ReadConsoleOutput :: ReadConsoleOutputW;
-else             ReadConsoleOutput :: ReadConsoleOutputA;
-#if UNICODE then GetConsoleTitle :: GetConsoleTitleW;
-else             GetConsoleTitle :: GetConsoleTitleA;
-#if UNICODE then GetConsoleOriginalTitle :: GetConsoleOriginalTitleW;
-else             GetConsoleOriginalTitle :: GetConsoleOriginalTitleA;
-#if UNICODE then SetConsoleTitle :: SetConsoleTitleW;
-else             SetConsoleTitle :: SetConsoleTitleA;
-#if UNICODE then AddConsoleAlias :: AddConsoleAliasW;
-else             AddConsoleAlias :: AddConsoleAliasA;
-#if UNICODE then GetConsoleAlias :: GetConsoleAliasW;
-else             GetConsoleAlias :: GetConsoleAliasA;
-#if UNICODE then GetConsoleAliasesLength :: GetConsoleAliasesLengthW;
-else             GetConsoleAliasesLength :: GetConsoleAliasesLengthA;
-#if UNICODE then GetConsoleAliasExesLength :: GetConsoleAliasExesLengthW;
-else             GetConsoleAliasExesLength :: GetConsoleAliasExesLengthA;
-#if UNICODE then GetConsoleAliases :: GetConsoleAliasesW;
-else             GetConsoleAliases :: GetConsoleAliasesA;
-#if UNICODE then GetConsoleAliasExes :: GetConsoleAliasExesW;
-else             GetConsoleAliasExes :: GetConsoleAliasExesA;
 
 // System libraries
 

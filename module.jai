@@ -1,7 +1,6 @@
 // Sentinel module, to import different Windows stuff under the same namespace
 
 #module_parameters (
-    UNICODE := true,
     Threads := false,
     Time := false,
     Console := false,
@@ -17,30 +16,30 @@
 
 #scope_file
 
-_Basics     :: #import "Win32/Basics" (UNICODE);
+_Basics     :: #import "Win32/Basics";
 
 #if Threads
-    _Threads    :: #import "Win32/Threads" (UNICODE);
+    _Threads    :: #import "Win32/Threads";
 #if Time
-    _Time       :: #import "Win32/Time" (UNICODE);
+    _Time       :: #import "Win32/Time";
 #if Console
-    _Console    :: #import "Win32/Console" (UNICODE);
+    _Console    :: #import "Win32/Console";
 #if File_System
-    _File_System :: #import "Win32/File_System" (UNICODE);
+    _File_System :: #import "Win32/File_System";
 #if Memory
-    _Memory     :: #import "Win32/Memory" (UNICODE);
+    _Memory     :: #import "Win32/Memory";
 #if GDI_Basics
-    _GDI_Basics :: #import "Win32/GDI_Basics" (UNICODE);
+    _GDI_Basics :: #import "Win32/GDI_Basics";
 #if Windows_And_Messaging
-    _Windows_And_Messaging :: #import "Win32/Windows_And_Messaging" (UNICODE);
+    _Windows_And_Messaging :: #import "Win32/Windows_And_Messaging";
 #if WGL
-    _WGL :: #import "Win32/WGL" (UNICODE);
+    _WGL :: #import "Win32/WGL";
 #if Library_Loader
-    _Library_Loader :: #import "Win32/Library_Loader" (UNICODE);
+    _Library_Loader :: #import "Win32/Library_Loader";
 #if Input
-    _Input :: #import "Win32/Input" (UNICODE);
+    _Input :: #import "Win32/Input";
 #if HiDpi
-    _HiDpi :: #import "Win32/HiDpi" (UNICODE);
+    _HiDpi :: #import "Win32/HiDpi";
 
 #scope_export
 

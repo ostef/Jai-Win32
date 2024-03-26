@@ -1,8 +1,6 @@
 // This file was auto generated
 
-#module_parameters (UNICODE := true);
-
-#import "Win32/Basics" (UNICODE);
+#import "Win32/Basics";
 
 // Constants
 
@@ -57,9 +55,6 @@ TzSpecificLocalTimeToSystemTime :: (lpTimeZoneInformation : *TIME_ZONE_INFORMATI
 TzSpecificLocalTimeToSystemTimeEx :: (lpTimeZoneInformation : *DYNAMIC_TIME_ZONE_INFORMATION, lpLocalTime : *SYSTEMTIME, lpUniversalTime : *SYSTEMTIME) -> BOOL #foreign KERNEL32;
 timeBeginPeriod :: (uPeriod : u32) -> u32 #foreign WINMM;
 timeEndPeriod :: (uPeriod : u32) -> u32 #foreign WINMM;
-
-// Unicode aliases
-
 
 // System libraries
 
