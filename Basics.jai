@@ -752,29 +752,54 @@ OLEAUT32 :: #system_library "OLEAUT32";
 // The following stuff was hand-written to be automatically
 // copy-pasted here, because it is not present in the metadata
 
-HIWORD :: (wparam: WPARAM) -> s16 #must #expand
+HIWORD :: inline (wparam: WPARAM) -> s16 #must
 {
     return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
 }
 
-LOWORD :: (wparam: WPARAM) -> s16 #must #expand
+LOWORD :: inline (wparam: WPARAM) -> s16 #must
 {
     return cast, no_check (s16) (wparam);
 }
 
-HIWORD :: (lparam: LPARAM) -> s16 #must #expand
+HIWORD :: inline (lparam: LPARAM) -> s16 #must
 {
     return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
 }
 
-LOWORD :: (lparam: LPARAM) -> s16 #must #expand
+LOWORD :: inline (lparam: LPARAM) -> s16 #must
 {
     return cast, no_check (s16) (lparam);
 }
 
-MAKELANGID :: (p : u16, s : u16) -> u16 #must #expand
+MAKELANGID :: inline (p : u16, s : u16) -> u16 #must
 {
     return (s << 10) | p;
+}
+
+HRESULT_CODE :: inline (val : HRESULT) -> s32 #must
+{
+    return val & 0xffff;
+}
+
+HRESULT_FACILITY :: inline (val : HRESULT) -> s32 #must
+{
+    return (val << 16) & 0x1fff;
+}
+
+HRESULT_SEVERITY :: inline (val : HRESULT) -> s32 #must
+{
+    return (val >> 31) & 0x1;
+}
+
+FAILED :: inline (val : HRESULT) -> bool #must
+{
+    return val < 0;
+}
+
+SUCCEEDED :: inline (val : HRESULT) -> bool #must
+{
+    return val >= 0;
 }
 
 SafeRelease :: inline (obj : *IUnknown)
