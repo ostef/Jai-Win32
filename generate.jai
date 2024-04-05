@@ -798,6 +798,16 @@ MakeGUID :: (str : string) -> GUID #must
 
     return result;
 }
+
+operator == :: (a : RECT, b : RECT) -> bool #must
+{
+    return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
+}
+
+operator == :: (a : RECTL, b : RECTL) -> bool #must
+{
+    return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
+}
 JAI
 
 Additional_DXC_Code :: #run -> string
