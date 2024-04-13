@@ -11477,3 +11477,12 @@ D3D12SerializeVersionedRootSignature :: (pRootSignature : *D3D12_VERSIONED_ROOT_
 
 d3d12 :: #system_library "d3d12";
 
+#scope_export
+
+SetName :: inline (obj : *ID3D12Object, name : string) -> HRESULT
+{
+    wide_str := Utf8ToWide (name);
+    defer context.allocator.proc (.FREE, 0, 0, wide_str, context.allocator.data);
+
+    return obj.SetName (obj, wide_str);
+}

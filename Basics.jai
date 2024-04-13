@@ -777,19 +777,19 @@ MAKELANGID :: inline (p : u16, s : u16) -> u16 #must
     return (s << 10) | p;
 }
 
-HRESULT_CODE :: inline (val : HRESULT) -> s32 #must
+HRESULT_CODE :: inline (val : HRESULT) -> u32 #must
 {
-    return val & 0xffff;
+    return cast (u32) val & 0xffff;
 }
 
-HRESULT_FACILITY :: inline (val : HRESULT) -> s32 #must
+HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must
 {
-    return (val << 16) & 0x1fff;
+    return cast (u32) (val << 16) & 0x1fff;
 }
 
-HRESULT_SEVERITY :: inline (val : HRESULT) -> s32 #must
+HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must
 {
-    return (val >> 31) & 0x1;
+    return cast (u32) (val >> 31) & 0x1;
 }
 
 FAILED :: inline (val : HRESULT) -> bool #must
@@ -935,4 +935,53 @@ operator == :: (a : RECT, b : RECT) -> bool #must
 operator == :: (a : RECTL, b : RECTL) -> bool #must
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
+}
+
+// The result is null terminated even though a Jai string is returned
+WideToUtf8 :: (data : *u16) -> string #must, success : bool
+{
+    result_length := WideCharToMultiByte (CP_UTF8, 0, data, -1, null, 0, null, null);
+    if result_length <= 0
+        return "", false;
+
+    utf8_data := cast (*u8) context.allocator.proc (.ALLOCATE, result_length, 0, null, context.allocator.data);
+
+    written := WideCharToMultiByte (CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
+    if written > 0
+    {
+        str : string = ---;
+        str.data  = utf8_data;
+        str.count = written - 1;
+
+        return str, true;
+    }
+
+    return "", false;
+}
+
+// The result is null terminated
+Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
+{
+    if !utf8_str
+    {
+        wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, size_of (u16), 0, null, context.allocator.data);
+        wide_str[0] = 0;
+
+        return wide_str, 0;
+    }
+
+    result_length := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, null, 0);
+    if result_length <= 0
+        return null, 0;
+
+    wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, (result_length + 1) * size_of (u16), 0, null, context.allocator.data);
+    written := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, wide_str, result_length);
+    if written > 0
+    {
+        wide_str[written] = 0;
+
+        return wide_str, written;
+    }
+
+    return null, 0;
 }

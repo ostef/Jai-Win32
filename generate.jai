@@ -587,6 +587,8 @@ main :: ()
             additional_code = Additional_Basics_Code;
         else if it.name == sprint ("%/DXC", output_dir)
             additional_code = Additional_DXC_Code;
+        else if it.name == sprint ("%/Direct3D12", output_dir)
+            additional_code = Additional_Direct3D12_Code;
 
         code := GenerateModuleSourceCodeToFile (it, additional_code, output_directory="..");
         for i : 0..code.count - 1 #no_abc
@@ -649,19 +651,19 @@ MAKELANGID :: inline (p : u16, s : u16) -> u16 #must
     return (s << 10) | p;
 }
 
-HRESULT_CODE :: inline (val : HRESULT) -> s32 #must
+HRESULT_CODE :: inline (val : HRESULT) -> u32 #must
 {
-    return val & 0xffff;
+    return cast (u32) val & 0xffff;
 }
 
-HRESULT_FACILITY :: inline (val : HRESULT) -> s32 #must
+HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must
 {
-    return (val << 16) & 0x1fff;
+    return cast (u32) (val << 16) & 0x1fff;
 }
 
-HRESULT_SEVERITY :: inline (val : HRESULT) -> s32 #must
+HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must
 {
-    return (val >> 31) & 0x1;
+    return cast (u32) (val >> 31) & 0x1;
 }
 
 FAILED :: inline (val : HRESULT) -> bool #must
@@ -808,6 +810,55 @@ operator == :: (a : RECTL, b : RECTL) -> bool #must
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
+
+// The result is null terminated even though a Jai string is returned
+WideToUtf8 :: (data : *u16) -> string #must, success : bool
+{
+    result_length := WideCharToMultiByte (CP_UTF8, 0, data, -1, null, 0, null, null);
+    if result_length <= 0
+        return "", false;
+
+    utf8_data := cast (*u8) context.allocator.proc (.ALLOCATE, result_length, 0, null, context.allocator.data);
+
+    written := WideCharToMultiByte (CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
+    if written > 0
+    {
+        str : string = ---;
+        str.data  = utf8_data;
+        str.count = written - 1;
+
+        return str, true;
+    }
+
+    return "", false;
+}
+
+// The result is null terminated
+Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
+{
+    if !utf8_str
+    {
+        wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, size_of (u16), 0, null, context.allocator.data);
+        wide_str[0] = 0;
+
+        return wide_str, 0;
+    }
+
+    result_length := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, null, 0);
+    if result_length <= 0
+        return null, 0;
+
+    wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, (result_length + 1) * size_of (u16), 0, null, context.allocator.data);
+    written := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, wide_str, result_length);
+    if written > 0
+    {
+        wide_str[written] = 0;
+
+        return wide_str, written;
+    }
+
+    return null, 0;
+}
 JAI
 
 Additional_DXC_Code :: #run -> string
@@ -819,3 +870,13 @@ Additional_DXC_Code :: #run -> string
 
     return builder_to_string (*builder);
 };
+
+Additional_Direct3D12_Code :: #string JAI
+SetName :: inline (obj : *ID3D12Object, name : string) -> HRESULT
+{
+    wide_str := Utf8ToWide (name);
+    defer context.allocator.proc (.FREE, 0, 0, wide_str, context.allocator.data);
+
+    return obj.SetName (obj, wide_str);
+}
+JAI
