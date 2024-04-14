@@ -626,57 +626,57 @@ Additional_Basics_Code :: #string JAI
 // The following stuff was hand-written to be automatically
 // copy-pasted here, because it is not present in the metadata
 
-HIWORD :: inline (wparam: WPARAM) -> s16 #must
+HIWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
 {
     return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
 }
 
-LOWORD :: inline (wparam: WPARAM) -> s16 #must
+LOWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
 {
     return cast, no_check (s16) (wparam);
 }
 
-HIWORD :: inline (lparam: LPARAM) -> s16 #must
+HIWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
 {
     return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
 }
 
-LOWORD :: inline (lparam: LPARAM) -> s16 #must
+LOWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
 {
     return cast, no_check (s16) (lparam);
 }
 
-MAKELANGID :: inline (p : u16, s : u16) -> u16 #must
+MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
 {
     return (s << 10) | p;
 }
 
-HRESULT_CODE :: inline (val : HRESULT) -> u32 #must
+HRESULT_CODE :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast (u32) val & 0xffff;
+    return cast, no_check (u32) val & 0xffff;
 }
 
-HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must
+HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast (u32) (val << 16) & 0x1fff;
+    return cast, no_check (u32) (val << 16) & 0x1fff;
 }
 
-HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must
+HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast (u32) (val >> 31) & 0x1;
+    return cast, no_check (u32) (val >> 31) & 0x1;
 }
 
-FAILED :: inline (val : HRESULT) -> bool #must
+FAILED :: inline (val : HRESULT) -> bool #must #no_context
 {
     return val < 0;
 }
 
-SUCCEEDED :: inline (val : HRESULT) -> bool #must
+SUCCEEDED :: inline (val : HRESULT) -> bool #must #no_context
 {
     return val >= 0;
 }
 
-SafeRelease :: inline (obj : *IUnknown)
+SafeRelease :: inline (obj : *IUnknown) #no_context
 {
     if obj
         obj.Release (obj);
@@ -801,12 +801,12 @@ MakeGUID :: (str : string) -> GUID #must
     return result;
 }
 
-operator == :: (a : RECT, b : RECT) -> bool #must
+operator == :: (a : RECT, b : RECT) -> bool #must #no_context
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
 
-operator == :: (a : RECTL, b : RECTL) -> bool #must
+operator == :: (a : RECTL, b : RECTL) -> bool #must #no_context
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
