@@ -4450,17 +4450,59 @@ AppendMenuW :: (hMenu : HMENU, uFlags : MENU_ITEM_FLAGS, uIDNewItem : u64, lpNew
 ArrangeIconicWindows :: (hWnd : HWND) -> u32 #foreign USER32;
 BeginDeferWindowPos :: (nNumWindows : s32) -> s64 #foreign USER32;
 BringWindowToTop :: (hWnd : HWND) -> BOOL #foreign USER32;
-CalculatePopupWindowPosition :: (anchorPoint : *POINT, windowSize : *SIZE, flags : u32, excludeRect : *RECT, popupWindowPosition : *RECT) -> BOOL #foreign USER32;
+CalculatePopupWindowPosition :: (
+    anchorPoint : *POINT,
+    windowSize : *SIZE,
+    flags : u32,
+    excludeRect : *RECT,
+    popupWindowPosition : *RECT
+) -> BOOL #foreign USER32;
+
 CallMsgFilterA :: (lpMsg : *MSG, nCode : s32) -> BOOL #foreign USER32;
 CallMsgFilterW :: (lpMsg : *MSG, nCode : s32) -> BOOL #foreign USER32;
 CallNextHookEx :: (hhk : HHOOK, nCode : s32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-CallWindowProcA :: (lpPrevWndFunc : WNDPROC, hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-CallWindowProcW :: (lpPrevWndFunc : WNDPROC, hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
+CallWindowProcA :: (
+    lpPrevWndFunc : WNDPROC,
+    hWnd : HWND,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM
+) -> LRESULT #foreign USER32;
+
+CallWindowProcW :: (
+    lpPrevWndFunc : WNDPROC,
+    hWnd : HWND,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM
+) -> LRESULT #foreign USER32;
+
 CancelShutdown :: () -> BOOL #foreign USER32;
-CascadeWindows :: (hwndParent : HWND, wHow : CASCADE_WINDOWS_HOW, lpRect : *RECT, cKids : u32, lpKids : *HWND) -> u16 #foreign USER32;
+CascadeWindows :: (
+    hwndParent : HWND,
+    wHow : CASCADE_WINDOWS_HOW,
+    lpRect : *RECT,
+    cKids : u32,
+    lpKids : *HWND
+) -> u16 #foreign USER32;
+
 ChangeClipboardChain :: (hWndRemove : HWND, hWndNewNext : HWND) -> BOOL #foreign USER32;
-ChangeMenuA :: (hMenu : HMENU, cmd : u32, lpszNewItem : PSTR, cmdInsert : u32, flags : u32) -> BOOL #foreign USER32;
-ChangeMenuW :: (hMenu : HMENU, cmd : u32, lpszNewItem : PWSTR, cmdInsert : u32, flags : u32) -> BOOL #foreign USER32;
+ChangeMenuA :: (
+    hMenu : HMENU,
+    cmd : u32,
+    lpszNewItem : PSTR,
+    cmdInsert : u32,
+    flags : u32
+) -> BOOL #foreign USER32;
+
+ChangeMenuW :: (
+    hMenu : HMENU,
+    cmd : u32,
+    lpszNewItem : PWSTR,
+    cmdInsert : u32,
+    flags : u32
+) -> BOOL #foreign USER32;
+
 ChangeWindowMessageFilter :: (message : u32, dwFlag : CHANGE_WINDOW_MESSAGE_FILTER_FLAGS) -> BOOL #foreign USER32;
 ChangeWindowMessageFilterEx :: (hwnd : HWND, message : u32, action : WINDOW_MESSAGE_FILTER_ACTION, pChangeFilterStruct : *CHANGEFILTERSTRUCT) -> BOOL #foreign USER32;
 CharLowerA :: (lpsz : PSTR) -> PSTR #foreign USER32;
@@ -4482,7 +4524,14 @@ CharUpperBuffA :: (lpsz : *u8, cchLength : u32) -> u32 #foreign USER32;
 CharUpperBuffW :: (lpsz : *u16, cchLength : u32) -> u32 #foreign USER32;
 CharUpperW :: (lpsz : PWSTR) -> PWSTR #foreign USER32;
 CheckMenuItem :: (hMenu : HMENU, uIDCheckItem : u32, uCheck : u32) -> u32 #foreign USER32;
-CheckMenuRadioItem :: (hmenu : HMENU, first : u32, last : u32, check : u32, flags : u32) -> BOOL #foreign USER32;
+CheckMenuRadioItem :: (
+    hmenu : HMENU,
+    first : u32,
+    last : u32,
+    check : u32,
+    flags : u32
+) -> BOOL #foreign USER32;
+
 ChildWindowFromPoint :: (hWndParent : HWND, Point : POINT) -> HWND #foreign USER32;
 ChildWindowFromPointEx :: (hwnd : HWND, pt : POINT, flags : CWP_FLAGS) -> HWND #foreign USER32;
 ClipCursor :: (lpRect : *RECT) -> BOOL #foreign USER32;
@@ -4491,35 +4540,173 @@ CloseWindow :: (hWnd : HWND) -> BOOL #foreign USER32;
 CopyAcceleratorTableA :: (hAccelSrc : HACCEL, lpAccelDst : *ACCEL, cAccelEntries : s32) -> s32 #foreign USER32;
 CopyAcceleratorTableW :: (hAccelSrc : HACCEL, lpAccelDst : *ACCEL, cAccelEntries : s32) -> s32 #foreign USER32;
 CopyIcon :: (hIcon : HICON) -> HICON #foreign USER32;
-CopyImage :: (h : HANDLE, type : GDI_IMAGE_TYPE, cx : s32, cy : s32, flags : IMAGE_FLAGS) -> HANDLE #foreign USER32;
+CopyImage :: (
+    h : HANDLE,
+    type : GDI_IMAGE_TYPE,
+    cx : s32,
+    cy : s32,
+    flags : IMAGE_FLAGS
+) -> HANDLE #foreign USER32;
+
 CountClipboardFormats :: () -> s32 #foreign USER32;
 CreateAcceleratorTableA :: (paccel : *ACCEL, cAccel : s32) -> HACCEL #foreign USER32;
 CreateAcceleratorTableW :: (paccel : *ACCEL, cAccel : s32) -> HACCEL #foreign USER32;
 CreateCaret :: (hWnd : HWND, hBitmap : HBITMAP, nWidth : s32, nHeight : s32) -> BOOL #foreign USER32;
-CreateCursor :: (hInst : HINSTANCE, xHotSpot : s32, yHotSpot : s32, nWidth : s32, nHeight : s32, pvANDPlane : *void, pvXORPlane : *void) -> HCURSOR #foreign USER32;
-CreateDialogIndirectParamA :: (hInstance : HINSTANCE, lpTemplate : *DLGTEMPLATE, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> HWND #foreign USER32;
-CreateDialogIndirectParamW :: (hInstance : HINSTANCE, lpTemplate : *DLGTEMPLATE, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> HWND #foreign USER32;
-CreateDialogParamA :: (hInstance : HINSTANCE, lpTemplateName : PSTR, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> HWND #foreign USER32;
-CreateDialogParamW :: (hInstance : HINSTANCE, lpTemplateName : PWSTR, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> HWND #foreign USER32;
-CreateIcon :: (hInstance : HINSTANCE, nWidth : s32, nHeight : s32, cPlanes : u8, cBitsPixel : u8, lpbANDbits : *u8, lpbXORbits : *u8) -> HICON #foreign USER32;
+CreateCursor :: (
+    hInst : HINSTANCE,
+    xHotSpot : s32,
+    yHotSpot : s32,
+    nWidth : s32,
+    nHeight : s32,
+    pvANDPlane : *void,
+    pvXORPlane : *void
+) -> HCURSOR #foreign USER32;
+
+CreateDialogIndirectParamA :: (
+    hInstance : HINSTANCE,
+    lpTemplate : *DLGTEMPLATE,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> HWND #foreign USER32;
+
+CreateDialogIndirectParamW :: (
+    hInstance : HINSTANCE,
+    lpTemplate : *DLGTEMPLATE,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> HWND #foreign USER32;
+
+CreateDialogParamA :: (
+    hInstance : HINSTANCE,
+    lpTemplateName : PSTR,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> HWND #foreign USER32;
+
+CreateDialogParamW :: (
+    hInstance : HINSTANCE,
+    lpTemplateName : PWSTR,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> HWND #foreign USER32;
+
+CreateIcon :: (
+    hInstance : HINSTANCE,
+    nWidth : s32,
+    nHeight : s32,
+    cPlanes : u8,
+    cBitsPixel : u8,
+    lpbANDbits : *u8,
+    lpbXORbits : *u8
+) -> HICON #foreign USER32;
+
 CreateIconFromResource :: (presbits : *u8, dwResSize : u32, fIcon : BOOL, dwVer : u32) -> HICON #foreign USER32;
-CreateIconFromResourceEx :: (presbits : *u8, dwResSize : u32, fIcon : BOOL, dwVer : u32, cxDesired : s32, cyDesired : s32, Flags : IMAGE_FLAGS) -> HICON #foreign USER32;
+CreateIconFromResourceEx :: (
+    presbits : *u8,
+    dwResSize : u32,
+    fIcon : BOOL,
+    dwVer : u32,
+    cxDesired : s32,
+    cyDesired : s32,
+    Flags : IMAGE_FLAGS
+) -> HICON #foreign USER32;
+
 CreateIconIndirect :: (piconinfo : *ICONINFO) -> HICON #foreign USER32;
-CreateMDIWindowA :: (lpClassName : PSTR, lpWindowName : PSTR, dwStyle : WINDOW_STYLE, X : s32, Y : s32, nWidth : s32, nHeight : s32, hWndParent : HWND, hInstance : HINSTANCE, lParam : LPARAM) -> HWND #foreign USER32;
-CreateMDIWindowW :: (lpClassName : PWSTR, lpWindowName : PWSTR, dwStyle : WINDOW_STYLE, X : s32, Y : s32, nWidth : s32, nHeight : s32, hWndParent : HWND, hInstance : HINSTANCE, lParam : LPARAM) -> HWND #foreign USER32;
+CreateMDIWindowA :: (
+    lpClassName : PSTR,
+    lpWindowName : PSTR,
+    dwStyle : WINDOW_STYLE,
+    X : s32,
+    Y : s32,
+    nWidth : s32,
+    nHeight : s32,
+    hWndParent : HWND,
+    hInstance : HINSTANCE,
+    lParam : LPARAM
+) -> HWND #foreign USER32;
+
+CreateMDIWindowW :: (
+    lpClassName : PWSTR,
+    lpWindowName : PWSTR,
+    dwStyle : WINDOW_STYLE,
+    X : s32,
+    Y : s32,
+    nWidth : s32,
+    nHeight : s32,
+    hWndParent : HWND,
+    hInstance : HINSTANCE,
+    lParam : LPARAM
+) -> HWND #foreign USER32;
+
 CreateMenu :: () -> HMENU #foreign USER32;
 CreatePopupMenu :: () -> HMENU #foreign USER32;
-CreateWindowExA :: (dwExStyle : WINDOW_EX_STYLE, lpClassName : PSTR, lpWindowName : PSTR, dwStyle : WINDOW_STYLE, X : s32, Y : s32, nWidth : s32, nHeight : s32, hWndParent : HWND, hMenu : HMENU, hInstance : HINSTANCE, lpParam : *void) -> HWND #foreign USER32;
-CreateWindowExW :: (dwExStyle : WINDOW_EX_STYLE, lpClassName : PWSTR, lpWindowName : PWSTR, dwStyle : WINDOW_STYLE, X : s32, Y : s32, nWidth : s32, nHeight : s32, hWndParent : HWND, hMenu : HMENU, hInstance : HINSTANCE, lpParam : *void) -> HWND #foreign USER32;
+CreateWindowExA :: (
+    dwExStyle : WINDOW_EX_STYLE,
+    lpClassName : PSTR,
+    lpWindowName : PSTR,
+    dwStyle : WINDOW_STYLE,
+    X : s32,
+    Y : s32,
+    nWidth : s32,
+    nHeight : s32,
+    hWndParent : HWND,
+    hMenu : HMENU,
+    hInstance : HINSTANCE,
+    lpParam : *void
+) -> HWND #foreign USER32;
+
+CreateWindowExW :: (
+    dwExStyle : WINDOW_EX_STYLE,
+    lpClassName : PWSTR,
+    lpWindowName : PWSTR,
+    dwStyle : WINDOW_STYLE,
+    X : s32,
+    Y : s32,
+    nWidth : s32,
+    nHeight : s32,
+    hWndParent : HWND,
+    hMenu : HMENU,
+    hInstance : HINSTANCE,
+    lpParam : *void
+) -> HWND #foreign USER32;
+
 DefDlgProcA :: (hDlg : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
 DefDlgProcW :: (hDlg : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-DefFrameProcA :: (hWnd : HWND, hWndMDIClient : HWND, uMsg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-DefFrameProcW :: (hWnd : HWND, hWndMDIClient : HWND, uMsg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
+DefFrameProcA :: (
+    hWnd : HWND,
+    hWndMDIClient : HWND,
+    uMsg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM
+) -> LRESULT #foreign USER32;
+
+DefFrameProcW :: (
+    hWnd : HWND,
+    hWndMDIClient : HWND,
+    uMsg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM
+) -> LRESULT #foreign USER32;
+
 DefMDIChildProcA :: (hWnd : HWND, uMsg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
 DefMDIChildProcW :: (hWnd : HWND, uMsg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
 DefWindowProcA :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
 DefWindowProcW :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-DeferWindowPos :: (hWinPosInfo : s64, hWnd : HWND, hWndInsertAfter : HWND, x : s32, y : s32, cx : s32, cy : s32, uFlags : SET_WINDOW_POS_FLAGS) -> s64 #foreign USER32;
+DeferWindowPos :: (
+    hWinPosInfo : s64,
+    hWnd : HWND,
+    hWndInsertAfter : HWND,
+    x : s32,
+    y : s32,
+    cx : s32,
+    cy : s32,
+    uFlags : SET_WINDOW_POS_FLAGS
+) -> s64 #foreign USER32;
+
 DeleteMenu :: (hMenu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS) -> BOOL #foreign USER32;
 DeregisterShellHookWindow :: (hwnd : HWND) -> BOOL #foreign USER32;
 DestroyAcceleratorTable :: (hAccel : HACCEL) -> BOOL #foreign USER32;
@@ -4528,16 +4715,62 @@ DestroyCursor :: (hCursor : HCURSOR) -> BOOL #foreign USER32;
 DestroyIcon :: (hIcon : HICON) -> BOOL #foreign USER32;
 DestroyMenu :: (hMenu : HMENU) -> BOOL #foreign USER32;
 DestroyWindow :: (hWnd : HWND) -> BOOL #foreign USER32;
-DialogBoxIndirectParamA :: (hInstance : HINSTANCE, hDialogTemplate : *DLGTEMPLATE, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> s64 #foreign USER32;
-DialogBoxIndirectParamW :: (hInstance : HINSTANCE, hDialogTemplate : *DLGTEMPLATE, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> s64 #foreign USER32;
-DialogBoxParamA :: (hInstance : HINSTANCE, lpTemplateName : PSTR, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> s64 #foreign USER32;
-DialogBoxParamW :: (hInstance : HINSTANCE, lpTemplateName : PWSTR, hWndParent : HWND, lpDialogFunc : DLGPROC, dwInitParam : LPARAM) -> s64 #foreign USER32;
+DialogBoxIndirectParamA :: (
+    hInstance : HINSTANCE,
+    hDialogTemplate : *DLGTEMPLATE,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> s64 #foreign USER32;
+
+DialogBoxIndirectParamW :: (
+    hInstance : HINSTANCE,
+    hDialogTemplate : *DLGTEMPLATE,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> s64 #foreign USER32;
+
+DialogBoxParamA :: (
+    hInstance : HINSTANCE,
+    lpTemplateName : PSTR,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> s64 #foreign USER32;
+
+DialogBoxParamW :: (
+    hInstance : HINSTANCE,
+    lpTemplateName : PWSTR,
+    hWndParent : HWND,
+    lpDialogFunc : DLGPROC,
+    dwInitParam : LPARAM
+) -> s64 #foreign USER32;
+
 DisableProcessWindowsGhosting :: ()  #foreign USER32;
 DispatchMessageA :: (lpMsg : *MSG) -> LRESULT #foreign USER32;
 DispatchMessageW :: (lpMsg : *MSG) -> LRESULT #foreign USER32;
-DragObject :: (hwndParent : HWND, hwndFrom : HWND, fmt : u32, data : u64, hcur : HCURSOR) -> u32 #foreign USER32;
+DragObject :: (
+    hwndParent : HWND,
+    hwndFrom : HWND,
+    fmt : u32,
+    data : u64,
+    hcur : HCURSOR
+) -> u32 #foreign USER32;
+
 DrawIcon :: (hDC : HDC, X : s32, Y : s32, hIcon : HICON) -> BOOL #foreign USER32;
-DrawIconEx :: (hdc : HDC, xLeft : s32, yTop : s32, hIcon : HICON, cxWidth : s32, cyWidth : s32, istepIfAniCur : u32, hbrFlickerFreeDraw : HBRUSH, diFlags : DI_FLAGS) -> BOOL #foreign USER32;
+DrawIconEx :: (
+    hdc : HDC,
+    xLeft : s32,
+    yTop : s32,
+    hIcon : HICON,
+    cxWidth : s32,
+    cyWidth : s32,
+    istepIfAniCur : u32,
+    hbrFlickerFreeDraw : HBRUSH,
+    diFlags : DI_FLAGS
+) -> BOOL #foreign USER32;
+
 DrawMenuBar :: (hWnd : HWND) -> BOOL #foreign USER32;
 EmptyClipboard :: () -> BOOL #foreign USER32;
 EnableMenuItem :: (hMenu : HMENU, uIDEnableItem : u32, uEnable : MENU_ITEM_FLAGS) -> BOOL #foreign USER32;
@@ -4558,8 +4791,22 @@ FindWindowExW :: (hWndParent : HWND, hWndChildAfter : HWND, lpszClass : PWSTR, l
 FindWindowW :: (lpClassName : PWSTR, lpWindowName : PWSTR) -> HWND #foreign USER32;
 FlashWindow :: (hWnd : HWND, bInvert : BOOL) -> BOOL #foreign USER32;
 FlashWindowEx :: (pfwi : *FLASHWINFO) -> BOOL #foreign USER32;
-GetAltTabInfoA :: (hwnd : HWND, iItem : s32, pati : *ALTTABINFO, pszItemText : *u8, cchItemText : u32) -> BOOL #foreign USER32;
-GetAltTabInfoW :: (hwnd : HWND, iItem : s32, pati : *ALTTABINFO, pszItemText : *u16, cchItemText : u32) -> BOOL #foreign USER32;
+GetAltTabInfoA :: (
+    hwnd : HWND,
+    iItem : s32,
+    pati : *ALTTABINFO,
+    pszItemText : *u8,
+    cchItemText : u32
+) -> BOOL #foreign USER32;
+
+GetAltTabInfoW :: (
+    hwnd : HWND,
+    iItem : s32,
+    pati : *ALTTABINFO,
+    pszItemText : *u16,
+    cchItemText : u32
+) -> BOOL #foreign USER32;
+
 GetAncestor :: (hwnd : HWND, gaFlags : GET_ANCESTOR_FLAGS) -> HWND #foreign USER32;
 GetCaretBlinkTime :: () -> u32 #foreign USER32;
 GetCaretPos :: (lpPoint : *POINT) -> BOOL #foreign USER32;
@@ -4611,8 +4858,22 @@ GetMenuItemInfoA :: (hmenu : HMENU, item : u32, fByPosition : BOOL, lpmii : *MEN
 GetMenuItemInfoW :: (hmenu : HMENU, item : u32, fByPosition : BOOL, lpmii : *MENUITEMINFOW) -> BOOL #foreign USER32;
 GetMenuItemRect :: (hWnd : HWND, hMenu : HMENU, uItem : u32, lprcItem : *RECT) -> BOOL #foreign USER32;
 GetMenuState :: (hMenu : HMENU, uId : u32, uFlags : MENU_ITEM_FLAGS) -> u32 #foreign USER32;
-GetMenuStringA :: (hMenu : HMENU, uIDItem : u32, lpString : *u8, cchMax : s32, flags : MENU_ITEM_FLAGS) -> s32 #foreign USER32;
-GetMenuStringW :: (hMenu : HMENU, uIDItem : u32, lpString : *u16, cchMax : s32, flags : MENU_ITEM_FLAGS) -> s32 #foreign USER32;
+GetMenuStringA :: (
+    hMenu : HMENU,
+    uIDItem : u32,
+    lpString : *u8,
+    cchMax : s32,
+    flags : MENU_ITEM_FLAGS
+) -> s32 #foreign USER32;
+
+GetMenuStringW :: (
+    hMenu : HMENU,
+    uIDItem : u32,
+    lpString : *u16,
+    cchMax : s32,
+    flags : MENU_ITEM_FLAGS
+) -> s32 #foreign USER32;
+
 GetMessageA :: (lpMsg : *MSG, hWnd : HWND, wMsgFilterMin : u32, wMsgFilterMax : u32) -> BOOL #foreign USER32;
 GetMessageExtraInfo :: () -> LPARAM #foreign USER32;
 GetMessagePos :: () -> u32 #foreign USER32;
@@ -4662,10 +4923,24 @@ HiliteMenuItem :: (hWnd : HWND, hMenu : HMENU, uIDHiliteItem : u32, uHilite : u3
 InSendMessage :: () -> BOOL #foreign USER32;
 InSendMessageEx :: (lpReserved : *void) -> u32 #foreign USER32;
 InheritWindowMonitor :: (hwnd : HWND, hwndInherit : HWND) -> BOOL #foreign USER32;
-InsertMenuA :: (hMenu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS, uIDNewItem : u64, lpNewItem : PSTR) -> BOOL #foreign USER32;
+InsertMenuA :: (
+    hMenu : HMENU,
+    uPosition : u32,
+    uFlags : MENU_ITEM_FLAGS,
+    uIDNewItem : u64,
+    lpNewItem : PSTR
+) -> BOOL #foreign USER32;
+
 InsertMenuItemA :: (hmenu : HMENU, item : u32, fByPosition : BOOL, lpmi : *MENUITEMINFOA) -> BOOL #foreign USER32;
 InsertMenuItemW :: (hmenu : HMENU, item : u32, fByPosition : BOOL, lpmi : *MENUITEMINFOW) -> BOOL #foreign USER32;
-InsertMenuW :: (hMenu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS, uIDNewItem : u64, lpNewItem : PWSTR) -> BOOL #foreign USER32;
+InsertMenuW :: (
+    hMenu : HMENU,
+    uPosition : u32,
+    uFlags : MENU_ITEM_FLAGS,
+    uIDNewItem : u64,
+    lpNewItem : PWSTR
+) -> BOOL #foreign USER32;
+
 InternalGetWindowText :: (hWnd : HWND, pString : *u16, cchMaxCount : s32) -> s32 #foreign USER32;
 IsCharAlphaA :: (ch : CHAR) -> BOOL #foreign USER32;
 IsCharAlphaNumericA :: (ch : CHAR) -> BOOL #foreign USER32;
@@ -4697,8 +4972,24 @@ LoadCursorFromFileW :: (lpFileName : PWSTR) -> HCURSOR #foreign USER32;
 LoadCursorW :: (hInstance : HINSTANCE, lpCursorName : PWSTR) -> HCURSOR #foreign USER32;
 LoadIconA :: (hInstance : HINSTANCE, lpIconName : PSTR) -> HICON #foreign USER32;
 LoadIconW :: (hInstance : HINSTANCE, lpIconName : PWSTR) -> HICON #foreign USER32;
-LoadImageA :: (hInst : HINSTANCE, name : PSTR, type : GDI_IMAGE_TYPE, cx : s32, cy : s32, fuLoad : IMAGE_FLAGS) -> HANDLE #foreign USER32;
-LoadImageW :: (hInst : HINSTANCE, name : PWSTR, type : GDI_IMAGE_TYPE, cx : s32, cy : s32, fuLoad : IMAGE_FLAGS) -> HANDLE #foreign USER32;
+LoadImageA :: (
+    hInst : HINSTANCE,
+    name : PSTR,
+    type : GDI_IMAGE_TYPE,
+    cx : s32,
+    cy : s32,
+    fuLoad : IMAGE_FLAGS
+) -> HANDLE #foreign USER32;
+
+LoadImageW :: (
+    hInst : HINSTANCE,
+    name : PWSTR,
+    type : GDI_IMAGE_TYPE,
+    cx : s32,
+    cy : s32,
+    fuLoad : IMAGE_FLAGS
+) -> HANDLE #foreign USER32;
+
 LoadMenuA :: (hInstance : HINSTANCE, lpMenuName : PSTR) -> HMENU #foreign USER32;
 LoadMenuIndirectA :: (lpMenuTemplate : *void) -> HMENU #foreign USER32;
 LoadMenuIndirectW :: (lpMenuTemplate : *void) -> HMENU #foreign USER32;
@@ -4708,36 +4999,127 @@ LoadStringW :: (hInstance : HINSTANCE, uID : u32, lpBuffer : *u16, cchBufferMax 
 LockSetForegroundWindow :: (uLockCode : FOREGROUND_WINDOW_LOCK_CODE) -> BOOL #foreign USER32;
 LogicalToPhysicalPoint :: (hWnd : HWND, lpPoint : *POINT) -> BOOL #foreign USER32;
 LookupIconIdFromDirectory :: (presbits : *u8, fIcon : BOOL) -> s32 #foreign USER32;
-LookupIconIdFromDirectoryEx :: (presbits : *u8, fIcon : BOOL, cxDesired : s32, cyDesired : s32, Flags : IMAGE_FLAGS) -> s32 #foreign USER32;
+LookupIconIdFromDirectoryEx :: (
+    presbits : *u8,
+    fIcon : BOOL,
+    cxDesired : s32,
+    cyDesired : s32,
+    Flags : IMAGE_FLAGS
+) -> s32 #foreign USER32;
+
 MapDialogRect :: (hDlg : HWND, lpRect : *RECT) -> BOOL #foreign USER32;
 MenuItemFromPoint :: (hWnd : HWND, hMenu : HMENU, ptScreen : POINT) -> s32 #foreign USER32;
 MessageBoxA :: (hWnd : HWND, lpText : PSTR, lpCaption : PSTR, uType : MESSAGEBOX_STYLE) -> MESSAGEBOX_RESULT #foreign USER32;
-MessageBoxExA :: (hWnd : HWND, lpText : PSTR, lpCaption : PSTR, uType : MESSAGEBOX_STYLE, wLanguageId : u16) -> MESSAGEBOX_RESULT #foreign USER32;
-MessageBoxExW :: (hWnd : HWND, lpText : PWSTR, lpCaption : PWSTR, uType : MESSAGEBOX_STYLE, wLanguageId : u16) -> MESSAGEBOX_RESULT #foreign USER32;
+MessageBoxExA :: (
+    hWnd : HWND,
+    lpText : PSTR,
+    lpCaption : PSTR,
+    uType : MESSAGEBOX_STYLE,
+    wLanguageId : u16
+) -> MESSAGEBOX_RESULT #foreign USER32;
+
+MessageBoxExW :: (
+    hWnd : HWND,
+    lpText : PWSTR,
+    lpCaption : PWSTR,
+    uType : MESSAGEBOX_STYLE,
+    wLanguageId : u16
+) -> MESSAGEBOX_RESULT #foreign USER32;
+
 MessageBoxIndirectA :: (lpmbp : *MSGBOXPARAMSA) -> MESSAGEBOX_RESULT #foreign USER32;
 MessageBoxIndirectW :: (lpmbp : *MSGBOXPARAMSW) -> MESSAGEBOX_RESULT #foreign USER32;
 MessageBoxW :: (hWnd : HWND, lpText : PWSTR, lpCaption : PWSTR, uType : MESSAGEBOX_STYLE) -> MESSAGEBOX_RESULT #foreign USER32;
-ModifyMenuA :: (hMnu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS, uIDNewItem : u64, lpNewItem : PSTR) -> BOOL #foreign USER32;
-ModifyMenuW :: (hMnu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS, uIDNewItem : u64, lpNewItem : PWSTR) -> BOOL #foreign USER32;
-MoveWindow :: (hWnd : HWND, X : s32, Y : s32, nWidth : s32, nHeight : s32, bRepaint : BOOL) -> BOOL #foreign USER32;
-MsgWaitForMultipleObjects :: (nCount : u32, pHandles : *HANDLE, fWaitAll : BOOL, dwMilliseconds : u32, dwWakeMask : QUEUE_STATUS_FLAGS) -> u32 #foreign USER32;
-MsgWaitForMultipleObjectsEx :: (nCount : u32, pHandles : *HANDLE, dwMilliseconds : u32, dwWakeMask : QUEUE_STATUS_FLAGS, dwFlags : MSG_WAIT_FOR_MULTIPLE_OBJECTS_EX_FLAGS) -> u32 #foreign USER32;
+ModifyMenuA :: (
+    hMnu : HMENU,
+    uPosition : u32,
+    uFlags : MENU_ITEM_FLAGS,
+    uIDNewItem : u64,
+    lpNewItem : PSTR
+) -> BOOL #foreign USER32;
+
+ModifyMenuW :: (
+    hMnu : HMENU,
+    uPosition : u32,
+    uFlags : MENU_ITEM_FLAGS,
+    uIDNewItem : u64,
+    lpNewItem : PWSTR
+) -> BOOL #foreign USER32;
+
+MoveWindow :: (
+    hWnd : HWND,
+    X : s32,
+    Y : s32,
+    nWidth : s32,
+    nHeight : s32,
+    bRepaint : BOOL
+) -> BOOL #foreign USER32;
+
+MsgWaitForMultipleObjects :: (
+    nCount : u32,
+    pHandles : *HANDLE,
+    fWaitAll : BOOL,
+    dwMilliseconds : u32,
+    dwWakeMask : QUEUE_STATUS_FLAGS
+) -> u32 #foreign USER32;
+
+MsgWaitForMultipleObjectsEx :: (
+    nCount : u32,
+    pHandles : *HANDLE,
+    dwMilliseconds : u32,
+    dwWakeMask : QUEUE_STATUS_FLAGS,
+    dwFlags : MSG_WAIT_FOR_MULTIPLE_OBJECTS_EX_FLAGS
+) -> u32 #foreign USER32;
+
 OemToCharA :: (pSrc : PSTR, pDst : PSTR) -> BOOL #foreign USER32;
 OemToCharBuffA :: (lpszSrc : PSTR, lpszDst : *u8, cchDstLength : u32) -> BOOL #foreign USER32;
 OemToCharBuffW :: (lpszSrc : PSTR, lpszDst : *u16, cchDstLength : u32) -> BOOL #foreign USER32;
 OemToCharW :: (pSrc : PSTR, pDst : PWSTR) -> BOOL #foreign USER32;
 OpenClipboard :: (hWndNewOwner : HWND) -> BOOL #foreign USER32;
 OpenIcon :: (hWnd : HWND) -> BOOL #foreign USER32;
-PeekMessageA :: (lpMsg : *MSG, hWnd : HWND, wMsgFilterMin : u32, wMsgFilterMax : u32, wRemoveMsg : PEEK_MESSAGE_REMOVE_TYPE) -> BOOL #foreign USER32;
-PeekMessageW :: (lpMsg : *MSG, hWnd : HWND, wMsgFilterMin : u32, wMsgFilterMax : u32, wRemoveMsg : PEEK_MESSAGE_REMOVE_TYPE) -> BOOL #foreign USER32;
+PeekMessageA :: (
+    lpMsg : *MSG,
+    hWnd : HWND,
+    wMsgFilterMin : u32,
+    wMsgFilterMax : u32,
+    wRemoveMsg : PEEK_MESSAGE_REMOVE_TYPE
+) -> BOOL #foreign USER32;
+
+PeekMessageW :: (
+    lpMsg : *MSG,
+    hWnd : HWND,
+    wMsgFilterMin : u32,
+    wMsgFilterMax : u32,
+    wRemoveMsg : PEEK_MESSAGE_REMOVE_TYPE
+) -> BOOL #foreign USER32;
+
 PhysicalToLogicalPoint :: (hWnd : HWND, lpPoint : *POINT) -> BOOL #foreign USER32;
 PostMessageA :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> BOOL #foreign USER32;
 PostMessageW :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> BOOL #foreign USER32;
 PostQuitMessage :: (nExitCode : s32)  #foreign USER32;
 PostThreadMessageA :: (idThread : u32, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> BOOL #foreign USER32;
 PostThreadMessageW :: (idThread : u32, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> BOOL #foreign USER32;
-PrivateExtractIconsA :: (szFileName : *[260]u8, nIconIndex : s32, cxIcon : s32, cyIcon : s32, phicon : *HICON, piconid : *u32, nIcons : u32, flags : u32) -> u32 #foreign USER32;
-PrivateExtractIconsW :: (szFileName : *[260]u16, nIconIndex : s32, cxIcon : s32, cyIcon : s32, phicon : *HICON, piconid : *u32, nIcons : u32, flags : u32) -> u32 #foreign USER32;
+PrivateExtractIconsA :: (
+    szFileName : *[260]u8,
+    nIconIndex : s32,
+    cxIcon : s32,
+    cyIcon : s32,
+    phicon : *HICON,
+    piconid : *u32,
+    nIcons : u32,
+    flags : u32
+) -> u32 #foreign USER32;
+
+PrivateExtractIconsW :: (
+    szFileName : *[260]u16,
+    nIconIndex : s32,
+    cxIcon : s32,
+    cyIcon : s32,
+    phicon : *HICON,
+    piconid : *u32,
+    nIcons : u32,
+    flags : u32
+) -> u32 #foreign USER32;
+
 RealChildWindowFromPoint :: (hwndParent : HWND, ptParentClientCoords : POINT) -> HWND #foreign USER32;
 RealGetWindowClassA :: (hwnd : HWND, ptszClassName : *u8, cchClassNameMax : u32) -> u32 #foreign USER32;
 RealGetWindowClassW :: (hwnd : HWND, ptszClassName : *u16, cchClassNameMax : u32) -> u32 #foreign USER32;
@@ -4757,16 +5139,90 @@ RemoveMenu :: (hMenu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS) -> BOOL
 RemovePropA :: (hWnd : HWND, lpString : PSTR) -> HANDLE #foreign USER32;
 RemovePropW :: (hWnd : HWND, lpString : PWSTR) -> HANDLE #foreign USER32;
 ReplyMessage :: (lResult : LRESULT) -> BOOL #foreign USER32;
-ScrollDC :: (hDC : HDC, dx : s32, dy : s32, lprcScroll : *RECT, lprcClip : *RECT, hrgnUpdate : HRGN, lprcUpdate : *RECT) -> BOOL #foreign USER32;
-ScrollWindow :: (hWnd : HWND, XAmount : s32, YAmount : s32, lpRect : *RECT, lpClipRect : *RECT) -> BOOL #foreign USER32;
-ScrollWindowEx :: (hWnd : HWND, dx : s32, dy : s32, prcScroll : *RECT, prcClip : *RECT, hrgnUpdate : HRGN, prcUpdate : *RECT, flags : SHOW_WINDOW_CMD) -> s32 #foreign USER32;
-SendDlgItemMessageA :: (hDlg : HWND, nIDDlgItem : s32, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-SendDlgItemMessageW :: (hDlg : HWND, nIDDlgItem : s32, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
+ScrollDC :: (
+    hDC : HDC,
+    dx : s32,
+    dy : s32,
+    lprcScroll : *RECT,
+    lprcClip : *RECT,
+    hrgnUpdate : HRGN,
+    lprcUpdate : *RECT
+) -> BOOL #foreign USER32;
+
+ScrollWindow :: (
+    hWnd : HWND,
+    XAmount : s32,
+    YAmount : s32,
+    lpRect : *RECT,
+    lpClipRect : *RECT
+) -> BOOL #foreign USER32;
+
+ScrollWindowEx :: (
+    hWnd : HWND,
+    dx : s32,
+    dy : s32,
+    prcScroll : *RECT,
+    prcClip : *RECT,
+    hrgnUpdate : HRGN,
+    prcUpdate : *RECT,
+    flags : SHOW_WINDOW_CMD
+) -> s32 #foreign USER32;
+
+SendDlgItemMessageA :: (
+    hDlg : HWND,
+    nIDDlgItem : s32,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM
+) -> LRESULT #foreign USER32;
+
+SendDlgItemMessageW :: (
+    hDlg : HWND,
+    nIDDlgItem : s32,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM
+) -> LRESULT #foreign USER32;
+
 SendMessageA :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
-SendMessageCallbackA :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM, lpResultCallBack : SENDASYNCPROC, dwData : u64) -> BOOL #foreign USER32;
-SendMessageCallbackW :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM, lpResultCallBack : SENDASYNCPROC, dwData : u64) -> BOOL #foreign USER32;
-SendMessageTimeoutA :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM, fuFlags : SEND_MESSAGE_TIMEOUT_FLAGS, uTimeout : u32, lpdwResult : *u64) -> LRESULT #foreign USER32;
-SendMessageTimeoutW :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM, fuFlags : SEND_MESSAGE_TIMEOUT_FLAGS, uTimeout : u32, lpdwResult : *u64) -> LRESULT #foreign USER32;
+SendMessageCallbackA :: (
+    hWnd : HWND,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM,
+    lpResultCallBack : SENDASYNCPROC,
+    dwData : u64
+) -> BOOL #foreign USER32;
+
+SendMessageCallbackW :: (
+    hWnd : HWND,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM,
+    lpResultCallBack : SENDASYNCPROC,
+    dwData : u64
+) -> BOOL #foreign USER32;
+
+SendMessageTimeoutA :: (
+    hWnd : HWND,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM,
+    fuFlags : SEND_MESSAGE_TIMEOUT_FLAGS,
+    uTimeout : u32,
+    lpdwResult : *u64
+) -> LRESULT #foreign USER32;
+
+SendMessageTimeoutW :: (
+    hWnd : HWND,
+    Msg : u32,
+    wParam : WPARAM,
+    lParam : LPARAM,
+    fuFlags : SEND_MESSAGE_TIMEOUT_FLAGS,
+    uTimeout : u32,
+    lpdwResult : *u64
+) -> LRESULT #foreign USER32;
+
 SendMessageW :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> LRESULT #foreign USER32;
 SendNotifyMessageA :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> BOOL #foreign USER32;
 SendNotifyMessageW :: (hWnd : HWND, Msg : u32, wParam : WPARAM, lParam : LPARAM) -> BOOL #foreign USER32;
@@ -4779,7 +5235,14 @@ SetClassLongW :: (hWnd : HWND, nIndex : GET_CLASS_LONG_INDEX, dwNewLong : s32) -
 SetClassWord :: (hWnd : HWND, nIndex : s32, wNewWord : u16) -> u16 #foreign USER32;
 SetClipboardData :: (uFormat : u32, hMem : HANDLE) -> HANDLE #foreign USER32;
 SetClipboardViewer :: (hWndNewViewer : HWND) -> HWND #foreign USER32;
-SetCoalescableTimer :: (hWnd : HWND, nIDEvent : u64, uElapse : u32, lpTimerFunc : TIMERPROC, uToleranceDelay : u32) -> u64 #foreign USER32;
+SetCoalescableTimer :: (
+    hWnd : HWND,
+    nIDEvent : u64,
+    uElapse : u32,
+    lpTimerFunc : TIMERPROC,
+    uToleranceDelay : u32
+) -> u64 #foreign USER32;
+
 SetCursor :: (hCursor : HCURSOR) -> HCURSOR #foreign USER32;
 SetCursorPos :: (X : s32, Y : s32) -> BOOL #foreign USER32;
 SetDebugErrorLevel :: (dwLevel : u32)  #foreign USER32;
@@ -4791,7 +5254,14 @@ SetLayeredWindowAttributes :: (hwnd : HWND, crKey : u32, bAlpha : u8, dwFlags : 
 SetMenu :: (hWnd : HWND, hMenu : HMENU) -> BOOL #foreign USER32;
 SetMenuDefaultItem :: (hMenu : HMENU, uItem : u32, fByPos : u32) -> BOOL #foreign USER32;
 SetMenuInfo :: (param0 : HMENU, param1 : *MENUINFO) -> BOOL #foreign USER32;
-SetMenuItemBitmaps :: (hMenu : HMENU, uPosition : u32, uFlags : MENU_ITEM_FLAGS, hBitmapUnchecked : HBITMAP, hBitmapChecked : HBITMAP) -> BOOL #foreign USER32;
+SetMenuItemBitmaps :: (
+    hMenu : HMENU,
+    uPosition : u32,
+    uFlags : MENU_ITEM_FLAGS,
+    hBitmapUnchecked : HBITMAP,
+    hBitmapChecked : HBITMAP
+) -> BOOL #foreign USER32;
+
 SetMenuItemInfoA :: (hmenu : HMENU, item : u32, fByPositon : BOOL, lpmii : *MENUITEMINFOA) -> BOOL #foreign USER32;
 SetMenuItemInfoW :: (hmenu : HMENU, item : u32, fByPositon : BOOL, lpmii : *MENUITEMINFOW) -> BOOL #foreign USER32;
 SetMessageExtraInfo :: (lParam : LPARAM) -> LPARAM #foreign USER32;
@@ -4811,7 +5281,16 @@ SetWindowLongPtrA :: (hWnd : HWND, nIndex : WINDOW_LONG_PTR_INDEX, dwNewLong : s
 SetWindowLongPtrW :: (hWnd : HWND, nIndex : WINDOW_LONG_PTR_INDEX, dwNewLong : s64) -> s64 #foreign USER32;
 SetWindowLongW :: (hWnd : HWND, nIndex : WINDOW_LONG_PTR_INDEX, dwNewLong : s32) -> s32 #foreign USER32;
 SetWindowPlacement :: (hWnd : HWND, lpwndpl : *WINDOWPLACEMENT) -> BOOL #foreign USER32;
-SetWindowPos :: (hWnd : HWND, hWndInsertAfter : HWND, X : s32, Y : s32, cx : s32, cy : s32, uFlags : SET_WINDOW_POS_FLAGS) -> BOOL #foreign USER32;
+SetWindowPos :: (
+    hWnd : HWND,
+    hWndInsertAfter : HWND,
+    X : s32,
+    Y : s32,
+    cx : s32,
+    cy : s32,
+    uFlags : SET_WINDOW_POS_FLAGS
+) -> BOOL #foreign USER32;
+
 SetWindowTextA :: (hWnd : HWND, lpString : PSTR) -> BOOL #foreign USER32;
 SetWindowTextW :: (hWnd : HWND, lpString : PWSTR) -> BOOL #foreign USER32;
 SetWindowWord :: (hWnd : HWND, nIndex : s32, wNewWord : u16) -> u16 #foreign USER32;
@@ -4828,9 +5307,33 @@ SoundSentry :: () -> BOOL #foreign USER32;
 SwitchToThisWindow :: (hwnd : HWND, fUnknown : BOOL)  #foreign USER32;
 SystemParametersInfoA :: (uiAction : SYSTEM_PARAMETERS_INFO_ACTION, uiParam : u32, pvParam : *void, fWinIni : SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS) -> BOOL #foreign USER32;
 SystemParametersInfoW :: (uiAction : SYSTEM_PARAMETERS_INFO_ACTION, uiParam : u32, pvParam : *void, fWinIni : SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS) -> BOOL #foreign USER32;
-TileWindows :: (hwndParent : HWND, wHow : TILE_WINDOWS_HOW, lpRect : *RECT, cKids : u32, lpKids : *HWND) -> u16 #foreign USER32;
-TrackPopupMenu :: (hMenu : HMENU, uFlags : TRACK_POPUP_MENU_FLAGS, x : s32, y : s32, nReserved : s32, hWnd : HWND, prcRect : *RECT) -> BOOL #foreign USER32;
-TrackPopupMenuEx :: (hMenu : HMENU, uFlags : u32, x : s32, y : s32, hwnd : HWND, lptpm : *TPMPARAMS) -> BOOL #foreign USER32;
+TileWindows :: (
+    hwndParent : HWND,
+    wHow : TILE_WINDOWS_HOW,
+    lpRect : *RECT,
+    cKids : u32,
+    lpKids : *HWND
+) -> u16 #foreign USER32;
+
+TrackPopupMenu :: (
+    hMenu : HMENU,
+    uFlags : TRACK_POPUP_MENU_FLAGS,
+    x : s32,
+    y : s32,
+    nReserved : s32,
+    hWnd : HWND,
+    prcRect : *RECT
+) -> BOOL #foreign USER32;
+
+TrackPopupMenuEx :: (
+    hMenu : HMENU,
+    uFlags : u32,
+    x : s32,
+    y : s32,
+    hwnd : HWND,
+    lptpm : *TPMPARAMS
+) -> BOOL #foreign USER32;
+
 TranslateAcceleratorA :: (hWnd : HWND, hAccTable : HACCEL, lpMsg : *MSG) -> s32 #foreign USER32;
 TranslateAcceleratorW :: (hWnd : HWND, hAccTable : HACCEL, lpMsg : *MSG) -> s32 #foreign USER32;
 TranslateMDISysAccel :: (hWndClient : HWND, lpMsg : *MSG) -> BOOL #foreign USER32;
@@ -4839,7 +5342,18 @@ UnhookWindowsHook :: (nCode : s32, pfnFilterProc : HOOKPROC) -> BOOL #foreign US
 UnhookWindowsHookEx :: (hhk : HHOOK) -> BOOL #foreign USER32;
 UnregisterClassA :: (lpClassName : PSTR, hInstance : HINSTANCE) -> BOOL #foreign USER32;
 UnregisterClassW :: (lpClassName : PWSTR, hInstance : HINSTANCE) -> BOOL #foreign USER32;
-UpdateLayeredWindow :: (hWnd : HWND, hdcDst : HDC, pptDst : *POINT, psize : *SIZE, hdcSrc : HDC, pptSrc : *POINT, crKey : u32, pblend : *BLENDFUNCTION, dwFlags : UPDATE_LAYERED_WINDOW_FLAGS) -> BOOL #foreign USER32;
+UpdateLayeredWindow :: (
+    hWnd : HWND,
+    hdcDst : HDC,
+    pptDst : *POINT,
+    psize : *SIZE,
+    hdcSrc : HDC,
+    pptSrc : *POINT,
+    crKey : u32,
+    pblend : *BLENDFUNCTION,
+    dwFlags : UPDATE_LAYERED_WINDOW_FLAGS
+) -> BOOL #foreign USER32;
+
 UpdateLayeredWindowIndirect :: (hWnd : HWND, pULWInfo : *UPDATELAYEREDWINDOWINFO) -> BOOL #foreign USER32;
 WaitMessage :: () -> BOOL #foreign USER32;
 WindowFromPhysicalPoint :: (Point : POINT) -> HWND #foreign USER32;

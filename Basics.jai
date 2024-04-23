@@ -187,11 +187,30 @@ IConnectionPoint :: struct
     #place base;
     vtable : *IConnectionPointVTable;
 
-    GetConnectionInterface :: inline (this : *IConnectionPoint, pIID : *GUID) -> HRESULT #no_context { return this.vtable.GetConnectionInterface (this, pIID); }
-    GetConnectionPointContainer :: inline (this : *IConnectionPoint, ppCPC : **IConnectionPointContainer) -> HRESULT #no_context { return this.vtable.GetConnectionPointContainer (this, ppCPC); }
-    Advise :: inline (this : *IConnectionPoint, pUnkSink : *IUnknown, pdwCookie : *u32) -> HRESULT #no_context { return this.vtable.Advise (this, pUnkSink, pdwCookie); }
-    Unadvise :: inline (this : *IConnectionPoint, dwCookie : u32) -> HRESULT #no_context { return this.vtable.Unadvise (this, dwCookie); }
-    EnumConnections :: inline (this : *IConnectionPoint, ppEnum : **IEnumConnections) -> HRESULT #no_context { return this.vtable.EnumConnections (this, ppEnum); }
+    GetConnectionInterface :: inline (this : *IConnectionPoint, pIID : *GUID) -> HRESULT #no_context
+    {
+        return this.vtable.GetConnectionInterface (this, pIID);
+    }
+
+    GetConnectionPointContainer :: inline (this : *IConnectionPoint, ppCPC : **IConnectionPointContainer) -> HRESULT #no_context
+    {
+        return this.vtable.GetConnectionPointContainer (this, ppCPC);
+    }
+
+    Advise :: inline (this : *IConnectionPoint, pUnkSink : *IUnknown, pdwCookie : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.Advise (this, pUnkSink, pdwCookie);
+    }
+
+    Unadvise :: inline (this : *IConnectionPoint, dwCookie : u32) -> HRESULT #no_context
+    {
+        return this.vtable.Unadvise (this, dwCookie);
+    }
+
+    EnumConnections :: inline (this : *IConnectionPoint, ppEnum : **IEnumConnections) -> HRESULT #no_context
+    {
+        return this.vtable.EnumConnections (this, ppEnum);
+    }
 }
 
 IConnectionPointVTable :: struct
@@ -215,8 +234,15 @@ IConnectionPointContainer :: struct
     #place base;
     vtable : *IConnectionPointContainerVTable;
 
-    EnumConnectionPoints :: inline (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #no_context { return this.vtable.EnumConnectionPoints (this, ppEnum); }
-    FindConnectionPoint :: inline (this : *IConnectionPointContainer, riid : *GUID, ppCP : **IConnectionPoint) -> HRESULT #no_context { return this.vtable.FindConnectionPoint (this, riid, ppCP); }
+    EnumConnectionPoints :: inline (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #no_context
+    {
+        return this.vtable.EnumConnectionPoints (this, ppEnum);
+    }
+
+    FindConnectionPoint :: inline (this : *IConnectionPointContainer, riid : *GUID, ppCP : **IConnectionPoint) -> HRESULT #no_context
+    {
+        return this.vtable.FindConnectionPoint (this, riid, ppCP);
+    }
 }
 
 IConnectionPointContainerVTable :: struct
@@ -237,10 +263,25 @@ IEnumConnectionPoints :: struct
     #place base;
     vtable : *IEnumConnectionPointsVTable;
 
-    Next :: inline (this : *IEnumConnectionPoints, cConnections : u32, ppCP : **IConnectionPoint, pcFetched : *u32) -> HRESULT #no_context { return this.vtable.Next (this, cConnections, ppCP, pcFetched); }
-    Skip :: inline (this : *IEnumConnectionPoints, cConnections : u32) -> HRESULT #no_context { return this.vtable.Skip (this, cConnections); }
-    Reset :: inline (this : *IEnumConnectionPoints) -> HRESULT #no_context { return this.vtable.Reset (this); }
-    Clone :: inline (this : *IEnumConnectionPoints, ppEnum : **IEnumConnectionPoints) -> HRESULT #no_context { return this.vtable.Clone (this, ppEnum); }
+    Next :: inline (this : *IEnumConnectionPoints, cConnections : u32, ppCP : **IConnectionPoint, pcFetched : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.Next (this, cConnections, ppCP, pcFetched);
+    }
+
+    Skip :: inline (this : *IEnumConnectionPoints, cConnections : u32) -> HRESULT #no_context
+    {
+        return this.vtable.Skip (this, cConnections);
+    }
+
+    Reset :: inline (this : *IEnumConnectionPoints) -> HRESULT #no_context
+    {
+        return this.vtable.Reset (this);
+    }
+
+    Clone :: inline (this : *IEnumConnectionPoints, ppEnum : **IEnumConnectionPoints) -> HRESULT #no_context
+    {
+        return this.vtable.Clone (this, ppEnum);
+    }
 }
 
 IEnumConnectionPointsVTable :: struct
@@ -263,10 +304,25 @@ IEnumConnections :: struct
     #place base;
     vtable : *IEnumConnectionsVTable;
 
-    Next :: inline (this : *IEnumConnections, cConnections : u32, rgcd : *CONNECTDATA, pcFetched : *u32) -> HRESULT #no_context { return this.vtable.Next (this, cConnections, rgcd, pcFetched); }
-    Skip :: inline (this : *IEnumConnections, cConnections : u32) -> HRESULT #no_context { return this.vtable.Skip (this, cConnections); }
-    Reset :: inline (this : *IEnumConnections) -> HRESULT #no_context { return this.vtable.Reset (this); }
-    Clone :: inline (this : *IEnumConnections, ppEnum : **IEnumConnections) -> HRESULT #no_context { return this.vtable.Clone (this, ppEnum); }
+    Next :: inline (this : *IEnumConnections, cConnections : u32, rgcd : *CONNECTDATA, pcFetched : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.Next (this, cConnections, rgcd, pcFetched);
+    }
+
+    Skip :: inline (this : *IEnumConnections, cConnections : u32) -> HRESULT #no_context
+    {
+        return this.vtable.Skip (this, cConnections);
+    }
+
+    Reset :: inline (this : *IEnumConnections) -> HRESULT #no_context
+    {
+        return this.vtable.Reset (this);
+    }
+
+    Clone :: inline (this : *IEnumConnections, ppEnum : **IEnumConnections) -> HRESULT #no_context
+    {
+        return this.vtable.Clone (this, ppEnum);
+    }
 }
 
 IEnumConnectionsVTable :: struct
@@ -289,12 +345,35 @@ IMalloc :: struct
     #place base;
     vtable : *IMallocVTable;
 
-    Alloc :: inline (this : *IMalloc, cb : u64) -> *void #no_context { return this.vtable.Alloc (this, cb); }
-    Realloc :: inline (this : *IMalloc, pv : *void, cb : u64) -> *void #no_context { return this.vtable.Realloc (this, pv, cb); }
-    Free :: inline (this : *IMalloc, pv : *void) #no_context { this.vtable.Free (this, pv); }
-    GetSize :: inline (this : *IMalloc, pv : *void) -> u64 #no_context { return this.vtable.GetSize (this, pv); }
-    DidAlloc :: inline (this : *IMalloc, pv : *void) -> s32 #no_context { return this.vtable.DidAlloc (this, pv); }
-    HeapMinimize :: inline (this : *IMalloc) #no_context { this.vtable.HeapMinimize (this); }
+    Alloc :: inline (this : *IMalloc, cb : u64) -> *void #no_context
+    {
+        return this.vtable.Alloc (this, cb);
+    }
+
+    Realloc :: inline (this : *IMalloc, pv : *void, cb : u64) -> *void #no_context
+    {
+        return this.vtable.Realloc (this, pv, cb);
+    }
+
+    Free :: inline (this : *IMalloc, pv : *void) #no_context
+    {
+        this.vtable.Free (this, pv);
+    }
+
+    GetSize :: inline (this : *IMalloc, pv : *void) -> u64 #no_context
+    {
+        return this.vtable.GetSize (this, pv);
+    }
+
+    DidAlloc :: inline (this : *IMalloc, pv : *void) -> s32 #no_context
+    {
+        return this.vtable.DidAlloc (this, pv);
+    }
+
+    HeapMinimize :: inline (this : *IMalloc) #no_context
+    {
+        this.vtable.HeapMinimize (this);
+    }
 }
 
 IMallocVTable :: struct
@@ -319,8 +398,15 @@ ISequentialStream :: struct
     #place base;
     vtable : *ISequentialStreamVTable;
 
-    Read :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #no_context { return this.vtable.Read (this, pv, cb, pcbRead); }
-    Write :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #no_context { return this.vtable.Write (this, pv, cb, pcbWritten); }
+    Read :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.Read (this, pv, cb, pcbRead);
+    }
+
+    Write :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.Write (this, pv, cb, pcbWritten);
+    }
 }
 
 ISequentialStreamVTable :: struct
@@ -341,15 +427,55 @@ IStream :: struct
     #place base;
     vtable : *IStreamVTable;
 
-    Seek :: inline (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #no_context { return this.vtable.Seek (this, dlibMove, dwOrigin, plibNewPosition); }
-    SetSize :: inline (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #no_context { return this.vtable.SetSize (this, libNewSize); }
-    CopyTo :: inline (this : *IStream, pstm : *IStream, cb : ULARGE_INTEGER, pcbRead : *ULARGE_INTEGER, pcbWritten : *ULARGE_INTEGER) -> HRESULT #no_context { return this.vtable.CopyTo (this, pstm, cb, pcbRead, pcbWritten); }
-    Commit :: inline (this : *IStream, grfCommitFlags : u32) -> HRESULT #no_context { return this.vtable.Commit (this, grfCommitFlags); }
-    Revert :: inline (this : *IStream) -> HRESULT #no_context { return this.vtable.Revert (this); }
-    LockRegion :: inline (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #no_context { return this.vtable.LockRegion (this, libOffset, cb, dwLockType); }
-    UnlockRegion :: inline (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #no_context { return this.vtable.UnlockRegion (this, libOffset, cb, dwLockType); }
-    Stat :: inline (this : *IStream, pstatstg : *STATSTG, grfStatFlag : u32) -> HRESULT #no_context { return this.vtable.Stat (this, pstatstg, grfStatFlag); }
-    Clone :: inline (this : *IStream, ppstm : **IStream) -> HRESULT #no_context { return this.vtable.Clone (this, ppstm); }
+    Seek :: inline (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #no_context
+    {
+        return this.vtable.Seek (this, dlibMove, dwOrigin, plibNewPosition);
+    }
+
+    SetSize :: inline (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #no_context
+    {
+        return this.vtable.SetSize (this, libNewSize);
+    }
+
+    CopyTo :: inline (this : *IStream, 
+        pstm : *IStream,
+        cb : ULARGE_INTEGER,
+        pcbRead : *ULARGE_INTEGER,
+        pcbWritten : *ULARGE_INTEGER
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CopyTo (this, pstm, cb, pcbRead, pcbWritten);
+    }
+
+    Commit :: inline (this : *IStream, grfCommitFlags : u32) -> HRESULT #no_context
+    {
+        return this.vtable.Commit (this, grfCommitFlags);
+    }
+
+    Revert :: inline (this : *IStream) -> HRESULT #no_context
+    {
+        return this.vtable.Revert (this);
+    }
+
+    LockRegion :: inline (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #no_context
+    {
+        return this.vtable.LockRegion (this, libOffset, cb, dwLockType);
+    }
+
+    UnlockRegion :: inline (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #no_context
+    {
+        return this.vtable.UnlockRegion (this, libOffset, cb, dwLockType);
+    }
+
+    Stat :: inline (this : *IStream, pstatstg : *STATSTG, grfStatFlag : u32) -> HRESULT #no_context
+    {
+        return this.vtable.Stat (this, pstatstg, grfStatFlag);
+    }
+
+    Clone :: inline (this : *IStream, ppstm : **IStream) -> HRESULT #no_context
+    {
+        return this.vtable.Clone (this, ppstm);
+    }
 }
 
 IStreamVTable :: struct
@@ -374,9 +500,20 @@ IUnknown :: struct
 
     vtable : *IUnknownVTable;
 
-    QueryInterface :: inline (this : *IUnknown, riid : *GUID, ppvObject : **void) -> HRESULT #no_context { return this.vtable.QueryInterface (this, riid, ppvObject); }
-    AddRef :: inline (this : *IUnknown) -> u32 #no_context { return this.vtable.AddRef (this); }
-    Release :: inline (this : *IUnknown) -> u32 #no_context { return this.vtable.Release (this); }
+    QueryInterface :: inline (this : *IUnknown, riid : *GUID, ppvObject : **void) -> HRESULT #no_context
+    {
+        return this.vtable.QueryInterface (this, riid, ppvObject);
+    }
+
+    AddRef :: inline (this : *IUnknown) -> u32 #no_context
+    {
+        return this.vtable.AddRef (this);
+    }
+
+    Release :: inline (this : *IUnknown) -> u32 #no_context
+    {
+        return this.vtable.Release (this);
+    }
 }
 
 IUnknownVTable :: struct
@@ -701,9 +838,36 @@ WPARAM :: u64;
 // Functions
 
 CloseHandle :: (hObject : HANDLE) -> BOOL #foreign KERNEL32;
-DuplicateHandle :: (hSourceProcessHandle : HANDLE, hSourceHandle : HANDLE, hTargetProcessHandle : HANDLE, lpTargetHandle : *HANDLE, dwDesiredAccess : u32, bInheritHandle : BOOL, dwOptions : DUPLICATE_HANDLE_OPTIONS) -> BOOL #foreign KERNEL32;
-FormatMessageA :: (dwFlags : FORMAT_MESSAGE_OPTIONS, lpSource : *void, dwMessageId : u32, dwLanguageId : u32, lpBuffer : PSTR, nSize : u32, Arguments : **s8) -> u32 #foreign KERNEL32;
-FormatMessageW :: (dwFlags : FORMAT_MESSAGE_OPTIONS, lpSource : *void, dwMessageId : u32, dwLanguageId : u32, lpBuffer : PWSTR, nSize : u32, Arguments : **s8) -> u32 #foreign KERNEL32;
+DuplicateHandle :: (
+    hSourceProcessHandle : HANDLE,
+    hSourceHandle : HANDLE,
+    hTargetProcessHandle : HANDLE,
+    lpTargetHandle : *HANDLE,
+    dwDesiredAccess : u32,
+    bInheritHandle : BOOL,
+    dwOptions : DUPLICATE_HANDLE_OPTIONS
+) -> BOOL #foreign KERNEL32;
+
+FormatMessageA :: (
+    dwFlags : FORMAT_MESSAGE_OPTIONS,
+    lpSource : *void,
+    dwMessageId : u32,
+    dwLanguageId : u32,
+    lpBuffer : PSTR,
+    nSize : u32,
+    Arguments : **s8
+) -> u32 #foreign KERNEL32;
+
+FormatMessageW :: (
+    dwFlags : FORMAT_MESSAGE_OPTIONS,
+    lpSource : *void,
+    dwMessageId : u32,
+    dwLanguageId : u32,
+    lpBuffer : PWSTR,
+    nSize : u32,
+    Arguments : **s8
+) -> u32 #foreign KERNEL32;
+
 GetComputerNameA :: (lpBuffer : *u8, nSize : *u32) -> BOOL #foreign KERNEL32;
 GetComputerNameW :: (lpBuffer : *u16, nSize : *u32) -> BOOL #foreign KERNEL32;
 GetHandleInformation :: (hObject : HANDLE, lpdwFlags : *u32) -> BOOL #foreign KERNEL32;
@@ -716,7 +880,15 @@ GetStdHandle :: (nStdHandle : STD_HANDLE) -> HANDLE #foreign KERNEL32;
 GetUserNameA :: (lpBuffer : *u8, pcbBuffer : *u32) -> BOOL #foreign ADVAPI32;
 GetUserNameW :: (lpBuffer : *u16, pcbBuffer : *u32) -> BOOL #foreign ADVAPI32;
 IsValidCodePage :: (CodePage : u32) -> BOOL #foreign KERNEL32;
-MultiByteToWideChar :: (CodePage : u32, dwFlags : MULTI_BYTE_TO_WIDE_CHAR_FLAGS, lpMultiByteStr : *u8, cbMultiByte : s32, lpWideCharStr : *u16, cchWideChar : s32) -> s32 #foreign KERNEL32;
+MultiByteToWideChar :: (
+    CodePage : u32,
+    dwFlags : MULTI_BYTE_TO_WIDE_CHAR_FLAGS,
+    lpMultiByteStr : *u8,
+    cbMultiByte : s32,
+    lpWideCharStr : *u16,
+    cchWideChar : s32
+) -> s32 #foreign KERNEL32;
+
 QueryPerformanceCounter :: (lpPerformanceCount : *LARGE_INTEGER) -> BOOL #foreign KERNEL32;
 QueryPerformanceFrequency :: (lpFrequency : *LARGE_INTEGER) -> BOOL #foreign KERNEL32;
 RtlNtStatusToDosError :: (Status : NTSTATUS) -> u32 #foreign ntdll;
@@ -735,7 +907,17 @@ SysReAllocStringLen :: (pbstr : *BSTR, psz : PWSTR, len : u32) -> s32 #foreign O
 SysReleaseString :: (bstrString : BSTR)  #foreign OLEAUT32;
 SysStringByteLen :: (bstr : BSTR) -> u32 #foreign OLEAUT32;
 SysStringLen :: (pbstr : BSTR) -> u32 #foreign OLEAUT32;
-WideCharToMultiByte :: (CodePage : u32, dwFlags : u32, lpWideCharStr : *u16, cchWideChar : s32, lpMultiByteStr : PSTR, cbMultiByte : s32, lpDefaultChar : PSTR, lpUsedDefaultChar : *s32) -> s32 #foreign KERNEL32;
+WideCharToMultiByte :: (
+    CodePage : u32,
+    dwFlags : u32,
+    lpWideCharStr : *u16,
+    cchWideChar : s32,
+    lpMultiByteStr : PSTR,
+    cbMultiByte : s32,
+    lpDefaultChar : PSTR,
+    lpUsedDefaultChar : *s32
+) -> s32 #foreign KERNEL32;
+
 
 // System libraries
 

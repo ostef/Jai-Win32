@@ -68,18 +68,23 @@ Generator :: struct
     has_errors : bool;
 
     architecture := Win32Architecture.X64;
-    // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
 
     // @Note: we disabled handling of const refs because we cannot accurately differentiate
     // between a parameter that was originally a pointer and a parameter that is actually a
     // const reference. We're keeping the code for it though in case we get enough info to
     // handle that when we parse the metadata files directly.
     handle_const_refs_in_COM_interface_wrappers := false;
+
+    // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
     generate_wrapper_function_for_REFIID_params := false;
+
+    single_line_COM_method_wrappers := false;
+    max_params_before_using_multiline := 4; // Set to -1 to disable multiline params
+    max_params_per_line := 1;
 
     generate_additional_enum_type_for_non_scoped_enums := true;
     treat_generated_Windows_import_as_original_jai_module := true;
-    generate_clsid_constants_as_guid := true;
+    generate_CLSID_constants_as_guid := true;
 
     // Importing a module with an argument being the same as its default value still
     // create a different module instance than not specifying the default value. As long
@@ -87,6 +92,8 @@ Generator :: struct
     // parameter isn't very useful anyways since most of the time we use explicitly the W
     // or A versions
     generate_unicode_aliases := false;
+
+    indent_level : int;
 
     dependency_queue : [..]struct { module : string; name : string; };
 

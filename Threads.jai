@@ -585,7 +585,14 @@ PTP_TIMER_CALLBACK :: #type (Instance : *TP_CALLBACK_INSTANCE, Context : *void, 
 
 PTP_WAIT_CALLBACK :: #type (Instance : *TP_CALLBACK_INSTANCE, Context : *void, Wait : *TP_WAIT, WaitResult : u32) -> void #c_call;
 
-PTP_WIN32_IO_CALLBACK :: #type (Instance : *TP_CALLBACK_INSTANCE, Context : *void, Overlapped : *void, IoResult : u32, NumberOfBytesTransferred : u64, Io : *TP_IO) -> void #c_call;
+PTP_WIN32_IO_CALLBACK :: #type (
+    Instance : *TP_CALLBACK_INSTANCE,
+    Context : *void,
+    Overlapped : *void,
+    IoResult : u32,
+    NumberOfBytesTransferred : u64,
+    Io : *TP_IO
+) -> void #c_call;
 
 PTP_WORK_CALLBACK :: #type (Instance : *TP_CALLBACK_INSTANCE, Context : *void, Work : *TP_WORK) -> void #c_call;
 
@@ -1039,26 +1046,150 @@ CreateEventExA :: (lpEventAttributes : *SECURITY_ATTRIBUTES, lpName : PSTR, dwFl
 CreateEventExW :: (lpEventAttributes : *SECURITY_ATTRIBUTES, lpName : PWSTR, dwFlags : CREATE_EVENT, dwDesiredAccess : u32) -> HANDLE #foreign KERNEL32;
 CreateEventW :: (lpEventAttributes : *SECURITY_ATTRIBUTES, bManualReset : BOOL, bInitialState : BOOL, lpName : PWSTR) -> HANDLE #foreign KERNEL32;
 CreateFiber :: (dwStackSize : u64, lpStartAddress : LPFIBER_START_ROUTINE, lpParameter : *void) -> *void #foreign KERNEL32;
-CreateFiberEx :: (dwStackCommitSize : u64, dwStackReserveSize : u64, dwFlags : u32, lpStartAddress : LPFIBER_START_ROUTINE, lpParameter : *void) -> *void #foreign KERNEL32;
+CreateFiberEx :: (
+    dwStackCommitSize : u64,
+    dwStackReserveSize : u64,
+    dwFlags : u32,
+    lpStartAddress : LPFIBER_START_ROUTINE,
+    lpParameter : *void
+) -> *void #foreign KERNEL32;
+
 CreateMutexA :: (lpMutexAttributes : *SECURITY_ATTRIBUTES, bInitialOwner : BOOL, lpName : PSTR) -> HANDLE #foreign KERNEL32;
 CreateMutexExA :: (lpMutexAttributes : *SECURITY_ATTRIBUTES, lpName : PSTR, dwFlags : u32, dwDesiredAccess : u32) -> HANDLE #foreign KERNEL32;
 CreateMutexExW :: (lpMutexAttributes : *SECURITY_ATTRIBUTES, lpName : PWSTR, dwFlags : u32, dwDesiredAccess : u32) -> HANDLE #foreign KERNEL32;
 CreateMutexW :: (lpMutexAttributes : *SECURITY_ATTRIBUTES, bInitialOwner : BOOL, lpName : PWSTR) -> HANDLE #foreign KERNEL32;
 CreatePrivateNamespaceA :: (lpPrivateNamespaceAttributes : *SECURITY_ATTRIBUTES, lpBoundaryDescriptor : *void, lpAliasPrefix : PSTR) -> NamespaceHandle #foreign KERNEL32;
 CreatePrivateNamespaceW :: (lpPrivateNamespaceAttributes : *SECURITY_ATTRIBUTES, lpBoundaryDescriptor : *void, lpAliasPrefix : PWSTR) -> NamespaceHandle #foreign KERNEL32;
-CreateProcessA :: (lpApplicationName : PSTR, lpCommandLine : PSTR, lpProcessAttributes : *SECURITY_ATTRIBUTES, lpThreadAttributes : *SECURITY_ATTRIBUTES, bInheritHandles : BOOL, dwCreationFlags : PROCESS_CREATION_FLAGS, lpEnvironment : *void, lpCurrentDirectory : PSTR, lpStartupInfo : *STARTUPINFOA, lpProcessInformation : *PROCESS_INFORMATION) -> BOOL #foreign KERNEL32;
-CreateProcessAsUserA :: (hToken : HANDLE, lpApplicationName : PSTR, lpCommandLine : PSTR, lpProcessAttributes : *SECURITY_ATTRIBUTES, lpThreadAttributes : *SECURITY_ATTRIBUTES, bInheritHandles : BOOL, dwCreationFlags : u32, lpEnvironment : *void, lpCurrentDirectory : PSTR, lpStartupInfo : *STARTUPINFOA, lpProcessInformation : *PROCESS_INFORMATION) -> BOOL #foreign ADVAPI32;
-CreateProcessAsUserW :: (hToken : HANDLE, lpApplicationName : PWSTR, lpCommandLine : PWSTR, lpProcessAttributes : *SECURITY_ATTRIBUTES, lpThreadAttributes : *SECURITY_ATTRIBUTES, bInheritHandles : BOOL, dwCreationFlags : u32, lpEnvironment : *void, lpCurrentDirectory : PWSTR, lpStartupInfo : *STARTUPINFOW, lpProcessInformation : *PROCESS_INFORMATION) -> BOOL #foreign ADVAPI32;
-CreateProcessW :: (lpApplicationName : PWSTR, lpCommandLine : PWSTR, lpProcessAttributes : *SECURITY_ATTRIBUTES, lpThreadAttributes : *SECURITY_ATTRIBUTES, bInheritHandles : BOOL, dwCreationFlags : PROCESS_CREATION_FLAGS, lpEnvironment : *void, lpCurrentDirectory : PWSTR, lpStartupInfo : *STARTUPINFOW, lpProcessInformation : *PROCESS_INFORMATION) -> BOOL #foreign KERNEL32;
-CreateProcessWithLogonW :: (lpUsername : PWSTR, lpDomain : PWSTR, lpPassword : PWSTR, dwLogonFlags : CREATE_PROCESS_LOGON_FLAGS, lpApplicationName : PWSTR, lpCommandLine : PWSTR, dwCreationFlags : u32, lpEnvironment : *void, lpCurrentDirectory : PWSTR, lpStartupInfo : *STARTUPINFOW, lpProcessInformation : *PROCESS_INFORMATION) -> BOOL #foreign ADVAPI32;
-CreateProcessWithTokenW :: (hToken : HANDLE, dwLogonFlags : CREATE_PROCESS_LOGON_FLAGS, lpApplicationName : PWSTR, lpCommandLine : PWSTR, dwCreationFlags : u32, lpEnvironment : *void, lpCurrentDirectory : PWSTR, lpStartupInfo : *STARTUPINFOW, lpProcessInformation : *PROCESS_INFORMATION) -> BOOL #foreign ADVAPI32;
-CreateRemoteThread :: (hProcess : HANDLE, lpThreadAttributes : *SECURITY_ATTRIBUTES, dwStackSize : u64, lpStartAddress : LPTHREAD_START_ROUTINE, lpParameter : *void, dwCreationFlags : u32, lpThreadId : *u32) -> HANDLE #foreign KERNEL32;
-CreateRemoteThreadEx :: (hProcess : HANDLE, lpThreadAttributes : *SECURITY_ATTRIBUTES, dwStackSize : u64, lpStartAddress : LPTHREAD_START_ROUTINE, lpParameter : *void, dwCreationFlags : u32, lpAttributeList : LPPROC_THREAD_ATTRIBUTE_LIST, lpThreadId : *u32) -> HANDLE #foreign KERNEL32;
+CreateProcessA :: (
+    lpApplicationName : PSTR,
+    lpCommandLine : PSTR,
+    lpProcessAttributes : *SECURITY_ATTRIBUTES,
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    bInheritHandles : BOOL,
+    dwCreationFlags : PROCESS_CREATION_FLAGS,
+    lpEnvironment : *void,
+    lpCurrentDirectory : PSTR,
+    lpStartupInfo : *STARTUPINFOA,
+    lpProcessInformation : *PROCESS_INFORMATION
+) -> BOOL #foreign KERNEL32;
+
+CreateProcessAsUserA :: (
+    hToken : HANDLE,
+    lpApplicationName : PSTR,
+    lpCommandLine : PSTR,
+    lpProcessAttributes : *SECURITY_ATTRIBUTES,
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    bInheritHandles : BOOL,
+    dwCreationFlags : u32,
+    lpEnvironment : *void,
+    lpCurrentDirectory : PSTR,
+    lpStartupInfo : *STARTUPINFOA,
+    lpProcessInformation : *PROCESS_INFORMATION
+) -> BOOL #foreign ADVAPI32;
+
+CreateProcessAsUserW :: (
+    hToken : HANDLE,
+    lpApplicationName : PWSTR,
+    lpCommandLine : PWSTR,
+    lpProcessAttributes : *SECURITY_ATTRIBUTES,
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    bInheritHandles : BOOL,
+    dwCreationFlags : u32,
+    lpEnvironment : *void,
+    lpCurrentDirectory : PWSTR,
+    lpStartupInfo : *STARTUPINFOW,
+    lpProcessInformation : *PROCESS_INFORMATION
+) -> BOOL #foreign ADVAPI32;
+
+CreateProcessW :: (
+    lpApplicationName : PWSTR,
+    lpCommandLine : PWSTR,
+    lpProcessAttributes : *SECURITY_ATTRIBUTES,
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    bInheritHandles : BOOL,
+    dwCreationFlags : PROCESS_CREATION_FLAGS,
+    lpEnvironment : *void,
+    lpCurrentDirectory : PWSTR,
+    lpStartupInfo : *STARTUPINFOW,
+    lpProcessInformation : *PROCESS_INFORMATION
+) -> BOOL #foreign KERNEL32;
+
+CreateProcessWithLogonW :: (
+    lpUsername : PWSTR,
+    lpDomain : PWSTR,
+    lpPassword : PWSTR,
+    dwLogonFlags : CREATE_PROCESS_LOGON_FLAGS,
+    lpApplicationName : PWSTR,
+    lpCommandLine : PWSTR,
+    dwCreationFlags : u32,
+    lpEnvironment : *void,
+    lpCurrentDirectory : PWSTR,
+    lpStartupInfo : *STARTUPINFOW,
+    lpProcessInformation : *PROCESS_INFORMATION
+) -> BOOL #foreign ADVAPI32;
+
+CreateProcessWithTokenW :: (
+    hToken : HANDLE,
+    dwLogonFlags : CREATE_PROCESS_LOGON_FLAGS,
+    lpApplicationName : PWSTR,
+    lpCommandLine : PWSTR,
+    dwCreationFlags : u32,
+    lpEnvironment : *void,
+    lpCurrentDirectory : PWSTR,
+    lpStartupInfo : *STARTUPINFOW,
+    lpProcessInformation : *PROCESS_INFORMATION
+) -> BOOL #foreign ADVAPI32;
+
+CreateRemoteThread :: (
+    hProcess : HANDLE,
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    dwStackSize : u64,
+    lpStartAddress : LPTHREAD_START_ROUTINE,
+    lpParameter : *void,
+    dwCreationFlags : u32,
+    lpThreadId : *u32
+) -> HANDLE #foreign KERNEL32;
+
+CreateRemoteThreadEx :: (
+    hProcess : HANDLE,
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    dwStackSize : u64,
+    lpStartAddress : LPTHREAD_START_ROUTINE,
+    lpParameter : *void,
+    dwCreationFlags : u32,
+    lpAttributeList : LPPROC_THREAD_ATTRIBUTE_LIST,
+    lpThreadId : *u32
+) -> HANDLE #foreign KERNEL32;
+
 CreateSemaphoreA :: (lpSemaphoreAttributes : *SECURITY_ATTRIBUTES, lInitialCount : s32, lMaximumCount : s32, lpName : PSTR) -> HANDLE #foreign KERNEL32;
-CreateSemaphoreExA :: (lpSemaphoreAttributes : *SECURITY_ATTRIBUTES, lInitialCount : s32, lMaximumCount : s32, lpName : PSTR, dwFlags : u32, dwDesiredAccess : u32) -> HANDLE #foreign KERNEL32;
-CreateSemaphoreExW :: (lpSemaphoreAttributes : *SECURITY_ATTRIBUTES, lInitialCount : s32, lMaximumCount : s32, lpName : PWSTR, dwFlags : u32, dwDesiredAccess : u32) -> HANDLE #foreign KERNEL32;
+CreateSemaphoreExA :: (
+    lpSemaphoreAttributes : *SECURITY_ATTRIBUTES,
+    lInitialCount : s32,
+    lMaximumCount : s32,
+    lpName : PSTR,
+    dwFlags : u32,
+    dwDesiredAccess : u32
+) -> HANDLE #foreign KERNEL32;
+
+CreateSemaphoreExW :: (
+    lpSemaphoreAttributes : *SECURITY_ATTRIBUTES,
+    lInitialCount : s32,
+    lMaximumCount : s32,
+    lpName : PWSTR,
+    dwFlags : u32,
+    dwDesiredAccess : u32
+) -> HANDLE #foreign KERNEL32;
+
 CreateSemaphoreW :: (lpSemaphoreAttributes : *SECURITY_ATTRIBUTES, lInitialCount : s32, lMaximumCount : s32, lpName : PWSTR) -> HANDLE #foreign KERNEL32;
-CreateThread :: (lpThreadAttributes : *SECURITY_ATTRIBUTES, dwStackSize : u64, lpStartAddress : LPTHREAD_START_ROUTINE, lpParameter : *void, dwCreationFlags : THREAD_CREATION_FLAGS, lpThreadId : *u32) -> HANDLE #foreign KERNEL32;
+CreateThread :: (
+    lpThreadAttributes : *SECURITY_ATTRIBUTES,
+    dwStackSize : u64,
+    lpStartAddress : LPTHREAD_START_ROUTINE,
+    lpParameter : *void,
+    dwCreationFlags : THREAD_CREATION_FLAGS,
+    lpThreadId : *u32
+) -> HANDLE #foreign KERNEL32;
+
 CreateThreadpool :: (reserved : *void) -> PTP_POOL #foreign KERNEL32;
 CreateThreadpoolCleanupGroup :: () -> s64 #foreign KERNEL32;
 CreateThreadpoolIo :: (fl : HANDLE, pfnio : PTP_WIN32_IO_CALLBACK, pv : *void, pcbe : *TP_CALLBACK_ENVIRON_V3) -> *TP_IO #foreign KERNEL32;
@@ -1066,7 +1197,16 @@ CreateThreadpoolTimer :: (pfnti : PTP_TIMER_CALLBACK, pv : *void, pcbe : *TP_CAL
 CreateThreadpoolWait :: (pfnwa : PTP_WAIT_CALLBACK, pv : *void, pcbe : *TP_CALLBACK_ENVIRON_V3) -> *TP_WAIT #foreign KERNEL32;
 CreateThreadpoolWork :: (pfnwk : PTP_WORK_CALLBACK, pv : *void, pcbe : *TP_CALLBACK_ENVIRON_V3) -> *TP_WORK #foreign KERNEL32;
 CreateTimerQueue :: () -> HANDLE #foreign KERNEL32;
-CreateTimerQueueTimer :: (phNewTimer : *HANDLE, TimerQueue : HANDLE, Callback : WAITORTIMERCALLBACK, Parameter : *void, DueTime : u32, Period : u32, Flags : WORKER_THREAD_FLAGS) -> BOOL #foreign KERNEL32;
+CreateTimerQueueTimer :: (
+    phNewTimer : *HANDLE,
+    TimerQueue : HANDLE,
+    Callback : WAITORTIMERCALLBACK,
+    Parameter : *void,
+    DueTime : u32,
+    Period : u32,
+    Flags : WORKER_THREAD_FLAGS
+) -> BOOL #foreign KERNEL32;
+
 CreateUmsCompletionList :: (UmsCompletionList : **void) -> BOOL #foreign KERNEL32;
 CreateUmsThreadContext :: (lpUmsThread : **void) -> BOOL #foreign KERNEL32;
 CreateWaitableTimerExW :: (lpTimerAttributes : *SECURITY_ATTRIBUTES, lpTimerName : PWSTR, dwFlags : u32, dwDesiredAccess : u32) -> HANDLE #foreign KERNEL32;
@@ -1134,7 +1274,14 @@ GetProcessIoCounters :: (hProcess : HANDLE, lpIoCounters : *IO_COUNTERS) -> BOOL
 GetProcessMitigationPolicy :: (hProcess : HANDLE, MitigationPolicy : PROCESS_MITIGATION_POLICY, lpBuffer : *void, dwLength : u64) -> BOOL #foreign KERNEL32;
 GetProcessPriorityBoost :: (hProcess : HANDLE, pDisablePriorityBoost : *BOOL) -> BOOL #foreign KERNEL32;
 GetProcessShutdownParameters :: (lpdwLevel : *u32, lpdwFlags : *u32) -> BOOL #foreign KERNEL32;
-GetProcessTimes :: (hProcess : HANDLE, lpCreationTime : *FILETIME, lpExitTime : *FILETIME, lpKernelTime : *FILETIME, lpUserTime : *FILETIME) -> BOOL #foreign KERNEL32;
+GetProcessTimes :: (
+    hProcess : HANDLE,
+    lpCreationTime : *FILETIME,
+    lpExitTime : *FILETIME,
+    lpKernelTime : *FILETIME,
+    lpUserTime : *FILETIME
+) -> BOOL #foreign KERNEL32;
+
 GetProcessVersion :: (ProcessId : u32) -> u32 #foreign KERNEL32;
 GetProcessWorkingSetSize :: (hProcess : HANDLE, lpMinimumWorkingSetSize : *u64, lpMaximumWorkingSetSize : *u64) -> BOOL #foreign KERNEL32;
 GetStartupInfoA :: (lpStartupInfo : *STARTUPINFOA)  #foreign KERNEL32;
@@ -1149,7 +1296,14 @@ GetThreadInformation :: (hThread : HANDLE, ThreadInformationClass : THREAD_INFOR
 GetThreadPriority :: (hThread : HANDLE) -> s32 #foreign KERNEL32;
 GetThreadPriorityBoost :: (hThread : HANDLE, pDisablePriorityBoost : *BOOL) -> BOOL #foreign KERNEL32;
 GetThreadSelectedCpuSets :: (Thread : HANDLE, CpuSetIds : *u32, CpuSetIdCount : u32, RequiredIdCount : *u32) -> BOOL #foreign KERNEL32;
-GetThreadTimes :: (hThread : HANDLE, lpCreationTime : *FILETIME, lpExitTime : *FILETIME, lpKernelTime : *FILETIME, lpUserTime : *FILETIME) -> BOOL #foreign KERNEL32;
+GetThreadTimes :: (
+    hThread : HANDLE,
+    lpCreationTime : *FILETIME,
+    lpExitTime : *FILETIME,
+    lpKernelTime : *FILETIME,
+    lpUserTime : *FILETIME
+) -> BOOL #foreign KERNEL32;
+
 GetUmsCompletionListEvent :: (UmsCompletionList : *void, UmsCompletionEvent : *HANDLE) -> BOOL #foreign KERNEL32;
 GetUmsSystemThreadInformation :: (ThreadHandle : HANDLE, SystemThreadInfo : *UMS_SYSTEM_THREAD_INFORMATION) -> BOOL #foreign KERNEL32;
 InitOnceBeginInitialize :: (lpInitOnce : *RTL_RUN_ONCE, dwFlags : u32, fPending : *BOOL, lpContext : **void) -> BOOL #foreign KERNEL32;
@@ -1177,8 +1331,22 @@ IsWow64Process :: (hProcess : HANDLE, Wow64Process : *BOOL) -> BOOL #foreign KER
 IsWow64Process2 :: (hProcess : HANDLE, pProcessMachine : *u16, pNativeMachine : *u16) -> BOOL #foreign KERNEL32;
 LeaveCriticalSection :: (lpCriticalSection : *RTL_CRITICAL_SECTION)  #foreign KERNEL32;
 LeaveCriticalSectionWhenCallbackReturns :: (pci : *TP_CALLBACK_INSTANCE, pcs : *RTL_CRITICAL_SECTION)  #foreign KERNEL32;
-NtQueryInformationProcess :: (ProcessHandle : HANDLE, ProcessInformationClass : PROCESSINFOCLASS, ProcessInformation : *void, ProcessInformationLength : u32, ReturnLength : *u32) -> NTSTATUS #foreign ntdll;
-NtQueryInformationThread :: (ThreadHandle : HANDLE, ThreadInformationClass : THREADINFOCLASS, ThreadInformation : *void, ThreadInformationLength : u32, ReturnLength : *u32) -> NTSTATUS #foreign ntdll;
+NtQueryInformationProcess :: (
+    ProcessHandle : HANDLE,
+    ProcessInformationClass : PROCESSINFOCLASS,
+    ProcessInformation : *void,
+    ProcessInformationLength : u32,
+    ReturnLength : *u32
+) -> NTSTATUS #foreign ntdll;
+
+NtQueryInformationThread :: (
+    ThreadHandle : HANDLE,
+    ThreadInformationClass : THREADINFOCLASS,
+    ThreadInformation : *void,
+    ThreadInformationLength : u32,
+    ReturnLength : *u32
+) -> NTSTATUS #foreign ntdll;
+
 NtSetInformationThread :: (ThreadHandle : HANDLE, ThreadInformationClass : THREADINFOCLASS, ThreadInformation : *void, ThreadInformationLength : u32) -> NTSTATUS #foreign ntdll;
 OpenEventA :: (dwDesiredAccess : u32, bInheritHandle : BOOL, lpName : PSTR) -> HANDLE #foreign KERNEL32;
 OpenEventW :: (dwDesiredAccess : u32, bInheritHandle : BOOL, lpName : PWSTR) -> HANDLE #foreign KERNEL32;
@@ -1198,11 +1366,26 @@ QueryFullProcessImageNameW :: (hProcess : HANDLE, dwFlags : PROCESS_NAME_FORMAT,
 QueryProcessAffinityUpdateMode :: (hProcess : HANDLE, lpdwFlags : *PROCESS_AFFINITY_AUTO_UPDATE_FLAGS) -> BOOL #foreign KERNEL32;
 QueryProtectedPolicy :: (PolicyGuid : *GUID, PolicyValue : *u64) -> BOOL #foreign KERNEL32;
 QueryThreadpoolStackInformation :: (ptpp : PTP_POOL, ptpsi : *TP_POOL_STACK_INFORMATION) -> BOOL #foreign KERNEL32;
-QueryUmsThreadInformation :: (UmsThread : *void, UmsThreadInfoClass : RTL_UMS_THREAD_INFO_CLASS, UmsThreadInformation : *void, UmsThreadInformationLength : u32, ReturnLength : *u32) -> BOOL #foreign KERNEL32;
+QueryUmsThreadInformation :: (
+    UmsThread : *void,
+    UmsThreadInfoClass : RTL_UMS_THREAD_INFO_CLASS,
+    UmsThreadInformation : *void,
+    UmsThreadInformationLength : u32,
+    ReturnLength : *u32
+) -> BOOL #foreign KERNEL32;
+
 QueueUserAPC :: (pfnAPC : PAPCFUNC, hThread : HANDLE, dwData : u64) -> u32 #foreign KERNEL32;
 QueueUserAPC2 :: (ApcRoutine : PAPCFUNC, Thread : HANDLE, Data : u64, Flags : QUEUE_USER_APC_FLAGS) -> BOOL #foreign KERNEL32;
 QueueUserWorkItem :: (Function : LPTHREAD_START_ROUTINE, Context : *void, Flags : WORKER_THREAD_FLAGS) -> BOOL #foreign KERNEL32;
-RegisterWaitForSingleObject :: (phNewWaitObject : *HANDLE, hObject : HANDLE, Callback : WAITORTIMERCALLBACK, Context : *void, dwMilliseconds : u32, dwFlags : WORKER_THREAD_FLAGS) -> BOOL #foreign KERNEL32;
+RegisterWaitForSingleObject :: (
+    phNewWaitObject : *HANDLE,
+    hObject : HANDLE,
+    Callback : WAITORTIMERCALLBACK,
+    Context : *void,
+    dwMilliseconds : u32,
+    dwFlags : WORKER_THREAD_FLAGS
+) -> BOOL #foreign KERNEL32;
+
 ReleaseMutex :: (hMutex : HANDLE) -> BOOL #foreign KERNEL32;
 ReleaseMutexWhenCallbackReturns :: (pci : *TP_CALLBACK_INSTANCE, mut : HANDLE)  #foreign KERNEL32;
 ReleaseSRWLockExclusive :: (SRWLock : *RTL_SRWLOCK)  #foreign KERNEL32;
@@ -1246,10 +1429,35 @@ SetThreadpoolTimer :: (pti : *TP_TIMER, pftDueTime : *FILETIME, msPeriod : u32, 
 SetThreadpoolTimerEx :: (pti : *TP_TIMER, pftDueTime : *FILETIME, msPeriod : u32, msWindowLength : u32) -> BOOL #foreign KERNEL32;
 SetThreadpoolWait :: (pwa : *TP_WAIT, h : HANDLE, pftTimeout : *FILETIME)  #foreign KERNEL32;
 SetThreadpoolWaitEx :: (pwa : *TP_WAIT, h : HANDLE, pftTimeout : *FILETIME, Reserved : *void) -> BOOL #foreign KERNEL32;
-SetTimerQueueTimer :: (TimerQueue : HANDLE, Callback : WAITORTIMERCALLBACK, Parameter : *void, DueTime : u32, Period : u32, PreferIo : BOOL) -> HANDLE #foreign KERNEL32;
+SetTimerQueueTimer :: (
+    TimerQueue : HANDLE,
+    Callback : WAITORTIMERCALLBACK,
+    Parameter : *void,
+    DueTime : u32,
+    Period : u32,
+    PreferIo : BOOL
+) -> HANDLE #foreign KERNEL32;
+
 SetUmsThreadInformation :: (UmsThread : *void, UmsThreadInfoClass : RTL_UMS_THREAD_INFO_CLASS, UmsThreadInformation : *void, UmsThreadInformationLength : u32) -> BOOL #foreign KERNEL32;
-SetWaitableTimer :: (hTimer : HANDLE, lpDueTime : *LARGE_INTEGER, lPeriod : s32, pfnCompletionRoutine : PTIMERAPCROUTINE, lpArgToCompletionRoutine : *void, fResume : BOOL) -> BOOL #foreign KERNEL32;
-SetWaitableTimerEx :: (hTimer : HANDLE, lpDueTime : *LARGE_INTEGER, lPeriod : s32, pfnCompletionRoutine : PTIMERAPCROUTINE, lpArgToCompletionRoutine : *void, WakeContext : *REASON_CONTEXT, TolerableDelay : u32) -> BOOL #foreign KERNEL32;
+SetWaitableTimer :: (
+    hTimer : HANDLE,
+    lpDueTime : *LARGE_INTEGER,
+    lPeriod : s32,
+    pfnCompletionRoutine : PTIMERAPCROUTINE,
+    lpArgToCompletionRoutine : *void,
+    fResume : BOOL
+) -> BOOL #foreign KERNEL32;
+
+SetWaitableTimerEx :: (
+    hTimer : HANDLE,
+    lpDueTime : *LARGE_INTEGER,
+    lPeriod : s32,
+    pfnCompletionRoutine : PTIMERAPCROUTINE,
+    lpArgToCompletionRoutine : *void,
+    WakeContext : *REASON_CONTEXT,
+    TolerableDelay : u32
+) -> BOOL #foreign KERNEL32;
+
 Sleep :: (dwMilliseconds : u32)  #foreign KERNEL32;
 SleepConditionVariableCS :: (ConditionVariable : *RTL_CONDITION_VARIABLE, CriticalSection : *RTL_CRITICAL_SECTION, dwMilliseconds : u32) -> BOOL #foreign KERNEL32;
 SleepConditionVariableSRW :: (ConditionVariable : *RTL_CONDITION_VARIABLE, SRWLock : *RTL_SRWLOCK, dwMilliseconds : u32, Flags : u32) -> BOOL #foreign KERNEL32;
@@ -1272,10 +1480,26 @@ TrySubmitThreadpoolCallback :: (pfns : PTP_SIMPLE_CALLBACK, pv : *void, pcbe : *
 UmsThreadYield :: (SchedulerParam : *void) -> BOOL #foreign KERNEL32;
 UnregisterWait :: (WaitHandle : HANDLE) -> BOOL #foreign KERNEL32;
 UnregisterWaitEx :: (WaitHandle : HANDLE, CompletionEvent : HANDLE) -> BOOL #foreign KERNEL32;
-UpdateProcThreadAttribute :: (lpAttributeList : LPPROC_THREAD_ATTRIBUTE_LIST, dwFlags : u32, Attribute : u64, lpValue : *void, cbSize : u64, lpPreviousValue : *void, lpReturnSize : *u64) -> BOOL #foreign KERNEL32;
+UpdateProcThreadAttribute :: (
+    lpAttributeList : LPPROC_THREAD_ATTRIBUTE_LIST,
+    dwFlags : u32,
+    Attribute : u64,
+    lpValue : *void,
+    cbSize : u64,
+    lpPreviousValue : *void,
+    lpReturnSize : *u64
+) -> BOOL #foreign KERNEL32;
+
 WaitForInputIdle :: (hProcess : HANDLE, dwMilliseconds : u32) -> u32 #foreign USER32;
 WaitForMultipleObjects :: (nCount : u32, lpHandles : *HANDLE, bWaitAll : BOOL, dwMilliseconds : u32) -> u32 #foreign KERNEL32;
-WaitForMultipleObjectsEx :: (nCount : u32, lpHandles : *HANDLE, bWaitAll : BOOL, dwMilliseconds : u32, bAlertable : BOOL) -> u32 #foreign KERNEL32;
+WaitForMultipleObjectsEx :: (
+    nCount : u32,
+    lpHandles : *HANDLE,
+    bWaitAll : BOOL,
+    dwMilliseconds : u32,
+    bAlertable : BOOL
+) -> u32 #foreign KERNEL32;
+
 WaitForSingleObject :: (hHandle : HANDLE, dwMilliseconds : u32) -> u32 #foreign KERNEL32;
 WaitForSingleObjectEx :: (hHandle : HANDLE, dwMilliseconds : u32, bAlertable : BOOL) -> u32 #foreign KERNEL32;
 WaitForThreadpoolIoCallbacks :: (pio : *TP_IO, fCancelPendingCallbacks : BOOL)  #foreign KERNEL32;

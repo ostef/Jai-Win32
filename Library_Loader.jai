@@ -21,9 +21,21 @@ SUPPORT_LANG_NUMBER :: 32;
 
 // Types
 
-ENUMRESLANGPROCA :: #type (hModule : HINSTANCE, lpType : PSTR, lpName : PSTR, wLanguage : u16, lParam : s64) -> BOOL #c_call;
+ENUMRESLANGPROCA :: #type (
+    hModule : HINSTANCE,
+    lpType : PSTR,
+    lpName : PSTR,
+    wLanguage : u16,
+    lParam : s64
+) -> BOOL #c_call;
 
-ENUMRESLANGPROCW :: #type (hModule : HINSTANCE, lpType : PWSTR, lpName : PWSTR, wLanguage : u16, lParam : s64) -> BOOL #c_call;
+ENUMRESLANGPROCW :: #type (
+    hModule : HINSTANCE,
+    lpType : PWSTR,
+    lpName : PWSTR,
+    wLanguage : u16,
+    lParam : s64
+) -> BOOL #c_call;
 
 ENUMRESNAMEPROCA :: #type (hModule : HINSTANCE, lpType : PSTR, lpName : PSTR, lParam : s64) -> BOOL #c_call;
 
@@ -99,17 +111,79 @@ BeginUpdateResourceW :: (pFileName : PWSTR, bDeleteExistingResources : BOOL) -> 
 DisableThreadLibraryCalls :: (hLibModule : HINSTANCE) -> BOOL #foreign KERNEL32;
 EndUpdateResourceA :: (hUpdate : HANDLE, fDiscard : BOOL) -> BOOL #foreign KERNEL32;
 EndUpdateResourceW :: (hUpdate : HANDLE, fDiscard : BOOL) -> BOOL #foreign KERNEL32;
-EnumResourceLanguagesA :: (hModule : HINSTANCE, lpType : PSTR, lpName : PSTR, lpEnumFunc : ENUMRESLANGPROCA, lParam : s64) -> BOOL #foreign KERNEL32;
-EnumResourceLanguagesExA :: (hModule : HINSTANCE, lpType : PSTR, lpName : PSTR, lpEnumFunc : ENUMRESLANGPROCA, lParam : s64, dwFlags : u32, LangId : u16) -> BOOL #foreign KERNEL32;
-EnumResourceLanguagesExW :: (hModule : HINSTANCE, lpType : PWSTR, lpName : PWSTR, lpEnumFunc : ENUMRESLANGPROCW, lParam : s64, dwFlags : u32, LangId : u16) -> BOOL #foreign KERNEL32;
-EnumResourceLanguagesW :: (hModule : HINSTANCE, lpType : PWSTR, lpName : PWSTR, lpEnumFunc : ENUMRESLANGPROCW, lParam : s64) -> BOOL #foreign KERNEL32;
+EnumResourceLanguagesA :: (
+    hModule : HINSTANCE,
+    lpType : PSTR,
+    lpName : PSTR,
+    lpEnumFunc : ENUMRESLANGPROCA,
+    lParam : s64
+) -> BOOL #foreign KERNEL32;
+
+EnumResourceLanguagesExA :: (
+    hModule : HINSTANCE,
+    lpType : PSTR,
+    lpName : PSTR,
+    lpEnumFunc : ENUMRESLANGPROCA,
+    lParam : s64,
+    dwFlags : u32,
+    LangId : u16
+) -> BOOL #foreign KERNEL32;
+
+EnumResourceLanguagesExW :: (
+    hModule : HINSTANCE,
+    lpType : PWSTR,
+    lpName : PWSTR,
+    lpEnumFunc : ENUMRESLANGPROCW,
+    lParam : s64,
+    dwFlags : u32,
+    LangId : u16
+) -> BOOL #foreign KERNEL32;
+
+EnumResourceLanguagesW :: (
+    hModule : HINSTANCE,
+    lpType : PWSTR,
+    lpName : PWSTR,
+    lpEnumFunc : ENUMRESLANGPROCW,
+    lParam : s64
+) -> BOOL #foreign KERNEL32;
+
 EnumResourceNamesA :: (hModule : HINSTANCE, lpType : PSTR, lpEnumFunc : ENUMRESNAMEPROCA, lParam : s64) -> BOOL #foreign KERNEL32;
-EnumResourceNamesExA :: (hModule : HINSTANCE, lpType : PSTR, lpEnumFunc : ENUMRESNAMEPROCA, lParam : s64, dwFlags : u32, LangId : u16) -> BOOL #foreign KERNEL32;
-EnumResourceNamesExW :: (hModule : HINSTANCE, lpType : PWSTR, lpEnumFunc : ENUMRESNAMEPROCW, lParam : s64, dwFlags : u32, LangId : u16) -> BOOL #foreign KERNEL32;
+EnumResourceNamesExA :: (
+    hModule : HINSTANCE,
+    lpType : PSTR,
+    lpEnumFunc : ENUMRESNAMEPROCA,
+    lParam : s64,
+    dwFlags : u32,
+    LangId : u16
+) -> BOOL #foreign KERNEL32;
+
+EnumResourceNamesExW :: (
+    hModule : HINSTANCE,
+    lpType : PWSTR,
+    lpEnumFunc : ENUMRESNAMEPROCW,
+    lParam : s64,
+    dwFlags : u32,
+    LangId : u16
+) -> BOOL #foreign KERNEL32;
+
 EnumResourceNamesW :: (hModule : HINSTANCE, lpType : PWSTR, lpEnumFunc : ENUMRESNAMEPROCW, lParam : s64) -> BOOL #foreign KERNEL32;
 EnumResourceTypesA :: (hModule : HINSTANCE, lpEnumFunc : ENUMRESTYPEPROCA, lParam : s64) -> BOOL #foreign KERNEL32;
-EnumResourceTypesExA :: (hModule : HINSTANCE, lpEnumFunc : ENUMRESTYPEPROCA, lParam : s64, dwFlags : u32, LangId : u16) -> BOOL #foreign KERNEL32;
-EnumResourceTypesExW :: (hModule : HINSTANCE, lpEnumFunc : ENUMRESTYPEPROCW, lParam : s64, dwFlags : u32, LangId : u16) -> BOOL #foreign KERNEL32;
+EnumResourceTypesExA :: (
+    hModule : HINSTANCE,
+    lpEnumFunc : ENUMRESTYPEPROCA,
+    lParam : s64,
+    dwFlags : u32,
+    LangId : u16
+) -> BOOL #foreign KERNEL32;
+
+EnumResourceTypesExW :: (
+    hModule : HINSTANCE,
+    lpEnumFunc : ENUMRESTYPEPROCW,
+    lParam : s64,
+    dwFlags : u32,
+    LangId : u16
+) -> BOOL #foreign KERNEL32;
+
 EnumResourceTypesW :: (hModule : HINSTANCE, lpEnumFunc : ENUMRESTYPEPROCW, lParam : s64) -> BOOL #foreign KERNEL32;
 FindResourceA :: (hModule : HINSTANCE, lpName : PSTR, lpType : PSTR) -> HRSRC #foreign KERNEL32;
 FindResourceExA :: (hModule : HINSTANCE, lpType : PSTR, lpName : PSTR, wLanguage : u16) -> HRSRC #foreign KERNEL32;
@@ -136,8 +210,24 @@ SetDefaultDllDirectories :: (DirectoryFlags : LOAD_LIBRARY_FLAGS) -> BOOL #forei
 SetDllDirectoryA :: (lpPathName : PSTR) -> BOOL #foreign KERNEL32;
 SetDllDirectoryW :: (lpPathName : PWSTR) -> BOOL #foreign KERNEL32;
 SizeofResource :: (hModule : HINSTANCE, hResInfo : HRSRC) -> u32 #foreign KERNEL32;
-UpdateResourceA :: (hUpdate : HANDLE, lpType : PSTR, lpName : PSTR, wLanguage : u16, lpData : *void, cb : u32) -> BOOL #foreign KERNEL32;
-UpdateResourceW :: (hUpdate : HANDLE, lpType : PWSTR, lpName : PWSTR, wLanguage : u16, lpData : *void, cb : u32) -> BOOL #foreign KERNEL32;
+UpdateResourceA :: (
+    hUpdate : HANDLE,
+    lpType : PSTR,
+    lpName : PSTR,
+    wLanguage : u16,
+    lpData : *void,
+    cb : u32
+) -> BOOL #foreign KERNEL32;
+
+UpdateResourceW :: (
+    hUpdate : HANDLE,
+    lpType : PWSTR,
+    lpName : PWSTR,
+    wLanguage : u16,
+    lpData : *void,
+    cb : u32
+) -> BOOL #foreign KERNEL32;
+
 
 // System libraries
 

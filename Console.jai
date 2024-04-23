@@ -265,11 +265,46 @@ AddConsoleAliasW :: (Source : PWSTR, Target : PWSTR, ExeName : PWSTR) -> BOOL #f
 AllocConsole :: () -> BOOL #foreign KERNEL32;
 AttachConsole :: (dwProcessId : u32) -> BOOL #foreign KERNEL32;
 ClosePseudoConsole :: (hPC : HPCON)  #foreign KERNEL32;
-CreateConsoleScreenBuffer :: (dwDesiredAccess : u32, dwShareMode : u32, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwFlags : u32, lpScreenBufferData : *void) -> HANDLE #foreign KERNEL32;
-CreatePseudoConsole :: (size : COORD, hInput : HANDLE, hOutput : HANDLE, dwFlags : u32, phPC : *HPCON) -> HRESULT #foreign KERNEL32;
-FillConsoleOutputAttribute :: (hConsoleOutput : HANDLE, wAttribute : u16, nLength : u32, dwWriteCoord : COORD, lpNumberOfAttrsWritten : *u32) -> BOOL #foreign KERNEL32;
-FillConsoleOutputCharacterA :: (hConsoleOutput : HANDLE, cCharacter : CHAR, nLength : u32, dwWriteCoord : COORD, lpNumberOfCharsWritten : *u32) -> BOOL #foreign KERNEL32;
-FillConsoleOutputCharacterW :: (hConsoleOutput : HANDLE, cCharacter : u16, nLength : u32, dwWriteCoord : COORD, lpNumberOfCharsWritten : *u32) -> BOOL #foreign KERNEL32;
+CreateConsoleScreenBuffer :: (
+    dwDesiredAccess : u32,
+    dwShareMode : u32,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES,
+    dwFlags : u32,
+    lpScreenBufferData : *void
+) -> HANDLE #foreign KERNEL32;
+
+CreatePseudoConsole :: (
+    size : COORD,
+    hInput : HANDLE,
+    hOutput : HANDLE,
+    dwFlags : u32,
+    phPC : *HPCON
+) -> HRESULT #foreign KERNEL32;
+
+FillConsoleOutputAttribute :: (
+    hConsoleOutput : HANDLE,
+    wAttribute : u16,
+    nLength : u32,
+    dwWriteCoord : COORD,
+    lpNumberOfAttrsWritten : *u32
+) -> BOOL #foreign KERNEL32;
+
+FillConsoleOutputCharacterA :: (
+    hConsoleOutput : HANDLE,
+    cCharacter : CHAR,
+    nLength : u32,
+    dwWriteCoord : COORD,
+    lpNumberOfCharsWritten : *u32
+) -> BOOL #foreign KERNEL32;
+
+FillConsoleOutputCharacterW :: (
+    hConsoleOutput : HANDLE,
+    cCharacter : u16,
+    nLength : u32,
+    dwWriteCoord : COORD,
+    lpNumberOfCharsWritten : *u32
+) -> BOOL #foreign KERNEL32;
+
 FlushConsoleInputBuffer :: (hConsoleInput : HANDLE) -> BOOL #foreign KERNEL32;
 FreeConsole :: () -> BOOL #foreign KERNEL32;
 GenerateConsoleCtrlEvent :: (dwCtrlEvent : u32, dwProcessGroupId : u32) -> BOOL #foreign KERNEL32;
@@ -306,18 +341,81 @@ GetNumberOfConsoleInputEvents :: (hConsoleInput : HANDLE, lpNumberOfEvents : *u3
 GetNumberOfConsoleMouseButtons :: (lpNumberOfMouseButtons : *u32) -> BOOL #foreign KERNEL32;
 PeekConsoleInputA :: (hConsoleInput : HANDLE, lpBuffer : *INPUT_RECORD, nLength : u32, lpNumberOfEventsRead : *u32) -> BOOL #foreign KERNEL32;
 PeekConsoleInputW :: (hConsoleInput : HANDLE, lpBuffer : *INPUT_RECORD, nLength : u32, lpNumberOfEventsRead : *u32) -> BOOL #foreign KERNEL32;
-ReadConsoleA :: (hConsoleInput : HANDLE, lpBuffer : *void, nNumberOfCharsToRead : u32, lpNumberOfCharsRead : *u32, pInputControl : *CONSOLE_READCONSOLE_CONTROL) -> BOOL #foreign KERNEL32;
+ReadConsoleA :: (
+    hConsoleInput : HANDLE,
+    lpBuffer : *void,
+    nNumberOfCharsToRead : u32,
+    lpNumberOfCharsRead : *u32,
+    pInputControl : *CONSOLE_READCONSOLE_CONTROL
+) -> BOOL #foreign KERNEL32;
+
 ReadConsoleInputA :: (hConsoleInput : HANDLE, lpBuffer : *INPUT_RECORD, nLength : u32, lpNumberOfEventsRead : *u32) -> BOOL #foreign KERNEL32;
 ReadConsoleInputW :: (hConsoleInput : HANDLE, lpBuffer : *INPUT_RECORD, nLength : u32, lpNumberOfEventsRead : *u32) -> BOOL #foreign KERNEL32;
-ReadConsoleOutputA :: (hConsoleOutput : HANDLE, lpBuffer : *CHAR_INFO, dwBufferSize : COORD, dwBufferCoord : COORD, lpReadRegion : *SMALL_RECT) -> BOOL #foreign KERNEL32;
-ReadConsoleOutputAttribute :: (hConsoleOutput : HANDLE, lpAttribute : *u16, nLength : u32, dwReadCoord : COORD, lpNumberOfAttrsRead : *u32) -> BOOL #foreign KERNEL32;
-ReadConsoleOutputCharacterA :: (hConsoleOutput : HANDLE, lpCharacter : *u8, nLength : u32, dwReadCoord : COORD, lpNumberOfCharsRead : *u32) -> BOOL #foreign KERNEL32;
-ReadConsoleOutputCharacterW :: (hConsoleOutput : HANDLE, lpCharacter : *u16, nLength : u32, dwReadCoord : COORD, lpNumberOfCharsRead : *u32) -> BOOL #foreign KERNEL32;
-ReadConsoleOutputW :: (hConsoleOutput : HANDLE, lpBuffer : *CHAR_INFO, dwBufferSize : COORD, dwBufferCoord : COORD, lpReadRegion : *SMALL_RECT) -> BOOL #foreign KERNEL32;
-ReadConsoleW :: (hConsoleInput : HANDLE, lpBuffer : *void, nNumberOfCharsToRead : u32, lpNumberOfCharsRead : *u32, pInputControl : *CONSOLE_READCONSOLE_CONTROL) -> BOOL #foreign KERNEL32;
+ReadConsoleOutputA :: (
+    hConsoleOutput : HANDLE,
+    lpBuffer : *CHAR_INFO,
+    dwBufferSize : COORD,
+    dwBufferCoord : COORD,
+    lpReadRegion : *SMALL_RECT
+) -> BOOL #foreign KERNEL32;
+
+ReadConsoleOutputAttribute :: (
+    hConsoleOutput : HANDLE,
+    lpAttribute : *u16,
+    nLength : u32,
+    dwReadCoord : COORD,
+    lpNumberOfAttrsRead : *u32
+) -> BOOL #foreign KERNEL32;
+
+ReadConsoleOutputCharacterA :: (
+    hConsoleOutput : HANDLE,
+    lpCharacter : *u8,
+    nLength : u32,
+    dwReadCoord : COORD,
+    lpNumberOfCharsRead : *u32
+) -> BOOL #foreign KERNEL32;
+
+ReadConsoleOutputCharacterW :: (
+    hConsoleOutput : HANDLE,
+    lpCharacter : *u16,
+    nLength : u32,
+    dwReadCoord : COORD,
+    lpNumberOfCharsRead : *u32
+) -> BOOL #foreign KERNEL32;
+
+ReadConsoleOutputW :: (
+    hConsoleOutput : HANDLE,
+    lpBuffer : *CHAR_INFO,
+    dwBufferSize : COORD,
+    dwBufferCoord : COORD,
+    lpReadRegion : *SMALL_RECT
+) -> BOOL #foreign KERNEL32;
+
+ReadConsoleW :: (
+    hConsoleInput : HANDLE,
+    lpBuffer : *void,
+    nNumberOfCharsToRead : u32,
+    lpNumberOfCharsRead : *u32,
+    pInputControl : *CONSOLE_READCONSOLE_CONTROL
+) -> BOOL #foreign KERNEL32;
+
 ResizePseudoConsole :: (hPC : HPCON, size : COORD) -> HRESULT #foreign KERNEL32;
-ScrollConsoleScreenBufferA :: (hConsoleOutput : HANDLE, lpScrollRectangle : *SMALL_RECT, lpClipRectangle : *SMALL_RECT, dwDestinationOrigin : COORD, lpFill : *CHAR_INFO) -> BOOL #foreign KERNEL32;
-ScrollConsoleScreenBufferW :: (hConsoleOutput : HANDLE, lpScrollRectangle : *SMALL_RECT, lpClipRectangle : *SMALL_RECT, dwDestinationOrigin : COORD, lpFill : *CHAR_INFO) -> BOOL #foreign KERNEL32;
+ScrollConsoleScreenBufferA :: (
+    hConsoleOutput : HANDLE,
+    lpScrollRectangle : *SMALL_RECT,
+    lpClipRectangle : *SMALL_RECT,
+    dwDestinationOrigin : COORD,
+    lpFill : *CHAR_INFO
+) -> BOOL #foreign KERNEL32;
+
+ScrollConsoleScreenBufferW :: (
+    hConsoleOutput : HANDLE,
+    lpScrollRectangle : *SMALL_RECT,
+    lpClipRectangle : *SMALL_RECT,
+    dwDestinationOrigin : COORD,
+    lpFill : *CHAR_INFO
+) -> BOOL #foreign KERNEL32;
+
 SetConsoleActiveScreenBuffer :: (hConsoleOutput : HANDLE) -> BOOL #foreign KERNEL32;
 SetConsoleCP :: (wCodePageID : u32) -> BOOL #foreign KERNEL32;
 SetConsoleCtrlHandler :: (HandlerRoutine : PHANDLER_ROUTINE, Add : BOOL) -> BOOL #foreign KERNEL32;
@@ -334,15 +432,64 @@ SetConsoleTitleA :: (lpConsoleTitle : PSTR) -> BOOL #foreign KERNEL32;
 SetConsoleTitleW :: (lpConsoleTitle : PWSTR) -> BOOL #foreign KERNEL32;
 SetConsoleWindowInfo :: (hConsoleOutput : HANDLE, bAbsolute : BOOL, lpConsoleWindow : *SMALL_RECT) -> BOOL #foreign KERNEL32;
 SetCurrentConsoleFontEx :: (hConsoleOutput : HANDLE, bMaximumWindow : BOOL, lpConsoleCurrentFontEx : *CONSOLE_FONT_INFOEX) -> BOOL #foreign KERNEL32;
-WriteConsoleA :: (hConsoleOutput : HANDLE, lpBuffer : *void, nNumberOfCharsToWrite : u32, lpNumberOfCharsWritten : *u32, lpReserved : *void) -> BOOL #foreign KERNEL32;
+WriteConsoleA :: (
+    hConsoleOutput : HANDLE,
+    lpBuffer : *void,
+    nNumberOfCharsToWrite : u32,
+    lpNumberOfCharsWritten : *u32,
+    lpReserved : *void
+) -> BOOL #foreign KERNEL32;
+
 WriteConsoleInputA :: (hConsoleInput : HANDLE, lpBuffer : *INPUT_RECORD, nLength : u32, lpNumberOfEventsWritten : *u32) -> BOOL #foreign KERNEL32;
 WriteConsoleInputW :: (hConsoleInput : HANDLE, lpBuffer : *INPUT_RECORD, nLength : u32, lpNumberOfEventsWritten : *u32) -> BOOL #foreign KERNEL32;
-WriteConsoleOutputA :: (hConsoleOutput : HANDLE, lpBuffer : *CHAR_INFO, dwBufferSize : COORD, dwBufferCoord : COORD, lpWriteRegion : *SMALL_RECT) -> BOOL #foreign KERNEL32;
-WriteConsoleOutputAttribute :: (hConsoleOutput : HANDLE, lpAttribute : *u16, nLength : u32, dwWriteCoord : COORD, lpNumberOfAttrsWritten : *u32) -> BOOL #foreign KERNEL32;
-WriteConsoleOutputCharacterA :: (hConsoleOutput : HANDLE, lpCharacter : *u8, nLength : u32, dwWriteCoord : COORD, lpNumberOfCharsWritten : *u32) -> BOOL #foreign KERNEL32;
-WriteConsoleOutputCharacterW :: (hConsoleOutput : HANDLE, lpCharacter : *u16, nLength : u32, dwWriteCoord : COORD, lpNumberOfCharsWritten : *u32) -> BOOL #foreign KERNEL32;
-WriteConsoleOutputW :: (hConsoleOutput : HANDLE, lpBuffer : *CHAR_INFO, dwBufferSize : COORD, dwBufferCoord : COORD, lpWriteRegion : *SMALL_RECT) -> BOOL #foreign KERNEL32;
-WriteConsoleW :: (hConsoleOutput : HANDLE, lpBuffer : *void, nNumberOfCharsToWrite : u32, lpNumberOfCharsWritten : *u32, lpReserved : *void) -> BOOL #foreign KERNEL32;
+WriteConsoleOutputA :: (
+    hConsoleOutput : HANDLE,
+    lpBuffer : *CHAR_INFO,
+    dwBufferSize : COORD,
+    dwBufferCoord : COORD,
+    lpWriteRegion : *SMALL_RECT
+) -> BOOL #foreign KERNEL32;
+
+WriteConsoleOutputAttribute :: (
+    hConsoleOutput : HANDLE,
+    lpAttribute : *u16,
+    nLength : u32,
+    dwWriteCoord : COORD,
+    lpNumberOfAttrsWritten : *u32
+) -> BOOL #foreign KERNEL32;
+
+WriteConsoleOutputCharacterA :: (
+    hConsoleOutput : HANDLE,
+    lpCharacter : *u8,
+    nLength : u32,
+    dwWriteCoord : COORD,
+    lpNumberOfCharsWritten : *u32
+) -> BOOL #foreign KERNEL32;
+
+WriteConsoleOutputCharacterW :: (
+    hConsoleOutput : HANDLE,
+    lpCharacter : *u16,
+    nLength : u32,
+    dwWriteCoord : COORD,
+    lpNumberOfCharsWritten : *u32
+) -> BOOL #foreign KERNEL32;
+
+WriteConsoleOutputW :: (
+    hConsoleOutput : HANDLE,
+    lpBuffer : *CHAR_INFO,
+    dwBufferSize : COORD,
+    dwBufferCoord : COORD,
+    lpWriteRegion : *SMALL_RECT
+) -> BOOL #foreign KERNEL32;
+
+WriteConsoleW :: (
+    hConsoleOutput : HANDLE,
+    lpBuffer : *void,
+    nNumberOfCharsToWrite : u32,
+    lpNumberOfCharsWritten : *u32,
+    lpReserved : *void
+) -> BOOL #foreign KERNEL32;
+
 
 // System libraries
 

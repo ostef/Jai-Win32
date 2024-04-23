@@ -89,7 +89,14 @@ PROCESS_PER_MONITOR_DPI_AWARE :: 2;
 
 // Functions
 
-AdjustWindowRectExForDpi :: (lpRect : *RECT, dwStyle : u32, bMenu : BOOL, dwExStyle : u32, dpi : u32) -> BOOL #foreign USER32;
+AdjustWindowRectExForDpi :: (
+    lpRect : *RECT,
+    dwStyle : u32,
+    bMenu : BOOL,
+    dwExStyle : u32,
+    dpi : u32
+) -> BOOL #foreign USER32;
+
 AreDpiAwarenessContextsEqual :: (dpiContextA : DPI_AWARENESS_CONTEXT, dpiContextB : DPI_AWARENESS_CONTEXT) -> BOOL #foreign USER32;
 EnableNonClientDpiScaling :: (hwnd : HWND) -> BOOL #foreign USER32;
 GetAwarenessFromDpiAwarenessContext :: (value : DPI_AWARENESS_CONTEXT) -> DPI_AWARENESS #foreign USER32;
@@ -117,7 +124,14 @@ SetProcessDpiAwareness :: (value : PROCESS_DPI_AWARENESS) -> HRESULT #foreign Sh
 SetProcessDpiAwarenessContext :: (value : DPI_AWARENESS_CONTEXT) -> BOOL #foreign USER32;
 SetThreadDpiAwarenessContext :: (dpiContext : DPI_AWARENESS_CONTEXT) -> DPI_AWARENESS_CONTEXT #foreign USER32;
 SetThreadDpiHostingBehavior :: (value : DPI_HOSTING_BEHAVIOR) -> DPI_HOSTING_BEHAVIOR #foreign USER32;
-SystemParametersInfoForDpi :: (uiAction : u32, uiParam : u32, pvParam : *void, fWinIni : u32, dpi : u32) -> BOOL #foreign USER32;
+SystemParametersInfoForDpi :: (
+    uiAction : u32,
+    uiParam : u32,
+    pvParam : *void,
+    fWinIni : u32,
+    dpi : u32
+) -> BOOL #foreign USER32;
+
 
 // System libraries
 

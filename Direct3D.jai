@@ -1910,8 +1910,15 @@ ID3DBlob :: struct
     #place base;
     vtable : *ID3DBlobVTable;
 
-    GetBufferPointer :: inline (this : *ID3DBlob) -> *void #no_context { return this.vtable.GetBufferPointer (this); }
-    GetBufferSize :: inline (this : *ID3DBlob) -> u64 #no_context { return this.vtable.GetBufferSize (this); }
+    GetBufferPointer :: inline (this : *ID3DBlob) -> *void #no_context
+    {
+        return this.vtable.GetBufferPointer (this);
+    }
+
+    GetBufferSize :: inline (this : *ID3DBlob) -> u64 #no_context
+    {
+        return this.vtable.GetBufferSize (this);
+    }
 }
 
 ID3DBlobVTable :: struct
@@ -1932,8 +1939,15 @@ ID3DDestructionNotifier :: struct
     #place base;
     vtable : *ID3DDestructionNotifierVTable;
 
-    RegisterDestructionCallback :: inline (this : *ID3DDestructionNotifier, callbackFn : PFN_DESTRUCTION_CALLBACK, pData : *void, pCallbackID : *u32) -> HRESULT #no_context { return this.vtable.RegisterDestructionCallback (this, callbackFn, pData, pCallbackID); }
-    UnregisterDestructionCallback :: inline (this : *ID3DDestructionNotifier, callbackID : u32) -> HRESULT #no_context { return this.vtable.UnregisterDestructionCallback (this, callbackID); }
+    RegisterDestructionCallback :: inline (this : *ID3DDestructionNotifier, callbackFn : PFN_DESTRUCTION_CALLBACK, pData : *void, pCallbackID : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.RegisterDestructionCallback (this, callbackFn, pData, pCallbackID);
+    }
+
+    UnregisterDestructionCallback :: inline (this : *ID3DDestructionNotifier, callbackID : u32) -> HRESULT #no_context
+    {
+        return this.vtable.UnregisterDestructionCallback (this, callbackID);
+    }
 }
 
 ID3DDestructionNotifierVTable :: struct
@@ -1951,8 +1965,21 @@ ID3DInclude :: struct
 
     vtable : *ID3DIncludeVTable;
 
-    Open :: inline (this : *ID3DInclude, IncludeType : D3D_INCLUDE_TYPE, pFileName : PSTR, pParentData : *void, ppData : **void, pBytes : *u32) -> HRESULT #no_context { return this.vtable.Open (this, IncludeType, pFileName, pParentData, ppData, pBytes); }
-    Close :: inline (this : *ID3DInclude, pData : *void) -> HRESULT #no_context { return this.vtable.Close (this, pData); }
+    Open :: inline (this : *ID3DInclude, 
+        IncludeType : D3D_INCLUDE_TYPE,
+        pFileName : PSTR,
+        pParentData : *void,
+        ppData : **void,
+        pBytes : *u32
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.Open (this, IncludeType, pFileName, pParentData, ppData, pBytes);
+    }
+
+    Close :: inline (this : *ID3DInclude, pData : *void) -> HRESULT #no_context
+    {
+        return this.vtable.Close (this, pData);
+    }
 }
 
 ID3DIncludeVTable :: struct

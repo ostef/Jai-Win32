@@ -462,11 +462,52 @@ WIN32_MEMORY_REGION_INFORMATION :: struct
 AddSecureMemoryCacheCallback :: (pfnCallBack : PSECURE_MEMORY_CACHE_CALLBACK) -> BOOL #foreign KERNEL32;
 AllocateUserPhysicalPages :: (hProcess : HANDLE, NumberOfPages : *u64, PageArray : *u64) -> BOOL #foreign KERNEL32;
 AllocateUserPhysicalPagesNuma :: (hProcess : HANDLE, NumberOfPages : *u64, PageArray : *u64, nndPreferred : u32) -> BOOL #foreign KERNEL32;
-CreateFileMappingA :: (hFile : HANDLE, lpFileMappingAttributes : *SECURITY_ATTRIBUTES, flProtect : PAGE_PROTECTION_FLAGS, dwMaximumSizeHigh : u32, dwMaximumSizeLow : u32, lpName : PSTR) -> HANDLE #foreign KERNEL32;
-CreateFileMappingFromApp :: (hFile : HANDLE, SecurityAttributes : *SECURITY_ATTRIBUTES, PageProtection : PAGE_PROTECTION_FLAGS, MaximumSize : u64, Name : PWSTR) -> HANDLE #foreign KERNEL32;
-CreateFileMappingNumaA :: (hFile : HANDLE, lpFileMappingAttributes : *SECURITY_ATTRIBUTES, flProtect : PAGE_PROTECTION_FLAGS, dwMaximumSizeHigh : u32, dwMaximumSizeLow : u32, lpName : PSTR, nndPreferred : u32) -> HANDLE #foreign KERNEL32;
-CreateFileMappingNumaW :: (hFile : HANDLE, lpFileMappingAttributes : *SECURITY_ATTRIBUTES, flProtect : PAGE_PROTECTION_FLAGS, dwMaximumSizeHigh : u32, dwMaximumSizeLow : u32, lpName : PWSTR, nndPreferred : u32) -> HANDLE #foreign KERNEL32;
-CreateFileMappingW :: (hFile : HANDLE, lpFileMappingAttributes : *SECURITY_ATTRIBUTES, flProtect : PAGE_PROTECTION_FLAGS, dwMaximumSizeHigh : u32, dwMaximumSizeLow : u32, lpName : PWSTR) -> HANDLE #foreign KERNEL32;
+CreateFileMappingA :: (
+    hFile : HANDLE,
+    lpFileMappingAttributes : *SECURITY_ATTRIBUTES,
+    flProtect : PAGE_PROTECTION_FLAGS,
+    dwMaximumSizeHigh : u32,
+    dwMaximumSizeLow : u32,
+    lpName : PSTR
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileMappingFromApp :: (
+    hFile : HANDLE,
+    SecurityAttributes : *SECURITY_ATTRIBUTES,
+    PageProtection : PAGE_PROTECTION_FLAGS,
+    MaximumSize : u64,
+    Name : PWSTR
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileMappingNumaA :: (
+    hFile : HANDLE,
+    lpFileMappingAttributes : *SECURITY_ATTRIBUTES,
+    flProtect : PAGE_PROTECTION_FLAGS,
+    dwMaximumSizeHigh : u32,
+    dwMaximumSizeLow : u32,
+    lpName : PSTR,
+    nndPreferred : u32
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileMappingNumaW :: (
+    hFile : HANDLE,
+    lpFileMappingAttributes : *SECURITY_ATTRIBUTES,
+    flProtect : PAGE_PROTECTION_FLAGS,
+    dwMaximumSizeHigh : u32,
+    dwMaximumSizeLow : u32,
+    lpName : PWSTR,
+    nndPreferred : u32
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileMappingW :: (
+    hFile : HANDLE,
+    lpFileMappingAttributes : *SECURITY_ATTRIBUTES,
+    flProtect : PAGE_PROTECTION_FLAGS,
+    dwMaximumSizeHigh : u32,
+    dwMaximumSizeLow : u32,
+    lpName : PWSTR
+) -> HANDLE #foreign KERNEL32;
+
 CreateMemoryResourceNotification :: (NotificationType : MEMORY_RESOURCE_NOTIFICATION_TYPE) -> HANDLE #foreign KERNEL32;
 DiscardVirtualMemory :: (VirtualAddress : *void, Size : u64) -> u32 #foreign KERNEL32;
 FlushViewOfFile :: (lpBaseAddress : *void, dwNumberOfBytesToFlush : u64) -> BOOL #foreign KERNEL32;
@@ -477,7 +518,15 @@ GetProcessHeap :: () -> HeapHandle #foreign KERNEL32;
 GetProcessHeaps :: (NumberOfHeaps : u32, ProcessHeaps : *HeapHandle) -> u32 #foreign KERNEL32;
 GetProcessWorkingSetSizeEx :: (hProcess : HANDLE, lpMinimumWorkingSetSize : *u64, lpMaximumWorkingSetSize : *u64, Flags : *u32) -> BOOL #foreign KERNEL32;
 GetSystemFileCacheSize :: (lpMinimumFileCacheSize : *u64, lpMaximumFileCacheSize : *u64, lpFlags : *u32) -> BOOL #foreign KERNEL32;
-GetWriteWatch :: (dwFlags : u32, lpBaseAddress : *void, dwRegionSize : u64, lpAddresses : **void, lpdwCount : *u64, lpdwGranularity : *u32) -> u32 #foreign KERNEL32;
+GetWriteWatch :: (
+    dwFlags : u32,
+    lpBaseAddress : *void,
+    dwRegionSize : u64,
+    lpAddresses : **void,
+    lpdwCount : *u64,
+    lpdwGranularity : *u32
+) -> u32 #foreign KERNEL32;
+
 GlobalAlloc :: (uFlags : GLOBAL_ALLOC_FLAGS, dwBytes : u64) -> s64 #foreign KERNEL32;
 GlobalFlags :: (hMem : s64) -> u32 #foreign KERNEL32;
 GlobalFree :: (hMem : s64) -> s64 #foreign KERNEL32;
@@ -492,7 +541,14 @@ HeapCreate :: (flOptions : HEAP_FLAGS, dwInitialSize : u64, dwMaximumSize : u64)
 HeapDestroy :: (hHeap : HeapHandle) -> BOOL #foreign KERNEL32;
 HeapFree :: (hHeap : HeapHandle, dwFlags : HEAP_FLAGS, lpMem : *void) -> BOOL #foreign KERNEL32;
 HeapLock :: (hHeap : HeapHandle) -> BOOL #foreign KERNEL32;
-HeapQueryInformation :: (_HeapHandle : HeapHandle, HeapInformationClass : HEAP_INFORMATION_CLASS, HeapInformation : *void, HeapInformationLength : u64, ReturnLength : *u64) -> BOOL #foreign KERNEL32;
+HeapQueryInformation :: (
+    _HeapHandle : HeapHandle,
+    HeapInformationClass : HEAP_INFORMATION_CLASS,
+    HeapInformation : *void,
+    HeapInformationLength : u64,
+    ReturnLength : *u64
+) -> BOOL #foreign KERNEL32;
+
 HeapReAlloc :: (hHeap : HeapHandle, dwFlags : HEAP_FLAGS, lpMem : *void, dwBytes : u64) -> *void #foreign KERNEL32;
 HeapSetInformation :: (_HeapHandle : HeapHandle, HeapInformationClass : HEAP_INFORMATION_CLASS, HeapInformation : *void, HeapInformationLength : u64) -> BOOL #foreign KERNEL32;
 HeapSize :: (hHeap : HeapHandle, dwFlags : HEAP_FLAGS, lpMem : *void) -> u64 #foreign KERNEL32;
@@ -515,9 +571,33 @@ LocalSize :: (hMem : s64) -> u64 #foreign KERNEL32;
 LocalUnlock :: (hMem : s64) -> BOOL #foreign KERNEL32;
 MapUserPhysicalPages :: (VirtualAddress : *void, NumberOfPages : u64, PageArray : *u64) -> BOOL #foreign KERNEL32;
 MapUserPhysicalPagesScatter :: (VirtualAddresses : **void, NumberOfPages : u64, PageArray : *u64) -> BOOL #foreign KERNEL32;
-MapViewOfFile :: (hFileMappingObject : HANDLE, dwDesiredAccess : FILE_MAP, dwFileOffsetHigh : u32, dwFileOffsetLow : u32, dwNumberOfBytesToMap : u64) -> *void #foreign KERNEL32;
-MapViewOfFileEx :: (hFileMappingObject : HANDLE, dwDesiredAccess : FILE_MAP, dwFileOffsetHigh : u32, dwFileOffsetLow : u32, dwNumberOfBytesToMap : u64, lpBaseAddress : *void) -> *void #foreign KERNEL32;
-MapViewOfFileExNuma :: (hFileMappingObject : HANDLE, dwDesiredAccess : FILE_MAP, dwFileOffsetHigh : u32, dwFileOffsetLow : u32, dwNumberOfBytesToMap : u64, lpBaseAddress : *void, nndPreferred : u32) -> *void #foreign KERNEL32;
+MapViewOfFile :: (
+    hFileMappingObject : HANDLE,
+    dwDesiredAccess : FILE_MAP,
+    dwFileOffsetHigh : u32,
+    dwFileOffsetLow : u32,
+    dwNumberOfBytesToMap : u64
+) -> *void #foreign KERNEL32;
+
+MapViewOfFileEx :: (
+    hFileMappingObject : HANDLE,
+    dwDesiredAccess : FILE_MAP,
+    dwFileOffsetHigh : u32,
+    dwFileOffsetLow : u32,
+    dwNumberOfBytesToMap : u64,
+    lpBaseAddress : *void
+) -> *void #foreign KERNEL32;
+
+MapViewOfFileExNuma :: (
+    hFileMappingObject : HANDLE,
+    dwDesiredAccess : FILE_MAP,
+    dwFileOffsetHigh : u32,
+    dwFileOffsetLow : u32,
+    dwNumberOfBytesToMap : u64,
+    lpBaseAddress : *void,
+    nndPreferred : u32
+) -> *void #foreign KERNEL32;
+
 MapViewOfFileFromApp :: (hFileMappingObject : HANDLE, DesiredAccess : FILE_MAP, FileOffset : u64, NumberOfBytesToMap : u64) -> *void #foreign KERNEL32;
 OfferVirtualMemory :: (VirtualAddress : *void, Size : u64, Priority : OFFER_PRIORITY) -> u32 #foreign KERNEL32;
 OpenFileMappingA :: (dwDesiredAccess : u32, bInheritHandle : BOOL, lpName : PSTR) -> HANDLE #foreign KERNEL32;
@@ -538,13 +618,35 @@ UnmapViewOfFile :: (lpBaseAddress : *void) -> BOOL #foreign KERNEL32;
 UnmapViewOfFileEx :: (BaseAddress : *void, UnmapFlags : UNMAP_VIEW_OF_FILE_FLAGS) -> BOOL #foreign KERNEL32;
 UnregisterBadMemoryNotification :: (RegistrationHandle : *void) -> BOOL #foreign KERNEL32;
 VirtualAlloc :: (lpAddress : *void, dwSize : u64, flAllocationType : VIRTUAL_ALLOCATION_TYPE, flProtect : PAGE_PROTECTION_FLAGS) -> *void #foreign KERNEL32;
-VirtualAllocEx :: (hProcess : HANDLE, lpAddress : *void, dwSize : u64, flAllocationType : VIRTUAL_ALLOCATION_TYPE, flProtect : PAGE_PROTECTION_FLAGS) -> *void #foreign KERNEL32;
-VirtualAllocExNuma :: (hProcess : HANDLE, lpAddress : *void, dwSize : u64, flAllocationType : VIRTUAL_ALLOCATION_TYPE, flProtect : u32, nndPreferred : u32) -> *void #foreign KERNEL32;
+VirtualAllocEx :: (
+    hProcess : HANDLE,
+    lpAddress : *void,
+    dwSize : u64,
+    flAllocationType : VIRTUAL_ALLOCATION_TYPE,
+    flProtect : PAGE_PROTECTION_FLAGS
+) -> *void #foreign KERNEL32;
+
+VirtualAllocExNuma :: (
+    hProcess : HANDLE,
+    lpAddress : *void,
+    dwSize : u64,
+    flAllocationType : VIRTUAL_ALLOCATION_TYPE,
+    flProtect : u32,
+    nndPreferred : u32
+) -> *void #foreign KERNEL32;
+
 VirtualFree :: (lpAddress : *void, dwSize : u64, dwFreeType : VIRTUAL_FREE_TYPE) -> BOOL #foreign KERNEL32;
 VirtualFreeEx :: (hProcess : HANDLE, lpAddress : *void, dwSize : u64, dwFreeType : VIRTUAL_FREE_TYPE) -> BOOL #foreign KERNEL32;
 VirtualLock :: (lpAddress : *void, dwSize : u64) -> BOOL #foreign KERNEL32;
 VirtualProtect :: (lpAddress : *void, dwSize : u64, flNewProtect : PAGE_PROTECTION_FLAGS, lpflOldProtect : *PAGE_PROTECTION_FLAGS) -> BOOL #foreign KERNEL32;
-VirtualProtectEx :: (hProcess : HANDLE, lpAddress : *void, dwSize : u64, flNewProtect : PAGE_PROTECTION_FLAGS, lpflOldProtect : *PAGE_PROTECTION_FLAGS) -> BOOL #foreign KERNEL32;
+VirtualProtectEx :: (
+    hProcess : HANDLE,
+    lpAddress : *void,
+    dwSize : u64,
+    flNewProtect : PAGE_PROTECTION_FLAGS,
+    lpflOldProtect : *PAGE_PROTECTION_FLAGS
+) -> BOOL #foreign KERNEL32;
+
 VirtualQuery :: (lpAddress : *void, lpBuffer : *MEMORY_BASIC_INFORMATION, dwLength : u64) -> u64 #foreign KERNEL32;
 VirtualQueryEx :: (hProcess : HANDLE, lpAddress : *void, lpBuffer : *MEMORY_BASIC_INFORMATION, dwLength : u64) -> u64 #foreign KERNEL32;
 VirtualUnlock :: (lpAddress : *void, dwSize : u64) -> BOOL #foreign KERNEL32;

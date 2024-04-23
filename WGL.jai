@@ -71,21 +71,62 @@ wglCopyContext :: (param0 : HGLRC, param1 : HGLRC, param2 : u32) -> BOOL #foreig
 wglCreateContext :: (param0 : HDC) -> HGLRC #foreign OPENGL32;
 wglCreateLayerContext :: (param0 : HDC, param1 : s32) -> HGLRC #foreign OPENGL32;
 wglDeleteContext :: (param0 : HGLRC) -> BOOL #foreign OPENGL32;
-wglDescribeLayerPlane :: (param0 : HDC, param1 : s32, param2 : s32, param3 : u32, param4 : *LAYERPLANEDESCRIPTOR) -> BOOL #foreign OPENGL32;
+wglDescribeLayerPlane :: (
+    param0 : HDC,
+    param1 : s32,
+    param2 : s32,
+    param3 : u32,
+    param4 : *LAYERPLANEDESCRIPTOR
+) -> BOOL #foreign OPENGL32;
+
 wglGetCurrentContext :: () -> HGLRC #foreign OPENGL32;
 wglGetCurrentDC :: () -> HDC #foreign OPENGL32;
-wglGetLayerPaletteEntries :: (param0 : HDC, param1 : s32, param2 : s32, param3 : s32, param4 : *u32) -> s32 #foreign OPENGL32;
+wglGetLayerPaletteEntries :: (
+    param0 : HDC,
+    param1 : s32,
+    param2 : s32,
+    param3 : s32,
+    param4 : *u32
+) -> s32 #foreign OPENGL32;
+
 wglGetProcAddress :: (param0 : PSTR) -> *void #foreign OPENGL32;
 wglMakeCurrent :: (param0 : HDC, param1 : HGLRC) -> BOOL #foreign OPENGL32;
 wglRealizeLayerPalette :: (param0 : HDC, param1 : s32, param2 : BOOL) -> BOOL #foreign OPENGL32;
-wglSetLayerPaletteEntries :: (param0 : HDC, param1 : s32, param2 : s32, param3 : s32, param4 : *u32) -> s32 #foreign OPENGL32;
+wglSetLayerPaletteEntries :: (
+    param0 : HDC,
+    param1 : s32,
+    param2 : s32,
+    param3 : s32,
+    param4 : *u32
+) -> s32 #foreign OPENGL32;
+
 wglShareLists :: (param0 : HGLRC, param1 : HGLRC) -> BOOL #foreign OPENGL32;
 wglSwapLayerBuffers :: (param0 : HDC, param1 : u32) -> BOOL #foreign OPENGL32;
 wglSwapMultipleBuffers :: (param0 : u32, param1 : *WGLSWAP) -> u32 #foreign OPENGL32;
 wglUseFontBitmapsA :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32) -> BOOL #foreign OPENGL32;
 wglUseFontBitmapsW :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32) -> BOOL #foreign OPENGL32;
-wglUseFontOutlinesA :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32, param4 : float, param5 : float, param6 : s32, param7 : *GLYPHMETRICSFLOAT) -> BOOL #foreign OPENGL32;
-wglUseFontOutlinesW :: (param0 : HDC, param1 : u32, param2 : u32, param3 : u32, param4 : float, param5 : float, param6 : s32, param7 : *GLYPHMETRICSFLOAT) -> BOOL #foreign OPENGL32;
+wglUseFontOutlinesA :: (
+    param0 : HDC,
+    param1 : u32,
+    param2 : u32,
+    param3 : u32,
+    param4 : float,
+    param5 : float,
+    param6 : s32,
+    param7 : *GLYPHMETRICSFLOAT
+) -> BOOL #foreign OPENGL32;
+
+wglUseFontOutlinesW :: (
+    param0 : HDC,
+    param1 : u32,
+    param2 : u32,
+    param3 : u32,
+    param4 : float,
+    param5 : float,
+    param6 : s32,
+    param7 : *GLYPHMETRICSFLOAT
+) -> BOOL #foreign OPENGL32;
+
 
 // System libraries
 

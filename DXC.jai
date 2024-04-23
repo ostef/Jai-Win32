@@ -218,7 +218,10 @@ IDxcAssembler :: struct
     #place base;
     vtable : *IDxcAssemblerVTable;
 
-    AssembleToContainer :: inline (this : *IDxcAssembler, pShader : *IDxcBlob, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.AssembleToContainer (this, pShader, ppResult); }
+    AssembleToContainer :: inline (this : *IDxcAssembler, pShader : *IDxcBlob, ppResult : **IDxcOperationResult) -> HRESULT #no_context
+    {
+        return this.vtable.AssembleToContainer (this, pShader, ppResult);
+    }
 }
 
 IDxcAssemblerVTable :: struct
@@ -238,8 +241,15 @@ IDxcBlob :: struct
     #place base;
     vtable : *IDxcBlobVTable;
 
-    GetBufferPointer :: inline (this : *IDxcBlob) -> *void #no_context { return this.vtable.GetBufferPointer (this); }
-    GetBufferSize :: inline (this : *IDxcBlob) -> u64 #no_context { return this.vtable.GetBufferSize (this); }
+    GetBufferPointer :: inline (this : *IDxcBlob) -> *void #no_context
+    {
+        return this.vtable.GetBufferPointer (this);
+    }
+
+    GetBufferSize :: inline (this : *IDxcBlob) -> u64 #no_context
+    {
+        return this.vtable.GetBufferSize (this);
+    }
 }
 
 IDxcBlobVTable :: struct
@@ -260,7 +270,10 @@ IDxcBlobEncoding :: struct
     #place base;
     vtable : *IDxcBlobEncodingVTable;
 
-    GetEncoding :: inline (this : *IDxcBlobEncoding, pKnown : *BOOL, pCodePage : *DXC_CP) -> HRESULT #no_context { return this.vtable.GetEncoding (this, pKnown, pCodePage); }
+    GetEncoding :: inline (this : *IDxcBlobEncoding, pKnown : *BOOL, pCodePage : *DXC_CP) -> HRESULT #no_context
+    {
+        return this.vtable.GetEncoding (this, pKnown, pCodePage);
+    }
 }
 
 IDxcBlobEncodingVTable :: struct
@@ -280,8 +293,15 @@ IDxcBlobUtf16 :: struct
     #place base;
     vtable : *IDxcBlobUtf16VTable;
 
-    GetStringPointer :: inline (this : *IDxcBlobUtf16) -> PWSTR #no_context { return this.vtable.GetStringPointer (this); }
-    GetStringLength :: inline (this : *IDxcBlobUtf16) -> u64 #no_context { return this.vtable.GetStringLength (this); }
+    GetStringPointer :: inline (this : *IDxcBlobUtf16) -> PWSTR #no_context
+    {
+        return this.vtable.GetStringPointer (this);
+    }
+
+    GetStringLength :: inline (this : *IDxcBlobUtf16) -> u64 #no_context
+    {
+        return this.vtable.GetStringLength (this);
+    }
 }
 
 IDxcBlobUtf16VTable :: struct
@@ -302,8 +322,15 @@ IDxcBlobUtf8 :: struct
     #place base;
     vtable : *IDxcBlobUtf8VTable;
 
-    GetStringPointer :: inline (this : *IDxcBlobUtf8) -> PSTR #no_context { return this.vtable.GetStringPointer (this); }
-    GetStringLength :: inline (this : *IDxcBlobUtf8) -> u64 #no_context { return this.vtable.GetStringLength (this); }
+    GetStringPointer :: inline (this : *IDxcBlobUtf8) -> PSTR #no_context
+    {
+        return this.vtable.GetStringPointer (this);
+    }
+
+    GetStringLength :: inline (this : *IDxcBlobUtf8) -> u64 #no_context
+    {
+        return this.vtable.GetStringLength (this);
+    }
 }
 
 IDxcBlobUtf8VTable :: struct
@@ -324,9 +351,40 @@ IDxcCompiler :: struct
     #place base;
     vtable : *IDxcCompilerVTable;
 
-    Compile :: inline (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.Compile (this, pSource, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, pIncludeHandler, ppResult); }
-    Preprocess :: inline (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.Preprocess (this, pSource, pSourceName, pArguments, argCount, pDefines, defineCount, pIncludeHandler, ppResult); }
-    Disassemble :: inline (this : *IDxcCompiler, pSource : *IDxcBlob, ppDisassembly : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.Disassemble (this, pSource, ppDisassembly); }
+    Compile :: inline (this : *IDxcCompiler, 
+        pSource : *IDxcBlob,
+        pSourceName : PWSTR,
+        pEntryPoint : PWSTR,
+        pTargetProfile : PWSTR,
+        pArguments : *PWSTR,
+        argCount : u32,
+        pDefines : *DxcDefine,
+        defineCount : u32,
+        pIncludeHandler : *IDxcIncludeHandler,
+        ppResult : **IDxcOperationResult
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.Compile (this, pSource, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, pIncludeHandler, ppResult);
+    }
+
+    Preprocess :: inline (this : *IDxcCompiler, 
+        pSource : *IDxcBlob,
+        pSourceName : PWSTR,
+        pArguments : *PWSTR,
+        argCount : u32,
+        pDefines : *DxcDefine,
+        defineCount : u32,
+        pIncludeHandler : *IDxcIncludeHandler,
+        ppResult : **IDxcOperationResult
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.Preprocess (this, pSource, pSourceName, pArguments, argCount, pDefines, defineCount, pIncludeHandler, ppResult);
+    }
+
+    Disassemble :: inline (this : *IDxcCompiler, pSource : *IDxcBlob, ppDisassembly : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.Disassemble (this, pSource, ppDisassembly);
+    }
 }
 
 IDxcCompilerVTable :: struct
@@ -348,7 +406,23 @@ IDxcCompiler2 :: struct
     #place base;
     vtable : *IDxcCompiler2VTable;
 
-    CompileWithDebug :: inline (this : *IDxcCompiler2, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult, ppDebugBlobName : *PWSTR, ppDebugBlob : **IDxcBlob) -> HRESULT #no_context { return this.vtable.CompileWithDebug (this, pSource, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, pIncludeHandler, ppResult, ppDebugBlobName, ppDebugBlob); }
+    CompileWithDebug :: inline (this : *IDxcCompiler2, 
+        pSource : *IDxcBlob,
+        pSourceName : PWSTR,
+        pEntryPoint : PWSTR,
+        pTargetProfile : PWSTR,
+        pArguments : *PWSTR,
+        argCount : u32,
+        pDefines : *DxcDefine,
+        defineCount : u32,
+        pIncludeHandler : *IDxcIncludeHandler,
+        ppResult : **IDxcOperationResult,
+        ppDebugBlobName : *PWSTR,
+        ppDebugBlob : **IDxcBlob
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CompileWithDebug (this, pSource, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, pIncludeHandler, ppResult, ppDebugBlobName, ppDebugBlob);
+    }
 }
 
 IDxcCompiler2VTable :: struct
@@ -368,8 +442,22 @@ IDxcCompiler3 :: struct
     #place base;
     vtable : *IDxcCompiler3VTable;
 
-    Compile :: inline (this : *IDxcCompiler3, pSource : *DxcBuffer, pArguments : *PWSTR, argCount : u32, pIncludeHandler : *IDxcIncludeHandler, riid : *GUID, ppResult : **void) -> HRESULT #no_context { return this.vtable.Compile (this, pSource, pArguments, argCount, pIncludeHandler, riid, ppResult); }
-    Disassemble :: inline (this : *IDxcCompiler3, pObject : *DxcBuffer, riid : *GUID, ppResult : **void) -> HRESULT #no_context { return this.vtable.Disassemble (this, pObject, riid, ppResult); }
+    Compile :: inline (this : *IDxcCompiler3, 
+        pSource : *DxcBuffer,
+        pArguments : *PWSTR,
+        argCount : u32,
+        pIncludeHandler : *IDxcIncludeHandler,
+        riid : *GUID,
+        ppResult : **void
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.Compile (this, pSource, pArguments, argCount, pIncludeHandler, riid, ppResult);
+    }
+
+    Disassemble :: inline (this : *IDxcCompiler3, pObject : *DxcBuffer, riid : *GUID, ppResult : **void) -> HRESULT #no_context
+    {
+        return this.vtable.Disassemble (this, pObject, riid, ppResult);
+    }
 }
 
 IDxcCompiler3VTable :: struct
@@ -390,11 +478,30 @@ IDxcCompilerArgs :: struct
     #place base;
     vtable : *IDxcCompilerArgsVTable;
 
-    GetArguments :: inline (this : *IDxcCompilerArgs) -> *PWSTR #no_context { return this.vtable.GetArguments (this); }
-    GetCount :: inline (this : *IDxcCompilerArgs) -> u32 #no_context { return this.vtable.GetCount (this); }
-    AddArguments :: inline (this : *IDxcCompilerArgs, pArguments : *PWSTR, argCount : u32) -> HRESULT #no_context { return this.vtable.AddArguments (this, pArguments, argCount); }
-    AddArgumentsUTF8 :: inline (this : *IDxcCompilerArgs, pArguments : *PSTR, argCount : u32) -> HRESULT #no_context { return this.vtable.AddArgumentsUTF8 (this, pArguments, argCount); }
-    AddDefines :: inline (this : *IDxcCompilerArgs, pDefines : *DxcDefine, defineCount : u32) -> HRESULT #no_context { return this.vtable.AddDefines (this, pDefines, defineCount); }
+    GetArguments :: inline (this : *IDxcCompilerArgs) -> *PWSTR #no_context
+    {
+        return this.vtable.GetArguments (this);
+    }
+
+    GetCount :: inline (this : *IDxcCompilerArgs) -> u32 #no_context
+    {
+        return this.vtable.GetCount (this);
+    }
+
+    AddArguments :: inline (this : *IDxcCompilerArgs, pArguments : *PWSTR, argCount : u32) -> HRESULT #no_context
+    {
+        return this.vtable.AddArguments (this, pArguments, argCount);
+    }
+
+    AddArgumentsUTF8 :: inline (this : *IDxcCompilerArgs, pArguments : *PSTR, argCount : u32) -> HRESULT #no_context
+    {
+        return this.vtable.AddArgumentsUTF8 (this, pArguments, argCount);
+    }
+
+    AddDefines :: inline (this : *IDxcCompilerArgs, pDefines : *DxcDefine, defineCount : u32) -> HRESULT #no_context
+    {
+        return this.vtable.AddDefines (this, pDefines, defineCount);
+    }
 }
 
 IDxcCompilerArgsVTable :: struct
@@ -418,10 +525,25 @@ IDxcContainerBuilder :: struct
     #place base;
     vtable : *IDxcContainerBuilderVTable;
 
-    Load :: inline (this : *IDxcContainerBuilder, pDxilContainerHeader : *IDxcBlob) -> HRESULT #no_context { return this.vtable.Load (this, pDxilContainerHeader); }
-    AddPart :: inline (this : *IDxcContainerBuilder, fourCC : u32, pSource : *IDxcBlob) -> HRESULT #no_context { return this.vtable.AddPart (this, fourCC, pSource); }
-    RemovePart :: inline (this : *IDxcContainerBuilder, fourCC : u32) -> HRESULT #no_context { return this.vtable.RemovePart (this, fourCC); }
-    SerializeContainer :: inline (this : *IDxcContainerBuilder, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.SerializeContainer (this, ppResult); }
+    Load :: inline (this : *IDxcContainerBuilder, pDxilContainerHeader : *IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.Load (this, pDxilContainerHeader);
+    }
+
+    AddPart :: inline (this : *IDxcContainerBuilder, fourCC : u32, pSource : *IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.AddPart (this, fourCC, pSource);
+    }
+
+    RemovePart :: inline (this : *IDxcContainerBuilder, fourCC : u32) -> HRESULT #no_context
+    {
+        return this.vtable.RemovePart (this, fourCC);
+    }
+
+    SerializeContainer :: inline (this : *IDxcContainerBuilder, ppResult : **IDxcOperationResult) -> HRESULT #no_context
+    {
+        return this.vtable.SerializeContainer (this, ppResult);
+    }
 }
 
 IDxcContainerBuilderVTable :: struct
@@ -444,12 +566,35 @@ IDxcContainerReflection :: struct
     #place base;
     vtable : *IDxcContainerReflectionVTable;
 
-    Load :: inline (this : *IDxcContainerReflection, pContainer : *IDxcBlob) -> HRESULT #no_context { return this.vtable.Load (this, pContainer); }
-    GetPartCount :: inline (this : *IDxcContainerReflection, pResult : *u32) -> HRESULT #no_context { return this.vtable.GetPartCount (this, pResult); }
-    GetPartKind :: inline (this : *IDxcContainerReflection, idx : u32, pResult : *u32) -> HRESULT #no_context { return this.vtable.GetPartKind (this, idx, pResult); }
-    GetPartContent :: inline (this : *IDxcContainerReflection, idx : u32, ppResult : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetPartContent (this, idx, ppResult); }
-    FindFirstPartKind :: inline (this : *IDxcContainerReflection, kind : u32, pResult : *u32) -> HRESULT #no_context { return this.vtable.FindFirstPartKind (this, kind, pResult); }
-    GetPartReflection :: inline (this : *IDxcContainerReflection, idx : u32, iid : *GUID, ppvObject : **void) -> HRESULT #no_context { return this.vtable.GetPartReflection (this, idx, iid, ppvObject); }
+    Load :: inline (this : *IDxcContainerReflection, pContainer : *IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.Load (this, pContainer);
+    }
+
+    GetPartCount :: inline (this : *IDxcContainerReflection, pResult : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetPartCount (this, pResult);
+    }
+
+    GetPartKind :: inline (this : *IDxcContainerReflection, idx : u32, pResult : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetPartKind (this, idx, pResult);
+    }
+
+    GetPartContent :: inline (this : *IDxcContainerReflection, idx : u32, ppResult : **IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.GetPartContent (this, idx, ppResult);
+    }
+
+    FindFirstPartKind :: inline (this : *IDxcContainerReflection, kind : u32, pResult : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.FindFirstPartKind (this, kind, pResult);
+    }
+
+    GetPartReflection :: inline (this : *IDxcContainerReflection, idx : u32, iid : *GUID, ppvObject : **void) -> HRESULT #no_context
+    {
+        return this.vtable.GetPartReflection (this, idx, iid, ppvObject);
+    }
 }
 
 IDxcContainerReflectionVTable :: struct
@@ -474,8 +619,21 @@ IDxcExtraOutputs :: struct
     #place base;
     vtable : *IDxcExtraOutputsVTable;
 
-    GetOutputCount :: inline (this : *IDxcExtraOutputs) -> u32 #no_context { return this.vtable.GetOutputCount (this); }
-    GetOutput :: inline (this : *IDxcExtraOutputs, uIndex : u32, iid : *GUID, ppvObject : **void, ppOutputType : **IDxcBlobUtf16, ppOutputName : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetOutput (this, uIndex, iid, ppvObject, ppOutputType, ppOutputName); }
+    GetOutputCount :: inline (this : *IDxcExtraOutputs) -> u32 #no_context
+    {
+        return this.vtable.GetOutputCount (this);
+    }
+
+    GetOutput :: inline (this : *IDxcExtraOutputs, 
+        uIndex : u32,
+        iid : *GUID,
+        ppvObject : **void,
+        ppOutputType : **IDxcBlobUtf16,
+        ppOutputName : **IDxcBlobUtf16
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.GetOutput (this, uIndex, iid, ppvObject, ppOutputType, ppOutputName);
+    }
 }
 
 IDxcExtraOutputsVTable :: struct
@@ -496,7 +654,10 @@ IDxcIncludeHandler :: struct
     #place base;
     vtable : *IDxcIncludeHandlerVTable;
 
-    LoadSource :: inline (this : *IDxcIncludeHandler, pFilename : PWSTR, ppIncludeSource : **IDxcBlob) -> HRESULT #no_context { return this.vtable.LoadSource (this, pFilename, ppIncludeSource); }
+    LoadSource :: inline (this : *IDxcIncludeHandler, pFilename : PWSTR, ppIncludeSource : **IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.LoadSource (this, pFilename, ppIncludeSource);
+    }
 }
 
 IDxcIncludeHandlerVTable :: struct
@@ -516,16 +677,76 @@ IDxcLibrary :: struct
     #place base;
     vtable : *IDxcLibraryVTable;
 
-    SetMalloc :: inline (this : *IDxcLibrary, pMalloc : *IMalloc) -> HRESULT #no_context { return this.vtable.SetMalloc (this, pMalloc); }
-    CreateBlobFromBlob :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #no_context { return this.vtable.CreateBlobFromBlob (this, pBlob, offset, length, ppResult); }
-    CreateBlobFromFile :: inline (this : *IDxcLibrary, pFileName : PWSTR, codePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.CreateBlobFromFile (this, pFileName, codePage, pBlobEncoding); }
-    CreateBlobWithEncodingFromPinned :: inline (this : *IDxcLibrary, pText : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.CreateBlobWithEncodingFromPinned (this, pText, size, codePage, pBlobEncoding); }
-    CreateBlobWithEncodingOnHeapCopy :: inline (this : *IDxcLibrary, pText : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.CreateBlobWithEncodingOnHeapCopy (this, pText, size, codePage, pBlobEncoding); }
-    CreateBlobWithEncodingOnMalloc :: inline (this : *IDxcLibrary, pText : *void, pIMalloc : *IMalloc, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.CreateBlobWithEncodingOnMalloc (this, pText, pIMalloc, size, codePage, pBlobEncoding); }
-    CreateIncludeHandler :: inline (this : *IDxcLibrary, ppResult : **IDxcIncludeHandler) -> HRESULT #no_context { return this.vtable.CreateIncludeHandler (this, ppResult); }
-    CreateStreamFromBlobReadOnly :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #no_context { return this.vtable.CreateStreamFromBlobReadOnly (this, pBlob, ppStream); }
-    GetBlobAsUtf8 :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.GetBlobAsUtf8 (this, pBlob, pBlobEncoding); }
-    GetBlobAsUtf16 :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.GetBlobAsUtf16 (this, pBlob, pBlobEncoding); }
+    SetMalloc :: inline (this : *IDxcLibrary, pMalloc : *IMalloc) -> HRESULT #no_context
+    {
+        return this.vtable.SetMalloc (this, pMalloc);
+    }
+
+    CreateBlobFromBlob :: inline (this : *IDxcLibrary, 
+        pBlob : *IDxcBlob,
+        offset : u32,
+        length : u32,
+        ppResult : **IDxcBlob
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobFromBlob (this, pBlob, offset, length, ppResult);
+    }
+
+    CreateBlobFromFile :: inline (this : *IDxcLibrary, pFileName : PWSTR, codePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobFromFile (this, pFileName, codePage, pBlobEncoding);
+    }
+
+    CreateBlobWithEncodingFromPinned :: inline (this : *IDxcLibrary, 
+        pText : *void,
+        size : u32,
+        codePage : DXC_CP,
+        pBlobEncoding : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobWithEncodingFromPinned (this, pText, size, codePage, pBlobEncoding);
+    }
+
+    CreateBlobWithEncodingOnHeapCopy :: inline (this : *IDxcLibrary, 
+        pText : *void,
+        size : u32,
+        codePage : DXC_CP,
+        pBlobEncoding : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobWithEncodingOnHeapCopy (this, pText, size, codePage, pBlobEncoding);
+    }
+
+    CreateBlobWithEncodingOnMalloc :: inline (this : *IDxcLibrary, 
+        pText : *void,
+        pIMalloc : *IMalloc,
+        size : u32,
+        codePage : DXC_CP,
+        pBlobEncoding : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobWithEncodingOnMalloc (this, pText, pIMalloc, size, codePage, pBlobEncoding);
+    }
+
+    CreateIncludeHandler :: inline (this : *IDxcLibrary, ppResult : **IDxcIncludeHandler) -> HRESULT #no_context
+    {
+        return this.vtable.CreateIncludeHandler (this, ppResult);
+    }
+
+    CreateStreamFromBlobReadOnly :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #no_context
+    {
+        return this.vtable.CreateStreamFromBlobReadOnly (this, pBlob, ppStream);
+    }
+
+    GetBlobAsUtf8 :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.GetBlobAsUtf8 (this, pBlob, pBlobEncoding);
+    }
+
+    GetBlobAsUtf16 :: inline (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.GetBlobAsUtf16 (this, pBlob, pBlobEncoding);
+    }
 }
 
 IDxcLibraryVTable :: struct
@@ -554,8 +775,23 @@ IDxcLinker :: struct
     #place base;
     vtable : *IDxcLinkerVTable;
 
-    RegisterLibrary :: inline (this : *IDxcLinker, pLibName : PWSTR, pLib : *IDxcBlob) -> HRESULT #no_context { return this.vtable.RegisterLibrary (this, pLibName, pLib); }
-    Link :: inline (this : *IDxcLinker, pEntryName : PWSTR, pTargetProfile : PWSTR, pLibNames : *PWSTR, libCount : u32, pArguments : *PWSTR, argCount : u32, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.Link (this, pEntryName, pTargetProfile, pLibNames, libCount, pArguments, argCount, ppResult); }
+    RegisterLibrary :: inline (this : *IDxcLinker, pLibName : PWSTR, pLib : *IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.RegisterLibrary (this, pLibName, pLib);
+    }
+
+    Link :: inline (this : *IDxcLinker, 
+        pEntryName : PWSTR,
+        pTargetProfile : PWSTR,
+        pLibNames : *PWSTR,
+        libCount : u32,
+        pArguments : *PWSTR,
+        argCount : u32,
+        ppResult : **IDxcOperationResult
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.Link (this, pEntryName, pTargetProfile, pLibNames, libCount, pArguments, argCount, ppResult);
+    }
 }
 
 IDxcLinkerVTable :: struct
@@ -576,9 +812,20 @@ IDxcOperationResult :: struct
     #place base;
     vtable : *IDxcOperationResultVTable;
 
-    GetStatus :: inline (this : *IDxcOperationResult, pStatus : *HRESULT) -> HRESULT #no_context { return this.vtable.GetStatus (this, pStatus); }
-    GetResult :: inline (this : *IDxcOperationResult, ppResult : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetResult (this, ppResult); }
-    GetErrorBuffer :: inline (this : *IDxcOperationResult, ppErrors : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.GetErrorBuffer (this, ppErrors); }
+    GetStatus :: inline (this : *IDxcOperationResult, pStatus : *HRESULT) -> HRESULT #no_context
+    {
+        return this.vtable.GetStatus (this, pStatus);
+    }
+
+    GetResult :: inline (this : *IDxcOperationResult, ppResult : **IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.GetResult (this, ppResult);
+    }
+
+    GetErrorBuffer :: inline (this : *IDxcOperationResult, ppErrors : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.GetErrorBuffer (this, ppErrors);
+    }
 }
 
 IDxcOperationResultVTable :: struct
@@ -600,9 +847,26 @@ IDxcOptimizer :: struct
     #place base;
     vtable : *IDxcOptimizerVTable;
 
-    GetAvailablePassCount :: inline (this : *IDxcOptimizer, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetAvailablePassCount (this, pCount); }
-    GetAvailablePass :: inline (this : *IDxcOptimizer, index : u32, ppResult : **IDxcOptimizerPass) -> HRESULT #no_context { return this.vtable.GetAvailablePass (this, index, ppResult); }
-    RunOptimizer :: inline (this : *IDxcOptimizer, pBlob : *IDxcBlob, ppOptions : *PWSTR, optionCount : u32, pOutputModule : **IDxcBlob, ppOutputText : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.RunOptimizer (this, pBlob, ppOptions, optionCount, pOutputModule, ppOutputText); }
+    GetAvailablePassCount :: inline (this : *IDxcOptimizer, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetAvailablePassCount (this, pCount);
+    }
+
+    GetAvailablePass :: inline (this : *IDxcOptimizer, index : u32, ppResult : **IDxcOptimizerPass) -> HRESULT #no_context
+    {
+        return this.vtable.GetAvailablePass (this, index, ppResult);
+    }
+
+    RunOptimizer :: inline (this : *IDxcOptimizer, 
+        pBlob : *IDxcBlob,
+        ppOptions : *PWSTR,
+        optionCount : u32,
+        pOutputModule : **IDxcBlob,
+        ppOutputText : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.RunOptimizer (this, pBlob, ppOptions, optionCount, pOutputModule, ppOutputText);
+    }
 }
 
 IDxcOptimizerVTable :: struct
@@ -624,11 +888,30 @@ IDxcOptimizerPass :: struct
     #place base;
     vtable : *IDxcOptimizerPassVTable;
 
-    GetOptionName :: inline (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #no_context { return this.vtable.GetOptionName (this, ppResult); }
-    GetDescription :: inline (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #no_context { return this.vtable.GetDescription (this, ppResult); }
-    GetOptionArgCount :: inline (this : *IDxcOptimizerPass, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetOptionArgCount (this, pCount); }
-    GetOptionArgName :: inline (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #no_context { return this.vtable.GetOptionArgName (this, argIndex, ppResult); }
-    GetOptionArgDescription :: inline (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #no_context { return this.vtable.GetOptionArgDescription (this, argIndex, ppResult); }
+    GetOptionName :: inline (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetOptionName (this, ppResult);
+    }
+
+    GetDescription :: inline (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetDescription (this, ppResult);
+    }
+
+    GetOptionArgCount :: inline (this : *IDxcOptimizerPass, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetOptionArgCount (this, pCount);
+    }
+
+    GetOptionArgName :: inline (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetOptionArgName (this, argIndex, ppResult);
+    }
+
+    GetOptionArgDescription :: inline (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetOptionArgDescription (this, argIndex, ppResult);
+    }
 }
 
 IDxcOptimizerPassVTable :: struct
@@ -652,30 +935,125 @@ IDxcPdbUtils :: struct
     #place base;
     vtable : *IDxcPdbUtilsVTable;
 
-    Load :: inline (this : *IDxcPdbUtils, pPdbOrDxil : *IDxcBlob) -> HRESULT #no_context { return this.vtable.Load (this, pPdbOrDxil); }
-    GetSourceCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetSourceCount (this, pCount); }
-    GetSource :: inline (this : *IDxcPdbUtils, uIndex : u32, ppResult : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.GetSource (this, uIndex, ppResult); }
-    GetSourceName :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetSourceName (this, uIndex, pResult); }
-    GetFlagCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetFlagCount (this, pCount); }
-    GetFlag :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetFlag (this, uIndex, pResult); }
-    GetArgCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetArgCount (this, pCount); }
-    GetArg :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetArg (this, uIndex, pResult); }
-    GetArgPairCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetArgPairCount (this, pCount); }
-    GetArgPair :: inline (this : *IDxcPdbUtils, uIndex : u32, pName : *BSTR, pValue : *BSTR) -> HRESULT #no_context { return this.vtable.GetArgPair (this, uIndex, pName, pValue); }
-    GetDefineCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context { return this.vtable.GetDefineCount (this, pCount); }
-    GetDefine :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetDefine (this, uIndex, pResult); }
-    GetTargetProfile :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetTargetProfile (this, pResult); }
-    GetEntryPoint :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetEntryPoint (this, pResult); }
-    GetMainFileName :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetMainFileName (this, pResult); }
-    GetHash :: inline (this : *IDxcPdbUtils, ppResult : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetHash (this, ppResult); }
-    GetName :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context { return this.vtable.GetName (this, pResult); }
-    IsFullPDB :: inline (this : *IDxcPdbUtils) -> BOOL #no_context { return this.vtable.IsFullPDB (this); }
-    GetFullPDB :: inline (this : *IDxcPdbUtils, ppFullPDB : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetFullPDB (this, ppFullPDB); }
-    GetVersionInfo :: inline (this : *IDxcPdbUtils, ppVersionInfo : **IDxcVersionInfo) -> HRESULT #no_context { return this.vtable.GetVersionInfo (this, ppVersionInfo); }
-    SetCompiler :: inline (this : *IDxcPdbUtils, pCompiler : *IDxcCompiler3) -> HRESULT #no_context { return this.vtable.SetCompiler (this, pCompiler); }
-    CompileForFullPDB :: inline (this : *IDxcPdbUtils, ppResult : **IDxcResult) -> HRESULT #no_context { return this.vtable.CompileForFullPDB (this, ppResult); }
-    OverrideArgs :: inline (this : *IDxcPdbUtils, pArgPairs : *DxcArgPair, uNumArgPairs : u32) -> HRESULT #no_context { return this.vtable.OverrideArgs (this, pArgPairs, uNumArgPairs); }
-    OverrideRootSignature :: inline (this : *IDxcPdbUtils, pRootSignature : PWSTR) -> HRESULT #no_context { return this.vtable.OverrideRootSignature (this, pRootSignature); }
+    Load :: inline (this : *IDxcPdbUtils, pPdbOrDxil : *IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.Load (this, pPdbOrDxil);
+    }
+
+    GetSourceCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetSourceCount (this, pCount);
+    }
+
+    GetSource :: inline (this : *IDxcPdbUtils, uIndex : u32, ppResult : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.GetSource (this, uIndex, ppResult);
+    }
+
+    GetSourceName :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetSourceName (this, uIndex, pResult);
+    }
+
+    GetFlagCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetFlagCount (this, pCount);
+    }
+
+    GetFlag :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetFlag (this, uIndex, pResult);
+    }
+
+    GetArgCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetArgCount (this, pCount);
+    }
+
+    GetArg :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetArg (this, uIndex, pResult);
+    }
+
+    GetArgPairCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetArgPairCount (this, pCount);
+    }
+
+    GetArgPair :: inline (this : *IDxcPdbUtils, uIndex : u32, pName : *BSTR, pValue : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetArgPair (this, uIndex, pName, pValue);
+    }
+
+    GetDefineCount :: inline (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetDefineCount (this, pCount);
+    }
+
+    GetDefine :: inline (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetDefine (this, uIndex, pResult);
+    }
+
+    GetTargetProfile :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetTargetProfile (this, pResult);
+    }
+
+    GetEntryPoint :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetEntryPoint (this, pResult);
+    }
+
+    GetMainFileName :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetMainFileName (this, pResult);
+    }
+
+    GetHash :: inline (this : *IDxcPdbUtils, ppResult : **IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.GetHash (this, ppResult);
+    }
+
+    GetName :: inline (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #no_context
+    {
+        return this.vtable.GetName (this, pResult);
+    }
+
+    IsFullPDB :: inline (this : *IDxcPdbUtils) -> BOOL #no_context
+    {
+        return this.vtable.IsFullPDB (this);
+    }
+
+    GetFullPDB :: inline (this : *IDxcPdbUtils, ppFullPDB : **IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.GetFullPDB (this, ppFullPDB);
+    }
+
+    GetVersionInfo :: inline (this : *IDxcPdbUtils, ppVersionInfo : **IDxcVersionInfo) -> HRESULT #no_context
+    {
+        return this.vtable.GetVersionInfo (this, ppVersionInfo);
+    }
+
+    SetCompiler :: inline (this : *IDxcPdbUtils, pCompiler : *IDxcCompiler3) -> HRESULT #no_context
+    {
+        return this.vtable.SetCompiler (this, pCompiler);
+    }
+
+    CompileForFullPDB :: inline (this : *IDxcPdbUtils, ppResult : **IDxcResult) -> HRESULT #no_context
+    {
+        return this.vtable.CompileForFullPDB (this, ppResult);
+    }
+
+    OverrideArgs :: inline (this : *IDxcPdbUtils, pArgPairs : *DxcArgPair, uNumArgPairs : u32) -> HRESULT #no_context
+    {
+        return this.vtable.OverrideArgs (this, pArgPairs, uNumArgPairs);
+    }
+
+    OverrideRootSignature :: inline (this : *IDxcPdbUtils, pRootSignature : PWSTR) -> HRESULT #no_context
+    {
+        return this.vtable.OverrideRootSignature (this, pRootSignature);
+    }
 }
 
 IDxcPdbUtilsVTable :: struct
@@ -718,11 +1096,35 @@ IDxcResult :: struct
     #place base;
     vtable : *IDxcResultVTable;
 
-    HasOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #no_context { return this.vtable.HasOutput (this, dxcOutKind); }
-    GetOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND, iid : *GUID, ppvObject : **void, ppOutputName : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetOutput (this, dxcOutKind, iid, ppvObject, ppOutputName); }
-    GetNumOutputs :: inline (this : *IDxcResult) -> u32 #no_context { return this.vtable.GetNumOutputs (this); }
-    GetOutputByIndex :: inline (this : *IDxcResult, Index : u32) -> DXC_OUT_KIND #no_context { return this.vtable.GetOutputByIndex (this, Index); }
-    PrimaryOutput :: inline (this : *IDxcResult) -> DXC_OUT_KIND #no_context { return this.vtable.PrimaryOutput (this); }
+    HasOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #no_context
+    {
+        return this.vtable.HasOutput (this, dxcOutKind);
+    }
+
+    GetOutput :: inline (this : *IDxcResult, 
+        dxcOutKind : DXC_OUT_KIND,
+        iid : *GUID,
+        ppvObject : **void,
+        ppOutputName : **IDxcBlobUtf16
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.GetOutput (this, dxcOutKind, iid, ppvObject, ppOutputName);
+    }
+
+    GetNumOutputs :: inline (this : *IDxcResult) -> u32 #no_context
+    {
+        return this.vtable.GetNumOutputs (this);
+    }
+
+    GetOutputByIndex :: inline (this : *IDxcResult, Index : u32) -> DXC_OUT_KIND #no_context
+    {
+        return this.vtable.GetOutputByIndex (this, Index);
+    }
+
+    PrimaryOutput :: inline (this : *IDxcResult) -> DXC_OUT_KIND #no_context
+    {
+        return this.vtable.PrimaryOutput (this);
+    }
 }
 
 IDxcResultVTable :: struct
@@ -746,19 +1148,105 @@ IDxcUtils :: struct
     #place base;
     vtable : *IDxcUtilsVTable;
 
-    CreateBlobFromBlob :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #no_context { return this.vtable.CreateBlobFromBlob (this, pBlob, offset, length, ppResult); }
-    CreateBlobFromPinned :: inline (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.CreateBlobFromPinned (this, pData, size, codePage, pBlobEncoding); }
-    MoveToBlob :: inline (this : *IDxcUtils, pData : *void, pIMalloc : *IMalloc, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.MoveToBlob (this, pData, pIMalloc, size, codePage, pBlobEncoding); }
-    CreateBlob :: inline (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.CreateBlob (this, pData, size, codePage, pBlobEncoding); }
-    LoadFile :: inline (this : *IDxcUtils, pFileName : PWSTR, pCodePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context { return this.vtable.LoadFile (this, pFileName, pCodePage, pBlobEncoding); }
-    CreateReadOnlyStreamFromBlob :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #no_context { return this.vtable.CreateReadOnlyStreamFromBlob (this, pBlob, ppStream); }
-    CreateDefaultIncludeHandler :: inline (this : *IDxcUtils, ppResult : **IDxcIncludeHandler) -> HRESULT #no_context { return this.vtable.CreateDefaultIncludeHandler (this, ppResult); }
-    GetBlobAsUtf8 :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf8) -> HRESULT #no_context { return this.vtable.GetBlobAsUtf8 (this, pBlob, pBlobEncoding); }
-    GetBlobAsUtf16 :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf16) -> HRESULT #no_context { return this.vtable.GetBlobAsUtf16 (this, pBlob, pBlobEncoding); }
-    GetDxilContainerPart :: inline (this : *IDxcUtils, pShader : *DxcBuffer, DxcPart : u32, ppPartData : **void, pPartSizeInBytes : *u32) -> HRESULT #no_context { return this.vtable.GetDxilContainerPart (this, pShader, DxcPart, ppPartData, pPartSizeInBytes); }
-    CreateReflection :: inline (this : *IDxcUtils, pData : *DxcBuffer, iid : *GUID, ppvReflection : **void) -> HRESULT #no_context { return this.vtable.CreateReflection (this, pData, iid, ppvReflection); }
-    BuildArguments :: inline (this : *IDxcUtils, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, ppArgs : **IDxcCompilerArgs) -> HRESULT #no_context { return this.vtable.BuildArguments (this, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, ppArgs); }
-    GetPDBContents :: inline (this : *IDxcUtils, pPDBBlob : *IDxcBlob, ppHash : **IDxcBlob, ppContainer : **IDxcBlob) -> HRESULT #no_context { return this.vtable.GetPDBContents (this, pPDBBlob, ppHash, ppContainer); }
+    CreateBlobFromBlob :: inline (this : *IDxcUtils, 
+        pBlob : *IDxcBlob,
+        offset : u32,
+        length : u32,
+        ppResult : **IDxcBlob
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobFromBlob (this, pBlob, offset, length, ppResult);
+    }
+
+    CreateBlobFromPinned :: inline (this : *IDxcUtils, 
+        pData : *void,
+        size : u32,
+        codePage : DXC_CP,
+        pBlobEncoding : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlobFromPinned (this, pData, size, codePage, pBlobEncoding);
+    }
+
+    MoveToBlob :: inline (this : *IDxcUtils, 
+        pData : *void,
+        pIMalloc : *IMalloc,
+        size : u32,
+        codePage : DXC_CP,
+        pBlobEncoding : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.MoveToBlob (this, pData, pIMalloc, size, codePage, pBlobEncoding);
+    }
+
+    CreateBlob :: inline (this : *IDxcUtils, 
+        pData : *void,
+        size : u32,
+        codePage : DXC_CP,
+        pBlobEncoding : **IDxcBlobEncoding
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateBlob (this, pData, size, codePage, pBlobEncoding);
+    }
+
+    LoadFile :: inline (this : *IDxcUtils, pFileName : PWSTR, pCodePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #no_context
+    {
+        return this.vtable.LoadFile (this, pFileName, pCodePage, pBlobEncoding);
+    }
+
+    CreateReadOnlyStreamFromBlob :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #no_context
+    {
+        return this.vtable.CreateReadOnlyStreamFromBlob (this, pBlob, ppStream);
+    }
+
+    CreateDefaultIncludeHandler :: inline (this : *IDxcUtils, ppResult : **IDxcIncludeHandler) -> HRESULT #no_context
+    {
+        return this.vtable.CreateDefaultIncludeHandler (this, ppResult);
+    }
+
+    GetBlobAsUtf8 :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf8) -> HRESULT #no_context
+    {
+        return this.vtable.GetBlobAsUtf8 (this, pBlob, pBlobEncoding);
+    }
+
+    GetBlobAsUtf16 :: inline (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf16) -> HRESULT #no_context
+    {
+        return this.vtable.GetBlobAsUtf16 (this, pBlob, pBlobEncoding);
+    }
+
+    GetDxilContainerPart :: inline (this : *IDxcUtils, 
+        pShader : *DxcBuffer,
+        DxcPart : u32,
+        ppPartData : **void,
+        pPartSizeInBytes : *u32
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.GetDxilContainerPart (this, pShader, DxcPart, ppPartData, pPartSizeInBytes);
+    }
+
+    CreateReflection :: inline (this : *IDxcUtils, pData : *DxcBuffer, iid : *GUID, ppvReflection : **void) -> HRESULT #no_context
+    {
+        return this.vtable.CreateReflection (this, pData, iid, ppvReflection);
+    }
+
+    BuildArguments :: inline (this : *IDxcUtils, 
+        pSourceName : PWSTR,
+        pEntryPoint : PWSTR,
+        pTargetProfile : PWSTR,
+        pArguments : *PWSTR,
+        argCount : u32,
+        pDefines : *DxcDefine,
+        defineCount : u32,
+        ppArgs : **IDxcCompilerArgs
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.BuildArguments (this, pSourceName, pEntryPoint, pTargetProfile, pArguments, argCount, pDefines, defineCount, ppArgs);
+    }
+
+    GetPDBContents :: inline (this : *IDxcUtils, pPDBBlob : *IDxcBlob, ppHash : **IDxcBlob, ppContainer : **IDxcBlob) -> HRESULT #no_context
+    {
+        return this.vtable.GetPDBContents (this, pPDBBlob, ppHash, ppContainer);
+    }
 }
 
 IDxcUtilsVTable :: struct
@@ -790,7 +1278,10 @@ IDxcValidator :: struct
     #place base;
     vtable : *IDxcValidatorVTable;
 
-    Validate :: inline (this : *IDxcValidator, pShader : *IDxcBlob, Flags : u32, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.Validate (this, pShader, Flags, ppResult); }
+    Validate :: inline (this : *IDxcValidator, pShader : *IDxcBlob, Flags : u32, ppResult : **IDxcOperationResult) -> HRESULT #no_context
+    {
+        return this.vtable.Validate (this, pShader, Flags, ppResult);
+    }
 }
 
 IDxcValidatorVTable :: struct
@@ -810,7 +1301,15 @@ IDxcValidator2 :: struct
     #place base;
     vtable : *IDxcValidator2VTable;
 
-    ValidateWithDebug :: inline (this : *IDxcValidator2, pShader : *IDxcBlob, Flags : u32, pOptDebugBitcode : *DxcBuffer, ppResult : **IDxcOperationResult) -> HRESULT #no_context { return this.vtable.ValidateWithDebug (this, pShader, Flags, pOptDebugBitcode, ppResult); }
+    ValidateWithDebug :: inline (this : *IDxcValidator2, 
+        pShader : *IDxcBlob,
+        Flags : u32,
+        pOptDebugBitcode : *DxcBuffer,
+        ppResult : **IDxcOperationResult
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.ValidateWithDebug (this, pShader, Flags, pOptDebugBitcode, ppResult);
+    }
 }
 
 IDxcValidator2VTable :: struct
@@ -830,8 +1329,15 @@ IDxcVersionInfo :: struct
     #place base;
     vtable : *IDxcVersionInfoVTable;
 
-    GetVersion :: inline (this : *IDxcVersionInfo, pMajor : *u32, pMinor : *u32) -> HRESULT #no_context { return this.vtable.GetVersion (this, pMajor, pMinor); }
-    GetFlags :: inline (this : *IDxcVersionInfo, pFlags : *u32) -> HRESULT #no_context { return this.vtable.GetFlags (this, pFlags); }
+    GetVersion :: inline (this : *IDxcVersionInfo, pMajor : *u32, pMinor : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetVersion (this, pMajor, pMinor);
+    }
+
+    GetFlags :: inline (this : *IDxcVersionInfo, pFlags : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetFlags (this, pFlags);
+    }
 }
 
 IDxcVersionInfoVTable :: struct
@@ -852,7 +1358,10 @@ IDxcVersionInfo2 :: struct
     #place base;
     vtable : *IDxcVersionInfo2VTable;
 
-    GetCommitInfo :: inline (this : *IDxcVersionInfo2, pCommitCount : *u32, pCommitHash : **s8) -> HRESULT #no_context { return this.vtable.GetCommitInfo (this, pCommitCount, pCommitHash); }
+    GetCommitInfo :: inline (this : *IDxcVersionInfo2, pCommitCount : *u32, pCommitHash : **s8) -> HRESULT #no_context
+    {
+        return this.vtable.GetCommitInfo (this, pCommitCount, pCommitHash);
+    }
 }
 
 IDxcVersionInfo2VTable :: struct
@@ -872,7 +1381,10 @@ IDxcVersionInfo3 :: struct
     #place base;
     vtable : *IDxcVersionInfo3VTable;
 
-    GetCustomVersionString :: inline (this : *IDxcVersionInfo3, pVersionString : **s8) -> HRESULT #no_context { return this.vtable.GetCustomVersionString (this, pVersionString); }
+    GetCustomVersionString :: inline (this : *IDxcVersionInfo3, pVersionString : **s8) -> HRESULT #no_context
+    {
+        return this.vtable.GetCustomVersionString (this, pVersionString);
+    }
 }
 
 IDxcVersionInfo3VTable :: struct

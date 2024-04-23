@@ -1256,9 +1256,23 @@ GetKeyboardLayoutNameW :: (pwszKLID : *[9]u16) -> BOOL #foreign USER32;
 GetKeyboardState :: (lpKeyState : *[256]u8) -> BOOL #foreign USER32;
 GetKeyboardType :: (nTypeFlag : s32) -> s32 #foreign USER32;
 GetLastInputInfo :: (plii : *LASTINPUTINFO) -> BOOL #foreign USER32;
-GetMouseMovePointsEx :: (cbSize : u32, lppt : *MOUSEMOVEPOINT, lpptBuf : *MOUSEMOVEPOINT, nBufPoints : s32, resolution : GET_MOUSE_MOVE_POINTS_EX_RESOLUTION) -> s32 #foreign USER32;
+GetMouseMovePointsEx :: (
+    cbSize : u32,
+    lppt : *MOUSEMOVEPOINT,
+    lpptBuf : *MOUSEMOVEPOINT,
+    nBufPoints : s32,
+    resolution : GET_MOUSE_MOVE_POINTS_EX_RESOLUTION
+) -> s32 #foreign USER32;
+
 GetRawInputBuffer :: (pData : *RAWINPUT, pcbSize : *u32, cbSizeHeader : u32) -> u32 #foreign USER32;
-GetRawInputData :: (hRawInput : HRAWINPUT, uiCommand : RAW_INPUT_DATA_COMMAND_FLAGS, pData : *void, pcbSize : *u32, cbSizeHeader : u32) -> u32 #foreign USER32;
+GetRawInputData :: (
+    hRawInput : HRAWINPUT,
+    uiCommand : RAW_INPUT_DATA_COMMAND_FLAGS,
+    pData : *void,
+    pcbSize : *u32,
+    cbSizeHeader : u32
+) -> u32 #foreign USER32;
+
 GetRawInputDeviceInfoA :: (hDevice : HANDLE, uiCommand : RAW_INPUT_DEVICE_INFO_COMMAND, pData : *void, pcbSize : *u32) -> u32 #foreign USER32;
 GetRawInputDeviceInfoW :: (hDevice : HANDLE, uiCommand : RAW_INPUT_DEVICE_INFO_COMMAND, pData : *void, pcbSize : *u32) -> u32 #foreign USER32;
 GetRawInputDeviceList :: (pRawInputDeviceList : *RAWINPUTDEVICELIST, puiNumDevices : *u32, cbSize : u32) -> u32 #foreign USER32;
@@ -1281,10 +1295,42 @@ SetDoubleClickTime :: (param0 : u32) -> BOOL #foreign USER32;
 SetFocus :: (hWnd : HWND) -> HWND #foreign USER32;
 SetKeyboardState :: (lpKeyState : *[256]u8) -> BOOL #foreign USER32;
 SwapMouseButton :: (fSwap : BOOL) -> BOOL #foreign USER32;
-ToAscii :: (uVirtKey : u32, uScanCode : u32, lpKeyState : *[256]u8, lpChar : *u16, uFlags : u32) -> s32 #foreign USER32;
-ToAsciiEx :: (uVirtKey : u32, uScanCode : u32, lpKeyState : *[256]u8, lpChar : *u16, uFlags : u32, dwhkl : HKL) -> s32 #foreign USER32;
-ToUnicode :: (wVirtKey : u32, wScanCode : u32, lpKeyState : *[256]u8, pwszBuff : *u16, cchBuff : s32, wFlags : u32) -> s32 #foreign USER32;
-ToUnicodeEx :: (wVirtKey : u32, wScanCode : u32, lpKeyState : *[256]u8, pwszBuff : *u16, cchBuff : s32, wFlags : u32, dwhkl : HKL) -> s32 #foreign USER32;
+ToAscii :: (
+    uVirtKey : u32,
+    uScanCode : u32,
+    lpKeyState : *[256]u8,
+    lpChar : *u16,
+    uFlags : u32
+) -> s32 #foreign USER32;
+
+ToAsciiEx :: (
+    uVirtKey : u32,
+    uScanCode : u32,
+    lpKeyState : *[256]u8,
+    lpChar : *u16,
+    uFlags : u32,
+    dwhkl : HKL
+) -> s32 #foreign USER32;
+
+ToUnicode :: (
+    wVirtKey : u32,
+    wScanCode : u32,
+    lpKeyState : *[256]u8,
+    pwszBuff : *u16,
+    cchBuff : s32,
+    wFlags : u32
+) -> s32 #foreign USER32;
+
+ToUnicodeEx :: (
+    wVirtKey : u32,
+    wScanCode : u32,
+    lpKeyState : *[256]u8,
+    pwszBuff : *u16,
+    cchBuff : s32,
+    wFlags : u32,
+    dwhkl : HKL
+) -> s32 #foreign USER32;
+
 TrackMouseEvent :: (lpEventTrack : *TRACKMOUSEEVENT) -> BOOL #foreign USER32;
 UnloadKeyboardLayout :: (hkl : HKL) -> BOOL #foreign USER32;
 UnregisterHotKey :: (hWnd : HWND, id : s32) -> BOOL #foreign USER32;
@@ -1294,7 +1340,14 @@ VkKeyScanExW :: (ch : u16, dwhkl : HKL) -> s16 #foreign USER32;
 VkKeyScanW :: (ch : u16) -> s16 #foreign USER32;
 _TrackMouseEvent :: (lpEventTrack : *TRACKMOUSEEVENT) -> BOOL #foreign COMCTL32;
 keybd_event :: (bVk : u8, bScan : u8, dwFlags : KEYBD_EVENT_FLAGS, dwExtraInfo : u64)  #foreign USER32;
-mouse_event :: (dwFlags : MOUSE_EVENT_FLAGS, dx : s32, dy : s32, dwData : u32, dwExtraInfo : u64)  #foreign USER32;
+mouse_event :: (
+    dwFlags : MOUSE_EVENT_FLAGS,
+    dx : s32,
+    dy : s32,
+    dwData : u32,
+    dwExtraInfo : u64
+)  #foreign USER32;
+
 
 // System libraries
 

@@ -291,7 +291,16 @@ BY_HANDLE_FILE_INFORMATION :: struct
     nFileIndexLow : u32;
 }
 
-CACHE_ACCESS_CHECK :: #type (pSecurityDescriptor : *SECURITY_DESCRIPTOR, hClientToken : HANDLE, dwDesiredAccess : u32, GenericMapping : *GENERIC_MAPPING, PrivilegeSet : *PRIVILEGE_SET, PrivilegeSetLength : *u32, GrantedAccess : *u32, AccessStatus : *s32) -> BOOL #c_call;
+CACHE_ACCESS_CHECK :: #type (
+    pSecurityDescriptor : *SECURITY_DESCRIPTOR,
+    hClientToken : HANDLE,
+    dwDesiredAccess : u32,
+    GenericMapping : *GENERIC_MAPPING,
+    PrivilegeSet : *PRIVILEGE_SET,
+    PrivilegeSetLength : *u32,
+    GrantedAccess : *u32,
+    AccessStatus : *s32
+) -> BOOL #c_call;
 
 CACHE_DESTROY_CALLBACK :: #type (cb : u32, lpb : *u8) -> void #c_call;
 
@@ -989,7 +998,16 @@ TAPE_ERASE_SHORT :: 0;
 
 FCACHE_CREATE_CALLBACK :: #type (lpstrName : PSTR, lpvData : *void, cbFileSize : *u32, cbFileSizeHigh : *u32) -> HANDLE #c_call;
 
-FCACHE_RICHCREATE_CALLBACK :: #type (lpstrName : PSTR, lpvData : *void, cbFileSize : *u32, cbFileSizeHigh : *u32, pfDidWeScanIt : *BOOL, pfIsStuffed : *BOOL, pfStoredWithDots : *BOOL, pfStoredWithTerminatingDot : *BOOL) -> HANDLE #c_call;
+FCACHE_RICHCREATE_CALLBACK :: #type (
+    lpstrName : PSTR,
+    lpvData : *void,
+    cbFileSize : *u32,
+    cbFileSizeHigh : *u32,
+    pfDidWeScanIt : *BOOL,
+    pfIsStuffed : *BOOL,
+    pfStoredWithDots : *BOOL,
+    pfStoredWithTerminatingDot : *BOOL
+) -> HANDLE #c_call;
 
 FH_OVERLAPPED :: struct
 {
@@ -1691,27 +1709,115 @@ IDiskQuotaControl :: struct
     #place base;
     vtable : *IDiskQuotaControlVTable;
 
-    Initialize :: inline (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #no_context { return this.vtable.Initialize (this, pszPath, bReadWrite); }
-    SetQuotaState :: inline (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #no_context { return this.vtable.SetQuotaState (this, dwState); }
-    GetQuotaState :: inline (this : *IDiskQuotaControl, pdwState : *u32) -> HRESULT #no_context { return this.vtable.GetQuotaState (this, pdwState); }
-    SetQuotaLogFlags :: inline (this : *IDiskQuotaControl, dwFlags : u32) -> HRESULT #no_context { return this.vtable.SetQuotaLogFlags (this, dwFlags); }
-    GetQuotaLogFlags :: inline (this : *IDiskQuotaControl, pdwFlags : *u32) -> HRESULT #no_context { return this.vtable.GetQuotaLogFlags (this, pdwFlags); }
-    SetDefaultQuotaThreshold :: inline (this : *IDiskQuotaControl, llThreshold : s64) -> HRESULT #no_context { return this.vtable.SetDefaultQuotaThreshold (this, llThreshold); }
-    GetDefaultQuotaThreshold :: inline (this : *IDiskQuotaControl, pllThreshold : *s64) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaThreshold (this, pllThreshold); }
-    GetDefaultQuotaThresholdText :: inline (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaThresholdText (this, pszText, cchText); }
-    SetDefaultQuotaLimit :: inline (this : *IDiskQuotaControl, llLimit : s64) -> HRESULT #no_context { return this.vtable.SetDefaultQuotaLimit (this, llLimit); }
-    GetDefaultQuotaLimit :: inline (this : *IDiskQuotaControl, pllLimit : *s64) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaLimit (this, pllLimit); }
-    GetDefaultQuotaLimitText :: inline (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetDefaultQuotaLimitText (this, pszText, cchText); }
-    AddUserSid :: inline (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.AddUserSid (this, pUserSid, fNameResolution, ppUser); }
-    AddUserName :: inline (this : *IDiskQuotaControl, pszLogonName : PWSTR, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.AddUserName (this, pszLogonName, fNameResolution, ppUser); }
-    DeleteUser :: inline (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.DeleteUser (this, pUser); }
-    FindUserSid :: inline (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.FindUserSid (this, pUserSid, fNameResolution, ppUser); }
-    FindUserName :: inline (this : *IDiskQuotaControl, pszLogonName : PWSTR, ppUser : **IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.FindUserName (this, pszLogonName, ppUser); }
-    CreateEnumUsers :: inline (this : *IDiskQuotaControl, rgpUserSids : *PSID, cpSids : u32, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #no_context { return this.vtable.CreateEnumUsers (this, rgpUserSids, cpSids, fNameResolution, ppEnum); }
-    CreateUserBatch :: inline (this : *IDiskQuotaControl, ppBatch : **IDiskQuotaUserBatch) -> HRESULT #no_context { return this.vtable.CreateUserBatch (this, ppBatch); }
-    InvalidateSidNameCache :: inline (this : *IDiskQuotaControl) -> HRESULT #no_context { return this.vtable.InvalidateSidNameCache (this); }
-    GiveUserNameResolutionPriority :: inline (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.GiveUserNameResolutionPriority (this, pUser); }
-    ShutdownNameResolution :: inline (this : *IDiskQuotaControl) -> HRESULT #no_context { return this.vtable.ShutdownNameResolution (this); }
+    Initialize :: inline (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #no_context
+    {
+        return this.vtable.Initialize (this, pszPath, bReadWrite);
+    }
+
+    SetQuotaState :: inline (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #no_context
+    {
+        return this.vtable.SetQuotaState (this, dwState);
+    }
+
+    GetQuotaState :: inline (this : *IDiskQuotaControl, pdwState : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaState (this, pdwState);
+    }
+
+    SetQuotaLogFlags :: inline (this : *IDiskQuotaControl, dwFlags : u32) -> HRESULT #no_context
+    {
+        return this.vtable.SetQuotaLogFlags (this, dwFlags);
+    }
+
+    GetQuotaLogFlags :: inline (this : *IDiskQuotaControl, pdwFlags : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaLogFlags (this, pdwFlags);
+    }
+
+    SetDefaultQuotaThreshold :: inline (this : *IDiskQuotaControl, llThreshold : s64) -> HRESULT #no_context
+    {
+        return this.vtable.SetDefaultQuotaThreshold (this, llThreshold);
+    }
+
+    GetDefaultQuotaThreshold :: inline (this : *IDiskQuotaControl, pllThreshold : *s64) -> HRESULT #no_context
+    {
+        return this.vtable.GetDefaultQuotaThreshold (this, pllThreshold);
+    }
+
+    GetDefaultQuotaThresholdText :: inline (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetDefaultQuotaThresholdText (this, pszText, cchText);
+    }
+
+    SetDefaultQuotaLimit :: inline (this : *IDiskQuotaControl, llLimit : s64) -> HRESULT #no_context
+    {
+        return this.vtable.SetDefaultQuotaLimit (this, llLimit);
+    }
+
+    GetDefaultQuotaLimit :: inline (this : *IDiskQuotaControl, pllLimit : *s64) -> HRESULT #no_context
+    {
+        return this.vtable.GetDefaultQuotaLimit (this, pllLimit);
+    }
+
+    GetDefaultQuotaLimitText :: inline (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetDefaultQuotaLimitText (this, pszText, cchText);
+    }
+
+    AddUserSid :: inline (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.AddUserSid (this, pUserSid, fNameResolution, ppUser);
+    }
+
+    AddUserName :: inline (this : *IDiskQuotaControl, pszLogonName : PWSTR, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.AddUserName (this, pszLogonName, fNameResolution, ppUser);
+    }
+
+    DeleteUser :: inline (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.DeleteUser (this, pUser);
+    }
+
+    FindUserSid :: inline (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.FindUserSid (this, pUserSid, fNameResolution, ppUser);
+    }
+
+    FindUserName :: inline (this : *IDiskQuotaControl, pszLogonName : PWSTR, ppUser : **IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.FindUserName (this, pszLogonName, ppUser);
+    }
+
+    CreateEnumUsers :: inline (this : *IDiskQuotaControl, 
+        rgpUserSids : *PSID,
+        cpSids : u32,
+        fNameResolution : DISKQUOTA_USERNAME_RESOLVE,
+        ppEnum : **IEnumDiskQuotaUsers
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.CreateEnumUsers (this, rgpUserSids, cpSids, fNameResolution, ppEnum);
+    }
+
+    CreateUserBatch :: inline (this : *IDiskQuotaControl, ppBatch : **IDiskQuotaUserBatch) -> HRESULT #no_context
+    {
+        return this.vtable.CreateUserBatch (this, ppBatch);
+    }
+
+    InvalidateSidNameCache :: inline (this : *IDiskQuotaControl) -> HRESULT #no_context
+    {
+        return this.vtable.InvalidateSidNameCache (this);
+    }
+
+    GiveUserNameResolutionPriority :: inline (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.GiveUserNameResolutionPriority (this, pUser);
+    }
+
+    ShutdownNameResolution :: inline (this : *IDiskQuotaControl) -> HRESULT #no_context
+    {
+        return this.vtable.ShutdownNameResolution (this);
+    }
 }
 
 IDiskQuotaControlVTable :: struct
@@ -1751,7 +1857,10 @@ IDiskQuotaEvents :: struct
     #place base;
     vtable : *IDiskQuotaEventsVTable;
 
-    OnUserNameChanged :: inline (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.OnUserNameChanged (this, pUser); }
+    OnUserNameChanged :: inline (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.OnUserNameChanged (this, pUser);
+    }
 }
 
 IDiskQuotaEventsVTable :: struct
@@ -1771,21 +1880,87 @@ IDiskQuotaUser :: struct
     #place base;
     vtable : *IDiskQuotaUserVTable;
 
-    GetID :: inline (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #no_context { return this.vtable.GetID (this, pulID); }
-    GetName :: inline (this : *IDiskQuotaUser, pszAccountContainer : PWSTR, cchAccountContainer : u32, pszLogonName : PWSTR, cchLogonName : u32, pszDisplayName : PWSTR, cchDisplayName : u32) -> HRESULT #no_context { return this.vtable.GetName (this, pszAccountContainer, cchAccountContainer, pszLogonName, cchLogonName, pszDisplayName, cchDisplayName); }
-    GetSidLength :: inline (this : *IDiskQuotaUser, pdwLength : *u32) -> HRESULT #no_context { return this.vtable.GetSidLength (this, pdwLength); }
-    GetSid :: inline (this : *IDiskQuotaUser, pbSidBuffer : *u8, cbSidBuffer : u32) -> HRESULT #no_context { return this.vtable.GetSid (this, pbSidBuffer, cbSidBuffer); }
-    GetQuotaThreshold :: inline (this : *IDiskQuotaUser, pllThreshold : *s64) -> HRESULT #no_context { return this.vtable.GetQuotaThreshold (this, pllThreshold); }
-    GetQuotaThresholdText :: inline (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetQuotaThresholdText (this, pszText, cchText); }
-    GetQuotaLimit :: inline (this : *IDiskQuotaUser, pllLimit : *s64) -> HRESULT #no_context { return this.vtable.GetQuotaLimit (this, pllLimit); }
-    GetQuotaLimitText :: inline (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetQuotaLimitText (this, pszText, cchText); }
-    GetQuotaUsed :: inline (this : *IDiskQuotaUser, pllUsed : *s64) -> HRESULT #no_context { return this.vtable.GetQuotaUsed (this, pllUsed); }
-    GetQuotaUsedText :: inline (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context { return this.vtable.GetQuotaUsedText (this, pszText, cchText); }
-    GetQuotaInformation :: inline (this : *IDiskQuotaUser, pbQuotaInfo : *void, cbQuotaInfo : u32) -> HRESULT #no_context { return this.vtable.GetQuotaInformation (this, pbQuotaInfo, cbQuotaInfo); }
-    SetQuotaThreshold :: inline (this : *IDiskQuotaUser, llThreshold : s64, fWriteThrough : BOOL) -> HRESULT #no_context { return this.vtable.SetQuotaThreshold (this, llThreshold, fWriteThrough); }
-    SetQuotaLimit :: inline (this : *IDiskQuotaUser, llLimit : s64, fWriteThrough : BOOL) -> HRESULT #no_context { return this.vtable.SetQuotaLimit (this, llLimit, fWriteThrough); }
-    Invalidate :: inline (this : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.Invalidate (this); }
-    GetAccountStatus :: inline (this : *IDiskQuotaUser, pdwStatus : *u32) -> HRESULT #no_context { return this.vtable.GetAccountStatus (this, pdwStatus); }
+    GetID :: inline (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetID (this, pulID);
+    }
+
+    GetName :: inline (this : *IDiskQuotaUser, 
+        pszAccountContainer : PWSTR,
+        cchAccountContainer : u32,
+        pszLogonName : PWSTR,
+        cchLogonName : u32,
+        pszDisplayName : PWSTR,
+        cchDisplayName : u32
+    ) -> HRESULT #no_context
+    {
+        return this.vtable.GetName (this, pszAccountContainer, cchAccountContainer, pszLogonName, cchLogonName, pszDisplayName, cchDisplayName);
+    }
+
+    GetSidLength :: inline (this : *IDiskQuotaUser, pdwLength : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetSidLength (this, pdwLength);
+    }
+
+    GetSid :: inline (this : *IDiskQuotaUser, pbSidBuffer : *u8, cbSidBuffer : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetSid (this, pbSidBuffer, cbSidBuffer);
+    }
+
+    GetQuotaThreshold :: inline (this : *IDiskQuotaUser, pllThreshold : *s64) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaThreshold (this, pllThreshold);
+    }
+
+    GetQuotaThresholdText :: inline (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaThresholdText (this, pszText, cchText);
+    }
+
+    GetQuotaLimit :: inline (this : *IDiskQuotaUser, pllLimit : *s64) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaLimit (this, pllLimit);
+    }
+
+    GetQuotaLimitText :: inline (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaLimitText (this, pszText, cchText);
+    }
+
+    GetQuotaUsed :: inline (this : *IDiskQuotaUser, pllUsed : *s64) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaUsed (this, pllUsed);
+    }
+
+    GetQuotaUsedText :: inline (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaUsedText (this, pszText, cchText);
+    }
+
+    GetQuotaInformation :: inline (this : *IDiskQuotaUser, pbQuotaInfo : *void, cbQuotaInfo : u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetQuotaInformation (this, pbQuotaInfo, cbQuotaInfo);
+    }
+
+    SetQuotaThreshold :: inline (this : *IDiskQuotaUser, llThreshold : s64, fWriteThrough : BOOL) -> HRESULT #no_context
+    {
+        return this.vtable.SetQuotaThreshold (this, llThreshold, fWriteThrough);
+    }
+
+    SetQuotaLimit :: inline (this : *IDiskQuotaUser, llLimit : s64, fWriteThrough : BOOL) -> HRESULT #no_context
+    {
+        return this.vtable.SetQuotaLimit (this, llLimit, fWriteThrough);
+    }
+
+    Invalidate :: inline (this : *IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.Invalidate (this);
+    }
+
+    GetAccountStatus :: inline (this : *IDiskQuotaUser, pdwStatus : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.GetAccountStatus (this, pdwStatus);
+    }
 }
 
 IDiskQuotaUserVTable :: struct
@@ -1819,10 +1994,25 @@ IDiskQuotaUserBatch :: struct
     #place base;
     vtable : *IDiskQuotaUserBatchVTable;
 
-    Add :: inline (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.Add (this, pUser); }
-    Remove :: inline (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context { return this.vtable.Remove (this, pUser); }
-    RemoveAll :: inline (this : *IDiskQuotaUserBatch) -> HRESULT #no_context { return this.vtable.RemoveAll (this); }
-    FlushToDisk :: inline (this : *IDiskQuotaUserBatch) -> HRESULT #no_context { return this.vtable.FlushToDisk (this); }
+    Add :: inline (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.Add (this, pUser);
+    }
+
+    Remove :: inline (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context
+    {
+        return this.vtable.Remove (this, pUser);
+    }
+
+    RemoveAll :: inline (this : *IDiskQuotaUserBatch) -> HRESULT #no_context
+    {
+        return this.vtable.RemoveAll (this);
+    }
+
+    FlushToDisk :: inline (this : *IDiskQuotaUserBatch) -> HRESULT #no_context
+    {
+        return this.vtable.FlushToDisk (this);
+    }
 }
 
 IDiskQuotaUserBatchVTable :: struct
@@ -1845,10 +2035,25 @@ IEnumDiskQuotaUsers :: struct
     #place base;
     vtable : *IEnumDiskQuotaUsersVTable;
 
-    Next :: inline (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #no_context { return this.vtable.Next (this, cUsers, rgUsers, pcUsersFetched); }
-    Skip :: inline (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #no_context { return this.vtable.Skip (this, cUsers); }
-    Reset :: inline (this : *IEnumDiskQuotaUsers) -> HRESULT #no_context { return this.vtable.Reset (this); }
-    Clone :: inline (this : *IEnumDiskQuotaUsers, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #no_context { return this.vtable.Clone (this, ppEnum); }
+    Next :: inline (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #no_context
+    {
+        return this.vtable.Next (this, cUsers, rgUsers, pcUsersFetched);
+    }
+
+    Skip :: inline (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #no_context
+    {
+        return this.vtable.Skip (this, cUsers);
+    }
+
+    Reset :: inline (this : *IEnumDiskQuotaUsers) -> HRESULT #no_context
+    {
+        return this.vtable.Reset (this);
+    }
+
+    Clone :: inline (this : *IEnumDiskQuotaUsers, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #no_context
+    {
+        return this.vtable.Clone (this, ppEnum);
+    }
 }
 
 IEnumDiskQuotaUsersVTable :: struct
@@ -2047,7 +2252,17 @@ LOG_MANAGEMENT_CALLBACKS :: struct
 
 LPOVERLAPPED_COMPLETION_ROUTINE :: #type (dwErrorCode : u32, dwNumberOfBytesTransfered : u32, lpOverlapped : *OVERLAPPED) -> void #c_call;
 
-LPPROGRESS_ROUTINE :: #type (TotalFileSize : LARGE_INTEGER, TotalBytesTransferred : LARGE_INTEGER, StreamSize : LARGE_INTEGER, StreamBytesTransferred : LARGE_INTEGER, dwStreamNumber : u32, dwCallbackReason : LPPROGRESS_ROUTINE_CALLBACK_REASON, hSourceFile : HANDLE, hDestinationFile : HANDLE, lpData : *void) -> u32 #c_call;
+LPPROGRESS_ROUTINE :: #type (
+    TotalFileSize : LARGE_INTEGER,
+    TotalBytesTransferred : LARGE_INTEGER,
+    StreamSize : LARGE_INTEGER,
+    StreamBytesTransferred : LARGE_INTEGER,
+    dwStreamNumber : u32,
+    dwCallbackReason : LPPROGRESS_ROUTINE_CALLBACK_REASON,
+    hSourceFile : HANDLE,
+    hDestinationFile : HANDLE,
+    lpData : *void
+) -> u32 #c_call;
 
 LPPROGRESS_ROUTINE_CALLBACK_REASON :: enum u32
 {
@@ -4526,21 +4741,68 @@ WofEnumFilesProc :: #type (FilePath : PWSTR, ExternalFileInfo : *void, UserData 
 // Functions
 
 AddLogContainer :: (hLog : HANDLE, pcbContainer : *u64, pwszContainerPath : PWSTR, pReserved : *void) -> BOOL #foreign clfsw32;
-AddLogContainerSet :: (hLog : HANDLE, cContainer : u16, pcbContainer : *u64, rgwszContainerPath : *PWSTR, pReserved : *void) -> BOOL #foreign clfsw32;
+AddLogContainerSet :: (
+    hLog : HANDLE,
+    cContainer : u16,
+    pcbContainer : *u64,
+    rgwszContainerPath : *PWSTR,
+    pReserved : *void
+) -> BOOL #foreign clfsw32;
+
 AddUsersToEncryptedFile :: (lpFileName : PWSTR, pEncryptionCertificates : *ENCRYPTION_CERTIFICATE_LIST) -> u32 #foreign ADVAPI32;
 AdvanceLogBase :: (pvMarshal : *void, plsnBase : *CLS_LSN, fFlags : u32, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
 AlignReservedLog :: (pvMarshal : *void, cReservedRecords : u32, rgcbReservation : *s64, pcbAlignReservation : *s64) -> BOOL #foreign clfsw32;
 AllocReservedLog :: (pvMarshal : *void, cReservedRecords : u32, pcbAdjustment : *s64) -> BOOL #foreign clfsw32;
 AreFileApisANSI :: () -> BOOL #foreign KERNEL32;
-BackupRead :: (hFile : HANDLE, lpBuffer : *u8, nNumberOfBytesToRead : u32, lpNumberOfBytesRead : *u32, bAbort : BOOL, bProcessSecurity : BOOL, lpContext : **void) -> BOOL #foreign KERNEL32;
-BackupSeek :: (hFile : HANDLE, dwLowBytesToSeek : u32, dwHighBytesToSeek : u32, lpdwLowByteSeeked : *u32, lpdwHighByteSeeked : *u32, lpContext : **void) -> BOOL #foreign KERNEL32;
-BackupWrite :: (hFile : HANDLE, lpBuffer : *u8, nNumberOfBytesToWrite : u32, lpNumberOfBytesWritten : *u32, bAbort : BOOL, bProcessSecurity : BOOL, lpContext : **void) -> BOOL #foreign KERNEL32;
+BackupRead :: (
+    hFile : HANDLE,
+    lpBuffer : *u8,
+    nNumberOfBytesToRead : u32,
+    lpNumberOfBytesRead : *u32,
+    bAbort : BOOL,
+    bProcessSecurity : BOOL,
+    lpContext : **void
+) -> BOOL #foreign KERNEL32;
+
+BackupSeek :: (
+    hFile : HANDLE,
+    dwLowBytesToSeek : u32,
+    dwHighBytesToSeek : u32,
+    lpdwLowByteSeeked : *u32,
+    lpdwHighByteSeeked : *u32,
+    lpContext : **void
+) -> BOOL #foreign KERNEL32;
+
+BackupWrite :: (
+    hFile : HANDLE,
+    lpBuffer : *u8,
+    nNumberOfBytesToWrite : u32,
+    lpNumberOfBytesWritten : *u32,
+    bAbort : BOOL,
+    bProcessSecurity : BOOL,
+    lpContext : **void
+) -> BOOL #foreign KERNEL32;
+
 BindIoCompletionCallback :: (FileHandle : HANDLE, Function : LPOVERLAPPED_COMPLETION_ROUTINE, Flags : u32) -> BOOL #foreign KERNEL32;
 CancelIo :: (hFile : HANDLE) -> BOOL #foreign KERNEL32;
 CancelIoEx :: (hFile : HANDLE, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
 CancelSynchronousIo :: (hThread : HANDLE) -> BOOL #foreign KERNEL32;
-CheckNameLegalDOS8Dot3A :: (lpName : PSTR, lpOemName : *u8, OemNameSize : u32, pbNameContainsSpaces : *BOOL, pbNameLegal : *BOOL) -> BOOL #foreign KERNEL32;
-CheckNameLegalDOS8Dot3W :: (lpName : PWSTR, lpOemName : *u8, OemNameSize : u32, pbNameContainsSpaces : *BOOL, pbNameLegal : *BOOL) -> BOOL #foreign KERNEL32;
+CheckNameLegalDOS8Dot3A :: (
+    lpName : PSTR,
+    lpOemName : *u8,
+    OemNameSize : u32,
+    pbNameContainsSpaces : *BOOL,
+    pbNameLegal : *BOOL
+) -> BOOL #foreign KERNEL32;
+
+CheckNameLegalDOS8Dot3W :: (
+    lpName : PWSTR,
+    lpOemName : *u8,
+    OemNameSize : u32,
+    pbNameContainsSpaces : *BOOL,
+    pbNameLegal : *BOOL
+) -> BOOL #foreign KERNEL32;
+
 CloseAndResetLogFile :: (hLog : HANDLE) -> BOOL #foreign clfsw32;
 CloseEncryptedFileRaw :: (pvContext : *void)  #foreign ADVAPI32;
 CommitComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
@@ -4550,10 +4812,44 @@ CommitTransactionAsync :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
 CompareFileTime :: (lpFileTime1 : *FILETIME, lpFileTime2 : *FILETIME) -> s32 #foreign KERNEL32;
 CopyFile2 :: (pwszExistingFileName : PWSTR, pwszNewFileName : PWSTR, pExtendedParameters : *COPYFILE2_EXTENDED_PARAMETERS) -> HRESULT #foreign KERNEL32;
 CopyFileA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, bFailIfExists : BOOL) -> BOOL #foreign KERNEL32;
-CopyFileExA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32) -> BOOL #foreign KERNEL32;
-CopyFileExW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32) -> BOOL #foreign KERNEL32;
-CopyFileTransactedA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
-CopyFileTransactedW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, pbCancel : *s32, dwCopyFlags : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+CopyFileExA :: (
+    lpExistingFileName : PSTR,
+    lpNewFileName : PSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    pbCancel : *s32,
+    dwCopyFlags : u32
+) -> BOOL #foreign KERNEL32;
+
+CopyFileExW :: (
+    lpExistingFileName : PWSTR,
+    lpNewFileName : PWSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    pbCancel : *s32,
+    dwCopyFlags : u32
+) -> BOOL #foreign KERNEL32;
+
+CopyFileTransactedA :: (
+    lpExistingFileName : PSTR,
+    lpNewFileName : PSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    pbCancel : *s32,
+    dwCopyFlags : u32,
+    hTransaction : HANDLE
+) -> BOOL #foreign KERNEL32;
+
+CopyFileTransactedW :: (
+    lpExistingFileName : PWSTR,
+    lpNewFileName : PWSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    pbCancel : *s32,
+    dwCopyFlags : u32,
+    hTransaction : HANDLE
+) -> BOOL #foreign KERNEL32;
+
 CopyFileW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, bFailIfExists : BOOL) -> BOOL #foreign KERNEL32;
 CopyLZFile :: (hfSource : s32, hfDest : s32) -> s32 #foreign KERNEL32;
 CreateDirectoryA :: (lpPathName : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
@@ -4562,27 +4858,126 @@ CreateDirectoryExW :: (lpTemplateDirectory : PWSTR, lpNewDirectory : PWSTR, lpSe
 CreateDirectoryTransactedA :: (lpTemplateDirectory : PSTR, lpNewDirectory : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 CreateDirectoryTransactedW :: (lpTemplateDirectory : PWSTR, lpNewDirectory : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 CreateDirectoryW :: (lpPathName : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
-CreateEnlistment :: (lpEnlistmentAttributes : *SECURITY_ATTRIBUTES, ResourceManagerHandle : HANDLE, TransactionHandle : HANDLE, NotificationMask : u32, CreateOptions : u32, EnlistmentKey : *void) -> HANDLE #foreign ktmw32;
-CreateFile2 :: (lpFileName : PWSTR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, dwCreationDisposition : FILE_CREATION_DISPOSITION, pCreateExParams : *CREATEFILE2_EXTENDED_PARAMETERS) -> HANDLE #foreign KERNEL32;
-CreateFileA :: (lpFileName : PSTR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE) -> HANDLE #foreign KERNEL32;
-CreateFileTransactedA :: (lpFileName : PSTR, dwDesiredAccess : u32, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE, hTransaction : HANDLE, pusMiniVersion : *TXFS_MINIVERSION, lpExtendedParameter : *void) -> HANDLE #foreign KERNEL32;
-CreateFileTransactedW :: (lpFileName : PWSTR, dwDesiredAccess : u32, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE, hTransaction : HANDLE, pusMiniVersion : *TXFS_MINIVERSION, lpExtendedParameter : *void) -> HANDLE #foreign KERNEL32;
-CreateFileW :: (lpFileName : PWSTR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwCreationDisposition : FILE_CREATION_DISPOSITION, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES, hTemplateFile : HANDLE) -> HANDLE #foreign KERNEL32;
+CreateEnlistment :: (
+    lpEnlistmentAttributes : *SECURITY_ATTRIBUTES,
+    ResourceManagerHandle : HANDLE,
+    TransactionHandle : HANDLE,
+    NotificationMask : u32,
+    CreateOptions : u32,
+    EnlistmentKey : *void
+) -> HANDLE #foreign ktmw32;
+
+CreateFile2 :: (
+    lpFileName : PWSTR,
+    dwDesiredAccess : FILE_ACCESS_FLAGS,
+    dwShareMode : FILE_SHARE_MODE,
+    dwCreationDisposition : FILE_CREATION_DISPOSITION,
+    pCreateExParams : *CREATEFILE2_EXTENDED_PARAMETERS
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileA :: (
+    lpFileName : PSTR,
+    dwDesiredAccess : FILE_ACCESS_FLAGS,
+    dwShareMode : FILE_SHARE_MODE,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES,
+    dwCreationDisposition : FILE_CREATION_DISPOSITION,
+    dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES,
+    hTemplateFile : HANDLE
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileTransactedA :: (
+    lpFileName : PSTR,
+    dwDesiredAccess : u32,
+    dwShareMode : FILE_SHARE_MODE,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES,
+    dwCreationDisposition : FILE_CREATION_DISPOSITION,
+    dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES,
+    hTemplateFile : HANDLE,
+    hTransaction : HANDLE,
+    pusMiniVersion : *TXFS_MINIVERSION,
+    lpExtendedParameter : *void
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileTransactedW :: (
+    lpFileName : PWSTR,
+    dwDesiredAccess : u32,
+    dwShareMode : FILE_SHARE_MODE,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES,
+    dwCreationDisposition : FILE_CREATION_DISPOSITION,
+    dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES,
+    hTemplateFile : HANDLE,
+    hTransaction : HANDLE,
+    pusMiniVersion : *TXFS_MINIVERSION,
+    lpExtendedParameter : *void
+) -> HANDLE #foreign KERNEL32;
+
+CreateFileW :: (
+    lpFileName : PWSTR,
+    dwDesiredAccess : FILE_ACCESS_FLAGS,
+    dwShareMode : FILE_SHARE_MODE,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES,
+    dwCreationDisposition : FILE_CREATION_DISPOSITION,
+    dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES,
+    hTemplateFile : HANDLE
+) -> HANDLE #foreign KERNEL32;
+
 CreateHardLinkA :: (lpFileName : PSTR, lpExistingFileName : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
 CreateHardLinkTransactedA :: (lpFileName : PSTR, lpExistingFileName : PSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 CreateHardLinkTransactedW :: (lpFileName : PWSTR, lpExistingFileName : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 CreateHardLinkW :: (lpFileName : PWSTR, lpExistingFileName : PWSTR, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> BOOL #foreign KERNEL32;
 CreateIoCompletionPort :: (FileHandle : HANDLE, ExistingCompletionPort : HANDLE, CompletionKey : u64, NumberOfConcurrentThreads : u32) -> HANDLE #foreign KERNEL32;
-CreateLogContainerScanContext :: (hLog : HANDLE, cFromContainer : u32, cContainers : u32, eScanMode : u8, pcxScan : *CLS_SCAN_CONTEXT, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
-CreateLogFile :: (pszLogFileName : PWSTR, fDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, psaLogFile : *SECURITY_ATTRIBUTES, fCreateDisposition : FILE_CREATION_DISPOSITION, fFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> HANDLE #foreign clfsw32;
-CreateLogMarshallingArea :: (hLog : HANDLE, pfnAllocBuffer : CLFS_BLOCK_ALLOCATION, pfnFreeBuffer : CLFS_BLOCK_DEALLOCATION, pvBlockAllocContext : *void, cbMarshallingBuffer : u32, cMaxWriteBuffers : u32, cMaxReadBuffers : u32, ppvMarshal : **void) -> BOOL #foreign clfsw32;
-CreateResourceManager :: (lpResourceManagerAttributes : *SECURITY_ATTRIBUTES, ResourceManagerId : *GUID, CreateOptions : u32, TmHandle : HANDLE, Description : PWSTR) -> HANDLE #foreign ktmw32;
+CreateLogContainerScanContext :: (
+    hLog : HANDLE,
+    cFromContainer : u32,
+    cContainers : u32,
+    eScanMode : u8,
+    pcxScan : *CLS_SCAN_CONTEXT,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
+CreateLogFile :: (
+    pszLogFileName : PWSTR,
+    fDesiredAccess : FILE_ACCESS_FLAGS,
+    dwShareMode : FILE_SHARE_MODE,
+    psaLogFile : *SECURITY_ATTRIBUTES,
+    fCreateDisposition : FILE_CREATION_DISPOSITION,
+    fFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES
+) -> HANDLE #foreign clfsw32;
+
+CreateLogMarshallingArea :: (
+    hLog : HANDLE,
+    pfnAllocBuffer : CLFS_BLOCK_ALLOCATION,
+    pfnFreeBuffer : CLFS_BLOCK_DEALLOCATION,
+    pvBlockAllocContext : *void,
+    cbMarshallingBuffer : u32,
+    cMaxWriteBuffers : u32,
+    cMaxReadBuffers : u32,
+    ppvMarshal : **void
+) -> BOOL #foreign clfsw32;
+
+CreateResourceManager :: (
+    lpResourceManagerAttributes : *SECURITY_ATTRIBUTES,
+    ResourceManagerId : *GUID,
+    CreateOptions : u32,
+    TmHandle : HANDLE,
+    Description : PWSTR
+) -> HANDLE #foreign ktmw32;
+
 CreateSymbolicLinkA :: (lpSymlinkFileName : PSTR, lpTargetFileName : PSTR, dwFlags : SYMBOLIC_LINK_FLAGS) -> BOOLEAN #foreign KERNEL32;
 CreateSymbolicLinkTransactedA :: (lpSymlinkFileName : PSTR, lpTargetFileName : PSTR, dwFlags : SYMBOLIC_LINK_FLAGS, hTransaction : HANDLE) -> BOOLEAN #foreign KERNEL32;
 CreateSymbolicLinkTransactedW :: (lpSymlinkFileName : PWSTR, lpTargetFileName : PWSTR, dwFlags : SYMBOLIC_LINK_FLAGS, hTransaction : HANDLE) -> BOOLEAN #foreign KERNEL32;
 CreateSymbolicLinkW :: (lpSymlinkFileName : PWSTR, lpTargetFileName : PWSTR, dwFlags : SYMBOLIC_LINK_FLAGS) -> BOOLEAN #foreign KERNEL32;
 CreateTapePartition :: (hDevice : HANDLE, dwPartitionMethod : CREATE_TAPE_PARTITION_METHOD, dwCount : u32, dwSize : u32) -> u32 #foreign KERNEL32;
-CreateTransaction :: (lpTransactionAttributes : *SECURITY_ATTRIBUTES, UOW : *GUID, CreateOptions : u32, IsolationLevel : u32, IsolationFlags : u32, Timeout : u32, Description : PWSTR) -> HANDLE #foreign ktmw32;
+CreateTransaction :: (
+    lpTransactionAttributes : *SECURITY_ATTRIBUTES,
+    UOW : *GUID,
+    CreateOptions : u32,
+    IsolationLevel : u32,
+    IsolationFlags : u32,
+    Timeout : u32,
+    Description : PWSTR
+) -> HANDLE #foreign ktmw32;
+
 CreateTransactionManager :: (lpTransactionAttributes : *SECURITY_ATTRIBUTES, LogFileName : PWSTR, CreateOptions : u32, CommitStrength : u32) -> HANDLE #foreign ktmw32;
 DecryptFileA :: (lpFileName : PSTR, dwReserved : u32) -> BOOL #foreign ADVAPI32;
 DecryptFileW :: (lpFileName : PWSTR, dwReserved : u32) -> BOOL #foreign ADVAPI32;
@@ -4598,8 +4993,25 @@ DeleteLogMarshallingArea :: (pvMarshal : *void) -> BOOL #foreign clfsw32;
 DeleteVolumeMountPointA :: (lpszVolumeMountPoint : PSTR) -> BOOL #foreign KERNEL32;
 DeleteVolumeMountPointW :: (lpszVolumeMountPoint : PWSTR) -> BOOL #foreign KERNEL32;
 DeregisterManageableLogClient :: (hLog : HANDLE) -> BOOL #foreign clfsw32;
-DeviceIoControl :: (hDevice : HANDLE, dwIoControlCode : u32, lpInBuffer : *void, nInBufferSize : u32, lpOutBuffer : *void, nOutBufferSize : u32, lpBytesReturned : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
-DuplicateEncryptionInfoFile :: (SrcFileName : PWSTR, DstFileName : PWSTR, dwCreationDistribution : u32, dwAttributes : u32, lpSecurityAttributes : *SECURITY_ATTRIBUTES) -> u32 #foreign ADVAPI32;
+DeviceIoControl :: (
+    hDevice : HANDLE,
+    dwIoControlCode : u32,
+    lpInBuffer : *void,
+    nInBufferSize : u32,
+    lpOutBuffer : *void,
+    nOutBufferSize : u32,
+    lpBytesReturned : *u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
+DuplicateEncryptionInfoFile :: (
+    SrcFileName : PWSTR,
+    DstFileName : PWSTR,
+    dwCreationDistribution : u32,
+    dwAttributes : u32,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES
+) -> u32 #foreign ADVAPI32;
+
 EncryptFileA :: (lpFileName : PSTR) -> BOOL #foreign ADVAPI32;
 EncryptFileW :: (lpFileName : PWSTR) -> BOOL #foreign ADVAPI32;
 EncryptionDisable :: (DirPath : PWSTR, Disable : BOOL) -> BOOL #foreign ADVAPI32;
@@ -4612,14 +5024,62 @@ FindCloseChangeNotification :: (hChangeHandle : FindChangeNotificationHandle) ->
 FindFirstChangeNotificationA :: (lpPathName : PSTR, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE) -> FindChangeNotificationHandle #foreign KERNEL32;
 FindFirstChangeNotificationW :: (lpPathName : PWSTR, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE) -> FindChangeNotificationHandle #foreign KERNEL32;
 FindFirstFileA :: (lpFileName : PSTR, lpFindFileData : *WIN32_FIND_DATAA) -> FindFileHandle #foreign KERNEL32;
-FindFirstFileExA :: (lpFileName : PSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : FIND_FIRST_EX_FLAGS) -> FindFileHandle #foreign KERNEL32;
-FindFirstFileExW :: (lpFileName : PWSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : FIND_FIRST_EX_FLAGS) -> FindFileHandle #foreign KERNEL32;
-FindFirstFileNameTransactedW :: (lpFileName : PWSTR, dwFlags : u32, StringLength : *u32, LinkName : *u16, hTransaction : HANDLE) -> FindFileNameHandle #foreign KERNEL32;
+FindFirstFileExA :: (
+    lpFileName : PSTR,
+    fInfoLevelId : FINDEX_INFO_LEVELS,
+    lpFindFileData : *void,
+    fSearchOp : FINDEX_SEARCH_OPS,
+    lpSearchFilter : *void,
+    dwAdditionalFlags : FIND_FIRST_EX_FLAGS
+) -> FindFileHandle #foreign KERNEL32;
+
+FindFirstFileExW :: (
+    lpFileName : PWSTR,
+    fInfoLevelId : FINDEX_INFO_LEVELS,
+    lpFindFileData : *void,
+    fSearchOp : FINDEX_SEARCH_OPS,
+    lpSearchFilter : *void,
+    dwAdditionalFlags : FIND_FIRST_EX_FLAGS
+) -> FindFileHandle #foreign KERNEL32;
+
+FindFirstFileNameTransactedW :: (
+    lpFileName : PWSTR,
+    dwFlags : u32,
+    StringLength : *u32,
+    LinkName : *u16,
+    hTransaction : HANDLE
+) -> FindFileNameHandle #foreign KERNEL32;
+
 FindFirstFileNameW :: (lpFileName : PWSTR, dwFlags : u32, StringLength : *u32, LinkName : *u16) -> FindFileNameHandle #foreign KERNEL32;
-FindFirstFileTransactedA :: (lpFileName : PSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : u32, hTransaction : HANDLE) -> FindFileHandle #foreign KERNEL32;
-FindFirstFileTransactedW :: (lpFileName : PWSTR, fInfoLevelId : FINDEX_INFO_LEVELS, lpFindFileData : *void, fSearchOp : FINDEX_SEARCH_OPS, lpSearchFilter : *void, dwAdditionalFlags : u32, hTransaction : HANDLE) -> FindFileHandle #foreign KERNEL32;
+FindFirstFileTransactedA :: (
+    lpFileName : PSTR,
+    fInfoLevelId : FINDEX_INFO_LEVELS,
+    lpFindFileData : *void,
+    fSearchOp : FINDEX_SEARCH_OPS,
+    lpSearchFilter : *void,
+    dwAdditionalFlags : u32,
+    hTransaction : HANDLE
+) -> FindFileHandle #foreign KERNEL32;
+
+FindFirstFileTransactedW :: (
+    lpFileName : PWSTR,
+    fInfoLevelId : FINDEX_INFO_LEVELS,
+    lpFindFileData : *void,
+    fSearchOp : FINDEX_SEARCH_OPS,
+    lpSearchFilter : *void,
+    dwAdditionalFlags : u32,
+    hTransaction : HANDLE
+) -> FindFileHandle #foreign KERNEL32;
+
 FindFirstFileW :: (lpFileName : PWSTR, lpFindFileData : *WIN32_FIND_DATAW) -> FindFileHandle #foreign KERNEL32;
-FindFirstStreamTransactedW :: (lpFileName : PWSTR, InfoLevel : STREAM_INFO_LEVELS, lpFindStreamData : *void, dwFlags : u32, hTransaction : HANDLE) -> FindStreamHandle #foreign KERNEL32;
+FindFirstStreamTransactedW :: (
+    lpFileName : PWSTR,
+    InfoLevel : STREAM_INFO_LEVELS,
+    lpFindStreamData : *void,
+    dwFlags : u32,
+    hTransaction : HANDLE
+) -> FindStreamHandle #foreign KERNEL32;
+
 FindFirstStreamW :: (lpFileName : PWSTR, InfoLevel : STREAM_INFO_LEVELS, lpFindStreamData : *void, dwFlags : u32) -> FindStreamHandle #foreign KERNEL32;
 FindFirstVolumeA :: (lpszVolumeName : *u8, cchBufferLength : u32) -> FindVolumeHandle #foreign KERNEL32;
 FindFirstVolumeMountPointA :: (lpszRootPathName : PSTR, lpszVolumeMountPoint : *u8, cchBufferLength : u32) -> FindVolumeMointPointHandle #foreign KERNEL32;
@@ -4649,10 +5109,24 @@ GetCompressedFileSizeTransactedA :: (lpFileName : PSTR, lpFileSizeHigh : *u32, h
 GetCompressedFileSizeTransactedW :: (lpFileName : PWSTR, lpFileSizeHigh : *u32, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
 GetCompressedFileSizeW :: (lpFileName : PWSTR, lpFileSizeHigh : *u32) -> u32 #foreign KERNEL32;
 GetCurrentClockTransactionManager :: (TransactionManagerHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
-GetDiskFreeSpaceA :: (lpRootPathName : PSTR, lpSectorsPerCluster : *u32, lpBytesPerSector : *u32, lpNumberOfFreeClusters : *u32, lpTotalNumberOfClusters : *u32) -> BOOL #foreign KERNEL32;
+GetDiskFreeSpaceA :: (
+    lpRootPathName : PSTR,
+    lpSectorsPerCluster : *u32,
+    lpBytesPerSector : *u32,
+    lpNumberOfFreeClusters : *u32,
+    lpTotalNumberOfClusters : *u32
+) -> BOOL #foreign KERNEL32;
+
 GetDiskFreeSpaceExA :: (lpDirectoryName : PSTR, lpFreeBytesAvailableToCaller : *ULARGE_INTEGER, lpTotalNumberOfBytes : *ULARGE_INTEGER, lpTotalNumberOfFreeBytes : *ULARGE_INTEGER) -> BOOL #foreign KERNEL32;
 GetDiskFreeSpaceExW :: (lpDirectoryName : PWSTR, lpFreeBytesAvailableToCaller : *ULARGE_INTEGER, lpTotalNumberOfBytes : *ULARGE_INTEGER, lpTotalNumberOfFreeBytes : *ULARGE_INTEGER) -> BOOL #foreign KERNEL32;
-GetDiskFreeSpaceW :: (lpRootPathName : PWSTR, lpSectorsPerCluster : *u32, lpBytesPerSector : *u32, lpNumberOfFreeClusters : *u32, lpTotalNumberOfClusters : *u32) -> BOOL #foreign KERNEL32;
+GetDiskFreeSpaceW :: (
+    lpRootPathName : PWSTR,
+    lpSectorsPerCluster : *u32,
+    lpBytesPerSector : *u32,
+    lpNumberOfFreeClusters : *u32,
+    lpTotalNumberOfClusters : *u32
+) -> BOOL #foreign KERNEL32;
+
 GetDiskSpaceInformationA :: (rootPath : PSTR, diskSpaceInfo : *DISK_SPACE_INFORMATION) -> HRESULT #foreign KERNEL32;
 GetDiskSpaceInformationW :: (rootPath : PWSTR, diskSpaceInfo : *DISK_SPACE_INFORMATION) -> HRESULT #foreign KERNEL32;
 GetDriveTypeA :: (lpRootPathName : PSTR) -> u32 #foreign KERNEL32;
@@ -4668,7 +5142,15 @@ GetFileAttributesExW :: (lpFileName : PWSTR, fInfoLevelId : GET_FILEEX_INFO_LEVE
 GetFileAttributesTransactedA :: (lpFileName : PSTR, fInfoLevelId : GET_FILEEX_INFO_LEVELS, lpFileInformation : *void, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 GetFileAttributesTransactedW :: (lpFileName : PWSTR, fInfoLevelId : GET_FILEEX_INFO_LEVELS, lpFileInformation : *void, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 GetFileAttributesW :: (lpFileName : PWSTR) -> u32 #foreign KERNEL32;
-GetFileBandwidthReservation :: (hFile : HANDLE, lpPeriodMilliseconds : *u32, lpBytesPerPeriod : *u32, pDiscardable : *s32, lpTransferSize : *u32, lpNumOutstandingRequests : *u32) -> BOOL #foreign KERNEL32;
+GetFileBandwidthReservation :: (
+    hFile : HANDLE,
+    lpPeriodMilliseconds : *u32,
+    lpBytesPerPeriod : *u32,
+    pDiscardable : *s32,
+    lpTransferSize : *u32,
+    lpNumOutstandingRequests : *u32
+) -> BOOL #foreign KERNEL32;
+
 GetFileInformationByHandle :: (hFile : HANDLE, lpFileInformation : *BY_HANDLE_FILE_INFORMATION) -> BOOL #foreign KERNEL32;
 GetFileInformationByHandleEx :: (hFile : HANDLE, FileInformationClass : FILE_INFO_BY_HANDLE_CLASS, lpFileInformation : *void, dwBufferSize : u32) -> BOOL #foreign KERNEL32;
 GetFileSize :: (hFile : HANDLE, lpFileSizeHigh : *u32) -> u32 #foreign KERNEL32;
@@ -4676,8 +5158,22 @@ GetFileSizeEx :: (hFile : HANDLE, lpFileSize : *LARGE_INTEGER) -> BOOL #foreign 
 GetFileTime :: (hFile : HANDLE, lpCreationTime : *FILETIME, lpLastAccessTime : *FILETIME, lpLastWriteTime : *FILETIME) -> BOOL #foreign KERNEL32;
 GetFileType :: (hFile : HANDLE) -> u32 #foreign KERNEL32;
 GetFileVersionInfoA :: (lptstrFilename : PSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
-GetFileVersionInfoExA :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
-GetFileVersionInfoExW :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PWSTR, dwHandle : u32, dwLen : u32, lpData : *void) -> BOOL #foreign VERSION;
+GetFileVersionInfoExA :: (
+    dwFlags : GET_FILE_VERSION_INFO_FLAGS,
+    lpwstrFilename : PSTR,
+    dwHandle : u32,
+    dwLen : u32,
+    lpData : *void
+) -> BOOL #foreign VERSION;
+
+GetFileVersionInfoExW :: (
+    dwFlags : GET_FILE_VERSION_INFO_FLAGS,
+    lpwstrFilename : PWSTR,
+    dwHandle : u32,
+    dwLen : u32,
+    lpData : *void
+) -> BOOL #foreign VERSION;
+
 GetFileVersionInfoSizeA :: (lptstrFilename : PSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
 GetFileVersionInfoSizeExA :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
 GetFileVersionInfoSizeExW :: (dwFlags : GET_FILE_VERSION_INFO_FLAGS, lpwstrFilename : PWSTR, lpdwHandle : *u32) -> u32 #foreign VERSION;
@@ -4686,12 +5182,40 @@ GetFileVersionInfoW :: (lptstrFilename : PWSTR, dwHandle : u32, dwLen : u32, lpD
 GetFinalPathNameByHandleA :: (hFile : HANDLE, lpszFilePath : *u8, cchFilePath : u32, dwFlags : FILE_NAME) -> u32 #foreign KERNEL32;
 GetFinalPathNameByHandleW :: (hFile : HANDLE, lpszFilePath : *u16, cchFilePath : u32, dwFlags : FILE_NAME) -> u32 #foreign KERNEL32;
 GetFullPathNameA :: (lpFileName : PSTR, nBufferLength : u32, lpBuffer : *u8, lpFilePart : *PSTR) -> u32 #foreign KERNEL32;
-GetFullPathNameTransactedA :: (lpFileName : PSTR, nBufferLength : u32, lpBuffer : *u8, lpFilePart : *PSTR, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
-GetFullPathNameTransactedW :: (lpFileName : PWSTR, nBufferLength : u32, lpBuffer : *u16, lpFilePart : *PWSTR, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
+GetFullPathNameTransactedA :: (
+    lpFileName : PSTR,
+    nBufferLength : u32,
+    lpBuffer : *u8,
+    lpFilePart : *PSTR,
+    hTransaction : HANDLE
+) -> u32 #foreign KERNEL32;
+
+GetFullPathNameTransactedW :: (
+    lpFileName : PWSTR,
+    nBufferLength : u32,
+    lpBuffer : *u16,
+    lpFilePart : *PWSTR,
+    hTransaction : HANDLE
+) -> u32 #foreign KERNEL32;
+
 GetFullPathNameW :: (lpFileName : PWSTR, nBufferLength : u32, lpBuffer : *u16, lpFilePart : *PWSTR) -> u32 #foreign KERNEL32;
-GetLogContainerName :: (hLog : HANDLE, cidLogicalContainer : u32, pwstrContainerName : PWSTR, cLenContainerName : u32, pcActualLenContainerName : *u32) -> BOOL #foreign clfsw32;
+GetLogContainerName :: (
+    hLog : HANDLE,
+    cidLogicalContainer : u32,
+    pwstrContainerName : PWSTR,
+    cLenContainerName : u32,
+    pcActualLenContainerName : *u32
+) -> BOOL #foreign clfsw32;
+
 GetLogFileInformation :: (hLog : HANDLE, pinfoBuffer : *CLS_INFORMATION, cbBuffer : *u32) -> BOOL #foreign clfsw32;
-GetLogIoStatistics :: (hLog : HANDLE, pvStatsBuffer : *void, cbStatsBuffer : u32, eStatsClass : CLFS_IOSTATS_CLASS, pcbStatsWritten : *u32) -> BOOL #foreign clfsw32;
+GetLogIoStatistics :: (
+    hLog : HANDLE,
+    pvStatsBuffer : *void,
+    cbStatsBuffer : u32,
+    eStatsClass : CLFS_IOSTATS_CLASS,
+    pcbStatsWritten : *u32
+) -> BOOL #foreign clfsw32;
+
 GetLogReservationInfo :: (pvMarshal : *void, pcbRecordNumber : *u32, pcbUserReservation : *s64, pcbCommitReservation : *s64) -> BOOL #foreign clfsw32;
 GetLogicalDriveStringsA :: (nBufferLength : u32, lpBuffer : *u8) -> u32 #foreign KERNEL32;
 GetLogicalDriveStringsW :: (nBufferLength : u32, lpBuffer : *u16) -> u32 #foreign KERNEL32;
@@ -4701,27 +5225,109 @@ GetLongPathNameTransactedA :: (lpszShortPath : PSTR, lpszLongPath : *u8, cchBuff
 GetLongPathNameTransactedW :: (lpszShortPath : PWSTR, lpszLongPath : *u16, cchBuffer : u32, hTransaction : HANDLE) -> u32 #foreign KERNEL32;
 GetLongPathNameW :: (lpszShortPath : PWSTR, lpszLongPath : *u16, cchBuffer : u32) -> u32 #foreign KERNEL32;
 GetNextLogArchiveExtent :: (pvArchiveContext : *void, rgadExtent : *CLS_ARCHIVE_DESCRIPTOR, cDescriptors : u32, pcDescriptorsReturned : *u32) -> BOOL #foreign clfsw32;
-GetNotificationResourceManager :: (ResourceManagerHandle : HANDLE, TransactionNotification : *TRANSACTION_NOTIFICATION, NotificationLength : u32, dwMilliseconds : u32, ReturnLength : *u32) -> BOOL #foreign ktmw32;
-GetNotificationResourceManagerAsync :: (ResourceManagerHandle : HANDLE, TransactionNotification : *TRANSACTION_NOTIFICATION, TransactionNotificationLength : u32, ReturnLength : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign ktmw32;
+GetNotificationResourceManager :: (
+    ResourceManagerHandle : HANDLE,
+    TransactionNotification : *TRANSACTION_NOTIFICATION,
+    NotificationLength : u32,
+    dwMilliseconds : u32,
+    ReturnLength : *u32
+) -> BOOL #foreign ktmw32;
+
+GetNotificationResourceManagerAsync :: (
+    ResourceManagerHandle : HANDLE,
+    TransactionNotification : *TRANSACTION_NOTIFICATION,
+    TransactionNotificationLength : u32,
+    ReturnLength : *u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign ktmw32;
+
 GetOverlappedResult :: (hFile : HANDLE, lpOverlapped : *OVERLAPPED, lpNumberOfBytesTransferred : *u32, bWait : BOOL) -> BOOL #foreign KERNEL32;
-GetOverlappedResultEx :: (hFile : HANDLE, lpOverlapped : *OVERLAPPED, lpNumberOfBytesTransferred : *u32, dwMilliseconds : u32, bAlertable : BOOL) -> BOOL #foreign KERNEL32;
-GetQueuedCompletionStatus :: (CompletionPort : HANDLE, lpNumberOfBytesTransferred : *u32, lpCompletionKey : *u64, lpOverlapped : **OVERLAPPED, dwMilliseconds : u32) -> BOOL #foreign KERNEL32;
-GetQueuedCompletionStatusEx :: (CompletionPort : HANDLE, lpCompletionPortEntries : *OVERLAPPED_ENTRY, ulCount : u32, ulNumEntriesRemoved : *u32, dwMilliseconds : u32, fAlertable : BOOL) -> BOOL #foreign KERNEL32;
+GetOverlappedResultEx :: (
+    hFile : HANDLE,
+    lpOverlapped : *OVERLAPPED,
+    lpNumberOfBytesTransferred : *u32,
+    dwMilliseconds : u32,
+    bAlertable : BOOL
+) -> BOOL #foreign KERNEL32;
+
+GetQueuedCompletionStatus :: (
+    CompletionPort : HANDLE,
+    lpNumberOfBytesTransferred : *u32,
+    lpCompletionKey : *u64,
+    lpOverlapped : **OVERLAPPED,
+    dwMilliseconds : u32
+) -> BOOL #foreign KERNEL32;
+
+GetQueuedCompletionStatusEx :: (
+    CompletionPort : HANDLE,
+    lpCompletionPortEntries : *OVERLAPPED_ENTRY,
+    ulCount : u32,
+    ulNumEntriesRemoved : *u32,
+    dwMilliseconds : u32,
+    fAlertable : BOOL
+) -> BOOL #foreign KERNEL32;
+
 GetShortPathNameA :: (lpszLongPath : PSTR, lpszShortPath : *u8, cchBuffer : u32) -> u32 #foreign KERNEL32;
 GetShortPathNameW :: (lpszLongPath : PWSTR, lpszShortPath : *u16, cchBuffer : u32) -> u32 #foreign KERNEL32;
 GetTapeParameters :: (hDevice : HANDLE, dwOperation : GET_TAPE_DRIVE_PARAMETERS_OPERATION, lpdwSize : *u32, lpTapeInformation : *void) -> u32 #foreign KERNEL32;
-GetTapePosition :: (hDevice : HANDLE, dwPositionType : TAPE_POSITION_TYPE, lpdwPartition : *u32, lpdwOffsetLow : *u32, lpdwOffsetHigh : *u32) -> u32 #foreign KERNEL32;
+GetTapePosition :: (
+    hDevice : HANDLE,
+    dwPositionType : TAPE_POSITION_TYPE,
+    lpdwPartition : *u32,
+    lpdwOffsetLow : *u32,
+    lpdwOffsetHigh : *u32
+) -> u32 #foreign KERNEL32;
+
 GetTapeStatus :: (hDevice : HANDLE) -> u32 #foreign KERNEL32;
 GetTempFileNameA :: (lpPathName : PSTR, lpPrefixString : PSTR, uUnique : u32, lpTempFileName : *[260]u8) -> u32 #foreign KERNEL32;
 GetTempFileNameW :: (lpPathName : PWSTR, lpPrefixString : PWSTR, uUnique : u32, lpTempFileName : *[260]u16) -> u32 #foreign KERNEL32;
 GetTempPathA :: (nBufferLength : u32, lpBuffer : *u8) -> u32 #foreign KERNEL32;
 GetTempPathW :: (nBufferLength : u32, lpBuffer : *u16) -> u32 #foreign KERNEL32;
 GetTransactionId :: (TransactionHandle : HANDLE, TransactionId : *GUID) -> BOOL #foreign ktmw32;
-GetTransactionInformation :: (TransactionHandle : HANDLE, Outcome : *u32, IsolationLevel : *u32, IsolationFlags : *u32, Timeout : *u32, BufferLength : u32, Description : *u16) -> BOOL #foreign ktmw32;
+GetTransactionInformation :: (
+    TransactionHandle : HANDLE,
+    Outcome : *u32,
+    IsolationLevel : *u32,
+    IsolationFlags : *u32,
+    Timeout : *u32,
+    BufferLength : u32,
+    Description : *u16
+) -> BOOL #foreign ktmw32;
+
 GetTransactionManagerId :: (TransactionManagerHandle : HANDLE, TransactionManagerId : *GUID) -> BOOL #foreign ktmw32;
-GetVolumeInformationA :: (lpRootPathName : PSTR, lpVolumeNameBuffer : *u8, nVolumeNameSize : u32, lpVolumeSerialNumber : *u32, lpMaximumComponentLength : *u32, lpFileSystemFlags : *u32, lpFileSystemNameBuffer : *u8, nFileSystemNameSize : u32) -> BOOL #foreign KERNEL32;
-GetVolumeInformationByHandleW :: (hFile : HANDLE, lpVolumeNameBuffer : *u16, nVolumeNameSize : u32, lpVolumeSerialNumber : *u32, lpMaximumComponentLength : *u32, lpFileSystemFlags : *u32, lpFileSystemNameBuffer : *u16, nFileSystemNameSize : u32) -> BOOL #foreign KERNEL32;
-GetVolumeInformationW :: (lpRootPathName : PWSTR, lpVolumeNameBuffer : *u16, nVolumeNameSize : u32, lpVolumeSerialNumber : *u32, lpMaximumComponentLength : *u32, lpFileSystemFlags : *u32, lpFileSystemNameBuffer : *u16, nFileSystemNameSize : u32) -> BOOL #foreign KERNEL32;
+GetVolumeInformationA :: (
+    lpRootPathName : PSTR,
+    lpVolumeNameBuffer : *u8,
+    nVolumeNameSize : u32,
+    lpVolumeSerialNumber : *u32,
+    lpMaximumComponentLength : *u32,
+    lpFileSystemFlags : *u32,
+    lpFileSystemNameBuffer : *u8,
+    nFileSystemNameSize : u32
+) -> BOOL #foreign KERNEL32;
+
+GetVolumeInformationByHandleW :: (
+    hFile : HANDLE,
+    lpVolumeNameBuffer : *u16,
+    nVolumeNameSize : u32,
+    lpVolumeSerialNumber : *u32,
+    lpMaximumComponentLength : *u32,
+    lpFileSystemFlags : *u32,
+    lpFileSystemNameBuffer : *u16,
+    nFileSystemNameSize : u32
+) -> BOOL #foreign KERNEL32;
+
+GetVolumeInformationW :: (
+    lpRootPathName : PWSTR,
+    lpVolumeNameBuffer : *u16,
+    nVolumeNameSize : u32,
+    lpVolumeSerialNumber : *u32,
+    lpMaximumComponentLength : *u32,
+    lpFileSystemFlags : *u32,
+    lpFileSystemNameBuffer : *u16,
+    nFileSystemNameSize : u32
+) -> BOOL #foreign KERNEL32;
+
 GetVolumeNameForVolumeMountPointA :: (lpszVolumeMountPoint : PSTR, lpszVolumeName : *u8, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
 GetVolumeNameForVolumeMountPointW :: (lpszVolumeMountPoint : PWSTR, lpszVolumeName : *u16, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
 GetVolumePathNameA :: (lpszFileName : PSTR, lpszVolumePathName : *u8, cchBufferLength : u32) -> BOOL #foreign KERNEL32;
@@ -4740,8 +5346,23 @@ LZRead :: (hFile : s32, lpBuffer : PSTR, cbRead : s32) -> s32 #foreign KERNEL32;
 LZSeek :: (hFile : s32, lOffset : s32, iOrigin : s32) -> s32 #foreign KERNEL32;
 LZStart :: () -> s32 #foreign KERNEL32;
 LocalFileTimeToFileTime :: (lpLocalFileTime : *FILETIME, lpFileTime : *FILETIME) -> BOOL #foreign KERNEL32;
-LockFile :: (hFile : HANDLE, dwFileOffsetLow : u32, dwFileOffsetHigh : u32, nNumberOfBytesToLockLow : u32, nNumberOfBytesToLockHigh : u32) -> BOOL #foreign KERNEL32;
-LockFileEx :: (hFile : HANDLE, dwFlags : LOCK_FILE_FLAGS, dwReserved : u32, nNumberOfBytesToLockLow : u32, nNumberOfBytesToLockHigh : u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+LockFile :: (
+    hFile : HANDLE,
+    dwFileOffsetLow : u32,
+    dwFileOffsetHigh : u32,
+    nNumberOfBytesToLockLow : u32,
+    nNumberOfBytesToLockHigh : u32
+) -> BOOL #foreign KERNEL32;
+
+LockFileEx :: (
+    hFile : HANDLE,
+    dwFlags : LOCK_FILE_FLAGS,
+    dwReserved : u32,
+    nNumberOfBytesToLockLow : u32,
+    nNumberOfBytesToLockHigh : u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
 LogTailAdvanceFailure :: (hLog : HANDLE, dwReason : u32) -> BOOL #foreign clfsw32;
 LsnBlockOffset :: (plsn : *CLS_LSN) -> u32 #foreign clfsw32;
 LsnContainer :: (plsn : *CLS_LSN) -> u32 #foreign clfsw32;
@@ -4756,37 +5377,168 @@ LsnRecordSequence :: (plsn : *CLS_LSN) -> u32 #foreign clfsw32;
 MoveFileA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR) -> BOOL #foreign KERNEL32;
 MoveFileExA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
 MoveFileExW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
-MoveFileTransactedA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
-MoveFileTransactedW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
+MoveFileTransactedA :: (
+    lpExistingFileName : PSTR,
+    lpNewFileName : PSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    dwFlags : MOVE_FILE_FLAGS,
+    hTransaction : HANDLE
+) -> BOOL #foreign KERNEL32;
+
+MoveFileTransactedW :: (
+    lpExistingFileName : PWSTR,
+    lpNewFileName : PWSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    dwFlags : MOVE_FILE_FLAGS,
+    hTransaction : HANDLE
+) -> BOOL #foreign KERNEL32;
+
 MoveFileW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR) -> BOOL #foreign KERNEL32;
-MoveFileWithProgressA :: (lpExistingFileName : PSTR, lpNewFileName : PSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
-MoveFileWithProgressW :: (lpExistingFileName : PWSTR, lpNewFileName : PWSTR, lpProgressRoutine : LPPROGRESS_ROUTINE, lpData : *void, dwFlags : MOVE_FILE_FLAGS) -> BOOL #foreign KERNEL32;
-NetConnectionEnum :: (servername : PWSTR, qualifier : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
+MoveFileWithProgressA :: (
+    lpExistingFileName : PSTR,
+    lpNewFileName : PSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    dwFlags : MOVE_FILE_FLAGS
+) -> BOOL #foreign KERNEL32;
+
+MoveFileWithProgressW :: (
+    lpExistingFileName : PWSTR,
+    lpNewFileName : PWSTR,
+    lpProgressRoutine : LPPROGRESS_ROUTINE,
+    lpData : *void,
+    dwFlags : MOVE_FILE_FLAGS
+) -> BOOL #foreign KERNEL32;
+
+NetConnectionEnum :: (
+    servername : PWSTR,
+    qualifier : PWSTR,
+    level : u32,
+    bufptr : **u8,
+    prefmaxlen : u32,
+    entriesread : *u32,
+    totalentries : *u32,
+    resume_handle : *u32
+) -> u32 #foreign NETAPI32;
+
 NetFileClose :: (servername : PWSTR, fileid : u32) -> u32 #foreign NETAPI32;
-NetFileEnum :: (servername : PWSTR, basepath : PWSTR, username : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u64) -> u32 #foreign NETAPI32;
+NetFileEnum :: (
+    servername : PWSTR,
+    basepath : PWSTR,
+    username : PWSTR,
+    level : u32,
+    bufptr : **u8,
+    prefmaxlen : u32,
+    entriesread : *u32,
+    totalentries : *u32,
+    resume_handle : *u64
+) -> u32 #foreign NETAPI32;
+
 NetFileGetInfo :: (servername : PWSTR, fileid : u32, level : u32, bufptr : **u8) -> u32 #foreign NETAPI32;
 NetServerAliasAdd :: (servername : PWSTR, level : u32, buf : *u8) -> u32 #foreign NETAPI32;
 NetServerAliasDel :: (servername : PWSTR, level : u32, buf : *u8) -> u32 #foreign NETAPI32;
-NetServerAliasEnum :: (servername : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resumehandle : *u32) -> u32 #foreign NETAPI32;
+NetServerAliasEnum :: (
+    servername : PWSTR,
+    level : u32,
+    bufptr : **u8,
+    prefmaxlen : u32,
+    entriesread : *u32,
+    totalentries : *u32,
+    resumehandle : *u32
+) -> u32 #foreign NETAPI32;
+
 NetSessionDel :: (servername : PWSTR, UncClientName : PWSTR, username : PWSTR) -> u32 #foreign NETAPI32;
-NetSessionEnum :: (servername : PWSTR, UncClientName : PWSTR, username : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
-NetSessionGetInfo :: (servername : PWSTR, UncClientName : PWSTR, username : PWSTR, level : u32, bufptr : **u8) -> u32 #foreign NETAPI32;
+NetSessionEnum :: (
+    servername : PWSTR,
+    UncClientName : PWSTR,
+    username : PWSTR,
+    level : u32,
+    bufptr : **u8,
+    prefmaxlen : u32,
+    entriesread : *u32,
+    totalentries : *u32,
+    resume_handle : *u32
+) -> u32 #foreign NETAPI32;
+
+NetSessionGetInfo :: (
+    servername : PWSTR,
+    UncClientName : PWSTR,
+    username : PWSTR,
+    level : u32,
+    bufptr : **u8
+) -> u32 #foreign NETAPI32;
+
 NetShareAdd :: (servername : PWSTR, level : u32, buf : *u8, parm_err : *u32) -> u32 #foreign NETAPI32;
 NetShareCheck :: (servername : PWSTR, device : PWSTR, type : *u32) -> u32 #foreign NETAPI32;
 NetShareDel :: (servername : PWSTR, netname : PWSTR, reserved : u32) -> u32 #foreign NETAPI32;
 NetShareDelEx :: (servername : PWSTR, level : u32, buf : *u8) -> u32 #foreign NETAPI32;
 NetShareDelSticky :: (servername : PWSTR, netname : PWSTR, reserved : u32) -> u32 #foreign NETAPI32;
-NetShareEnum :: (servername : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
-NetShareEnumSticky :: (servername : PWSTR, level : u32, bufptr : **u8, prefmaxlen : u32, entriesread : *u32, totalentries : *u32, resume_handle : *u32) -> u32 #foreign NETAPI32;
+NetShareEnum :: (
+    servername : PWSTR,
+    level : u32,
+    bufptr : **u8,
+    prefmaxlen : u32,
+    entriesread : *u32,
+    totalentries : *u32,
+    resume_handle : *u32
+) -> u32 #foreign NETAPI32;
+
+NetShareEnumSticky :: (
+    servername : PWSTR,
+    level : u32,
+    bufptr : **u8,
+    prefmaxlen : u32,
+    entriesread : *u32,
+    totalentries : *u32,
+    resume_handle : *u32
+) -> u32 #foreign NETAPI32;
+
 NetShareGetInfo :: (servername : PWSTR, netname : PWSTR, level : u32, bufptr : **u8) -> u32 #foreign NETAPI32;
-NetShareSetInfo :: (servername : PWSTR, netname : PWSTR, level : u32, buf : *u8, parm_err : *u32) -> u32 #foreign NETAPI32;
-NetStatisticsGet :: (ServerName : *s8, Service : *s8, Level : u32, Options : u32, Buffer : **u8) -> u32 #foreign NETAPI32;
-NtCreateFile :: (FileHandle : *HANDLE, DesiredAccess : u32, ObjectAttributes : *OBJECT_ATTRIBUTES, IoStatusBlock : *IO_STATUS_BLOCK, AllocationSize : *LARGE_INTEGER, FileAttributes : u32, ShareAccess : FILE_SHARE_MODE, CreateDisposition : NT_CREATE_FILE_DISPOSITION, CreateOptions : u32, EaBuffer : *void, EaLength : u32) -> NTSTATUS #foreign ntdll;
+NetShareSetInfo :: (
+    servername : PWSTR,
+    netname : PWSTR,
+    level : u32,
+    buf : *u8,
+    parm_err : *u32
+) -> u32 #foreign NETAPI32;
+
+NetStatisticsGet :: (
+    ServerName : *s8,
+    Service : *s8,
+    Level : u32,
+    Options : u32,
+    Buffer : **u8
+) -> u32 #foreign NETAPI32;
+
+NtCreateFile :: (
+    FileHandle : *HANDLE,
+    DesiredAccess : u32,
+    ObjectAttributes : *OBJECT_ATTRIBUTES,
+    IoStatusBlock : *IO_STATUS_BLOCK,
+    AllocationSize : *LARGE_INTEGER,
+    FileAttributes : u32,
+    ShareAccess : FILE_SHARE_MODE,
+    CreateDisposition : NT_CREATE_FILE_DISPOSITION,
+    CreateOptions : u32,
+    EaBuffer : *void,
+    EaLength : u32
+) -> NTSTATUS #foreign ntdll;
+
 OpenEncryptedFileRawA :: (lpFileName : PSTR, ulFlags : u32, pvContext : **void) -> u32 #foreign ADVAPI32;
 OpenEncryptedFileRawW :: (lpFileName : PWSTR, ulFlags : u32, pvContext : **void) -> u32 #foreign ADVAPI32;
 OpenEnlistment :: (dwDesiredAccess : u32, ResourceManagerHandle : HANDLE, EnlistmentId : *GUID) -> HANDLE #foreign ktmw32;
 OpenFile :: (lpFileName : PSTR, lpReOpenBuff : *OFSTRUCT, uStyle : LZOPENFILE_STYLE) -> s32 #foreign KERNEL32;
-OpenFileById :: (hVolumeHint : HANDLE, lpFileId : *FILE_ID_DESCRIPTOR, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, lpSecurityAttributes : *SECURITY_ATTRIBUTES, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> HANDLE #foreign KERNEL32;
+OpenFileById :: (
+    hVolumeHint : HANDLE,
+    lpFileId : *FILE_ID_DESCRIPTOR,
+    dwDesiredAccess : FILE_ACCESS_FLAGS,
+    dwShareMode : FILE_SHARE_MODE,
+    lpSecurityAttributes : *SECURITY_ATTRIBUTES,
+    dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES
+) -> HANDLE #foreign KERNEL32;
+
 OpenResourceManager :: (dwDesiredAccess : u32, TmHandle : HANDLE, ResourceManagerId : *GUID) -> HANDLE #foreign ktmw32;
 OpenTransaction :: (dwDesiredAccess : u32, TransactionId : *GUID) -> HANDLE #foreign ktmw32;
 OpenTransactionManager :: (LogFileName : PWSTR, DesiredAccess : u32, OpenOptions : u32) -> HANDLE #foreign ktmw32;
@@ -4796,7 +5548,21 @@ PrePrepareComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGE
 PrePrepareEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
 PrepareComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
 PrepareEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
-PrepareLogArchive :: (hLog : HANDLE, pszBaseLogFileName : *u16, cLen : u32, plsnLow : *CLS_LSN, plsnHigh : *CLS_LSN, pcActualLength : *u32, poffBaseLogFileData : *u64, pcbBaseLogFileLength : *u64, plsnBase : *CLS_LSN, plsnLast : *CLS_LSN, plsnCurrentArchiveTail : *CLS_LSN, ppvArchiveContext : **void) -> BOOL #foreign clfsw32;
+PrepareLogArchive :: (
+    hLog : HANDLE,
+    pszBaseLogFileName : *u16,
+    cLen : u32,
+    plsnLow : *CLS_LSN,
+    plsnHigh : *CLS_LSN,
+    pcActualLength : *u32,
+    poffBaseLogFileData : *u64,
+    pcbBaseLogFileLength : *u64,
+    plsnBase : *CLS_LSN,
+    plsnLast : *CLS_LSN,
+    plsnCurrentArchiveTail : *CLS_LSN,
+    ppvArchiveContext : **void
+) -> BOOL #foreign clfsw32;
+
 PrepareTape :: (hDevice : HANDLE, dwOperation : PREPARE_TAPE_OPERATION, bImmediate : BOOL) -> u32 #foreign KERNEL32;
 QueryDosDeviceA :: (lpDeviceName : PSTR, lpTargetPath : *u8, ucchMax : u32) -> u32 #foreign KERNEL32;
 QueryDosDeviceW :: (lpDeviceName : PWSTR, lpTargetPath : *u16, ucchMax : u32) -> u32 #foreign KERNEL32;
@@ -4804,19 +5570,106 @@ QueryLogPolicy :: (hLog : HANDLE, ePolicyType : CLFS_MGMT_POLICY_TYPE, pPolicyBu
 QueryRecoveryAgentsOnEncryptedFile :: (lpFileName : PWSTR, pRecoveryAgents : **ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
 QueryUsersOnEncryptedFile :: (lpFileName : PWSTR, pUsers : **ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
 ReOpenFile :: (hOriginalFile : HANDLE, dwDesiredAccess : FILE_ACCESS_FLAGS, dwShareMode : FILE_SHARE_MODE, dwFlagsAndAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> HANDLE #foreign KERNEL32;
-ReadDirectoryChangesExW :: (hDirectory : HANDLE, lpBuffer : *void, nBufferLength : u32, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE, lpBytesReturned : *u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE, ReadDirectoryNotifyInformationClass : READ_DIRECTORY_NOTIFY_INFORMATION_CLASS) -> BOOL #foreign KERNEL32;
-ReadDirectoryChangesW :: (hDirectory : HANDLE, lpBuffer : *void, nBufferLength : u32, bWatchSubtree : BOOL, dwNotifyFilter : FILE_NOTIFY_CHANGE, lpBytesReturned : *u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE) -> BOOL #foreign KERNEL32;
+ReadDirectoryChangesExW :: (
+    hDirectory : HANDLE,
+    lpBuffer : *void,
+    nBufferLength : u32,
+    bWatchSubtree : BOOL,
+    dwNotifyFilter : FILE_NOTIFY_CHANGE,
+    lpBytesReturned : *u32,
+    lpOverlapped : *OVERLAPPED,
+    lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE,
+    ReadDirectoryNotifyInformationClass : READ_DIRECTORY_NOTIFY_INFORMATION_CLASS
+) -> BOOL #foreign KERNEL32;
+
+ReadDirectoryChangesW :: (
+    hDirectory : HANDLE,
+    lpBuffer : *void,
+    nBufferLength : u32,
+    bWatchSubtree : BOOL,
+    dwNotifyFilter : FILE_NOTIFY_CHANGE,
+    lpBytesReturned : *u32,
+    lpOverlapped : *OVERLAPPED,
+    lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE
+) -> BOOL #foreign KERNEL32;
+
 ReadEncryptedFileRaw :: (pfExportCallback : PFE_EXPORT_FUNC, pvCallbackContext : *void, pvContext : *void) -> u32 #foreign ADVAPI32;
-ReadFile :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToRead : u32, lpNumberOfBytesRead : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
-ReadFileEx :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToRead : u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE) -> BOOL #foreign KERNEL32;
-ReadFileScatter :: (hFile : HANDLE, aSegmentArray : *FILE_SEGMENT_ELEMENT, nNumberOfBytesToRead : u32, lpReserved : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
-ReadLogArchiveMetadata :: (pvArchiveContext : *void, cbOffset : u32, cbBytesToRead : u32, pbReadBuffer : *u8, pcbBytesRead : *u32) -> BOOL #foreign clfsw32;
+ReadFile :: (
+    hFile : HANDLE,
+    lpBuffer : *void,
+    nNumberOfBytesToRead : u32,
+    lpNumberOfBytesRead : *u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
+ReadFileEx :: (
+    hFile : HANDLE,
+    lpBuffer : *void,
+    nNumberOfBytesToRead : u32,
+    lpOverlapped : *OVERLAPPED,
+    lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE
+) -> BOOL #foreign KERNEL32;
+
+ReadFileScatter :: (
+    hFile : HANDLE,
+    aSegmentArray : *FILE_SEGMENT_ELEMENT,
+    nNumberOfBytesToRead : u32,
+    lpReserved : *u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
+ReadLogArchiveMetadata :: (
+    pvArchiveContext : *void,
+    cbOffset : u32,
+    cbBytesToRead : u32,
+    pbReadBuffer : *u8,
+    pcbBytesRead : *u32
+) -> BOOL #foreign clfsw32;
+
 ReadLogNotification :: (hLog : HANDLE, pNotification : *CLFS_MGMT_NOTIFICATION, lpOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
-ReadLogRecord :: (pvMarshal : *void, plsnFirst : *CLS_LSN, eContextMode : CLFS_CONTEXT_MODE, ppvReadBuffer : **void, pcbReadBuffer : *u32, peRecordType : *u8, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, ppvReadContext : **void, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
-ReadLogRestartArea :: (pvMarshal : *void, ppvRestartBuffer : **void, pcbRestartBuffer : *u32, plsn : *CLS_LSN, ppvContext : **void, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
-ReadNextLogRecord :: (pvReadContext : *void, ppvBuffer : **void, pcbBuffer : *u32, peRecordType : *u8, plsnUser : *CLS_LSN, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, plsnRecord : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReadLogRecord :: (
+    pvMarshal : *void,
+    plsnFirst : *CLS_LSN,
+    eContextMode : CLFS_CONTEXT_MODE,
+    ppvReadBuffer : **void,
+    pcbReadBuffer : *u32,
+    peRecordType : *u8,
+    plsnUndoNext : *CLS_LSN,
+    plsnPrevious : *CLS_LSN,
+    ppvReadContext : **void,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
+ReadLogRestartArea :: (
+    pvMarshal : *void,
+    ppvRestartBuffer : **void,
+    pcbRestartBuffer : *u32,
+    plsn : *CLS_LSN,
+    ppvContext : **void,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
+ReadNextLogRecord :: (
+    pvReadContext : *void,
+    ppvBuffer : **void,
+    pcbBuffer : *u32,
+    peRecordType : *u8,
+    plsnUser : *CLS_LSN,
+    plsnUndoNext : *CLS_LSN,
+    plsnPrevious : *CLS_LSN,
+    plsnRecord : *CLS_LSN,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
 ReadOnlyEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
-ReadPreviousLogRestartArea :: (pvReadContext : *void, ppvRestartBuffer : **void, pcbRestartBuffer : *u32, plsnRestart : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReadPreviousLogRestartArea :: (
+    pvReadContext : *void,
+    ppvRestartBuffer : **void,
+    pcbRestartBuffer : *u32,
+    plsnRestart : *CLS_LSN,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
 RecoverEnlistment :: (EnlistmentHandle : HANDLE, EnlistmentKey : *void) -> BOOL #foreign ktmw32;
 RecoverResourceManager :: (ResourceManagerHandle : HANDLE) -> BOOL #foreign ktmw32;
 RecoverTransactionManager :: (TransactionManagerHandle : HANDLE) -> BOOL #foreign ktmw32;
@@ -4827,23 +5680,95 @@ RemoveDirectoryTransactedA :: (lpPathName : PSTR, hTransaction : HANDLE) -> BOOL
 RemoveDirectoryTransactedW :: (lpPathName : PWSTR, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 RemoveDirectoryW :: (lpPathName : PWSTR) -> BOOL #foreign KERNEL32;
 RemoveLogContainer :: (hLog : HANDLE, pwszContainerPath : PWSTR, fForce : BOOL, pReserved : *void) -> BOOL #foreign clfsw32;
-RemoveLogContainerSet :: (hLog : HANDLE, cContainer : u16, rgwszContainerPath : *PWSTR, fForce : BOOL, pReserved : *void) -> BOOL #foreign clfsw32;
+RemoveLogContainerSet :: (
+    hLog : HANDLE,
+    cContainer : u16,
+    rgwszContainerPath : *PWSTR,
+    fForce : BOOL,
+    pReserved : *void
+) -> BOOL #foreign clfsw32;
+
 RemoveLogPolicy :: (hLog : HANDLE, ePolicyType : CLFS_MGMT_POLICY_TYPE) -> BOOL #foreign clfsw32;
 RemoveUsersFromEncryptedFile :: (lpFileName : PWSTR, pHashes : *ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
 RenameTransactionManager :: (LogFileName : PWSTR, ExistingTransactionManagerGuid : *GUID) -> BOOL #foreign ktmw32;
-ReplaceFileA :: (lpReplacedFileName : PSTR, lpReplacementFileName : PSTR, lpBackupFileName : PSTR, dwReplaceFlags : REPLACE_FILE_FLAGS, lpExclude : *void, lpReserved : *void) -> BOOL #foreign KERNEL32;
-ReplaceFileW :: (lpReplacedFileName : PWSTR, lpReplacementFileName : PWSTR, lpBackupFileName : PWSTR, dwReplaceFlags : REPLACE_FILE_FLAGS, lpExclude : *void, lpReserved : *void) -> BOOL #foreign KERNEL32;
-ReserveAndAppendLog :: (pvMarshal : *void, rgWriteEntries : *CLS_WRITE_ENTRY, cWriteEntries : u32, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, cReserveRecords : u32, rgcbReservation : *s64, fFlags : CLFS_FLAG, plsn : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
-ReserveAndAppendLogAligned :: (pvMarshal : *void, rgWriteEntries : *CLS_WRITE_ENTRY, cWriteEntries : u32, cbEntryAlignment : u32, plsnUndoNext : *CLS_LSN, plsnPrevious : *CLS_LSN, cReserveRecords : u32, rgcbReservation : *s64, fFlags : CLFS_FLAG, plsn : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+ReplaceFileA :: (
+    lpReplacedFileName : PSTR,
+    lpReplacementFileName : PSTR,
+    lpBackupFileName : PSTR,
+    dwReplaceFlags : REPLACE_FILE_FLAGS,
+    lpExclude : *void,
+    lpReserved : *void
+) -> BOOL #foreign KERNEL32;
+
+ReplaceFileW :: (
+    lpReplacedFileName : PWSTR,
+    lpReplacementFileName : PWSTR,
+    lpBackupFileName : PWSTR,
+    dwReplaceFlags : REPLACE_FILE_FLAGS,
+    lpExclude : *void,
+    lpReserved : *void
+) -> BOOL #foreign KERNEL32;
+
+ReserveAndAppendLog :: (
+    pvMarshal : *void,
+    rgWriteEntries : *CLS_WRITE_ENTRY,
+    cWriteEntries : u32,
+    plsnUndoNext : *CLS_LSN,
+    plsnPrevious : *CLS_LSN,
+    cReserveRecords : u32,
+    rgcbReservation : *s64,
+    fFlags : CLFS_FLAG,
+    plsn : *CLS_LSN,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
+ReserveAndAppendLogAligned :: (
+    pvMarshal : *void,
+    rgWriteEntries : *CLS_WRITE_ENTRY,
+    cWriteEntries : u32,
+    cbEntryAlignment : u32,
+    plsnUndoNext : *CLS_LSN,
+    plsnPrevious : *CLS_LSN,
+    cReserveRecords : u32,
+    rgcbReservation : *s64,
+    fFlags : CLFS_FLAG,
+    plsn : *CLS_LSN,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
 RollbackComplete :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
 RollbackEnlistment :: (EnlistmentHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
 RollbackTransaction :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
 RollbackTransactionAsync :: (TransactionHandle : HANDLE) -> BOOL #foreign ktmw32;
 RollforwardTransactionManager :: (TransactionManagerHandle : HANDLE, TmVirtualClock : *LARGE_INTEGER) -> BOOL #foreign ktmw32;
 ScanLogContainers :: (pcxScan : *CLS_SCAN_CONTEXT, eScanMode : u8, pReserved : *void) -> BOOL #foreign clfsw32;
-SearchPathA :: (lpPath : PSTR, lpFileName : PSTR, lpExtension : PSTR, nBufferLength : u32, lpBuffer : *u8, lpFilePart : *PSTR) -> u32 #foreign KERNEL32;
-SearchPathW :: (lpPath : PWSTR, lpFileName : PWSTR, lpExtension : PWSTR, nBufferLength : u32, lpBuffer : *u16, lpFilePart : *PWSTR) -> u32 #foreign KERNEL32;
-SetEncryptedFileMetadata :: (lpFileName : PWSTR, pbOldMetadata : *u8, pbNewMetadata : *u8, pOwnerHash : *ENCRYPTION_CERTIFICATE_HASH, dwOperation : u32, pCertificatesAdded : *ENCRYPTION_CERTIFICATE_HASH_LIST) -> u32 #foreign ADVAPI32;
+SearchPathA :: (
+    lpPath : PSTR,
+    lpFileName : PSTR,
+    lpExtension : PSTR,
+    nBufferLength : u32,
+    lpBuffer : *u8,
+    lpFilePart : *PSTR
+) -> u32 #foreign KERNEL32;
+
+SearchPathW :: (
+    lpPath : PWSTR,
+    lpFileName : PWSTR,
+    lpExtension : PWSTR,
+    nBufferLength : u32,
+    lpBuffer : *u16,
+    lpFilePart : *PWSTR
+) -> u32 #foreign KERNEL32;
+
+SetEncryptedFileMetadata :: (
+    lpFileName : PWSTR,
+    pbOldMetadata : *u8,
+    pbNewMetadata : *u8,
+    pOwnerHash : *ENCRYPTION_CERTIFICATE_HASH,
+    dwOperation : u32,
+    pCertificatesAdded : *ENCRYPTION_CERTIFICATE_HASH_LIST
+) -> u32 #foreign ADVAPI32;
+
 SetEndOfFile :: (hFile : HANDLE) -> BOOL #foreign KERNEL32;
 SetEndOfLog :: (hLog : HANDLE, plsnEnd : *CLS_LSN, lpOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
 SetEnlistmentRecoveryInformation :: (EnlistmentHandle : HANDLE, BufferSize : u32, Buffer : *void) -> BOOL #foreign ktmw32;
@@ -4853,7 +5778,15 @@ SetFileAttributesA :: (lpFileName : PSTR, dwFileAttributes : FILE_FLAGS_AND_ATTR
 SetFileAttributesTransactedA :: (lpFileName : PSTR, dwFileAttributes : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 SetFileAttributesTransactedW :: (lpFileName : PWSTR, dwFileAttributes : u32, hTransaction : HANDLE) -> BOOL #foreign KERNEL32;
 SetFileAttributesW :: (lpFileName : PWSTR, dwFileAttributes : FILE_FLAGS_AND_ATTRIBUTES) -> BOOL #foreign KERNEL32;
-SetFileBandwidthReservation :: (hFile : HANDLE, nPeriodMilliseconds : u32, nBytesPerPeriod : u32, bDiscardable : BOOL, lpTransferSize : *u32, lpNumOutstandingRequests : *u32) -> BOOL #foreign KERNEL32;
+SetFileBandwidthReservation :: (
+    hFile : HANDLE,
+    nPeriodMilliseconds : u32,
+    nBytesPerPeriod : u32,
+    bDiscardable : BOOL,
+    lpTransferSize : *u32,
+    lpNumOutstandingRequests : *u32
+) -> BOOL #foreign KERNEL32;
+
 SetFileCompletionNotificationModes :: (FileHandle : HANDLE, Flags : u8) -> BOOL #foreign KERNEL32;
 SetFileInformationByHandle :: (hFile : HANDLE, FileInformationClass : FILE_INFO_BY_HANDLE_CLASS, lpFileInformation : *void, dwBufferSize : u32) -> BOOL #foreign KERNEL32;
 SetFileIoOverlappedRange :: (FileHandle : HANDLE, OverlappedRangeStart : *u8, Length : u32) -> BOOL #foreign KERNEL32;
@@ -4869,8 +5802,23 @@ SetLogFileSizeWithPolicy :: (hLog : HANDLE, pDesiredSize : *u64, pResultingSize 
 SetResourceManagerCompletionPort :: (ResourceManagerHandle : HANDLE, IoCompletionPortHandle : HANDLE, CompletionKey : u64) -> BOOL #foreign ktmw32;
 SetSearchPathMode :: (Flags : u32) -> BOOL #foreign KERNEL32;
 SetTapeParameters :: (hDevice : HANDLE, dwOperation : TAPE_INFORMATION_TYPE, lpTapeInformation : *void) -> u32 #foreign KERNEL32;
-SetTapePosition :: (hDevice : HANDLE, dwPositionMethod : TAPE_POSITION_METHOD, dwPartition : u32, dwOffsetLow : u32, dwOffsetHigh : u32, bImmediate : BOOL) -> u32 #foreign KERNEL32;
-SetTransactionInformation :: (TransactionHandle : HANDLE, IsolationLevel : u32, IsolationFlags : u32, Timeout : u32, Description : PWSTR) -> BOOL #foreign ktmw32;
+SetTapePosition :: (
+    hDevice : HANDLE,
+    dwPositionMethod : TAPE_POSITION_METHOD,
+    dwPartition : u32,
+    dwOffsetLow : u32,
+    dwOffsetHigh : u32,
+    bImmediate : BOOL
+) -> u32 #foreign KERNEL32;
+
+SetTransactionInformation :: (
+    TransactionHandle : HANDLE,
+    IsolationLevel : u32,
+    IsolationFlags : u32,
+    Timeout : u32,
+    Description : PWSTR
+) -> BOOL #foreign ktmw32;
+
 SetUserFileEncryptionKey :: (pEncryptionCertificate : *ENCRYPTION_CERTIFICATE) -> u32 #foreign ADVAPI32;
 SetUserFileEncryptionKeyEx :: (pEncryptionCertificate : *ENCRYPTION_CERTIFICATE, dwCapabilities : u32, dwFlags : u32, pvReserved : *void) -> u32 #foreign ADVAPI32;
 SetVolumeLabelA :: (lpRootPathName : PSTR, lpVolumeName : PSTR) -> BOOL #foreign KERNEL32;
@@ -4882,21 +5830,112 @@ TerminateLogArchive :: (pvArchiveContext : *void) -> BOOL #foreign clfsw32;
 TerminateReadLog :: (pvCursorContext : *void) -> BOOL #foreign clfsw32;
 TruncateLog :: (pvMarshal : *void, plsnEnd : *CLS_LSN, lpOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
 TxfGetThreadMiniVersionForCreate :: (MiniVersion : *u16)  #foreign txfw32;
-TxfLogCreateFileReadContext :: (LogPath : PWSTR, BeginningLsn : CLS_LSN, EndingLsn : CLS_LSN, TxfFileId : *TXF_ID, TxfLogContext : **void) -> BOOL #foreign txfw32;
-TxfLogCreateRangeReadContext :: (LogPath : PWSTR, BeginningLsn : CLS_LSN, EndingLsn : CLS_LSN, BeginningVirtualClock : *LARGE_INTEGER, EndingVirtualClock : *LARGE_INTEGER, RecordTypeMask : u32, TxfLogContext : **void) -> BOOL #foreign txfw32;
+TxfLogCreateFileReadContext :: (
+    LogPath : PWSTR,
+    BeginningLsn : CLS_LSN,
+    EndingLsn : CLS_LSN,
+    TxfFileId : *TXF_ID,
+    TxfLogContext : **void
+) -> BOOL #foreign txfw32;
+
+TxfLogCreateRangeReadContext :: (
+    LogPath : PWSTR,
+    BeginningLsn : CLS_LSN,
+    EndingLsn : CLS_LSN,
+    BeginningVirtualClock : *LARGE_INTEGER,
+    EndingVirtualClock : *LARGE_INTEGER,
+    RecordTypeMask : u32,
+    TxfLogContext : **void
+) -> BOOL #foreign txfw32;
+
 TxfLogDestroyReadContext :: (TxfLogContext : *void) -> BOOL #foreign txfw32;
-TxfLogReadRecords :: (TxfLogContext : *void, BufferLength : u32, Buffer : *void, BytesUsed : *u32, RecordCount : *u32) -> BOOL #foreign txfw32;
-TxfLogRecordGetFileName :: (RecordBuffer : *void, RecordBufferLengthInBytes : u32, NameBuffer : PWSTR, NameBufferLengthInBytes : *u32, TxfId : *TXF_ID) -> BOOL #foreign txfw32;
+TxfLogReadRecords :: (
+    TxfLogContext : *void,
+    BufferLength : u32,
+    Buffer : *void,
+    BytesUsed : *u32,
+    RecordCount : *u32
+) -> BOOL #foreign txfw32;
+
+TxfLogRecordGetFileName :: (
+    RecordBuffer : *void,
+    RecordBufferLengthInBytes : u32,
+    NameBuffer : PWSTR,
+    NameBufferLengthInBytes : *u32,
+    TxfId : *TXF_ID
+) -> BOOL #foreign txfw32;
+
 TxfLogRecordGetGenericType :: (RecordBuffer : *void, RecordBufferLengthInBytes : u32, GenericType : *u32, VirtualClock : *LARGE_INTEGER) -> BOOL #foreign txfw32;
-TxfReadMetadataInfo :: (FileHandle : HANDLE, TxfFileId : *TXF_ID, LastLsn : *CLS_LSN, TransactionState : *u32, LockingTransaction : *GUID) -> BOOL #foreign txfw32;
+TxfReadMetadataInfo :: (
+    FileHandle : HANDLE,
+    TxfFileId : *TXF_ID,
+    LastLsn : *CLS_LSN,
+    TransactionState : *u32,
+    LockingTransaction : *GUID
+) -> BOOL #foreign txfw32;
+
 TxfSetThreadMiniVersionForCreate :: (MiniVersion : u16)  #foreign txfw32;
-UnlockFile :: (hFile : HANDLE, dwFileOffsetLow : u32, dwFileOffsetHigh : u32, nNumberOfBytesToUnlockLow : u32, nNumberOfBytesToUnlockHigh : u32) -> BOOL #foreign KERNEL32;
-UnlockFileEx :: (hFile : HANDLE, dwReserved : u32, nNumberOfBytesToUnlockLow : u32, nNumberOfBytesToUnlockHigh : u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
+UnlockFile :: (
+    hFile : HANDLE,
+    dwFileOffsetLow : u32,
+    dwFileOffsetHigh : u32,
+    nNumberOfBytesToUnlockLow : u32,
+    nNumberOfBytesToUnlockHigh : u32
+) -> BOOL #foreign KERNEL32;
+
+UnlockFileEx :: (
+    hFile : HANDLE,
+    dwReserved : u32,
+    nNumberOfBytesToUnlockLow : u32,
+    nNumberOfBytesToUnlockHigh : u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
 ValidateLog :: (pszLogFileName : PWSTR, psaLogFile : *SECURITY_ATTRIBUTES, pinfoBuffer : *CLS_INFORMATION, pcbBuffer : *u32) -> BOOL #foreign clfsw32;
-VerFindFileA :: (uFlags : VER_FIND_FILE_FLAGS, szFileName : PSTR, szWinDir : PSTR, szAppDir : PSTR, szCurDir : *u8, puCurDirLen : *u32, szDestDir : *u8, puDestDirLen : *u32) -> VER_FIND_FILE_STATUS #foreign VERSION;
-VerFindFileW :: (uFlags : VER_FIND_FILE_FLAGS, szFileName : PWSTR, szWinDir : PWSTR, szAppDir : PWSTR, szCurDir : *u16, puCurDirLen : *u32, szDestDir : *u16, puDestDirLen : *u32) -> VER_FIND_FILE_STATUS #foreign VERSION;
-VerInstallFileA :: (uFlags : VER_INSTALL_FILE_FLAGS, szSrcFileName : PSTR, szDestFileName : PSTR, szSrcDir : PSTR, szDestDir : PSTR, szCurDir : PSTR, szTmpFile : *u8, puTmpFileLen : *u32) -> VER_INSTALL_FILE_STATUS #foreign VERSION;
-VerInstallFileW :: (uFlags : VER_INSTALL_FILE_FLAGS, szSrcFileName : PWSTR, szDestFileName : PWSTR, szSrcDir : PWSTR, szDestDir : PWSTR, szCurDir : PWSTR, szTmpFile : *u16, puTmpFileLen : *u32) -> VER_INSTALL_FILE_STATUS #foreign VERSION;
+VerFindFileA :: (
+    uFlags : VER_FIND_FILE_FLAGS,
+    szFileName : PSTR,
+    szWinDir : PSTR,
+    szAppDir : PSTR,
+    szCurDir : *u8,
+    puCurDirLen : *u32,
+    szDestDir : *u8,
+    puDestDirLen : *u32
+) -> VER_FIND_FILE_STATUS #foreign VERSION;
+
+VerFindFileW :: (
+    uFlags : VER_FIND_FILE_FLAGS,
+    szFileName : PWSTR,
+    szWinDir : PWSTR,
+    szAppDir : PWSTR,
+    szCurDir : *u16,
+    puCurDirLen : *u32,
+    szDestDir : *u16,
+    puDestDirLen : *u32
+) -> VER_FIND_FILE_STATUS #foreign VERSION;
+
+VerInstallFileA :: (
+    uFlags : VER_INSTALL_FILE_FLAGS,
+    szSrcFileName : PSTR,
+    szDestFileName : PSTR,
+    szSrcDir : PSTR,
+    szDestDir : PSTR,
+    szCurDir : PSTR,
+    szTmpFile : *u8,
+    puTmpFileLen : *u32
+) -> VER_INSTALL_FILE_STATUS #foreign VERSION;
+
+VerInstallFileW :: (
+    uFlags : VER_INSTALL_FILE_FLAGS,
+    szSrcFileName : PWSTR,
+    szDestFileName : PWSTR,
+    szSrcDir : PWSTR,
+    szDestDir : PWSTR,
+    szCurDir : PWSTR,
+    szTmpFile : *u16,
+    puTmpFileLen : *u32
+) -> VER_INSTALL_FILE_STATUS #foreign VERSION;
+
 VerLanguageNameA :: (wLang : u32, szLang : *u8, cchLang : u32) -> u32 #foreign KERNEL32;
 VerLanguageNameW :: (wLang : u32, szLang : *u16, cchLang : u32) -> u32 #foreign KERNEL32;
 VerQueryValueA :: (pBlock : *void, lpSubBlock : PSTR, lplpBuffer : **void, puLen : *u32) -> BOOL #foreign VERSION;
@@ -4904,10 +5943,24 @@ VerQueryValueW :: (pBlock : *void, lpSubBlock : PWSTR, lplpBuffer : **void, puLe
 WofEnumEntries :: (VolumeName : PWSTR, Provider : u32, EnumProc : WofEnumEntryProc, UserData : *void) -> HRESULT #foreign WOFUTIL;
 WofFileEnumFiles :: (VolumeName : PWSTR, Algorithm : u32, EnumProc : WofEnumFilesProc, UserData : *void) -> HRESULT #foreign WOFUTIL;
 WofGetDriverVersion :: (FileOrVolumeHandle : HANDLE, Provider : u32, WofVersion : *u32) -> HRESULT #foreign WOFUTIL;
-WofIsExternalFile :: (FilePath : PWSTR, IsExternalFile : *BOOL, Provider : *u32, ExternalFileInfo : *void, BufferLength : *u32) -> HRESULT #foreign WOFUTIL;
+WofIsExternalFile :: (
+    FilePath : PWSTR,
+    IsExternalFile : *BOOL,
+    Provider : *u32,
+    ExternalFileInfo : *void,
+    BufferLength : *u32
+) -> HRESULT #foreign WOFUTIL;
+
 WofSetFileDataLocation :: (FileHandle : HANDLE, Provider : u32, ExternalFileInfo : *void, Length : u32) -> HRESULT #foreign WOFUTIL;
 WofShouldCompressBinaries :: (Volume : PWSTR, Algorithm : *u32) -> BOOL #foreign WOFUTIL;
-WofWimAddEntry :: (VolumeName : PWSTR, WimPath : PWSTR, WimType : u32, WimIndex : u32, DataSourceId : *LARGE_INTEGER) -> HRESULT #foreign WOFUTIL;
+WofWimAddEntry :: (
+    VolumeName : PWSTR,
+    WimPath : PWSTR,
+    WimType : u32,
+    WimIndex : u32,
+    DataSourceId : *LARGE_INTEGER
+) -> HRESULT #foreign WOFUTIL;
+
 WofWimEnumFiles :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER, EnumProc : WofEnumFilesProc, UserData : *void) -> HRESULT #foreign WOFUTIL;
 WofWimRemoveEntry :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER) -> HRESULT #foreign WOFUTIL;
 WofWimSuspendEntry :: (VolumeName : PWSTR, DataSourceId : LARGE_INTEGER) -> HRESULT #foreign WOFUTIL;
@@ -4916,10 +5969,41 @@ Wow64DisableWow64FsRedirection :: (OldValue : **void) -> BOOL #foreign KERNEL32;
 Wow64EnableWow64FsRedirection :: (Wow64FsEnableRedirection : BOOLEAN) -> BOOLEAN #foreign KERNEL32;
 Wow64RevertWow64FsRedirection :: (OlValue : *void) -> BOOL #foreign KERNEL32;
 WriteEncryptedFileRaw :: (pfImportCallback : PFE_IMPORT_FUNC, pvCallbackContext : *void, pvContext : *void) -> u32 #foreign ADVAPI32;
-WriteFile :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToWrite : u32, lpNumberOfBytesWritten : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
-WriteFileEx :: (hFile : HANDLE, lpBuffer : *void, nNumberOfBytesToWrite : u32, lpOverlapped : *OVERLAPPED, lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE) -> BOOL #foreign KERNEL32;
-WriteFileGather :: (hFile : HANDLE, aSegmentArray : *FILE_SEGMENT_ELEMENT, nNumberOfBytesToWrite : u32, lpReserved : *u32, lpOverlapped : *OVERLAPPED) -> BOOL #foreign KERNEL32;
-WriteLogRestartArea :: (pvMarshal : *void, pvRestartBuffer : *void, cbRestartBuffer : u32, plsnBase : *CLS_LSN, fFlags : CLFS_FLAG, pcbWritten : *u32, plsnNext : *CLS_LSN, pOverlapped : *OVERLAPPED) -> BOOL #foreign clfsw32;
+WriteFile :: (
+    hFile : HANDLE,
+    lpBuffer : *void,
+    nNumberOfBytesToWrite : u32,
+    lpNumberOfBytesWritten : *u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
+WriteFileEx :: (
+    hFile : HANDLE,
+    lpBuffer : *void,
+    nNumberOfBytesToWrite : u32,
+    lpOverlapped : *OVERLAPPED,
+    lpCompletionRoutine : LPOVERLAPPED_COMPLETION_ROUTINE
+) -> BOOL #foreign KERNEL32;
+
+WriteFileGather :: (
+    hFile : HANDLE,
+    aSegmentArray : *FILE_SEGMENT_ELEMENT,
+    nNumberOfBytesToWrite : u32,
+    lpReserved : *u32,
+    lpOverlapped : *OVERLAPPED
+) -> BOOL #foreign KERNEL32;
+
+WriteLogRestartArea :: (
+    pvMarshal : *void,
+    pvRestartBuffer : *void,
+    cbRestartBuffer : u32,
+    plsnBase : *CLS_LSN,
+    fFlags : CLFS_FLAG,
+    pcbWritten : *u32,
+    plsnNext : *CLS_LSN,
+    pOverlapped : *OVERLAPPED
+) -> BOOL #foreign clfsw32;
+
 WriteTapemark :: (hDevice : HANDLE, dwTapemarkType : TAPEMARK_TYPE, dwTapemarkCount : u32, bImmediate : BOOL) -> u32 #foreign KERNEL32;
 
 // System libraries

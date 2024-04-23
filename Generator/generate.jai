@@ -245,7 +245,7 @@ GenerateConstant :: (builder : *String_Builder, using const : Win32Constant)
         appendf (builder, "%", FormatFloat.{value=float_value, zero_removal=.ONE_ZERO_AFTER_DECIMAL});
 
     case .String;
-        if context.generator.generate_clsid_constants_as_guid && starts_with (name, "CLSID_")
+        if context.generator.generate_CLSID_constants_as_guid && starts_with (name, "CLSID_")
             AppendStringAsGUIDStruct (builder, str_value);
         else
             AppendStringLiteral (builder, str_value);
@@ -527,7 +527,7 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
     case .FunctionPointer;
         append (builder, "#type (");
 
-        AppendParamList (builder, params);
+        AppendParamList (builder, params, indent_level=indent_level);
 
         append (builder, ") -> ");
         AppendType (builder, return_type);
@@ -563,9 +563,6 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
         AppendStringAsGUIDStruct (builder, guid);
         append (builder, ";\n\n");
 
-        //AppendIdentifier (builder, name);
-        //append (builder, "_UUID;\n\n");
-
         if interface_type.kind != .Null
         {
             Indent ();
@@ -584,6 +581,8 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
         append (builder, "VTable;\n");
 
         const_ref_wrapper := context.generator.handle_const_refs_in_COM_interface_wrappers;
+        multiline := !context.generator.single_line_COM_method_wrappers;
+
         // Generate wrappers for the methods
         for method : methods
         {
@@ -598,17 +597,43 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
 
             if method.params.count > 0
                 append (builder, ", ");
-            AppendParamList (builder, method.params, const_ref_wrapper=const_ref_wrapper);
+            AppendParamList (builder, method.params, indent_level=indent_level, const_ref_wrapper=const_ref_wrapper);
 
             if HasReturnValue (method)
             {
                 appendf (builder, ") -> ");
                 AppendType (builder, method.return_type);
-                append (builder, " #no_context { return this.vtable.");
+                append (builder, " #no_context");
+
+                if multiline
+                {
+                    append (builder, "\n");
+                    Indent ();
+                    append (builder, "{\n");
+                    Indent ();
+                    append (builder, "    return this.vtable.");
+                }
+                else
+                {
+                    append (builder, " { return this.vtable.");
+                }
             }
             else
             {
-                appendf (builder, ") #no_context { this.vtable.");
+                append (builder, ") #no_context");
+
+                if multiline
+                {
+                    append (builder, "\n");
+                    Indent ();
+                    append (builder, "{\n");
+                    Indent ();
+                    append (builder, "    this.vtable.");
+                }
+                else
+                {
+                    append (builder, " { this.vtable.");
+                }
             }
 
             AppendIdentifier (builder, method.name);
@@ -624,7 +649,20 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
                 AppendIdentifier (builder, it.name);
             }
 
-            append (builder, "); }\n");
+            appendf (builder, ");");
+            if multiline
+            {
+                append (builder, "\n");
+                Indent ();
+                append (builder, "}\n");
+
+                if it_index != methods.count - 1
+                    append (builder, "\n");
+            }
+            else
+            {
+                append (builder, " }\n");
+            }
         }
     }
 
@@ -661,12 +699,40 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
     appendf (builder, "}\n");
 }
 
-AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, const_ref_wrapper := false, guid_const_ref_wrapper := false)
+AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, indent_level := 0, const_ref_wrapper := false, guid_const_ref_wrapper := false, allow_multiline := true) -> multiline : bool
 {
+    multiline : bool;
+    if allow_multiline && context.generator.max_params_before_using_multiline >= 0
+        multiline = params.count > context.generator.max_params_before_using_multiline - indent_level;
+
+    if multiline
+    {
+        append (builder, "\n    ");
+        Indent ();
+    }
+
+    params_on_line := 0;
     for params
     {
+        defer {
+            params_on_line += 1;
+            if multiline && params_on_line >= context.generator.max_params_per_line
+                params_on_line = 0;
+        }
+
         if it_index != 0
-            append (builder, ", ");
+        {
+            append (builder, ",");
+            if multiline && params_on_line == 0
+            {
+                append (builder, "\n    ");
+                Indent ();
+            }
+            else
+            {
+                append (builder, " ");
+            }
+        }
 
         const_ref := (const_ref_wrapper && ParamIsConstRef (it))
             || (guid_const_ref_wrapper && ParamIsREFIID (it));
@@ -687,6 +753,14 @@ AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, co
         else
             AppendType (builder, it.type);
     }
+
+    if multiline
+    {
+        append (builder, "\n");
+        Indent ();
+    }
+
+    return multiline;
 }
 
 HasReturnValue :: inline (using func : Win32FunctionType) -> bool #must
@@ -728,7 +802,7 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
 
     if params.count > 0
         append (builder, ", ");
-    AppendParamList (builder, params);
+    AppendParamList (builder, params, allow_multiline=false);
 
     if HasReturnValue (method)
     {
@@ -759,13 +833,14 @@ FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool #must
 
 GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
 {
+    multiline := false;
     needs_REFIID_wrapper := FunctionNeedsWrapperForREFIIDParam (func);
     if needs_REFIID_wrapper
     {
         append (builder, "\n");
         AppendIdentifier (builder, name);
         append (builder, " :: inline (");
-        AppendParamList (builder, params, guid_const_ref_wrapper = true);
+        multiline = AppendParamList (builder, params, guid_const_ref_wrapper = true);
 
         if HasReturnValue (func)
         {
@@ -786,7 +861,10 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
         append (builder, "_Original");
 
     append (builder, " :: (");
-    AppendParamList (builder, params);
+    if needs_REFIID_wrapper
+        AppendParamList (builder, params, allow_multiline=false);
+    else
+        multiline = AppendParamList (builder, params);
 
     if HasReturnValue (func)
     {
@@ -834,6 +912,10 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
         }
 
         append (builder, ");\n}\n\n");
+    }
+    else if multiline
+    {
+        append (builder, "\n");
     }
 }
 

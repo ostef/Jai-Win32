@@ -391,7 +391,18 @@ CAPTUREBLT :: 1073741824;
 
 // Functions
 
-BitBlt :: (hdc : HDC, x : s32, y : s32, cx : s32, cy : s32, hdcSrc : HDC, x1 : s32, y1 : s32, rop : ROP_CODE) -> BOOL #foreign GDI32;
+BitBlt :: (
+    hdc : HDC,
+    x : s32,
+    y : s32,
+    cx : s32,
+    cy : s32,
+    hdcSrc : HDC,
+    x1 : s32,
+    y1 : s32,
+    rop : ROP_CODE
+) -> BOOL #foreign GDI32;
+
 CancelDC :: (hdc : HDC) -> BOOL #foreign GDI32;
 ChoosePixelFormat :: (hdc : HDC, ppfd : *PIXELFORMATDESCRIPTOR) -> s32 #foreign GDI32;
 ClientToScreen :: (hWnd : HWND, lpPoint : *POINT) -> BOOL #foreign USER32;
