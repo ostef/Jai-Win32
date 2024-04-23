@@ -78,6 +78,7 @@ Generator :: struct
     // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
     generate_wrapper_function_for_REFIID_params := false;
 
+    generate_COM_vtables_at_the_bottom := true;
     single_line_COM_method_wrappers := false;
     max_params_before_using_multiline := 4; // Set to -1 to disable multiline params
     max_params_per_line := 1;

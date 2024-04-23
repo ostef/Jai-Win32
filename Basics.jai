@@ -213,17 +213,6 @@ IConnectionPoint :: struct
     }
 }
 
-IConnectionPointVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetConnectionInterface : (this : *IConnectionPoint, pIID : *GUID) -> HRESULT #cpp_method;
-    GetConnectionPointContainer : (this : *IConnectionPoint, ppCPC : **IConnectionPointContainer) -> HRESULT #cpp_method;
-    Advise : (this : *IConnectionPoint, pUnkSink : *IUnknown, pdwCookie : *u32) -> HRESULT #cpp_method;
-    Unadvise : (this : *IConnectionPoint, dwCookie : u32) -> HRESULT #cpp_method;
-    EnumConnections : (this : *IConnectionPoint, ppEnum : **IEnumConnections) -> HRESULT #cpp_method;
-}
-
 IConnectionPointContainer_UUID :: "b196b284-bab4-101a-b69c-00aa00341d07";
 IConnectionPointContainer :: struct
 {
@@ -243,14 +232,6 @@ IConnectionPointContainer :: struct
     {
         return this.vtable.FindConnectionPoint (this, riid, ppCP);
     }
-}
-
-IConnectionPointContainerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    EnumConnectionPoints : (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #cpp_method;
-    FindConnectionPoint : (this : *IConnectionPointContainer, riid : *GUID, ppCP : **IConnectionPoint) -> HRESULT #cpp_method;
 }
 
 IEnumConnectionPoints_UUID :: "b196b285-bab4-101a-b69c-00aa00341d07";
@@ -284,16 +265,6 @@ IEnumConnectionPoints :: struct
     }
 }
 
-IEnumConnectionPointsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Next : (this : *IEnumConnectionPoints, cConnections : u32, ppCP : **IConnectionPoint, pcFetched : *u32) -> HRESULT #cpp_method;
-    Skip : (this : *IEnumConnectionPoints, cConnections : u32) -> HRESULT #cpp_method;
-    Reset : (this : *IEnumConnectionPoints) -> HRESULT #cpp_method;
-    Clone : (this : *IEnumConnectionPoints, ppEnum : **IEnumConnectionPoints) -> HRESULT #cpp_method;
-}
-
 IEnumConnections_UUID :: "b196b287-bab4-101a-b69c-00aa00341d07";
 IEnumConnections :: struct
 {
@@ -323,16 +294,6 @@ IEnumConnections :: struct
     {
         return this.vtable.Clone (this, ppEnum);
     }
-}
-
-IEnumConnectionsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Next : (this : *IEnumConnections, cConnections : u32, rgcd : *CONNECTDATA, pcFetched : *u32) -> HRESULT #cpp_method;
-    Skip : (this : *IEnumConnections, cConnections : u32) -> HRESULT #cpp_method;
-    Reset : (this : *IEnumConnections) -> HRESULT #cpp_method;
-    Clone : (this : *IEnumConnections, ppEnum : **IEnumConnections) -> HRESULT #cpp_method;
 }
 
 IMalloc_UUID :: "00000002-0000-0000-c000-000000000046";
@@ -376,18 +337,6 @@ IMalloc :: struct
     }
 }
 
-IMallocVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Alloc : (this : *IMalloc, cb : u64) -> *void #cpp_method;
-    Realloc : (this : *IMalloc, pv : *void, cb : u64) -> *void #cpp_method;
-    Free : (this : *IMalloc, pv : *void) #cpp_method;
-    GetSize : (this : *IMalloc, pv : *void) -> u64 #cpp_method;
-    DidAlloc : (this : *IMalloc, pv : *void) -> s32 #cpp_method;
-    HeapMinimize : (this : *IMalloc) #cpp_method;
-}
-
 ISequentialStream_UUID :: "0c733a30-2a1c-11ce-ade5-00aa0044773d";
 ISequentialStream :: struct
 {
@@ -407,14 +356,6 @@ ISequentialStream :: struct
     {
         return this.vtable.Write (this, pv, cb, pcbWritten);
     }
-}
-
-ISequentialStreamVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Read : (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #cpp_method;
-    Write : (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #cpp_method;
 }
 
 IStream_UUID :: "0000000c-0000-0000-c000-000000000046";
@@ -478,21 +419,6 @@ IStream :: struct
     }
 }
 
-IStreamVTable :: struct
-{
-    #as using, except (.["base"]) base : ISequentialStreamVTable;
-
-    Seek : (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #cpp_method;
-    SetSize : (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #cpp_method;
-    CopyTo : (this : *IStream, pstm : *IStream, cb : ULARGE_INTEGER, pcbRead : *ULARGE_INTEGER, pcbWritten : *ULARGE_INTEGER) -> HRESULT #cpp_method;
-    Commit : (this : *IStream, grfCommitFlags : u32) -> HRESULT #cpp_method;
-    Revert : (this : *IStream) -> HRESULT #cpp_method;
-    LockRegion : (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #cpp_method;
-    UnlockRegion : (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #cpp_method;
-    Stat : (this : *IStream, pstatstg : *STATSTG, grfStatFlag : u32) -> HRESULT #cpp_method;
-    Clone : (this : *IStream, ppstm : **IStream) -> HRESULT #cpp_method;
-}
-
 IUnknown_UUID :: "00000000-0000-0000-c000-000000000046";
 IUnknown :: struct
 {
@@ -514,13 +440,6 @@ IUnknown :: struct
     {
         return this.vtable.Release (this);
     }
-}
-
-IUnknownVTable :: struct
-{
-    QueryInterface : (this : *IUnknown, riid : *GUID, ppvObject : **void) -> HRESULT #cpp_method;
-    AddRef : (this : *IUnknown) -> u32 #cpp_method;
-    Release : (this : *IUnknown) -> u32 #cpp_method;
 }
 
 LARGE_INTEGER :: union
@@ -918,6 +837,90 @@ WideCharToMultiByte :: (
     lpUsedDefaultChar : *s32
 ) -> s32 #foreign KERNEL32;
 
+
+// COM interface vtables
+
+
+IConnectionPointVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetConnectionInterface : (this : *IConnectionPoint, pIID : *GUID) -> HRESULT #cpp_method;
+    GetConnectionPointContainer : (this : *IConnectionPoint, ppCPC : **IConnectionPointContainer) -> HRESULT #cpp_method;
+    Advise : (this : *IConnectionPoint, pUnkSink : *IUnknown, pdwCookie : *u32) -> HRESULT #cpp_method;
+    Unadvise : (this : *IConnectionPoint, dwCookie : u32) -> HRESULT #cpp_method;
+    EnumConnections : (this : *IConnectionPoint, ppEnum : **IEnumConnections) -> HRESULT #cpp_method;
+}
+
+IConnectionPointContainerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    EnumConnectionPoints : (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #cpp_method;
+    FindConnectionPoint : (this : *IConnectionPointContainer, riid : *GUID, ppCP : **IConnectionPoint) -> HRESULT #cpp_method;
+}
+
+IEnumConnectionPointsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Next : (this : *IEnumConnectionPoints, cConnections : u32, ppCP : **IConnectionPoint, pcFetched : *u32) -> HRESULT #cpp_method;
+    Skip : (this : *IEnumConnectionPoints, cConnections : u32) -> HRESULT #cpp_method;
+    Reset : (this : *IEnumConnectionPoints) -> HRESULT #cpp_method;
+    Clone : (this : *IEnumConnectionPoints, ppEnum : **IEnumConnectionPoints) -> HRESULT #cpp_method;
+}
+
+IEnumConnectionsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Next : (this : *IEnumConnections, cConnections : u32, rgcd : *CONNECTDATA, pcFetched : *u32) -> HRESULT #cpp_method;
+    Skip : (this : *IEnumConnections, cConnections : u32) -> HRESULT #cpp_method;
+    Reset : (this : *IEnumConnections) -> HRESULT #cpp_method;
+    Clone : (this : *IEnumConnections, ppEnum : **IEnumConnections) -> HRESULT #cpp_method;
+}
+
+IMallocVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Alloc : (this : *IMalloc, cb : u64) -> *void #cpp_method;
+    Realloc : (this : *IMalloc, pv : *void, cb : u64) -> *void #cpp_method;
+    Free : (this : *IMalloc, pv : *void) #cpp_method;
+    GetSize : (this : *IMalloc, pv : *void) -> u64 #cpp_method;
+    DidAlloc : (this : *IMalloc, pv : *void) -> s32 #cpp_method;
+    HeapMinimize : (this : *IMalloc) #cpp_method;
+}
+
+ISequentialStreamVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Read : (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #cpp_method;
+    Write : (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #cpp_method;
+}
+
+IStreamVTable :: struct
+{
+    #as using, except (.["base"]) base : ISequentialStreamVTable;
+
+    Seek : (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #cpp_method;
+    SetSize : (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #cpp_method;
+    CopyTo : (this : *IStream, pstm : *IStream, cb : ULARGE_INTEGER, pcbRead : *ULARGE_INTEGER, pcbWritten : *ULARGE_INTEGER) -> HRESULT #cpp_method;
+    Commit : (this : *IStream, grfCommitFlags : u32) -> HRESULT #cpp_method;
+    Revert : (this : *IStream) -> HRESULT #cpp_method;
+    LockRegion : (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #cpp_method;
+    UnlockRegion : (this : *IStream, libOffset : ULARGE_INTEGER, cb : ULARGE_INTEGER, dwLockType : u32) -> HRESULT #cpp_method;
+    Stat : (this : *IStream, pstatstg : *STATSTG, grfStatFlag : u32) -> HRESULT #cpp_method;
+    Clone : (this : *IStream, ppstm : **IStream) -> HRESULT #cpp_method;
+}
+
+IUnknownVTable :: struct
+{
+    QueryInterface : (this : *IUnknown, riid : *GUID, ppvObject : **void) -> HRESULT #cpp_method;
+    AddRef : (this : *IUnknown) -> u32 #cpp_method;
+    Release : (this : *IUnknown) -> u32 #cpp_method;
+}
 
 // System libraries
 

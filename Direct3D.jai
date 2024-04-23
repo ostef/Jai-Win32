@@ -1921,14 +1921,6 @@ ID3DBlob :: struct
     }
 }
 
-ID3DBlobVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetBufferPointer : (this : *ID3DBlob) -> *void #cpp_method;
-    GetBufferSize : (this : *ID3DBlob) -> u64 #cpp_method;
-}
-
 ID3DDestructionNotifier_UUID :: "a06eb39a-50da-425b-8c31-4eecd6c270f3";
 ID3DDestructionNotifier :: struct
 {
@@ -1948,14 +1940,6 @@ ID3DDestructionNotifier :: struct
     {
         return this.vtable.UnregisterDestructionCallback (this, callbackID);
     }
-}
-
-ID3DDestructionNotifierVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    RegisterDestructionCallback : (this : *ID3DDestructionNotifier, callbackFn : PFN_DESTRUCTION_CALLBACK, pData : *void, pCallbackID : *u32) -> HRESULT #cpp_method;
-    UnregisterDestructionCallback : (this : *ID3DDestructionNotifier, callbackID : u32) -> HRESULT #cpp_method;
 }
 
 ID3DInclude_UUID :: "";
@@ -1982,16 +1966,35 @@ ID3DInclude :: struct
     }
 }
 
+PFN_DESTRUCTION_CALLBACK :: #type (pData : *void) -> void #c_call;
+
+// Functions
+
+
+// COM interface vtables
+
+
+ID3DBlobVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetBufferPointer : (this : *ID3DBlob) -> *void #cpp_method;
+    GetBufferSize : (this : *ID3DBlob) -> u64 #cpp_method;
+}
+
+ID3DDestructionNotifierVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    RegisterDestructionCallback : (this : *ID3DDestructionNotifier, callbackFn : PFN_DESTRUCTION_CALLBACK, pData : *void, pCallbackID : *u32) -> HRESULT #cpp_method;
+    UnregisterDestructionCallback : (this : *ID3DDestructionNotifier, callbackID : u32) -> HRESULT #cpp_method;
+}
+
 ID3DIncludeVTable :: struct
 {
     Open : (this : *ID3DInclude, IncludeType : D3D_INCLUDE_TYPE, pFileName : PSTR, pParentData : *void, ppData : **void, pBytes : *u32) -> HRESULT #cpp_method;
     Close : (this : *ID3DInclude, pData : *void) -> HRESULT #cpp_method;
 }
-
-PFN_DESTRUCTION_CALLBACK :: #type (pData : *void) -> void #c_call;
-
-// Functions
-
 
 // System libraries
 

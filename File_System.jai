@@ -1820,33 +1820,6 @@ IDiskQuotaControl :: struct
     }
 }
 
-IDiskQuotaControlVTable :: struct
-{
-    #as using, except (.["base"]) base : IConnectionPointContainerVTable;
-
-    Initialize : (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #cpp_method;
-    SetQuotaState : (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #cpp_method;
-    GetQuotaState : (this : *IDiskQuotaControl, pdwState : *u32) -> HRESULT #cpp_method;
-    SetQuotaLogFlags : (this : *IDiskQuotaControl, dwFlags : u32) -> HRESULT #cpp_method;
-    GetQuotaLogFlags : (this : *IDiskQuotaControl, pdwFlags : *u32) -> HRESULT #cpp_method;
-    SetDefaultQuotaThreshold : (this : *IDiskQuotaControl, llThreshold : s64) -> HRESULT #cpp_method;
-    GetDefaultQuotaThreshold : (this : *IDiskQuotaControl, pllThreshold : *s64) -> HRESULT #cpp_method;
-    GetDefaultQuotaThresholdText : (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
-    SetDefaultQuotaLimit : (this : *IDiskQuotaControl, llLimit : s64) -> HRESULT #cpp_method;
-    GetDefaultQuotaLimit : (this : *IDiskQuotaControl, pllLimit : *s64) -> HRESULT #cpp_method;
-    GetDefaultQuotaLimitText : (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
-    AddUserSid : (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
-    AddUserName : (this : *IDiskQuotaControl, pszLogonName : PWSTR, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
-    DeleteUser : (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
-    FindUserSid : (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
-    FindUserName : (this : *IDiskQuotaControl, pszLogonName : PWSTR, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
-    CreateEnumUsers : (this : *IDiskQuotaControl, rgpUserSids : *PSID, cpSids : u32, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
-    CreateUserBatch : (this : *IDiskQuotaControl, ppBatch : **IDiskQuotaUserBatch) -> HRESULT #cpp_method;
-    InvalidateSidNameCache : (this : *IDiskQuotaControl) -> HRESULT #cpp_method;
-    GiveUserNameResolutionPriority : (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
-    ShutdownNameResolution : (this : *IDiskQuotaControl) -> HRESULT #cpp_method;
-}
-
 IDiskQuotaEvents_UUID :: "7988b579-ec89-11cf-9c00-00aa00a14f56";
 IDiskQuotaEvents :: struct
 {
@@ -1861,13 +1834,6 @@ IDiskQuotaEvents :: struct
     {
         return this.vtable.OnUserNameChanged (this, pUser);
     }
-}
-
-IDiskQuotaEventsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    OnUserNameChanged : (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
 }
 
 IDiskQuotaUser_UUID :: "7988b574-ec89-11cf-9c00-00aa00a14f56";
@@ -1963,27 +1929,6 @@ IDiskQuotaUser :: struct
     }
 }
 
-IDiskQuotaUserVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetID : (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #cpp_method;
-    GetName : (this : *IDiskQuotaUser, pszAccountContainer : PWSTR, cchAccountContainer : u32, pszLogonName : PWSTR, cchLogonName : u32, pszDisplayName : PWSTR, cchDisplayName : u32) -> HRESULT #cpp_method;
-    GetSidLength : (this : *IDiskQuotaUser, pdwLength : *u32) -> HRESULT #cpp_method;
-    GetSid : (this : *IDiskQuotaUser, pbSidBuffer : *u8, cbSidBuffer : u32) -> HRESULT #cpp_method;
-    GetQuotaThreshold : (this : *IDiskQuotaUser, pllThreshold : *s64) -> HRESULT #cpp_method;
-    GetQuotaThresholdText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
-    GetQuotaLimit : (this : *IDiskQuotaUser, pllLimit : *s64) -> HRESULT #cpp_method;
-    GetQuotaLimitText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
-    GetQuotaUsed : (this : *IDiskQuotaUser, pllUsed : *s64) -> HRESULT #cpp_method;
-    GetQuotaUsedText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
-    GetQuotaInformation : (this : *IDiskQuotaUser, pbQuotaInfo : *void, cbQuotaInfo : u32) -> HRESULT #cpp_method;
-    SetQuotaThreshold : (this : *IDiskQuotaUser, llThreshold : s64, fWriteThrough : BOOL) -> HRESULT #cpp_method;
-    SetQuotaLimit : (this : *IDiskQuotaUser, llLimit : s64, fWriteThrough : BOOL) -> HRESULT #cpp_method;
-    Invalidate : (this : *IDiskQuotaUser) -> HRESULT #cpp_method;
-    GetAccountStatus : (this : *IDiskQuotaUser, pdwStatus : *u32) -> HRESULT #cpp_method;
-}
-
 IDiskQuotaUserBatch_UUID :: "7988b576-ec89-11cf-9c00-00aa00a14f56";
 IDiskQuotaUserBatch :: struct
 {
@@ -2015,16 +1960,6 @@ IDiskQuotaUserBatch :: struct
     }
 }
 
-IDiskQuotaUserBatchVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Add : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
-    Remove : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
-    RemoveAll : (this : *IDiskQuotaUserBatch) -> HRESULT #cpp_method;
-    FlushToDisk : (this : *IDiskQuotaUserBatch) -> HRESULT #cpp_method;
-}
-
 IEnumDiskQuotaUsers_UUID :: "7988b577-ec89-11cf-9c00-00aa00a14f56";
 IEnumDiskQuotaUsers :: struct
 {
@@ -2054,16 +1989,6 @@ IEnumDiskQuotaUsers :: struct
     {
         return this.vtable.Clone (this, ppEnum);
     }
-}
-
-IEnumDiskQuotaUsersVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Next : (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #cpp_method;
-    Skip : (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #cpp_method;
-    Reset : (this : *IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
-    Clone : (this : *IEnumDiskQuotaUsers, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
 }
 
 IORING_BUFFER_INFO :: struct
@@ -6005,6 +5930,84 @@ WriteLogRestartArea :: (
 ) -> BOOL #foreign clfsw32;
 
 WriteTapemark :: (hDevice : HANDLE, dwTapemarkType : TAPEMARK_TYPE, dwTapemarkCount : u32, bImmediate : BOOL) -> u32 #foreign KERNEL32;
+
+// COM interface vtables
+
+
+IDiskQuotaControlVTable :: struct
+{
+    #as using, except (.["base"]) base : IConnectionPointContainerVTable;
+
+    Initialize : (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #cpp_method;
+    SetQuotaState : (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #cpp_method;
+    GetQuotaState : (this : *IDiskQuotaControl, pdwState : *u32) -> HRESULT #cpp_method;
+    SetQuotaLogFlags : (this : *IDiskQuotaControl, dwFlags : u32) -> HRESULT #cpp_method;
+    GetQuotaLogFlags : (this : *IDiskQuotaControl, pdwFlags : *u32) -> HRESULT #cpp_method;
+    SetDefaultQuotaThreshold : (this : *IDiskQuotaControl, llThreshold : s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaThreshold : (this : *IDiskQuotaControl, pllThreshold : *s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaThresholdText : (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    SetDefaultQuotaLimit : (this : *IDiskQuotaControl, llLimit : s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaLimit : (this : *IDiskQuotaControl, pllLimit : *s64) -> HRESULT #cpp_method;
+    GetDefaultQuotaLimitText : (this : *IDiskQuotaControl, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    AddUserSid : (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    AddUserName : (this : *IDiskQuotaControl, pszLogonName : PWSTR, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    DeleteUser : (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    FindUserSid : (this : *IDiskQuotaControl, pUserSid : PSID, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    FindUserName : (this : *IDiskQuotaControl, pszLogonName : PWSTR, ppUser : **IDiskQuotaUser) -> HRESULT #cpp_method;
+    CreateEnumUsers : (this : *IDiskQuotaControl, rgpUserSids : *PSID, cpSids : u32, fNameResolution : DISKQUOTA_USERNAME_RESOLVE, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
+    CreateUserBatch : (this : *IDiskQuotaControl, ppBatch : **IDiskQuotaUserBatch) -> HRESULT #cpp_method;
+    InvalidateSidNameCache : (this : *IDiskQuotaControl) -> HRESULT #cpp_method;
+    GiveUserNameResolutionPriority : (this : *IDiskQuotaControl, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    ShutdownNameResolution : (this : *IDiskQuotaControl) -> HRESULT #cpp_method;
+}
+
+IDiskQuotaEventsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    OnUserNameChanged : (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+}
+
+IDiskQuotaUserVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetID : (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #cpp_method;
+    GetName : (this : *IDiskQuotaUser, pszAccountContainer : PWSTR, cchAccountContainer : u32, pszLogonName : PWSTR, cchLogonName : u32, pszDisplayName : PWSTR, cchDisplayName : u32) -> HRESULT #cpp_method;
+    GetSidLength : (this : *IDiskQuotaUser, pdwLength : *u32) -> HRESULT #cpp_method;
+    GetSid : (this : *IDiskQuotaUser, pbSidBuffer : *u8, cbSidBuffer : u32) -> HRESULT #cpp_method;
+    GetQuotaThreshold : (this : *IDiskQuotaUser, pllThreshold : *s64) -> HRESULT #cpp_method;
+    GetQuotaThresholdText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    GetQuotaLimit : (this : *IDiskQuotaUser, pllLimit : *s64) -> HRESULT #cpp_method;
+    GetQuotaLimitText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    GetQuotaUsed : (this : *IDiskQuotaUser, pllUsed : *s64) -> HRESULT #cpp_method;
+    GetQuotaUsedText : (this : *IDiskQuotaUser, pszText : PWSTR, cchText : u32) -> HRESULT #cpp_method;
+    GetQuotaInformation : (this : *IDiskQuotaUser, pbQuotaInfo : *void, cbQuotaInfo : u32) -> HRESULT #cpp_method;
+    SetQuotaThreshold : (this : *IDiskQuotaUser, llThreshold : s64, fWriteThrough : BOOL) -> HRESULT #cpp_method;
+    SetQuotaLimit : (this : *IDiskQuotaUser, llLimit : s64, fWriteThrough : BOOL) -> HRESULT #cpp_method;
+    Invalidate : (this : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    GetAccountStatus : (this : *IDiskQuotaUser, pdwStatus : *u32) -> HRESULT #cpp_method;
+}
+
+IDiskQuotaUserBatchVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Add : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    Remove : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
+    RemoveAll : (this : *IDiskQuotaUserBatch) -> HRESULT #cpp_method;
+    FlushToDisk : (this : *IDiskQuotaUserBatch) -> HRESULT #cpp_method;
+}
+
+IEnumDiskQuotaUsersVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Next : (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #cpp_method;
+    Skip : (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #cpp_method;
+    Reset : (this : *IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
+    Clone : (this : *IEnumDiskQuotaUsers, ppEnum : **IEnumDiskQuotaUsers) -> HRESULT #cpp_method;
+}
 
 // System libraries
 

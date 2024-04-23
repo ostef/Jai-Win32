@@ -224,13 +224,6 @@ IDxcAssembler :: struct
     }
 }
 
-IDxcAssemblerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    AssembleToContainer : (this : *IDxcAssembler, pShader : *IDxcBlob, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
-}
-
 IDxcBlob_UUID :: "8ba5fb08-5195-40e2-ac58-0d989c3a0102";
 IDxcBlob :: struct
 {
@@ -252,14 +245,6 @@ IDxcBlob :: struct
     }
 }
 
-IDxcBlobVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetBufferPointer : (this : *IDxcBlob) -> *void #cpp_method;
-    GetBufferSize : (this : *IDxcBlob) -> u64 #cpp_method;
-}
-
 IDxcBlobEncoding_UUID :: "7241d424-2646-4191-97c0-98e96e42fc68";
 IDxcBlobEncoding :: struct
 {
@@ -274,13 +259,6 @@ IDxcBlobEncoding :: struct
     {
         return this.vtable.GetEncoding (this, pKnown, pCodePage);
     }
-}
-
-IDxcBlobEncodingVTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcBlobVTable;
-
-    GetEncoding : (this : *IDxcBlobEncoding, pKnown : *BOOL, pCodePage : *DXC_CP) -> HRESULT #cpp_method;
 }
 
 IDxcBlobUtf16_UUID :: "a3f84eab-0faa-497e-a39c-ee6ed60b2d84";
@@ -304,14 +282,6 @@ IDxcBlobUtf16 :: struct
     }
 }
 
-IDxcBlobUtf16VTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcBlobEncodingVTable;
-
-    GetStringPointer : (this : *IDxcBlobUtf16) -> PWSTR #cpp_method;
-    GetStringLength : (this : *IDxcBlobUtf16) -> u64 #cpp_method;
-}
-
 IDxcBlobUtf8_UUID :: "3da636c9-ba71-4024-a301-30cbf125305b";
 IDxcBlobUtf8 :: struct
 {
@@ -331,14 +301,6 @@ IDxcBlobUtf8 :: struct
     {
         return this.vtable.GetStringLength (this);
     }
-}
-
-IDxcBlobUtf8VTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcBlobEncodingVTable;
-
-    GetStringPointer : (this : *IDxcBlobUtf8) -> PSTR #cpp_method;
-    GetStringLength : (this : *IDxcBlobUtf8) -> u64 #cpp_method;
 }
 
 IDxcCompiler_UUID :: "8c210bf3-011f-4422-8d70-6f9acb8db617";
@@ -387,15 +349,6 @@ IDxcCompiler :: struct
     }
 }
 
-IDxcCompilerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Compile : (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
-    Preprocess : (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
-    Disassemble : (this : *IDxcCompiler, pSource : *IDxcBlob, ppDisassembly : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-}
-
 IDxcCompiler2_UUID :: "a005a9d9-b8bb-4594-b5c9-0e633bec4d37";
 IDxcCompiler2 :: struct
 {
@@ -425,13 +378,6 @@ IDxcCompiler2 :: struct
     }
 }
 
-IDxcCompiler2VTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcCompilerVTable;
-
-    CompileWithDebug : (this : *IDxcCompiler2, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult, ppDebugBlobName : *PWSTR, ppDebugBlob : **IDxcBlob) -> HRESULT #cpp_method;
-}
-
 IDxcCompiler3_UUID :: "228b4687-5a6a-4730-900c-9702b2203f54";
 IDxcCompiler3 :: struct
 {
@@ -458,14 +404,6 @@ IDxcCompiler3 :: struct
     {
         return this.vtable.Disassemble (this, pObject, riid, ppResult);
     }
-}
-
-IDxcCompiler3VTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Compile : (this : *IDxcCompiler3, pSource : *DxcBuffer, pArguments : *PWSTR, argCount : u32, pIncludeHandler : *IDxcIncludeHandler, riid : *GUID, ppResult : **void) -> HRESULT #cpp_method;
-    Disassemble : (this : *IDxcCompiler3, pObject : *DxcBuffer, riid : *GUID, ppResult : **void) -> HRESULT #cpp_method;
 }
 
 IDxcCompilerArgs_UUID :: "73effe2a-70dc-45f8-9690-eff64c02429d";
@@ -504,17 +442,6 @@ IDxcCompilerArgs :: struct
     }
 }
 
-IDxcCompilerArgsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetArguments : (this : *IDxcCompilerArgs) -> *PWSTR #cpp_method;
-    GetCount : (this : *IDxcCompilerArgs) -> u32 #cpp_method;
-    AddArguments : (this : *IDxcCompilerArgs, pArguments : *PWSTR, argCount : u32) -> HRESULT #cpp_method;
-    AddArgumentsUTF8 : (this : *IDxcCompilerArgs, pArguments : *PSTR, argCount : u32) -> HRESULT #cpp_method;
-    AddDefines : (this : *IDxcCompilerArgs, pDefines : *DxcDefine, defineCount : u32) -> HRESULT #cpp_method;
-}
-
 IDxcContainerBuilder_UUID :: "334b1f50-2292-4b35-99a1-25588d8c17fe";
 IDxcContainerBuilder :: struct
 {
@@ -544,16 +471,6 @@ IDxcContainerBuilder :: struct
     {
         return this.vtable.SerializeContainer (this, ppResult);
     }
-}
-
-IDxcContainerBuilderVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Load : (this : *IDxcContainerBuilder, pDxilContainerHeader : *IDxcBlob) -> HRESULT #cpp_method;
-    AddPart : (this : *IDxcContainerBuilder, fourCC : u32, pSource : *IDxcBlob) -> HRESULT #cpp_method;
-    RemovePart : (this : *IDxcContainerBuilder, fourCC : u32) -> HRESULT #cpp_method;
-    SerializeContainer : (this : *IDxcContainerBuilder, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
 }
 
 IDxcContainerReflection_UUID :: "d2c21b26-8350-4bdc-976a-331ce6f4c54c";
@@ -597,18 +514,6 @@ IDxcContainerReflection :: struct
     }
 }
 
-IDxcContainerReflectionVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Load : (this : *IDxcContainerReflection, pContainer : *IDxcBlob) -> HRESULT #cpp_method;
-    GetPartCount : (this : *IDxcContainerReflection, pResult : *u32) -> HRESULT #cpp_method;
-    GetPartKind : (this : *IDxcContainerReflection, idx : u32, pResult : *u32) -> HRESULT #cpp_method;
-    GetPartContent : (this : *IDxcContainerReflection, idx : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
-    FindFirstPartKind : (this : *IDxcContainerReflection, kind : u32, pResult : *u32) -> HRESULT #cpp_method;
-    GetPartReflection : (this : *IDxcContainerReflection, idx : u32, iid : *GUID, ppvObject : **void) -> HRESULT #cpp_method;
-}
-
 IDxcExtraOutputs_UUID :: "319b37a2-a5c2-494a-a5de-4801b2faf989";
 IDxcExtraOutputs :: struct
 {
@@ -636,14 +541,6 @@ IDxcExtraOutputs :: struct
     }
 }
 
-IDxcExtraOutputsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetOutputCount : (this : *IDxcExtraOutputs) -> u32 #cpp_method;
-    GetOutput : (this : *IDxcExtraOutputs, uIndex : u32, iid : *GUID, ppvObject : **void, ppOutputType : **IDxcBlobUtf16, ppOutputName : **IDxcBlobUtf16) -> HRESULT #cpp_method;
-}
-
 IDxcIncludeHandler_UUID :: "7f61fc7d-950d-467f-b3e3-3c02fb49187c";
 IDxcIncludeHandler :: struct
 {
@@ -658,13 +555,6 @@ IDxcIncludeHandler :: struct
     {
         return this.vtable.LoadSource (this, pFilename, ppIncludeSource);
     }
-}
-
-IDxcIncludeHandlerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    LoadSource : (this : *IDxcIncludeHandler, pFilename : PWSTR, ppIncludeSource : **IDxcBlob) -> HRESULT #cpp_method;
 }
 
 IDxcLibrary_UUID :: "e5204dc7-d18c-4c3c-bdfb-851673980fe7";
@@ -749,22 +639,6 @@ IDxcLibrary :: struct
     }
 }
 
-IDxcLibraryVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetMalloc : (this : *IDxcLibrary, pMalloc : *IMalloc) -> HRESULT #cpp_method;
-    CreateBlobFromBlob : (this : *IDxcLibrary, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
-    CreateBlobFromFile : (this : *IDxcLibrary, pFileName : PWSTR, codePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    CreateBlobWithEncodingFromPinned : (this : *IDxcLibrary, pText : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    CreateBlobWithEncodingOnHeapCopy : (this : *IDxcLibrary, pText : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    CreateBlobWithEncodingOnMalloc : (this : *IDxcLibrary, pText : *void, pIMalloc : *IMalloc, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    CreateIncludeHandler : (this : *IDxcLibrary, ppResult : **IDxcIncludeHandler) -> HRESULT #cpp_method;
-    CreateStreamFromBlobReadOnly : (this : *IDxcLibrary, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #cpp_method;
-    GetBlobAsUtf8 : (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    GetBlobAsUtf16 : (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-}
-
 IDxcLinker_UUID :: "f1b5be2a-62dd-4327-a1c2-42ac1e1e78e6";
 IDxcLinker :: struct
 {
@@ -794,14 +668,6 @@ IDxcLinker :: struct
     }
 }
 
-IDxcLinkerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    RegisterLibrary : (this : *IDxcLinker, pLibName : PWSTR, pLib : *IDxcBlob) -> HRESULT #cpp_method;
-    Link : (this : *IDxcLinker, pEntryName : PWSTR, pTargetProfile : PWSTR, pLibNames : *PWSTR, libCount : u32, pArguments : *PWSTR, argCount : u32, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
-}
-
 IDxcOperationResult_UUID :: "cedb484a-d4e9-445a-b991-ca21ca157dc2";
 IDxcOperationResult :: struct
 {
@@ -826,15 +692,6 @@ IDxcOperationResult :: struct
     {
         return this.vtable.GetErrorBuffer (this, ppErrors);
     }
-}
-
-IDxcOperationResultVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetStatus : (this : *IDxcOperationResult, pStatus : *HRESULT) -> HRESULT #cpp_method;
-    GetResult : (this : *IDxcOperationResult, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
-    GetErrorBuffer : (this : *IDxcOperationResult, ppErrors : **IDxcBlobEncoding) -> HRESULT #cpp_method;
 }
 
 IDxcOptimizer_UUID :: "25740e2e-9cba-401b-9119-4fb42f39f270";
@@ -867,15 +724,6 @@ IDxcOptimizer :: struct
     {
         return this.vtable.RunOptimizer (this, pBlob, ppOptions, optionCount, pOutputModule, ppOutputText);
     }
-}
-
-IDxcOptimizerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetAvailablePassCount : (this : *IDxcOptimizer, pCount : *u32) -> HRESULT #cpp_method;
-    GetAvailablePass : (this : *IDxcOptimizer, index : u32, ppResult : **IDxcOptimizerPass) -> HRESULT #cpp_method;
-    RunOptimizer : (this : *IDxcOptimizer, pBlob : *IDxcBlob, ppOptions : *PWSTR, optionCount : u32, pOutputModule : **IDxcBlob, ppOutputText : **IDxcBlobEncoding) -> HRESULT #cpp_method;
 }
 
 IDxcOptimizerPass_UUID :: "ae2cd79f-cc22-453f-9b6b-b124e7a5204c";
@@ -912,17 +760,6 @@ IDxcOptimizerPass :: struct
     {
         return this.vtable.GetOptionArgDescription (this, argIndex, ppResult);
     }
-}
-
-IDxcOptimizerPassVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetOptionName : (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #cpp_method;
-    GetDescription : (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #cpp_method;
-    GetOptionArgCount : (this : *IDxcOptimizerPass, pCount : *u32) -> HRESULT #cpp_method;
-    GetOptionArgName : (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #cpp_method;
-    GetOptionArgDescription : (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #cpp_method;
 }
 
 IDxcPdbUtils_UUID :: "e6c9647e-9d6a-4c3b-b94c-524b5a6c343d";
@@ -1056,36 +893,6 @@ IDxcPdbUtils :: struct
     }
 }
 
-IDxcPdbUtilsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Load : (this : *IDxcPdbUtils, pPdbOrDxil : *IDxcBlob) -> HRESULT #cpp_method;
-    GetSourceCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
-    GetSource : (this : *IDxcPdbUtils, uIndex : u32, ppResult : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    GetSourceName : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetFlagCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
-    GetFlag : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetArgCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
-    GetArg : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetArgPairCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
-    GetArgPair : (this : *IDxcPdbUtils, uIndex : u32, pName : *BSTR, pValue : *BSTR) -> HRESULT #cpp_method;
-    GetDefineCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
-    GetDefine : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetTargetProfile : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetEntryPoint : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetMainFileName : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
-    GetHash : (this : *IDxcPdbUtils, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
-    GetName : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
-    IsFullPDB : (this : *IDxcPdbUtils) -> BOOL #cpp_method;
-    GetFullPDB : (this : *IDxcPdbUtils, ppFullPDB : **IDxcBlob) -> HRESULT #cpp_method;
-    GetVersionInfo : (this : *IDxcPdbUtils, ppVersionInfo : **IDxcVersionInfo) -> HRESULT #cpp_method;
-    SetCompiler : (this : *IDxcPdbUtils, pCompiler : *IDxcCompiler3) -> HRESULT #cpp_method;
-    CompileForFullPDB : (this : *IDxcPdbUtils, ppResult : **IDxcResult) -> HRESULT #cpp_method;
-    OverrideArgs : (this : *IDxcPdbUtils, pArgPairs : *DxcArgPair, uNumArgPairs : u32) -> HRESULT #cpp_method;
-    OverrideRootSignature : (this : *IDxcPdbUtils, pRootSignature : PWSTR) -> HRESULT #cpp_method;
-}
-
 IDxcResult_UUID :: "58346cda-dde7-4497-9461-6f87af5e0659";
 IDxcResult :: struct
 {
@@ -1125,17 +932,6 @@ IDxcResult :: struct
     {
         return this.vtable.PrimaryOutput (this);
     }
-}
-
-IDxcResultVTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcOperationResultVTable;
-
-    HasOutput : (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #cpp_method;
-    GetOutput : (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND, iid : *GUID, ppvObject : **void, ppOutputName : **IDxcBlobUtf16) -> HRESULT #cpp_method;
-    GetNumOutputs : (this : *IDxcResult) -> u32 #cpp_method;
-    GetOutputByIndex : (this : *IDxcResult, Index : u32) -> DXC_OUT_KIND #cpp_method;
-    PrimaryOutput : (this : *IDxcResult) -> DXC_OUT_KIND #cpp_method;
 }
 
 IDxcUtils_UUID :: "4605c4cb-2019-492a-ada4-65f20bb7d67f";
@@ -1249,25 +1045,6 @@ IDxcUtils :: struct
     }
 }
 
-IDxcUtilsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    CreateBlobFromBlob : (this : *IDxcUtils, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
-    CreateBlobFromPinned : (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    MoveToBlob : (this : *IDxcUtils, pData : *void, pIMalloc : *IMalloc, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    CreateBlob : (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    LoadFile : (this : *IDxcUtils, pFileName : PWSTR, pCodePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
-    CreateReadOnlyStreamFromBlob : (this : *IDxcUtils, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #cpp_method;
-    CreateDefaultIncludeHandler : (this : *IDxcUtils, ppResult : **IDxcIncludeHandler) -> HRESULT #cpp_method;
-    GetBlobAsUtf8 : (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf8) -> HRESULT #cpp_method;
-    GetBlobAsUtf16 : (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf16) -> HRESULT #cpp_method;
-    GetDxilContainerPart : (this : *IDxcUtils, pShader : *DxcBuffer, DxcPart : u32, ppPartData : **void, pPartSizeInBytes : *u32) -> HRESULT #cpp_method;
-    CreateReflection : (this : *IDxcUtils, pData : *DxcBuffer, iid : *GUID, ppvReflection : **void) -> HRESULT #cpp_method;
-    BuildArguments : (this : *IDxcUtils, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, ppArgs : **IDxcCompilerArgs) -> HRESULT #cpp_method;
-    GetPDBContents : (this : *IDxcUtils, pPDBBlob : *IDxcBlob, ppHash : **IDxcBlob, ppContainer : **IDxcBlob) -> HRESULT #cpp_method;
-}
-
 IDxcValidator_UUID :: "a6e82bd2-1fd7-4826-9811-2857e797f49a";
 IDxcValidator :: struct
 {
@@ -1282,13 +1059,6 @@ IDxcValidator :: struct
     {
         return this.vtable.Validate (this, pShader, Flags, ppResult);
     }
-}
-
-IDxcValidatorVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Validate : (this : *IDxcValidator, pShader : *IDxcBlob, Flags : u32, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
 }
 
 IDxcValidator2_UUID :: "458e1fd1-b1b2-4750-a6e1-9c10f03bed92";
@@ -1312,13 +1082,6 @@ IDxcValidator2 :: struct
     }
 }
 
-IDxcValidator2VTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcValidatorVTable;
-
-    ValidateWithDebug : (this : *IDxcValidator2, pShader : *IDxcBlob, Flags : u32, pOptDebugBitcode : *DxcBuffer, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
-}
-
 IDxcVersionInfo_UUID :: "b04f5b50-2059-4f12-a8ff-a1e0cde1cc7e";
 IDxcVersionInfo :: struct
 {
@@ -1340,14 +1103,6 @@ IDxcVersionInfo :: struct
     }
 }
 
-IDxcVersionInfoVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetVersion : (this : *IDxcVersionInfo, pMajor : *u32, pMinor : *u32) -> HRESULT #cpp_method;
-    GetFlags : (this : *IDxcVersionInfo, pFlags : *u32) -> HRESULT #cpp_method;
-}
-
 IDxcVersionInfo2_UUID :: "fb6904c4-42f0-4b62-9c46-983af7da7c83";
 IDxcVersionInfo2 :: struct
 {
@@ -1362,13 +1117,6 @@ IDxcVersionInfo2 :: struct
     {
         return this.vtable.GetCommitInfo (this, pCommitCount, pCommitHash);
     }
-}
-
-IDxcVersionInfo2VTable :: struct
-{
-    #as using, except (.["base"]) base : IDxcVersionInfoVTable;
-
-    GetCommitInfo : (this : *IDxcVersionInfo2, pCommitCount : *u32, pCommitHash : **s8) -> HRESULT #cpp_method;
 }
 
 IDxcVersionInfo3_UUID :: "5e13e843-9d25-473c-9ad2-03b2d0b44b1e";
@@ -1387,18 +1135,273 @@ IDxcVersionInfo3 :: struct
     }
 }
 
+// Functions
+
+DXCoreCreateAdapterFactory :: (riid : *GUID, ppvFactory : **void) -> HRESULT #foreign DXCORE;
+DxcCreateInstance :: (rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
+DxcCreateInstance2 :: (pMalloc : *IMalloc, rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
+
+// COM interface vtables
+
+
+IDxcAssemblerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    AssembleToContainer : (this : *IDxcAssembler, pShader : *IDxcBlob, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+}
+
+IDxcBlobVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetBufferPointer : (this : *IDxcBlob) -> *void #cpp_method;
+    GetBufferSize : (this : *IDxcBlob) -> u64 #cpp_method;
+}
+
+IDxcBlobEncodingVTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcBlobVTable;
+
+    GetEncoding : (this : *IDxcBlobEncoding, pKnown : *BOOL, pCodePage : *DXC_CP) -> HRESULT #cpp_method;
+}
+
+IDxcBlobUtf16VTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcBlobEncodingVTable;
+
+    GetStringPointer : (this : *IDxcBlobUtf16) -> PWSTR #cpp_method;
+    GetStringLength : (this : *IDxcBlobUtf16) -> u64 #cpp_method;
+}
+
+IDxcBlobUtf8VTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcBlobEncodingVTable;
+
+    GetStringPointer : (this : *IDxcBlobUtf8) -> PSTR #cpp_method;
+    GetStringLength : (this : *IDxcBlobUtf8) -> u64 #cpp_method;
+}
+
+IDxcCompilerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Compile : (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+    Preprocess : (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+    Disassemble : (this : *IDxcCompiler, pSource : *IDxcBlob, ppDisassembly : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+}
+
+IDxcCompiler2VTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcCompilerVTable;
+
+    CompileWithDebug : (this : *IDxcCompiler2, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult, ppDebugBlobName : *PWSTR, ppDebugBlob : **IDxcBlob) -> HRESULT #cpp_method;
+}
+
+IDxcCompiler3VTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Compile : (this : *IDxcCompiler3, pSource : *DxcBuffer, pArguments : *PWSTR, argCount : u32, pIncludeHandler : *IDxcIncludeHandler, riid : *GUID, ppResult : **void) -> HRESULT #cpp_method;
+    Disassemble : (this : *IDxcCompiler3, pObject : *DxcBuffer, riid : *GUID, ppResult : **void) -> HRESULT #cpp_method;
+}
+
+IDxcCompilerArgsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetArguments : (this : *IDxcCompilerArgs) -> *PWSTR #cpp_method;
+    GetCount : (this : *IDxcCompilerArgs) -> u32 #cpp_method;
+    AddArguments : (this : *IDxcCompilerArgs, pArguments : *PWSTR, argCount : u32) -> HRESULT #cpp_method;
+    AddArgumentsUTF8 : (this : *IDxcCompilerArgs, pArguments : *PSTR, argCount : u32) -> HRESULT #cpp_method;
+    AddDefines : (this : *IDxcCompilerArgs, pDefines : *DxcDefine, defineCount : u32) -> HRESULT #cpp_method;
+}
+
+IDxcContainerBuilderVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Load : (this : *IDxcContainerBuilder, pDxilContainerHeader : *IDxcBlob) -> HRESULT #cpp_method;
+    AddPart : (this : *IDxcContainerBuilder, fourCC : u32, pSource : *IDxcBlob) -> HRESULT #cpp_method;
+    RemovePart : (this : *IDxcContainerBuilder, fourCC : u32) -> HRESULT #cpp_method;
+    SerializeContainer : (this : *IDxcContainerBuilder, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+}
+
+IDxcContainerReflectionVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Load : (this : *IDxcContainerReflection, pContainer : *IDxcBlob) -> HRESULT #cpp_method;
+    GetPartCount : (this : *IDxcContainerReflection, pResult : *u32) -> HRESULT #cpp_method;
+    GetPartKind : (this : *IDxcContainerReflection, idx : u32, pResult : *u32) -> HRESULT #cpp_method;
+    GetPartContent : (this : *IDxcContainerReflection, idx : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
+    FindFirstPartKind : (this : *IDxcContainerReflection, kind : u32, pResult : *u32) -> HRESULT #cpp_method;
+    GetPartReflection : (this : *IDxcContainerReflection, idx : u32, iid : *GUID, ppvObject : **void) -> HRESULT #cpp_method;
+}
+
+IDxcExtraOutputsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetOutputCount : (this : *IDxcExtraOutputs) -> u32 #cpp_method;
+    GetOutput : (this : *IDxcExtraOutputs, uIndex : u32, iid : *GUID, ppvObject : **void, ppOutputType : **IDxcBlobUtf16, ppOutputName : **IDxcBlobUtf16) -> HRESULT #cpp_method;
+}
+
+IDxcIncludeHandlerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    LoadSource : (this : *IDxcIncludeHandler, pFilename : PWSTR, ppIncludeSource : **IDxcBlob) -> HRESULT #cpp_method;
+}
+
+IDxcLibraryVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetMalloc : (this : *IDxcLibrary, pMalloc : *IMalloc) -> HRESULT #cpp_method;
+    CreateBlobFromBlob : (this : *IDxcLibrary, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
+    CreateBlobFromFile : (this : *IDxcLibrary, pFileName : PWSTR, codePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    CreateBlobWithEncodingFromPinned : (this : *IDxcLibrary, pText : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    CreateBlobWithEncodingOnHeapCopy : (this : *IDxcLibrary, pText : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    CreateBlobWithEncodingOnMalloc : (this : *IDxcLibrary, pText : *void, pIMalloc : *IMalloc, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    CreateIncludeHandler : (this : *IDxcLibrary, ppResult : **IDxcIncludeHandler) -> HRESULT #cpp_method;
+    CreateStreamFromBlobReadOnly : (this : *IDxcLibrary, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #cpp_method;
+    GetBlobAsUtf8 : (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    GetBlobAsUtf16 : (this : *IDxcLibrary, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+}
+
+IDxcLinkerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    RegisterLibrary : (this : *IDxcLinker, pLibName : PWSTR, pLib : *IDxcBlob) -> HRESULT #cpp_method;
+    Link : (this : *IDxcLinker, pEntryName : PWSTR, pTargetProfile : PWSTR, pLibNames : *PWSTR, libCount : u32, pArguments : *PWSTR, argCount : u32, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+}
+
+IDxcOperationResultVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetStatus : (this : *IDxcOperationResult, pStatus : *HRESULT) -> HRESULT #cpp_method;
+    GetResult : (this : *IDxcOperationResult, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
+    GetErrorBuffer : (this : *IDxcOperationResult, ppErrors : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+}
+
+IDxcOptimizerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetAvailablePassCount : (this : *IDxcOptimizer, pCount : *u32) -> HRESULT #cpp_method;
+    GetAvailablePass : (this : *IDxcOptimizer, index : u32, ppResult : **IDxcOptimizerPass) -> HRESULT #cpp_method;
+    RunOptimizer : (this : *IDxcOptimizer, pBlob : *IDxcBlob, ppOptions : *PWSTR, optionCount : u32, pOutputModule : **IDxcBlob, ppOutputText : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+}
+
+IDxcOptimizerPassVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetOptionName : (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #cpp_method;
+    GetDescription : (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #cpp_method;
+    GetOptionArgCount : (this : *IDxcOptimizerPass, pCount : *u32) -> HRESULT #cpp_method;
+    GetOptionArgName : (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #cpp_method;
+    GetOptionArgDescription : (this : *IDxcOptimizerPass, argIndex : u32, ppResult : *PWSTR) -> HRESULT #cpp_method;
+}
+
+IDxcPdbUtilsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Load : (this : *IDxcPdbUtils, pPdbOrDxil : *IDxcBlob) -> HRESULT #cpp_method;
+    GetSourceCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
+    GetSource : (this : *IDxcPdbUtils, uIndex : u32, ppResult : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    GetSourceName : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetFlagCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
+    GetFlag : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetArgCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
+    GetArg : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetArgPairCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
+    GetArgPair : (this : *IDxcPdbUtils, uIndex : u32, pName : *BSTR, pValue : *BSTR) -> HRESULT #cpp_method;
+    GetDefineCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
+    GetDefine : (this : *IDxcPdbUtils, uIndex : u32, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetTargetProfile : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetEntryPoint : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetMainFileName : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
+    GetHash : (this : *IDxcPdbUtils, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
+    GetName : (this : *IDxcPdbUtils, pResult : *BSTR) -> HRESULT #cpp_method;
+    IsFullPDB : (this : *IDxcPdbUtils) -> BOOL #cpp_method;
+    GetFullPDB : (this : *IDxcPdbUtils, ppFullPDB : **IDxcBlob) -> HRESULT #cpp_method;
+    GetVersionInfo : (this : *IDxcPdbUtils, ppVersionInfo : **IDxcVersionInfo) -> HRESULT #cpp_method;
+    SetCompiler : (this : *IDxcPdbUtils, pCompiler : *IDxcCompiler3) -> HRESULT #cpp_method;
+    CompileForFullPDB : (this : *IDxcPdbUtils, ppResult : **IDxcResult) -> HRESULT #cpp_method;
+    OverrideArgs : (this : *IDxcPdbUtils, pArgPairs : *DxcArgPair, uNumArgPairs : u32) -> HRESULT #cpp_method;
+    OverrideRootSignature : (this : *IDxcPdbUtils, pRootSignature : PWSTR) -> HRESULT #cpp_method;
+}
+
+IDxcResultVTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcOperationResultVTable;
+
+    HasOutput : (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #cpp_method;
+    GetOutput : (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND, iid : *GUID, ppvObject : **void, ppOutputName : **IDxcBlobUtf16) -> HRESULT #cpp_method;
+    GetNumOutputs : (this : *IDxcResult) -> u32 #cpp_method;
+    GetOutputByIndex : (this : *IDxcResult, Index : u32) -> DXC_OUT_KIND #cpp_method;
+    PrimaryOutput : (this : *IDxcResult) -> DXC_OUT_KIND #cpp_method;
+}
+
+IDxcUtilsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    CreateBlobFromBlob : (this : *IDxcUtils, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
+    CreateBlobFromPinned : (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    MoveToBlob : (this : *IDxcUtils, pData : *void, pIMalloc : *IMalloc, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    CreateBlob : (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    LoadFile : (this : *IDxcUtils, pFileName : PWSTR, pCodePage : *DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
+    CreateReadOnlyStreamFromBlob : (this : *IDxcUtils, pBlob : *IDxcBlob, ppStream : **IStream) -> HRESULT #cpp_method;
+    CreateDefaultIncludeHandler : (this : *IDxcUtils, ppResult : **IDxcIncludeHandler) -> HRESULT #cpp_method;
+    GetBlobAsUtf8 : (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf8) -> HRESULT #cpp_method;
+    GetBlobAsUtf16 : (this : *IDxcUtils, pBlob : *IDxcBlob, pBlobEncoding : **IDxcBlobUtf16) -> HRESULT #cpp_method;
+    GetDxilContainerPart : (this : *IDxcUtils, pShader : *DxcBuffer, DxcPart : u32, ppPartData : **void, pPartSizeInBytes : *u32) -> HRESULT #cpp_method;
+    CreateReflection : (this : *IDxcUtils, pData : *DxcBuffer, iid : *GUID, ppvReflection : **void) -> HRESULT #cpp_method;
+    BuildArguments : (this : *IDxcUtils, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, ppArgs : **IDxcCompilerArgs) -> HRESULT #cpp_method;
+    GetPDBContents : (this : *IDxcUtils, pPDBBlob : *IDxcBlob, ppHash : **IDxcBlob, ppContainer : **IDxcBlob) -> HRESULT #cpp_method;
+}
+
+IDxcValidatorVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Validate : (this : *IDxcValidator, pShader : *IDxcBlob, Flags : u32, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+}
+
+IDxcValidator2VTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcValidatorVTable;
+
+    ValidateWithDebug : (this : *IDxcValidator2, pShader : *IDxcBlob, Flags : u32, pOptDebugBitcode : *DxcBuffer, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
+}
+
+IDxcVersionInfoVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetVersion : (this : *IDxcVersionInfo, pMajor : *u32, pMinor : *u32) -> HRESULT #cpp_method;
+    GetFlags : (this : *IDxcVersionInfo, pFlags : *u32) -> HRESULT #cpp_method;
+}
+
+IDxcVersionInfo2VTable :: struct
+{
+    #as using, except (.["base"]) base : IDxcVersionInfoVTable;
+
+    GetCommitInfo : (this : *IDxcVersionInfo2, pCommitCount : *u32, pCommitHash : **s8) -> HRESULT #cpp_method;
+}
+
 IDxcVersionInfo3VTable :: struct
 {
     #as using, except (.["base"]) base : IUnknownVTable;
 
     GetCustomVersionString : (this : *IDxcVersionInfo3, pVersionString : **s8) -> HRESULT #cpp_method;
 }
-
-// Functions
-
-DXCoreCreateAdapterFactory :: (riid : *GUID, ppvFactory : **void) -> HRESULT #foreign DXCORE;
-DxcCreateInstance :: (rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
-DxcCreateInstance2 :: (pMalloc : *IMalloc, rclsid : *GUID, riid : *GUID, ppv : **void) -> HRESULT #foreign dxcompiler;
 
 // System libraries
 

@@ -372,6 +372,13 @@ GenerateTypeDefinition :: (builder : *String_Builder, using type : Win32TypeDefi
     if kind == .Com
     {
         GenerateCOMInterface (builder, type, indent_level);
+
+        if !context.generator.generate_COM_vtables_at_the_bottom
+        {
+            append (builder, "\n");
+            GenerateCOMInterfaceVTable (builder, type, indent_level);
+        }
+
         return;
     }
 
@@ -667,8 +674,11 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
     }
 
     Indent ();
-    append (builder, "}\n\n");
+    append (builder, "}\n");
+}
 
+GenerateCOMInterfaceVTable :: (builder : *String_Builder, using typedef : Win32TypeDefinition, indent_level := 0)
+{
     // Generate VTable struct
     Indent ();
     appendf (builder, "%VTable :: struct\n", name);
@@ -958,10 +968,15 @@ GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
 
     append (builder, "// Types\n\n");
 
+    COM_interface_count := 0;
     for module.types
     {
         if it_index != 0
             append (builder, "\n");
+
+        if it.kind == .Com
+            COM_interface_count += 1;
+
         GenerateTypeDefinition (builder, it);
     }
 
@@ -987,6 +1002,25 @@ GenerateModuleSourceCode :: (builder : *String_Builder, module : *Module)
         {
             appendf (builder, "#if UNICODE then %1 :: %1W;\n", it);
             appendf (builder, "else             %1 :: %1A;\n", it);
+        }
+    }
+
+    if context.generator.generate_COM_vtables_at_the_bottom && COM_interface_count > 0
+    {
+        append (builder, "\n// COM interface vtables\n\n");
+
+        first := false;
+        for module.types
+        {
+            if it.kind == .Com
+            {
+                if !first
+                   append (builder, "\n");
+
+                GenerateCOMInterfaceVTable (builder, it);
+
+                first = false;
+            }
         }
     }
 

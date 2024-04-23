@@ -8782,13 +8782,6 @@ ID3D12CommandAllocator :: struct
     }
 }
 
-ID3D12CommandAllocatorVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    Reset : (this : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
-}
-
 ID3D12CommandList_UUID :: "7116d91c-e7e4-47ce-b8c6-ec8168f437e5";
 ID3D12CommandList :: struct
 {
@@ -8803,13 +8796,6 @@ ID3D12CommandList :: struct
     {
         return this.vtable.GetType (this);
     }
-}
-
-ID3D12CommandListVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
-    GetType : (this : *ID3D12CommandList) -> D3D12_COMMAND_LIST_TYPE #cpp_method;
 }
 
 ID3D12CommandQueue_UUID :: "0ec870a6-5d7e-4c22-8cfc-5baae07616ed";
@@ -8896,23 +8882,6 @@ ID3D12CommandQueue :: struct
     }
 }
 
-ID3D12CommandQueueVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    UpdateTileMappings : (this : *ID3D12CommandQueue, pResource : *ID3D12Resource, NumResourceRegions : u32, pResourceRegionStartCoordinates : *D3D12_TILED_RESOURCE_COORDINATE, pResourceRegionSizes : *D3D12_TILE_REGION_SIZE, pHeap : *ID3D12Heap, NumRanges : u32, pRangeFlags : *D3D12_TILE_RANGE_FLAGS, pHeapRangeStartOffsets : *u32, pRangeTileCounts : *u32, Flags : D3D12_TILE_MAPPING_FLAGS) #cpp_method;
-    CopyTileMappings : (this : *ID3D12CommandQueue, pDstResource : *ID3D12Resource, pDstRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pSrcResource : *ID3D12Resource, pSrcRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pRegionSize : *D3D12_TILE_REGION_SIZE, Flags : D3D12_TILE_MAPPING_FLAGS) #cpp_method;
-    ExecuteCommandLists : (this : *ID3D12CommandQueue, NumCommandLists : u32, ppCommandLists : **ID3D12CommandList) #cpp_method;
-    SetMarker : (this : *ID3D12CommandQueue, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    BeginEvent : (this : *ID3D12CommandQueue, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    EndEvent : (this : *ID3D12CommandQueue) #cpp_method;
-    Signal : (this : *ID3D12CommandQueue, pFence : *ID3D12Fence, Value : u64) -> HRESULT #cpp_method;
-    Wait : (this : *ID3D12CommandQueue, pFence : *ID3D12Fence, Value : u64) -> HRESULT #cpp_method;
-    GetTimestampFrequency : (this : *ID3D12CommandQueue, pFrequency : *u64) -> HRESULT #cpp_method;
-    GetClockCalibration : (this : *ID3D12CommandQueue, pGpuTimestamp : *u64, pCpuTimestamp : *u64) -> HRESULT #cpp_method;
-    GetDesc : (this : *ID3D12CommandQueue) -> D3D12_COMMAND_QUEUE_DESC #cpp_method;
-}
-
 ID3D12CommandSignature_UUID :: "c36a797c-ec80-4f0a-8985-a7b2475082d1";
 ID3D12CommandSignature :: struct
 {
@@ -8922,12 +8891,6 @@ ID3D12CommandSignature :: struct
 
     #place base;
     vtable : *ID3D12CommandSignatureVTable;
-}
-
-ID3D12CommandSignatureVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
 }
 
 ID3D12Debug_UUID :: "344488b7-6846-474b-b989-f027448245e0";
@@ -8944,13 +8907,6 @@ ID3D12Debug :: struct
     {
         this.vtable.EnableDebugLayer (this);
     }
-}
-
-ID3D12DebugVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    EnableDebugLayer : (this : *ID3D12Debug) #cpp_method;
 }
 
 ID3D12Debug1_UUID :: "affaa4ca-63fe-4d8e-b8ad-159000af4304";
@@ -8979,15 +8935,6 @@ ID3D12Debug1 :: struct
     }
 }
 
-ID3D12Debug1VTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    EnableDebugLayer : (this : *ID3D12Debug1) #cpp_method;
-    SetEnableGPUBasedValidation : (this : *ID3D12Debug1, Enable : BOOL) #cpp_method;
-    SetEnableSynchronizedCommandQueueValidation : (this : *ID3D12Debug1, Enable : BOOL) #cpp_method;
-}
-
 ID3D12Debug2_UUID :: "93a665c4-a3b2-4e5d-b692-a26ae14e3374";
 ID3D12Debug2 :: struct
 {
@@ -9002,13 +8949,6 @@ ID3D12Debug2 :: struct
     {
         this.vtable.SetGPUBasedValidationFlags (this, Flags);
     }
-}
-
-ID3D12Debug2VTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetGPUBasedValidationFlags : (this : *ID3D12Debug2, Flags : D3D12_GPU_BASED_VALIDATION_FLAGS) #cpp_method;
 }
 
 ID3D12Debug3_UUID :: "5cf4e58f-f671-4ff1-a542-3686e3d153d1";
@@ -9037,15 +8977,6 @@ ID3D12Debug3 :: struct
     }
 }
 
-ID3D12Debug3VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DebugVTable;
-
-    SetEnableGPUBasedValidation : (this : *ID3D12Debug3, Enable : BOOL) #cpp_method;
-    SetEnableSynchronizedCommandQueueValidation : (this : *ID3D12Debug3, Enable : BOOL) #cpp_method;
-    SetGPUBasedValidationFlags : (this : *ID3D12Debug3, Flags : D3D12_GPU_BASED_VALIDATION_FLAGS) #cpp_method;
-}
-
 ID3D12Debug4_UUID :: "014b816e-9ec5-4a2f-a845-ffbe441ce13a";
 ID3D12Debug4 :: struct
 {
@@ -9062,13 +8993,6 @@ ID3D12Debug4 :: struct
     }
 }
 
-ID3D12Debug4VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Debug3VTable;
-
-    DisableDebugLayer : (this : *ID3D12Debug4) #cpp_method;
-}
-
 ID3D12Debug5_UUID :: "548d6b12-09fa-40e0-9069-5dcd589a52c9";
 ID3D12Debug5 :: struct
 {
@@ -9083,13 +9007,6 @@ ID3D12Debug5 :: struct
     {
         this.vtable.SetEnableAutoName (this, Enable);
     }
-}
-
-ID3D12Debug5VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Debug4VTable;
-
-    SetEnableAutoName : (this : *ID3D12Debug5, Enable : BOOL) #cpp_method;
 }
 
 ID3D12DebugCommandList_UUID :: "09e0bf36-54ac-484f-8847-4baeeab6053f";
@@ -9118,15 +9035,6 @@ ID3D12DebugCommandList :: struct
     }
 }
 
-ID3D12DebugCommandListVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    AssertResourceState : (this : *ID3D12DebugCommandList, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
-    SetFeatureMask : (this : *ID3D12DebugCommandList, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #cpp_method;
-    GetFeatureMask : (this : *ID3D12DebugCommandList) -> D3D12_DEBUG_FEATURE #cpp_method;
-}
-
 ID3D12DebugCommandList1_UUID :: "102ca951-311b-4b01-b11f-ecb83e061b37";
 ID3D12DebugCommandList1 :: struct
 {
@@ -9153,15 +9061,6 @@ ID3D12DebugCommandList1 :: struct
     }
 }
 
-ID3D12DebugCommandList1VTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    AssertResourceState : (this : *ID3D12DebugCommandList1, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
-    SetDebugParameter : (this : *ID3D12DebugCommandList1, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-    GetDebugParameter : (this : *ID3D12DebugCommandList1, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-}
-
 ID3D12DebugCommandList2_UUID :: "aeb575cf-4e06-48be-ba3b-c450fc96652e";
 ID3D12DebugCommandList2 :: struct
 {
@@ -9183,14 +9082,6 @@ ID3D12DebugCommandList2 :: struct
     }
 }
 
-ID3D12DebugCommandList2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DebugCommandListVTable;
-
-    SetDebugParameter : (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-    GetDebugParameter : (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-}
-
 ID3D12DebugCommandQueue_UUID :: "09e0bf36-54ac-484f-8847-4baeeab6053a";
 ID3D12DebugCommandQueue :: struct
 {
@@ -9205,13 +9096,6 @@ ID3D12DebugCommandQueue :: struct
     {
         return this.vtable.AssertResourceState (this, pResource, Subresource, State);
     }
-}
-
-ID3D12DebugCommandQueueVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    AssertResourceState : (this : *ID3D12DebugCommandQueue, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
 }
 
 ID3D12DebugDevice_UUID :: "3febd6dd-4973-4787-8194-e45f9e28923e";
@@ -9240,15 +9124,6 @@ ID3D12DebugDevice :: struct
     }
 }
 
-ID3D12DebugDeviceVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetFeatureMask : (this : *ID3D12DebugDevice, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #cpp_method;
-    GetFeatureMask : (this : *ID3D12DebugDevice) -> D3D12_DEBUG_FEATURE #cpp_method;
-    ReportLiveDeviceObjects : (this : *ID3D12DebugDevice, Flags : D3D12_RLDO_FLAGS) -> HRESULT #cpp_method;
-}
-
 ID3D12DebugDevice1_UUID :: "a9b71770-d099-4a65-a698-3dee10020f88";
 ID3D12DebugDevice1 :: struct
 {
@@ -9275,15 +9150,6 @@ ID3D12DebugDevice1 :: struct
     }
 }
 
-ID3D12DebugDevice1VTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetDebugParameter : (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-    GetDebugParameter : (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-    ReportLiveDeviceObjects : (this : *ID3D12DebugDevice1, Flags : D3D12_RLDO_FLAGS) -> HRESULT #cpp_method;
-}
-
 ID3D12DebugDevice2_UUID :: "60eccbc1-378d-4df1-894c-f8ac5ce4d7dd";
 ID3D12DebugDevice2 :: struct
 {
@@ -9303,14 +9169,6 @@ ID3D12DebugDevice2 :: struct
     {
         return this.vtable.GetDebugParameter (this, _Type, pData, DataSize);
     }
-}
-
-ID3D12DebugDevice2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DebugDeviceVTable;
-
-    SetDebugParameter : (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
-    GetDebugParameter : (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
 }
 
 ID3D12DescriptorHeap_UUID :: "8efb471d-616c-4f49-90f7-127bb763fa51";
@@ -9337,15 +9195,6 @@ ID3D12DescriptorHeap :: struct
     {
         return this.vtable.GetGPUDescriptorHandleForHeapStart (this);
     }
-}
-
-ID3D12DescriptorHeapVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12DescriptorHeap) -> D3D12_DESCRIPTOR_HEAP_DESC #cpp_method;
-    GetCPUDescriptorHandleForHeapStart : (this : *ID3D12DescriptorHeap) -> D3D12_CPU_DESCRIPTOR_HANDLE #cpp_method;
-    GetGPUDescriptorHandleForHeapStart : (this : *ID3D12DescriptorHeap) -> D3D12_GPU_DESCRIPTOR_HANDLE #cpp_method;
 }
 
 ID3D12Device_UUID :: "189819f1-1db6-4b57-be54-1821339b85f7";
@@ -9630,49 +9479,6 @@ ID3D12Device :: struct
     }
 }
 
-ID3D12DeviceVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12ObjectVTable;
-
-    GetNodeCount : (this : *ID3D12Device) -> u32 #cpp_method;
-    CreateCommandQueue : (this : *ID3D12Device, pDesc : *D3D12_COMMAND_QUEUE_DESC, riid : *GUID, ppCommandQueue : **void) -> HRESULT #cpp_method;
-    CreateCommandAllocator : (this : *ID3D12Device, type : D3D12_COMMAND_LIST_TYPE, riid : *GUID, ppCommandAllocator : **void) -> HRESULT #cpp_method;
-    CreateGraphicsPipelineState : (this : *ID3D12Device, pDesc : *D3D12_GRAPHICS_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
-    CreateComputePipelineState : (this : *ID3D12Device, pDesc : *D3D12_COMPUTE_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
-    CreateCommandList : (this : *ID3D12Device, nodeMask : u32, type : D3D12_COMMAND_LIST_TYPE, pCommandAllocator : *ID3D12CommandAllocator, pInitialState : *ID3D12PipelineState, riid : *GUID, ppCommandList : **void) -> HRESULT #cpp_method;
-    CheckFeatureSupport : (this : *ID3D12Device, Feature : D3D12_FEATURE, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #cpp_method;
-    CreateDescriptorHeap : (this : *ID3D12Device, pDescriptorHeapDesc : *D3D12_DESCRIPTOR_HEAP_DESC, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
-    GetDescriptorHandleIncrementSize : (this : *ID3D12Device, DescriptorHeapType : D3D12_DESCRIPTOR_HEAP_TYPE) -> u32 #cpp_method;
-    CreateRootSignature : (this : *ID3D12Device, nodeMask : u32, pBlobWithRootSignature : *void, blobLengthInBytes : u64, riid : *GUID, ppvRootSignature : **void) -> HRESULT #cpp_method;
-    CreateConstantBufferView : (this : *ID3D12Device, pDesc : *D3D12_CONSTANT_BUFFER_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    CreateShaderResourceView : (this : *ID3D12Device, pResource : *ID3D12Resource, pDesc : *D3D12_SHADER_RESOURCE_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    CreateUnorderedAccessView : (this : *ID3D12Device, pResource : *ID3D12Resource, pCounterResource : *ID3D12Resource, pDesc : *D3D12_UNORDERED_ACCESS_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    CreateRenderTargetView : (this : *ID3D12Device, pResource : *ID3D12Resource, pDesc : *D3D12_RENDER_TARGET_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    CreateDepthStencilView : (this : *ID3D12Device, pResource : *ID3D12Resource, pDesc : *D3D12_DEPTH_STENCIL_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    CreateSampler : (this : *ID3D12Device, pDesc : *D3D12_SAMPLER_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    CopyDescriptors : (this : *ID3D12Device, NumDestDescriptorRanges : u32, pDestDescriptorRangeStarts : *D3D12_CPU_DESCRIPTOR_HANDLE, pDestDescriptorRangeSizes : *u32, NumSrcDescriptorRanges : u32, pSrcDescriptorRangeStarts : *D3D12_CPU_DESCRIPTOR_HANDLE, pSrcDescriptorRangeSizes : *u32, DescriptorHeapsType : D3D12_DESCRIPTOR_HEAP_TYPE) #cpp_method;
-    CopyDescriptorsSimple : (this : *ID3D12Device, NumDescriptors : u32, DestDescriptorRangeStart : D3D12_CPU_DESCRIPTOR_HANDLE, SrcDescriptorRangeStart : D3D12_CPU_DESCRIPTOR_HANDLE, DescriptorHeapsType : D3D12_DESCRIPTOR_HEAP_TYPE) #cpp_method;
-    GetResourceAllocationInfo : (this : *ID3D12Device, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
-    GetCustomHeapProperties : (this : *ID3D12Device, nodeMask : u32, heapType : D3D12_HEAP_TYPE) -> D3D12_HEAP_PROPERTIES #cpp_method;
-    CreateCommittedResource : (this : *ID3D12Device, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    CreateHeap : (this : *ID3D12Device, pDesc : *D3D12_HEAP_DESC, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
-    CreatePlacedResource : (this : *ID3D12Device, pHeap : *ID3D12Heap, HeapOffset : u64, pDesc : *D3D12_RESOURCE_DESC, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    CreateReservedResource : (this : *ID3D12Device, pDesc : *D3D12_RESOURCE_DESC, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    CreateSharedHandle : (this : *ID3D12Device, pObject : *ID3D12DeviceChild, pAttributes : *SECURITY_ATTRIBUTES, Access : u32, Name : PWSTR, pHandle : *HANDLE) -> HRESULT #cpp_method;
-    OpenSharedHandle : (this : *ID3D12Device, NTHandle : HANDLE, riid : *GUID, ppvObj : **void) -> HRESULT #cpp_method;
-    OpenSharedHandleByName : (this : *ID3D12Device, Name : PWSTR, Access : u32, pNTHandle : *HANDLE) -> HRESULT #cpp_method;
-    MakeResident : (this : *ID3D12Device, NumObjects : u32, ppObjects : **ID3D12Pageable) -> HRESULT #cpp_method;
-    Evict : (this : *ID3D12Device, NumObjects : u32, ppObjects : **ID3D12Pageable) -> HRESULT #cpp_method;
-    CreateFence : (this : *ID3D12Device, InitialValue : u64, Flags : D3D12_FENCE_FLAGS, riid : *GUID, ppFence : **void) -> HRESULT #cpp_method;
-    GetDeviceRemovedReason : (this : *ID3D12Device) -> HRESULT #cpp_method;
-    GetCopyableFootprints : (this : *ID3D12Device, pResourceDesc : *D3D12_RESOURCE_DESC, FirstSubresource : u32, NumSubresources : u32, BaseOffset : u64, pLayouts : *D3D12_PLACED_SUBRESOURCE_FOOTPRINT, pNumRows : *u32, pRowSizeInBytes : *u64, pTotalBytes : *u64) #cpp_method;
-    CreateQueryHeap : (this : *ID3D12Device, pDesc : *D3D12_QUERY_HEAP_DESC, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
-    SetStablePowerState : (this : *ID3D12Device, Enable : BOOL) -> HRESULT #cpp_method;
-    CreateCommandSignature : (this : *ID3D12Device, pDesc : *D3D12_COMMAND_SIGNATURE_DESC, pRootSignature : *ID3D12RootSignature, riid : *GUID, ppvCommandSignature : **void) -> HRESULT #cpp_method;
-    GetResourceTiling : (this : *ID3D12Device, pTiledResource : *ID3D12Resource, pNumTilesForEntireResource : *u32, pPackedMipDesc : *D3D12_PACKED_MIP_INFO, pStandardTileShapeForNonPackedMips : *D3D12_TILE_SHAPE, pNumSubresourceTilings : *u32, FirstSubresourceTilingToGet : u32, pSubresourceTilingsForNonPackedMips : *D3D12_SUBRESOURCE_TILING) #cpp_method;
-    GetAdapterLuid : (this : *ID3D12Device) -> LUID #cpp_method;
-}
-
 ID3D12Device1_UUID :: "77acce80-638e-4e65-8895-c1f23386863e";
 ID3D12Device1 :: struct
 {
@@ -9710,15 +9516,6 @@ ID3D12Device1 :: struct
     }
 }
 
-ID3D12Device1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceVTable;
-
-    CreatePipelineLibrary : (this : *ID3D12Device1, pLibraryBlob : *void, BlobLength : u64, riid : *GUID, ppPipelineLibrary : **void) -> HRESULT #cpp_method;
-    SetEventOnMultipleFenceCompletion : (this : *ID3D12Device1, ppFences : **ID3D12Fence, pFenceValues : *u64, NumFences : u32, Flags : D3D12_MULTIPLE_FENCE_WAIT_FLAGS, hEvent : HANDLE) -> HRESULT #cpp_method;
-    SetResidencyPriority : (this : *ID3D12Device1, NumObjects : u32, ppObjects : **ID3D12Pageable, pPriorities : *D3D12_RESIDENCY_PRIORITY) -> HRESULT #cpp_method;
-}
-
 ID3D12Device2_UUID :: "30baa41e-b15b-475c-a0bb-1af5c5b64328";
 ID3D12Device2 :: struct
 {
@@ -9733,13 +9530,6 @@ ID3D12Device2 :: struct
     {
         return this.vtable.CreatePipelineState (this, pDesc, riid, ppPipelineState);
     }
-}
-
-ID3D12Device2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device1VTable;
-
-    CreatePipelineState : (this : *ID3D12Device2, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12Device3_UUID :: "81dadc15-2bad-4392-93c5-101345c4aa98";
@@ -9772,15 +9562,6 @@ ID3D12Device3 :: struct
     {
         return this.vtable.EnqueueMakeResident (this, Flags, NumObjects, ppObjects, pFenceToSignal, FenceValueToSignal);
     }
-}
-
-ID3D12Device3VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device2VTable;
-
-    OpenExistingHeapFromAddress : (this : *ID3D12Device3, pAddress : *void, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
-    OpenExistingHeapFromFileMapping : (this : *ID3D12Device3, hFileMapping : HANDLE, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
-    EnqueueMakeResident : (this : *ID3D12Device3, Flags : D3D12_RESIDENCY_FLAGS, NumObjects : u32, ppObjects : **ID3D12Pageable, pFenceToSignal : *ID3D12Fence, FenceValueToSignal : u64) -> HRESULT #cpp_method;
 }
 
 ID3D12Device4_UUID :: "e865df17-a9ee-46f9-a463-3098315aa2e5";
@@ -9856,18 +9637,6 @@ ID3D12Device4 :: struct
     }
 }
 
-ID3D12Device4VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device3VTable;
-
-    CreateCommandList1 : (this : *ID3D12Device4, nodeMask : u32, type : D3D12_COMMAND_LIST_TYPE, flags : D3D12_COMMAND_LIST_FLAGS, riid : *GUID, ppCommandList : **void) -> HRESULT #cpp_method;
-    CreateProtectedResourceSession : (this : *ID3D12Device4, pDesc : *D3D12_PROTECTED_RESOURCE_SESSION_DESC, riid : *GUID, ppSession : **void) -> HRESULT #cpp_method;
-    CreateCommittedResource1 : (this : *ID3D12Device4, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    CreateHeap1 : (this : *ID3D12Device4, pDesc : *D3D12_HEAP_DESC, pProtectedSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
-    CreateReservedResource1 : (this : *ID3D12Device4, pDesc : *D3D12_RESOURCE_DESC, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    GetResourceAllocationInfo1 : (this : *ID3D12Device4, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC, pResourceAllocationInfo1 : *D3D12_RESOURCE_ALLOCATION_INFO1) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
-}
-
 ID3D12Device5_UUID :: "8b4f173b-2fea-4b80-8f58-4307191ab95d";
 ID3D12Device5 :: struct
 {
@@ -9932,20 +9701,6 @@ ID3D12Device5 :: struct
     }
 }
 
-ID3D12Device5VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device4VTable;
-
-    CreateLifetimeTracker : (this : *ID3D12Device5, pOwner : *ID3D12LifetimeOwner, riid : *GUID, ppvTracker : **void) -> HRESULT #cpp_method;
-    RemoveDevice : (this : *ID3D12Device5) #cpp_method;
-    EnumerateMetaCommands : (this : *ID3D12Device5, pNumMetaCommands : *u32, pDescs : *D3D12_META_COMMAND_DESC) -> HRESULT #cpp_method;
-    EnumerateMetaCommandParameters : (this : *ID3D12Device5, CommandId : *GUID, Stage : D3D12_META_COMMAND_PARAMETER_STAGE, pTotalStructureSizeInBytes : *u32, pParameterCount : *u32, pParameterDescs : *D3D12_META_COMMAND_PARAMETER_DESC) -> HRESULT #cpp_method;
-    CreateMetaCommand : (this : *ID3D12Device5, CommandId : *GUID, NodeMask : u32, pCreationParametersData : *void, CreationParametersDataSizeInBytes : u64, riid : *GUID, ppMetaCommand : **void) -> HRESULT #cpp_method;
-    CreateStateObject : (this : *ID3D12Device5, pDesc : *D3D12_STATE_OBJECT_DESC, riid : *GUID, ppStateObject : **void) -> HRESULT #cpp_method;
-    GetRaytracingAccelerationStructurePrebuildInfo : (this : *ID3D12Device5, pDesc : *D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS, pInfo : *D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO) #cpp_method;
-    CheckDriverMatchingIdentifier : (this : *ID3D12Device5, SerializedDataType : D3D12_SERIALIZED_DATA_TYPE, pIdentifierToCheck : *D3D12_SERIALIZED_DATA_DRIVER_MATCHING_IDENTIFIER) -> D3D12_DRIVER_MATCHING_IDENTIFIER_STATUS #cpp_method;
-}
-
 ID3D12Device6_UUID :: "c70b221b-40e4-4a17-89af-025a0727a6dc";
 ID3D12Device6 :: struct
 {
@@ -9965,13 +9720,6 @@ ID3D12Device6 :: struct
     {
         return this.vtable.SetBackgroundProcessingMode (this, Mode, MeasurementsAction, hEventToSignalUponCompletion, pbFurtherMeasurementsDesired);
     }
-}
-
-ID3D12Device6VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device5VTable;
-
-    SetBackgroundProcessingMode : (this : *ID3D12Device6, Mode : D3D12_BACKGROUND_PROCESSING_MODE, MeasurementsAction : D3D12_MEASUREMENTS_ACTION, hEventToSignalUponCompletion : HANDLE, pbFurtherMeasurementsDesired : *BOOL) -> HRESULT #cpp_method;
 }
 
 ID3D12Device7_UUID :: "5c014b53-68a1-4b9b-8bd1-dd6046b9358b";
@@ -9998,14 +9746,6 @@ ID3D12Device7 :: struct
     {
         return this.vtable.CreateProtectedResourceSession1 (this, pDesc, riid, ppSession);
     }
-}
-
-ID3D12Device7VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device6VTable;
-
-    AddToStateObject : (this : *ID3D12Device7, pAddition : *D3D12_STATE_OBJECT_DESC, pStateObjectToGrowFrom : *ID3D12StateObject, riid : *GUID, ppNewStateObject : **void) -> HRESULT #cpp_method;
-    CreateProtectedResourceSession1 : (this : *ID3D12Device7, pDesc : *D3D12_PROTECTED_RESOURCE_SESSION_DESC1, riid : *GUID, ppSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12Device8_UUID :: "9218e6bb-f944-4f7e-a75c-b1b2c7b701f3";
@@ -10075,17 +9815,6 @@ ID3D12Device8 :: struct
     }
 }
 
-ID3D12Device8VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device7VTable;
-
-    GetResourceAllocationInfo2 : (this : *ID3D12Device8, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC1, pResourceAllocationInfo1 : *D3D12_RESOURCE_ALLOCATION_INFO1) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
-    CreateCommittedResource2 : (this : *ID3D12Device8, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC1, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    CreatePlacedResource1 : (this : *ID3D12Device8, pHeap : *ID3D12Heap, HeapOffset : u64, pDesc : *D3D12_RESOURCE_DESC1, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
-    CreateSamplerFeedbackUnorderedAccessView : (this : *ID3D12Device8, pTargetedResource : *ID3D12Resource, pFeedbackResource : *ID3D12Resource, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    GetCopyableFootprints1 : (this : *ID3D12Device8, pResourceDesc : *D3D12_RESOURCE_DESC1, FirstSubresource : u32, NumSubresources : u32, BaseOffset : u64, pLayouts : *D3D12_PLACED_SUBRESOURCE_FOOTPRINT, pNumRows : *u32, pRowSizeInBytes : *u64, pTotalBytes : *u64) #cpp_method;
-}
-
 ID3D12Device9_UUID :: "4c80e962-f032-4f60-bc9e-ebc2cfa1d83c";
 ID3D12Device9 :: struct
 {
@@ -10117,15 +9846,6 @@ ID3D12Device9 :: struct
     }
 }
 
-ID3D12Device9VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Device8VTable;
-
-    CreateShaderCacheSession : (this : *ID3D12Device9, pDesc : *D3D12_SHADER_CACHE_SESSION_DESC, riid : *GUID, ppvSession : **void) -> HRESULT #cpp_method;
-    ShaderCacheControl : (this : *ID3D12Device9, Kinds : D3D12_SHADER_CACHE_KIND_FLAGS, Control : D3D12_SHADER_CACHE_CONTROL_FLAGS) -> HRESULT #cpp_method;
-    CreateCommandQueue1 : (this : *ID3D12Device9, pDesc : *D3D12_COMMAND_QUEUE_DESC, CreatorID : *GUID, riid : *GUID, ppCommandQueue : **void) -> HRESULT #cpp_method;
-}
-
 ID3D12DeviceChild_UUID :: "905db94b-a00c-4140-9df5-2b64ca9ea357";
 ID3D12DeviceChild :: struct
 {
@@ -10140,13 +9860,6 @@ ID3D12DeviceChild :: struct
     {
         return this.vtable.GetDevice (this, riid, ppvDevice);
     }
-}
-
-ID3D12DeviceChildVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12ObjectVTable;
-
-    GetDevice : (this : *ID3D12DeviceChild, riid : *GUID, ppvDevice : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12DeviceRemovedExtendedData_UUID :: "98931d33-5ae8-4791-aa3c-1a73a2934e71";
@@ -10170,14 +9883,6 @@ ID3D12DeviceRemovedExtendedData :: struct
     }
 }
 
-ID3D12DeviceRemovedExtendedDataVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetAutoBreadcrumbsOutput : (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT) -> HRESULT #cpp_method;
-    GetPageFaultAllocationOutput : (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT) -> HRESULT #cpp_method;
-}
-
 ID3D12DeviceRemovedExtendedData1_UUID :: "9727a022-cf1d-4dda-9eba-effa653fc506";
 ID3D12DeviceRemovedExtendedData1 :: struct
 {
@@ -10199,14 +9904,6 @@ ID3D12DeviceRemovedExtendedData1 :: struct
     }
 }
 
-ID3D12DeviceRemovedExtendedData1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedDataVTable;
-
-    GetAutoBreadcrumbsOutput1 : (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1) -> HRESULT #cpp_method;
-    GetPageFaultAllocationOutput1 : (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT1) -> HRESULT #cpp_method;
-}
-
 ID3D12DeviceRemovedExtendedData2_UUID :: "67fc5816-e4ca-4915-bf18-42541272da54";
 ID3D12DeviceRemovedExtendedData2 :: struct
 {
@@ -10226,14 +9923,6 @@ ID3D12DeviceRemovedExtendedData2 :: struct
     {
         return this.vtable.GetDeviceState (this);
     }
-}
-
-ID3D12DeviceRemovedExtendedData2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedData1VTable;
-
-    GetPageFaultAllocationOutput2 : (this : *ID3D12DeviceRemovedExtendedData2, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT2) -> HRESULT #cpp_method;
-    GetDeviceState : (this : *ID3D12DeviceRemovedExtendedData2) -> D3D12_DRED_DEVICE_STATE #cpp_method;
 }
 
 ID3D12DeviceRemovedExtendedDataSettings_UUID :: "82bc481c-6b9b-4030-aedb-7ee3d1df1e63";
@@ -10262,15 +9951,6 @@ ID3D12DeviceRemovedExtendedDataSettings :: struct
     }
 }
 
-ID3D12DeviceRemovedExtendedDataSettingsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetAutoBreadcrumbsEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
-    SetPageFaultEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
-    SetWatsonDumpEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
-}
-
 ID3D12DeviceRemovedExtendedDataSettings1_UUID :: "dbd5ae51-3317-4f0a-adf9-1d7cedcaae0b";
 ID3D12DeviceRemovedExtendedDataSettings1 :: struct
 {
@@ -10285,13 +9965,6 @@ ID3D12DeviceRemovedExtendedDataSettings1 :: struct
     {
         this.vtable.SetBreadcrumbContextEnablement (this, Enablement);
     }
-}
-
-ID3D12DeviceRemovedExtendedDataSettings1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedDataSettingsVTable;
-
-    SetBreadcrumbContextEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings1, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
 }
 
 ID3D12Fence_UUID :: "0a753dcf-c4d8-4b91-adf6-be5a60d95a76";
@@ -10320,15 +9993,6 @@ ID3D12Fence :: struct
     }
 }
 
-ID3D12FenceVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetCompletedValue : (this : *ID3D12Fence) -> u64 #cpp_method;
-    SetEventOnCompletion : (this : *ID3D12Fence, Value : u64, hEvent : HANDLE) -> HRESULT #cpp_method;
-    Signal : (this : *ID3D12Fence, Value : u64) -> HRESULT #cpp_method;
-}
-
 ID3D12Fence1_UUID :: "433685fe-e22b-4ca0-a8db-b5b4f4dd0e4a";
 ID3D12Fence1 :: struct
 {
@@ -10345,13 +10009,6 @@ ID3D12Fence1 :: struct
     }
 }
 
-ID3D12Fence1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12FenceVTable;
-
-    GetCreationFlags : (this : *ID3D12Fence1) -> D3D12_FENCE_FLAGS #cpp_method;
-}
-
 ID3D12FunctionParameterReflection_UUID :: "ec25f42d-7006-4f2b-b33e-02cc3375733f";
 ID3D12FunctionParameterReflection :: struct
 {
@@ -10363,11 +10020,6 @@ ID3D12FunctionParameterReflection :: struct
     {
         return this.vtable.GetDesc (this, pDesc);
     }
-}
-
-ID3D12FunctionParameterReflectionVTable :: struct
-{
-    GetDesc : (this : *ID3D12FunctionParameterReflection, pDesc : *D3D12_PARAMETER_DESC) -> HRESULT #cpp_method;
 }
 
 ID3D12FunctionReflection_UUID :: "1108795c-2772-4ba9-b2a8-d464dc7e2799";
@@ -10411,17 +10063,6 @@ ID3D12FunctionReflection :: struct
     {
         return this.vtable.GetFunctionParameter (this, ParameterIndex);
     }
-}
-
-ID3D12FunctionReflectionVTable :: struct
-{
-    GetDesc : (this : *ID3D12FunctionReflection, pDesc : *D3D12_FUNCTION_DESC) -> HRESULT #cpp_method;
-    GetConstantBufferByIndex : (this : *ID3D12FunctionReflection, BufferIndex : u32) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
-    GetConstantBufferByName : (this : *ID3D12FunctionReflection, Name : PSTR) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
-    GetResourceBindingDesc : (this : *ID3D12FunctionReflection, ResourceIndex : u32, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
-    GetVariableByName : (this : *ID3D12FunctionReflection, Name : PSTR) -> *ID3D12ShaderReflectionVariable #cpp_method;
-    GetResourceBindingDescByName : (this : *ID3D12FunctionReflection, Name : PSTR, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
-    GetFunctionParameter : (this : *ID3D12FunctionReflection, ParameterIndex : s32) -> *ID3D12FunctionParameterReflection #cpp_method;
 }
 
 ID3D12GraphicsCommandList_UUID :: "5b160d0f-ac1b-4185-8ba8-b3ae42a5a455";
@@ -10782,63 +10423,6 @@ ID3D12GraphicsCommandList :: struct
     }
 }
 
-ID3D12GraphicsCommandListVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
-
-    Close : (this : *ID3D12GraphicsCommandList) -> HRESULT #cpp_method;
-    Reset : (this : *ID3D12GraphicsCommandList, pAllocator : *ID3D12CommandAllocator, pInitialState : *ID3D12PipelineState) -> HRESULT #cpp_method;
-    ClearState : (this : *ID3D12GraphicsCommandList, pPipelineState : *ID3D12PipelineState) #cpp_method;
-    DrawInstanced : (this : *ID3D12GraphicsCommandList, VertexCountPerInstance : u32, InstanceCount : u32, StartVertexLocation : u32, StartInstanceLocation : u32) #cpp_method;
-    DrawIndexedInstanced : (this : *ID3D12GraphicsCommandList, IndexCountPerInstance : u32, InstanceCount : u32, StartIndexLocation : u32, BaseVertexLocation : s32, StartInstanceLocation : u32) #cpp_method;
-    Dispatch : (this : *ID3D12GraphicsCommandList, ThreadGroupCountX : u32, ThreadGroupCountY : u32, ThreadGroupCountZ : u32) #cpp_method;
-    CopyBufferRegion : (this : *ID3D12GraphicsCommandList, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, NumBytes : u64) #cpp_method;
-    CopyTextureRegion : (this : *ID3D12GraphicsCommandList, pDst : *D3D12_TEXTURE_COPY_LOCATION, DstX : u32, DstY : u32, DstZ : u32, pSrc : *D3D12_TEXTURE_COPY_LOCATION, pSrcBox : *D3D12_BOX) #cpp_method;
-    CopyResource : (this : *ID3D12GraphicsCommandList, pDstResource : *ID3D12Resource, pSrcResource : *ID3D12Resource) #cpp_method;
-    CopyTiles : (this : *ID3D12GraphicsCommandList, pTiledResource : *ID3D12Resource, pTileRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pTileRegionSize : *D3D12_TILE_REGION_SIZE, pBuffer : *ID3D12Resource, BufferStartOffsetInBytes : u64, Flags : D3D12_TILE_COPY_FLAGS) #cpp_method;
-    ResolveSubresource : (this : *ID3D12GraphicsCommandList, pDstResource : *ID3D12Resource, DstSubresource : u32, pSrcResource : *ID3D12Resource, SrcSubresource : u32, Format : DXGI_FORMAT) #cpp_method;
-    IASetPrimitiveTopology : (this : *ID3D12GraphicsCommandList, PrimitiveTopology : D3D_PRIMITIVE_TOPOLOGY) #cpp_method;
-    RSSetViewports : (this : *ID3D12GraphicsCommandList, NumViewports : u32, pViewports : *D3D12_VIEWPORT) #cpp_method;
-    RSSetScissorRects : (this : *ID3D12GraphicsCommandList, NumRects : u32, pRects : *RECT) #cpp_method;
-    OMSetBlendFactor : (this : *ID3D12GraphicsCommandList, BlendFactor : *[4]float) #cpp_method;
-    OMSetStencilRef : (this : *ID3D12GraphicsCommandList, StencilRef : u32) #cpp_method;
-    SetPipelineState : (this : *ID3D12GraphicsCommandList, pPipelineState : *ID3D12PipelineState) #cpp_method;
-    ResourceBarrier : (this : *ID3D12GraphicsCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
-    ExecuteBundle : (this : *ID3D12GraphicsCommandList, pCommandList : *ID3D12GraphicsCommandList) #cpp_method;
-    SetDescriptorHeaps : (this : *ID3D12GraphicsCommandList, NumDescriptorHeaps : u32, ppDescriptorHeaps : **ID3D12DescriptorHeap) #cpp_method;
-    SetComputeRootSignature : (this : *ID3D12GraphicsCommandList, pRootSignature : *ID3D12RootSignature) #cpp_method;
-    SetGraphicsRootSignature : (this : *ID3D12GraphicsCommandList, pRootSignature : *ID3D12RootSignature) #cpp_method;
-    SetComputeRootDescriptorTable : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BaseDescriptor : D3D12_GPU_DESCRIPTOR_HANDLE) #cpp_method;
-    SetGraphicsRootDescriptorTable : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BaseDescriptor : D3D12_GPU_DESCRIPTOR_HANDLE) #cpp_method;
-    SetComputeRoot32BitConstant : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, SrcData : u32, DestOffsetIn32BitValues : u32) #cpp_method;
-    SetGraphicsRoot32BitConstant : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, SrcData : u32, DestOffsetIn32BitValues : u32) #cpp_method;
-    SetComputeRoot32BitConstants : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, Num32BitValuesToSet : u32, pSrcData : *void, DestOffsetIn32BitValues : u32) #cpp_method;
-    SetGraphicsRoot32BitConstants : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, Num32BitValuesToSet : u32, pSrcData : *void, DestOffsetIn32BitValues : u32) #cpp_method;
-    SetComputeRootConstantBufferView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
-    SetGraphicsRootConstantBufferView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
-    SetComputeRootShaderResourceView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
-    SetGraphicsRootShaderResourceView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
-    SetComputeRootUnorderedAccessView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
-    SetGraphicsRootUnorderedAccessView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
-    IASetIndexBuffer : (this : *ID3D12GraphicsCommandList, pView : *D3D12_INDEX_BUFFER_VIEW) #cpp_method;
-    IASetVertexBuffers : (this : *ID3D12GraphicsCommandList, StartSlot : u32, NumViews : u32, pViews : *D3D12_VERTEX_BUFFER_VIEW) #cpp_method;
-    SOSetTargets : (this : *ID3D12GraphicsCommandList, StartSlot : u32, NumViews : u32, pViews : *D3D12_STREAM_OUTPUT_BUFFER_VIEW) #cpp_method;
-    OMSetRenderTargets : (this : *ID3D12GraphicsCommandList, NumRenderTargetDescriptors : u32, pRenderTargetDescriptors : *D3D12_CPU_DESCRIPTOR_HANDLE, RTsSingleHandleToDescriptorRange : BOOL, pDepthStencilDescriptor : *D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
-    ClearDepthStencilView : (this : *ID3D12GraphicsCommandList, DepthStencilView : D3D12_CPU_DESCRIPTOR_HANDLE, ClearFlags : D3D12_CLEAR_FLAGS, Depth : float, Stencil : u8, NumRects : u32, pRects : *RECT) #cpp_method;
-    ClearRenderTargetView : (this : *ID3D12GraphicsCommandList, RenderTargetView : D3D12_CPU_DESCRIPTOR_HANDLE, ColorRGBA : *float, NumRects : u32, pRects : *RECT) #cpp_method;
-    ClearUnorderedAccessViewUint : (this : *ID3D12GraphicsCommandList, ViewGPUHandleInCurrentHeap : D3D12_GPU_DESCRIPTOR_HANDLE, ViewCPUHandle : D3D12_CPU_DESCRIPTOR_HANDLE, pResource : *ID3D12Resource, Values : *u32, NumRects : u32, pRects : *RECT) #cpp_method;
-    ClearUnorderedAccessViewFloat : (this : *ID3D12GraphicsCommandList, ViewGPUHandleInCurrentHeap : D3D12_GPU_DESCRIPTOR_HANDLE, ViewCPUHandle : D3D12_CPU_DESCRIPTOR_HANDLE, pResource : *ID3D12Resource, Values : *float, NumRects : u32, pRects : *RECT) #cpp_method;
-    DiscardResource : (this : *ID3D12GraphicsCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
-    BeginQuery : (this : *ID3D12GraphicsCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    EndQuery : (this : *ID3D12GraphicsCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    ResolveQueryData : (this : *ID3D12GraphicsCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
-    SetPredication : (this : *ID3D12GraphicsCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
-    SetMarker : (this : *ID3D12GraphicsCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    BeginEvent : (this : *ID3D12GraphicsCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    EndEvent : (this : *ID3D12GraphicsCommandList) #cpp_method;
-    ExecuteIndirect : (this : *ID3D12GraphicsCommandList, pCommandSignature : *ID3D12CommandSignature, MaxCommandCount : u32, pArgumentBuffer : *ID3D12Resource, ArgumentBufferOffset : u64, pCountBuffer : *ID3D12Resource, CountBufferOffset : u64) #cpp_method;
-}
-
 ID3D12GraphicsCommandList1_UUID :: "553103fb-1fe7-4557-bb38-946d7d0e7ca7";
 ID3D12GraphicsCommandList1 :: struct
 {
@@ -10906,18 +10490,6 @@ ID3D12GraphicsCommandList1 :: struct
     }
 }
 
-ID3D12GraphicsCommandList1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandListVTable;
-
-    AtomicCopyBufferUINT : (this : *ID3D12GraphicsCommandList1, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, Dependencies : u32, ppDependentResources : **ID3D12Resource, pDependentSubresourceRanges : *D3D12_SUBRESOURCE_RANGE_UINT64) #cpp_method;
-    AtomicCopyBufferUINT64 : (this : *ID3D12GraphicsCommandList1, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, Dependencies : u32, ppDependentResources : **ID3D12Resource, pDependentSubresourceRanges : *D3D12_SUBRESOURCE_RANGE_UINT64) #cpp_method;
-    OMSetDepthBounds : (this : *ID3D12GraphicsCommandList1, Min : float, Max : float) #cpp_method;
-    SetSamplePositions : (this : *ID3D12GraphicsCommandList1, NumSamplesPerPixel : u32, NumPixels : u32, pSamplePositions : *D3D12_SAMPLE_POSITION) #cpp_method;
-    ResolveSubresourceRegion : (this : *ID3D12GraphicsCommandList1, pDstResource : *ID3D12Resource, DstSubresource : u32, DstX : u32, DstY : u32, pSrcResource : *ID3D12Resource, SrcSubresource : u32, pSrcRect : *RECT, Format : DXGI_FORMAT, ResolveMode : D3D12_RESOLVE_MODE) #cpp_method;
-    SetViewInstanceMask : (this : *ID3D12GraphicsCommandList1, Mask : u32) #cpp_method;
-}
-
 ID3D12GraphicsCommandList2_UUID :: "38c3e585-ff17-412c-9150-4fc6f9d72a28";
 ID3D12GraphicsCommandList2 :: struct
 {
@@ -10934,13 +10506,6 @@ ID3D12GraphicsCommandList2 :: struct
     }
 }
 
-ID3D12GraphicsCommandList2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList1VTable;
-
-    WriteBufferImmediate : (this : *ID3D12GraphicsCommandList2, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
-}
-
 ID3D12GraphicsCommandList3_UUID :: "6fda83a7-b84c-4e38-9ac8-c7bd22016b3d";
 ID3D12GraphicsCommandList3 :: struct
 {
@@ -10955,13 +10520,6 @@ ID3D12GraphicsCommandList3 :: struct
     {
         this.vtable.SetProtectedResourceSession (this, pProtectedResourceSession);
     }
-}
-
-ID3D12GraphicsCommandList3VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList2VTable;
-
-    SetProtectedResourceSession : (this : *ID3D12GraphicsCommandList3, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
 }
 
 ID3D12GraphicsCommandList4_UUID :: "8754318e-d3a9-4541-98cf-645b50dc4874";
@@ -11025,21 +10583,6 @@ ID3D12GraphicsCommandList4 :: struct
     }
 }
 
-ID3D12GraphicsCommandList4VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList3VTable;
-
-    BeginRenderPass : (this : *ID3D12GraphicsCommandList4, NumRenderTargets : u32, pRenderTargets : *D3D12_RENDER_PASS_RENDER_TARGET_DESC, pDepthStencil : *D3D12_RENDER_PASS_DEPTH_STENCIL_DESC, Flags : D3D12_RENDER_PASS_FLAGS) #cpp_method;
-    EndRenderPass : (this : *ID3D12GraphicsCommandList4) #cpp_method;
-    InitializeMetaCommand : (this : *ID3D12GraphicsCommandList4, pMetaCommand : *ID3D12MetaCommand, pInitializationParametersData : *void, InitializationParametersDataSizeInBytes : u64) #cpp_method;
-    ExecuteMetaCommand : (this : *ID3D12GraphicsCommandList4, pMetaCommand : *ID3D12MetaCommand, pExecutionParametersData : *void, ExecutionParametersDataSizeInBytes : u64) #cpp_method;
-    BuildRaytracingAccelerationStructure : (this : *ID3D12GraphicsCommandList4, pDesc : *D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC, NumPostbuildInfoDescs : u32, pPostbuildInfoDescs : *D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC) #cpp_method;
-    EmitRaytracingAccelerationStructurePostbuildInfo : (this : *ID3D12GraphicsCommandList4, pDesc : *D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC, NumSourceAccelerationStructures : u32, pSourceAccelerationStructureData : *u64) #cpp_method;
-    CopyRaytracingAccelerationStructure : (this : *ID3D12GraphicsCommandList4, DestAccelerationStructureData : u64, SourceAccelerationStructureData : u64, Mode : D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE) #cpp_method;
-    SetPipelineState1 : (this : *ID3D12GraphicsCommandList4, pStateObject : *ID3D12StateObject) #cpp_method;
-    DispatchRays : (this : *ID3D12GraphicsCommandList4, pDesc : *D3D12_DISPATCH_RAYS_DESC) #cpp_method;
-}
-
 ID3D12GraphicsCommandList5_UUID :: "55050859-4024-474c-87f5-6472eaee44ea";
 ID3D12GraphicsCommandList5 :: struct
 {
@@ -11061,14 +10604,6 @@ ID3D12GraphicsCommandList5 :: struct
     }
 }
 
-ID3D12GraphicsCommandList5VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList4VTable;
-
-    RSSetShadingRate : (this : *ID3D12GraphicsCommandList5, baseShadingRate : D3D12_SHADING_RATE, combiners : *D3D12_SHADING_RATE_COMBINER) #cpp_method;
-    RSSetShadingRateImage : (this : *ID3D12GraphicsCommandList5, shadingRateImage : *ID3D12Resource) #cpp_method;
-}
-
 ID3D12GraphicsCommandList6_UUID :: "c3827890-e548-4cfa-96cf-5689a9370f80";
 ID3D12GraphicsCommandList6 :: struct
 {
@@ -11083,13 +10618,6 @@ ID3D12GraphicsCommandList6 :: struct
     {
         this.vtable.DispatchMesh (this, ThreadGroupCountX, ThreadGroupCountY, ThreadGroupCountZ);
     }
-}
-
-ID3D12GraphicsCommandList6VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList5VTable;
-
-    DispatchMesh : (this : *ID3D12GraphicsCommandList6, ThreadGroupCountX : u32, ThreadGroupCountY : u32, ThreadGroupCountZ : u32) #cpp_method;
 }
 
 ID3D12Heap_UUID :: "6b3b2502-6e51-45b3-90ee-9884265e8df3";
@@ -11108,13 +10636,6 @@ ID3D12Heap :: struct
     }
 }
 
-ID3D12HeapVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12Heap) -> D3D12_HEAP_DESC #cpp_method;
-}
-
 ID3D12Heap1_UUID :: "572f7389-2168-49e3-9693-d6df5871bf6d";
 ID3D12Heap1 :: struct
 {
@@ -11129,13 +10650,6 @@ ID3D12Heap1 :: struct
     {
         return this.vtable.GetProtectedResourceSession (this, riid, ppProtectedSession);
     }
-}
-
-ID3D12Heap1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12HeapVTable;
-
-    GetProtectedResourceSession : (this : *ID3D12Heap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12InfoQueue_UUID :: "0742a90b-c387-483f-b946-30a7e4e61458";
@@ -11329,47 +10843,6 @@ ID3D12InfoQueue :: struct
     }
 }
 
-ID3D12InfoQueueVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetMessageCountLimit : (this : *ID3D12InfoQueue, MessageCountLimit : u64) -> HRESULT #cpp_method;
-    ClearStoredMessages : (this : *ID3D12InfoQueue) #cpp_method;
-    GetMessage : (this : *ID3D12InfoQueue, MessageIndex : u64, pMessage : *D3D12_MESSAGE, pMessageByteLength : *u64) -> HRESULT #cpp_method;
-    GetNumMessagesAllowedByStorageFilter : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
-    GetNumMessagesDeniedByStorageFilter : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
-    GetNumStoredMessages : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
-    GetNumStoredMessagesAllowedByRetrievalFilter : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
-    GetNumMessagesDiscardedByMessageCountLimit : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
-    GetMessageCountLimit : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
-    AddStorageFilterEntries : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
-    GetStorageFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER, pFilterByteLength : *u64) -> HRESULT #cpp_method;
-    ClearStorageFilter : (this : *ID3D12InfoQueue) #cpp_method;
-    PushEmptyStorageFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
-    PushCopyOfStorageFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
-    PushStorageFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
-    PopStorageFilter : (this : *ID3D12InfoQueue) #cpp_method;
-    GetStorageFilterStackSize : (this : *ID3D12InfoQueue) -> u32 #cpp_method;
-    AddRetrievalFilterEntries : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
-    GetRetrievalFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER, pFilterByteLength : *u64) -> HRESULT #cpp_method;
-    ClearRetrievalFilter : (this : *ID3D12InfoQueue) #cpp_method;
-    PushEmptyRetrievalFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
-    PushCopyOfRetrievalFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
-    PushRetrievalFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
-    PopRetrievalFilter : (this : *ID3D12InfoQueue) #cpp_method;
-    GetRetrievalFilterStackSize : (this : *ID3D12InfoQueue) -> u32 #cpp_method;
-    AddMessage : (this : *ID3D12InfoQueue, Category : D3D12_MESSAGE_CATEGORY, Severity : D3D12_MESSAGE_SEVERITY, ID : D3D12_MESSAGE_ID, pDescription : PSTR) -> HRESULT #cpp_method;
-    AddApplicationMessage : (this : *ID3D12InfoQueue, Severity : D3D12_MESSAGE_SEVERITY, pDescription : PSTR) -> HRESULT #cpp_method;
-    SetBreakOnCategory : (this : *ID3D12InfoQueue, Category : D3D12_MESSAGE_CATEGORY, bEnable : BOOL) -> HRESULT #cpp_method;
-    SetBreakOnSeverity : (this : *ID3D12InfoQueue, Severity : D3D12_MESSAGE_SEVERITY, bEnable : BOOL) -> HRESULT #cpp_method;
-    SetBreakOnID : (this : *ID3D12InfoQueue, ID : D3D12_MESSAGE_ID, bEnable : BOOL) -> HRESULT #cpp_method;
-    GetBreakOnCategory : (this : *ID3D12InfoQueue, Category : D3D12_MESSAGE_CATEGORY) -> BOOL #cpp_method;
-    GetBreakOnSeverity : (this : *ID3D12InfoQueue, Severity : D3D12_MESSAGE_SEVERITY) -> BOOL #cpp_method;
-    GetBreakOnID : (this : *ID3D12InfoQueue, ID : D3D12_MESSAGE_ID) -> BOOL #cpp_method;
-    SetMuteDebugOutput : (this : *ID3D12InfoQueue, bMute : BOOL) #cpp_method;
-    GetMuteDebugOutput : (this : *ID3D12InfoQueue) -> BOOL #cpp_method;
-}
-
 ID3D12InfoQueue1_UUID :: "2852dd88-b484-4c0c-b6b1-67168500e600";
 ID3D12InfoQueue1 :: struct
 {
@@ -11396,14 +10869,6 @@ ID3D12InfoQueue1 :: struct
     }
 }
 
-ID3D12InfoQueue1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12InfoQueueVTable;
-
-    RegisterMessageCallback : (this : *ID3D12InfoQueue1, CallbackFunc : D3D12MessageFunc, CallbackFilterFlags : D3D12_MESSAGE_CALLBACK_FLAGS, pContext : *void, pCallbackCookie : *u32) -> HRESULT #cpp_method;
-    UnregisterMessageCallback : (this : *ID3D12InfoQueue1, CallbackCookie : u32) -> HRESULT #cpp_method;
-}
-
 ID3D12LibraryReflection_UUID :: "8e349d19-54db-4a56-9dc9-119d87bdb804";
 ID3D12LibraryReflection :: struct
 {
@@ -11425,14 +10890,6 @@ ID3D12LibraryReflection :: struct
     }
 }
 
-ID3D12LibraryReflectionVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetDesc : (this : *ID3D12LibraryReflection, pDesc : *D3D12_LIBRARY_DESC) -> HRESULT #cpp_method;
-    GetFunctionByIndex : (this : *ID3D12LibraryReflection, FunctionIndex : s32) -> *ID3D12FunctionReflection #cpp_method;
-}
-
 ID3D12LifetimeOwner_UUID :: "e667af9f-cd56-4f46-83ce-032e595d70a8";
 ID3D12LifetimeOwner :: struct
 {
@@ -11447,13 +10904,6 @@ ID3D12LifetimeOwner :: struct
     {
         this.vtable.LifetimeStateUpdated (this, NewState);
     }
-}
-
-ID3D12LifetimeOwnerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    LifetimeStateUpdated : (this : *ID3D12LifetimeOwner, NewState : D3D12_LIFETIME_STATE) #cpp_method;
 }
 
 ID3D12LifetimeTracker_UUID :: "3fd03d36-4eb1-424a-a582-494ecb8ba813";
@@ -11472,13 +10922,6 @@ ID3D12LifetimeTracker :: struct
     }
 }
 
-ID3D12LifetimeTrackerVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
-    DestroyOwnedObject : (this : *ID3D12LifetimeTracker, pObject : *ID3D12DeviceChild) -> HRESULT #cpp_method;
-}
-
 ID3D12MetaCommand_UUID :: "dbb84c27-36ce-4fc9-b801-f048c46ac570";
 ID3D12MetaCommand :: struct
 {
@@ -11493,13 +10936,6 @@ ID3D12MetaCommand :: struct
     {
         return this.vtable.GetRequiredParameterResourceSize (this, Stage, ParameterIndex);
     }
-}
-
-ID3D12MetaCommandVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetRequiredParameterResourceSize : (this : *ID3D12MetaCommand, Stage : D3D12_META_COMMAND_PARAMETER_STAGE, ParameterIndex : u32) -> u64 #cpp_method;
 }
 
 ID3D12Object_UUID :: "c4fec28f-7966-4e95-9f94-f431cb56c3b8";
@@ -11533,16 +10969,6 @@ ID3D12Object :: struct
     }
 }
 
-ID3D12ObjectVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetPrivateData : (this : *ID3D12Object, guid : *GUID, pDataSize : *u32, pData : *void) -> HRESULT #cpp_method;
-    SetPrivateData : (this : *ID3D12Object, guid : *GUID, DataSize : u32, pData : *void) -> HRESULT #cpp_method;
-    SetPrivateDataInterface : (this : *ID3D12Object, guid : *GUID, pData : *IUnknown) -> HRESULT #cpp_method;
-    SetName : (this : *ID3D12Object, Name : PWSTR) -> HRESULT #cpp_method;
-}
-
 ID3D12Pageable_UUID :: "63ee58fb-1268-4835-86da-f008ce62f0d6";
 ID3D12Pageable :: struct
 {
@@ -11552,12 +10978,6 @@ ID3D12Pageable :: struct
 
     #place base;
     vtable : *ID3D12PageableVTable;
-}
-
-ID3D12PageableVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
 }
 
 ID3D12PipelineLibrary_UUID :: "c64226a8-9201-46af-b4cc-53fb9ff7414f";
@@ -11606,17 +11026,6 @@ ID3D12PipelineLibrary :: struct
     }
 }
 
-ID3D12PipelineLibraryVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
-    StorePipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pPipeline : *ID3D12PipelineState) -> HRESULT #cpp_method;
-    LoadGraphicsPipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pDesc : *D3D12_GRAPHICS_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
-    LoadComputePipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pDesc : *D3D12_COMPUTE_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
-    GetSerializedSize : (this : *ID3D12PipelineLibrary) -> u64 #cpp_method;
-    Serialize : (this : *ID3D12PipelineLibrary, pData : *void, DataSizeInBytes : u64) -> HRESULT #cpp_method;
-}
-
 ID3D12PipelineLibrary1_UUID :: "80eabf42-2568-4e5e-bd82-c37f86961dc3";
 ID3D12PipelineLibrary1 :: struct
 {
@@ -11638,13 +11047,6 @@ ID3D12PipelineLibrary1 :: struct
     }
 }
 
-ID3D12PipelineLibrary1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PipelineLibraryVTable;
-
-    LoadPipeline : (this : *ID3D12PipelineLibrary1, pName : PWSTR, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
-}
-
 ID3D12PipelineState_UUID :: "765a30f3-f624-4c6f-a828-ace948622445";
 ID3D12PipelineState :: struct
 {
@@ -11659,13 +11061,6 @@ ID3D12PipelineState :: struct
     {
         return this.vtable.GetCachedBlob (this, ppBlob);
     }
-}
-
-ID3D12PipelineStateVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetCachedBlob : (this : *ID3D12PipelineState, ppBlob : **ID3DBlob) -> HRESULT #cpp_method;
 }
 
 ID3D12ProtectedResourceSession_UUID :: "6cd696f4-f289-40cc-8091-5a6c0a099c3d";
@@ -11684,13 +11079,6 @@ ID3D12ProtectedResourceSession :: struct
     }
 }
 
-ID3D12ProtectedResourceSessionVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12ProtectedSessionVTable;
-
-    GetDesc : (this : *ID3D12ProtectedResourceSession) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC #cpp_method;
-}
-
 ID3D12ProtectedResourceSession1_UUID :: "d6f12dd6-76fb-406e-8961-4296eefc0409";
 ID3D12ProtectedResourceSession1 :: struct
 {
@@ -11705,13 +11093,6 @@ ID3D12ProtectedResourceSession1 :: struct
     {
         return this.vtable.GetDesc1 (this);
     }
-}
-
-ID3D12ProtectedResourceSession1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12ProtectedResourceSessionVTable;
-
-    GetDesc1 : (this : *ID3D12ProtectedResourceSession1) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC1 #cpp_method;
 }
 
 ID3D12ProtectedSession_UUID :: "a1533d18-0ac1-4084-85b9-89a96116806b";
@@ -11735,14 +11116,6 @@ ID3D12ProtectedSession :: struct
     }
 }
 
-ID3D12ProtectedSessionVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
-    GetStatusFence : (this : *ID3D12ProtectedSession, riid : *GUID, ppFence : **void) -> HRESULT #cpp_method;
-    GetSessionStatus : (this : *ID3D12ProtectedSession) -> D3D12_PROTECTED_SESSION_STATUS #cpp_method;
-}
-
 ID3D12QueryHeap_UUID :: "0d9658ae-ed45-469e-a61d-970ec583cab4";
 ID3D12QueryHeap :: struct
 {
@@ -11752,12 +11125,6 @@ ID3D12QueryHeap :: struct
 
     #place base;
     vtable : *ID3D12QueryHeapVTable;
-}
-
-ID3D12QueryHeapVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
 }
 
 ID3D12Resource_UUID :: "696442be-a72e-4059-bc79-5b5c98040fad";
@@ -11818,19 +11185,6 @@ ID3D12Resource :: struct
     }
 }
 
-ID3D12ResourceVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    Map : (this : *ID3D12Resource, Subresource : u32, pReadRange : *D3D12_RANGE, ppData : **void) -> HRESULT #cpp_method;
-    Unmap : (this : *ID3D12Resource, Subresource : u32, pWrittenRange : *D3D12_RANGE) #cpp_method;
-    GetDesc : (this : *ID3D12Resource) -> D3D12_RESOURCE_DESC #cpp_method;
-    GetGPUVirtualAddress : (this : *ID3D12Resource) -> u64 #cpp_method;
-    WriteToSubresource : (this : *ID3D12Resource, DstSubresource : u32, pDstBox : *D3D12_BOX, pSrcData : *void, SrcRowPitch : u32, SrcDepthPitch : u32) -> HRESULT #cpp_method;
-    ReadFromSubresource : (this : *ID3D12Resource, pDstData : *void, DstRowPitch : u32, DstDepthPitch : u32, SrcSubresource : u32, pSrcBox : *D3D12_BOX) -> HRESULT #cpp_method;
-    GetHeapProperties : (this : *ID3D12Resource, pHeapProperties : *D3D12_HEAP_PROPERTIES, pHeapFlags : *D3D12_HEAP_FLAGS) -> HRESULT #cpp_method;
-}
-
 ID3D12Resource1_UUID :: "9d5e227a-4430-4161-88b3-3eca6bb16e19";
 ID3D12Resource1 :: struct
 {
@@ -11845,13 +11199,6 @@ ID3D12Resource1 :: struct
     {
         return this.vtable.GetProtectedResourceSession (this, riid, ppProtectedSession);
     }
-}
-
-ID3D12Resource1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12ResourceVTable;
-
-    GetProtectedResourceSession : (this : *ID3D12Resource1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12Resource2_UUID :: "be36ec3b-ea85-4aeb-a45a-e9d76404a495";
@@ -11870,13 +11217,6 @@ ID3D12Resource2 :: struct
     }
 }
 
-ID3D12Resource2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12Resource1VTable;
-
-    GetDesc1 : (this : *ID3D12Resource2) -> D3D12_RESOURCE_DESC1 #cpp_method;
-}
-
 ID3D12RootSignature_UUID :: "c54a6b66-72df-4ee8-8be5-a946a1429214";
 ID3D12RootSignature :: struct
 {
@@ -11886,12 +11226,6 @@ ID3D12RootSignature :: struct
 
     #place base;
     vtable : *ID3D12RootSignatureVTable;
-}
-
-ID3D12RootSignatureVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
 }
 
 ID3D12RootSignatureDeserializer_UUID :: "34ab647b-3cc8-46ac-841b-c0965645c046";
@@ -11910,13 +11244,6 @@ ID3D12RootSignatureDeserializer :: struct
     }
 }
 
-ID3D12RootSignatureDeserializerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetRootSignatureDesc : (this : *ID3D12RootSignatureDeserializer) -> *D3D12_ROOT_SIGNATURE_DESC #cpp_method;
-}
-
 ID3D12SDKConfiguration_UUID :: "e9eb5314-33aa-42b2-a718-d77f58b1f1c7";
 ID3D12SDKConfiguration :: struct
 {
@@ -11931,13 +11258,6 @@ ID3D12SDKConfiguration :: struct
     {
         return this.vtable.SetSDKVersion (this, SDKVersion, SDKPath);
     }
-}
-
-ID3D12SDKConfigurationVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    SetSDKVersion : (this : *ID3D12SDKConfiguration, SDKVersion : u32, SDKPath : PSTR) -> HRESULT #cpp_method;
 }
 
 ID3D12ShaderCacheSession_UUID :: "28e2495d-0f64-4ae4-a6ec-129255dc49a8";
@@ -11979,16 +11299,6 @@ ID3D12ShaderCacheSession :: struct
     {
         return this.vtable.GetDesc (this);
     }
-}
-
-ID3D12ShaderCacheSessionVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
-
-    FindValue : (this : *ID3D12ShaderCacheSession, pKey : *void, KeySize : u32, pValue : *void, pValueSize : *u32) -> HRESULT #cpp_method;
-    StoreValue : (this : *ID3D12ShaderCacheSession, pKey : *void, KeySize : u32, pValue : *void, ValueSize : u32) -> HRESULT #cpp_method;
-    SetDeleteOnDestroy : (this : *ID3D12ShaderCacheSession) #cpp_method;
-    GetDesc : (this : *ID3D12ShaderCacheSession) -> D3D12_SHADER_CACHE_SESSION_DESC #cpp_method;
 }
 
 ID3D12ShaderReflection_UUID :: "5a58797d-a72c-478d-8ba2-efc6b0efe88e";
@@ -12097,31 +11407,6 @@ ID3D12ShaderReflection :: struct
     }
 }
 
-ID3D12ShaderReflectionVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetDesc : (this : *ID3D12ShaderReflection, pDesc : *D3D12_SHADER_DESC) -> HRESULT #cpp_method;
-    GetConstantBufferByIndex : (this : *ID3D12ShaderReflection, Index : u32) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
-    GetConstantBufferByName : (this : *ID3D12ShaderReflection, Name : PSTR) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
-    GetResourceBindingDesc : (this : *ID3D12ShaderReflection, ResourceIndex : u32, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
-    GetInputParameterDesc : (this : *ID3D12ShaderReflection, ParameterIndex : u32, pDesc : *D3D12_SIGNATURE_PARAMETER_DESC) -> HRESULT #cpp_method;
-    GetOutputParameterDesc : (this : *ID3D12ShaderReflection, ParameterIndex : u32, pDesc : *D3D12_SIGNATURE_PARAMETER_DESC) -> HRESULT #cpp_method;
-    GetPatchConstantParameterDesc : (this : *ID3D12ShaderReflection, ParameterIndex : u32, pDesc : *D3D12_SIGNATURE_PARAMETER_DESC) -> HRESULT #cpp_method;
-    GetVariableByName : (this : *ID3D12ShaderReflection, Name : PSTR) -> *ID3D12ShaderReflectionVariable #cpp_method;
-    GetResourceBindingDescByName : (this : *ID3D12ShaderReflection, Name : PSTR, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
-    GetMovInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
-    GetMovcInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
-    GetConversionInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
-    GetBitwiseInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
-    GetGSInputPrimitive : (this : *ID3D12ShaderReflection) -> D3D_PRIMITIVE #cpp_method;
-    IsSampleFrequencyShader : (this : *ID3D12ShaderReflection) -> BOOL #cpp_method;
-    GetNumInterfaceSlots : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
-    GetMinFeatureLevel : (this : *ID3D12ShaderReflection, pLevel : *D3D_FEATURE_LEVEL) -> HRESULT #cpp_method;
-    GetThreadGroupSize : (this : *ID3D12ShaderReflection, pSizeX : *u32, pSizeY : *u32, pSizeZ : *u32) -> u32 #cpp_method;
-    GetRequiresFlags : (this : *ID3D12ShaderReflection) -> u64 #cpp_method;
-}
-
 ID3D12ShaderReflectionConstantBuffer_UUID :: "c59598b4-48b3-4869-b9b1-b1618b14a8b7";
 ID3D12ShaderReflectionConstantBuffer :: struct
 {
@@ -12143,13 +11428,6 @@ ID3D12ShaderReflectionConstantBuffer :: struct
     {
         return this.vtable.GetVariableByName (this, Name);
     }
-}
-
-ID3D12ShaderReflectionConstantBufferVTable :: struct
-{
-    GetDesc : (this : *ID3D12ShaderReflectionConstantBuffer, pDesc : *D3D12_SHADER_BUFFER_DESC) -> HRESULT #cpp_method;
-    GetVariableByIndex : (this : *ID3D12ShaderReflectionConstantBuffer, Index : u32) -> *ID3D12ShaderReflectionVariable #cpp_method;
-    GetVariableByName : (this : *ID3D12ShaderReflectionConstantBuffer, Name : PSTR) -> *ID3D12ShaderReflectionVariable #cpp_method;
 }
 
 ID3D12ShaderReflectionType_UUID :: "e913c351-783d-48ca-a1d1-4f306284ad56";
@@ -12215,21 +11493,6 @@ ID3D12ShaderReflectionType :: struct
     }
 }
 
-ID3D12ShaderReflectionTypeVTable :: struct
-{
-    GetDesc : (this : *ID3D12ShaderReflectionType, pDesc : *D3D12_SHADER_TYPE_DESC) -> HRESULT #cpp_method;
-    GetMemberTypeByIndex : (this : *ID3D12ShaderReflectionType, Index : u32) -> *ID3D12ShaderReflectionType #cpp_method;
-    GetMemberTypeByName : (this : *ID3D12ShaderReflectionType, Name : PSTR) -> *ID3D12ShaderReflectionType #cpp_method;
-    GetMemberTypeName : (this : *ID3D12ShaderReflectionType, Index : u32) -> PSTR #cpp_method;
-    IsEqual : (this : *ID3D12ShaderReflectionType, pType : *ID3D12ShaderReflectionType) -> HRESULT #cpp_method;
-    GetSubType : (this : *ID3D12ShaderReflectionType) -> *ID3D12ShaderReflectionType #cpp_method;
-    GetBaseClass : (this : *ID3D12ShaderReflectionType) -> *ID3D12ShaderReflectionType #cpp_method;
-    GetNumInterfaces : (this : *ID3D12ShaderReflectionType) -> u32 #cpp_method;
-    GetInterfaceByIndex : (this : *ID3D12ShaderReflectionType, uIndex : u32) -> *ID3D12ShaderReflectionType #cpp_method;
-    IsOfType : (this : *ID3D12ShaderReflectionType, pType : *ID3D12ShaderReflectionType) -> HRESULT #cpp_method;
-    ImplementsInterface : (this : *ID3D12ShaderReflectionType, pBase : *ID3D12ShaderReflectionType) -> HRESULT #cpp_method;
-}
-
 ID3D12ShaderReflectionVariable_UUID :: "8337a8a6-a216-444a-b2f4-314733a73aea";
 ID3D12ShaderReflectionVariable :: struct
 {
@@ -12256,14 +11519,6 @@ ID3D12ShaderReflectionVariable :: struct
     {
         return this.vtable.GetInterfaceSlot (this, uArrayIndex);
     }
-}
-
-ID3D12ShaderReflectionVariableVTable :: struct
-{
-    GetDesc : (this : *ID3D12ShaderReflectionVariable, pDesc : *D3D12_SHADER_VARIABLE_DESC) -> HRESULT #cpp_method;
-    GetType : (this : *ID3D12ShaderReflectionVariable) -> *ID3D12ShaderReflectionType #cpp_method;
-    GetBuffer : (this : *ID3D12ShaderReflectionVariable) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
-    GetInterfaceSlot : (this : *ID3D12ShaderReflectionVariable, uArrayIndex : u32) -> u32 #cpp_method;
 }
 
 ID3D12SharingContract_UUID :: "0adf7d52-929c-4e61-addb-ffed30de66ef";
@@ -12297,16 +11552,6 @@ ID3D12SharingContract :: struct
     }
 }
 
-ID3D12SharingContractVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    Present : (this : *ID3D12SharingContract, pResource : *ID3D12Resource, Subresource : u32, window : HWND) #cpp_method;
-    SharedFenceSignal : (this : *ID3D12SharingContract, pFence : *ID3D12Fence, FenceValue : u64) #cpp_method;
-    BeginCapturableWork : (this : *ID3D12SharingContract, guid : *GUID) #cpp_method;
-    EndCapturableWork : (this : *ID3D12SharingContract, guid : *GUID) #cpp_method;
-}
-
 ID3D12StateObject_UUID :: "47016943-fca8-4594-93ea-af258b55346d";
 ID3D12StateObject :: struct
 {
@@ -12316,12 +11561,6 @@ ID3D12StateObject :: struct
 
     #place base;
     vtable : *ID3D12StateObjectVTable;
-}
-
-ID3D12StateObjectVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
 }
 
 ID3D12StateObjectProperties_UUID :: "de5fa827-9bf9-4f26-89ff-d7f56fde3860";
@@ -12353,16 +11592,6 @@ ID3D12StateObjectProperties :: struct
     {
         this.vtable.SetPipelineStackSize (this, PipelineStackSizeInBytes);
     }
-}
-
-ID3D12StateObjectPropertiesVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetShaderIdentifier : (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> *void #cpp_method;
-    GetShaderStackSize : (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> u64 #cpp_method;
-    GetPipelineStackSize : (this : *ID3D12StateObjectProperties) -> u64 #cpp_method;
-    SetPipelineStackSize : (this : *ID3D12StateObjectProperties, PipelineStackSizeInBytes : u64) #cpp_method;
 }
 
 ID3D12SwapChainAssistant_UUID :: "f1df64b6-57fd-49cd-8807-c0eb88b45c8f";
@@ -12401,16 +11630,6 @@ ID3D12SwapChainAssistant :: struct
     }
 }
 
-ID3D12SwapChainAssistantVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetLUID : (this : *ID3D12SwapChainAssistant) -> LUID #cpp_method;
-    GetSwapChainObject : (this : *ID3D12SwapChainAssistant, riid : *GUID, ppv : **void) -> HRESULT #cpp_method;
-    GetCurrentResourceAndCommandQueue : (this : *ID3D12SwapChainAssistant, riidResource : *GUID, ppvResource : **void, riidQueue : *GUID, ppvQueue : **void) -> HRESULT #cpp_method;
-    InsertImplicitSync : (this : *ID3D12SwapChainAssistant) -> HRESULT #cpp_method;
-}
-
 ID3D12Tools_UUID :: "7071e1f0-e84b-4b33-974f-12fa49de65c5";
 ID3D12Tools :: struct
 {
@@ -12432,14 +11651,6 @@ ID3D12Tools :: struct
     }
 }
 
-ID3D12ToolsVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    EnableShaderInstrumentation : (this : *ID3D12Tools, bEnable : BOOL) #cpp_method;
-    ShaderInstrumentationEnabled : (this : *ID3D12Tools) -> BOOL #cpp_method;
-}
-
 ID3D12VersionedRootSignatureDeserializer_UUID :: "7f91ce67-090c-4bb7-b78e-ed8ff2e31da0";
 ID3D12VersionedRootSignatureDeserializer :: struct
 {
@@ -12459,14 +11670,6 @@ ID3D12VersionedRootSignatureDeserializer :: struct
     {
         return this.vtable.GetUnconvertedRootSignatureDesc (this);
     }
-}
-
-ID3D12VersionedRootSignatureDeserializerVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    GetRootSignatureDescAtVersion : (this : *ID3D12VersionedRootSignatureDeserializer, convertToVersion : D3D_ROOT_SIGNATURE_VERSION, ppDesc : **D3D12_VERSIONED_ROOT_SIGNATURE_DESC) -> HRESULT #cpp_method;
-    GetUnconvertedRootSignatureDesc : (this : *ID3D12VersionedRootSignatureDeserializer) -> *D3D12_VERSIONED_ROOT_SIGNATURE_DESC #cpp_method;
 }
 
 ID3D12VideoDecodeCommandList_UUID :: "3b60536e-ad29-4e64-a269-f853837e5e53";
@@ -12557,26 +11760,6 @@ ID3D12VideoDecodeCommandList :: struct
     }
 }
 
-ID3D12VideoDecodeCommandListVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
-
-    Close : (this : *ID3D12VideoDecodeCommandList) -> HRESULT #cpp_method;
-    Reset : (this : *ID3D12VideoDecodeCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
-    ClearState : (this : *ID3D12VideoDecodeCommandList) #cpp_method;
-    ResourceBarrier : (this : *ID3D12VideoDecodeCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
-    DiscardResource : (this : *ID3D12VideoDecodeCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
-    BeginQuery : (this : *ID3D12VideoDecodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    EndQuery : (this : *ID3D12VideoDecodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    ResolveQueryData : (this : *ID3D12VideoDecodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
-    SetPredication : (this : *ID3D12VideoDecodeCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
-    SetMarker : (this : *ID3D12VideoDecodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    BeginEvent : (this : *ID3D12VideoDecodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    EndEvent : (this : *ID3D12VideoDecodeCommandList) #cpp_method;
-    DecodeFrame : (this : *ID3D12VideoDecodeCommandList, pDecoder : *ID3D12VideoDecoder, pOutputArguments : *D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS, pInputArguments : *D3D12_VIDEO_DECODE_INPUT_STREAM_ARGUMENTS) #cpp_method;
-    WriteBufferImmediate : (this : *ID3D12VideoDecodeCommandList, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
-}
-
 ID3D12VideoDecodeCommandList1_UUID :: "d52f011b-b56e-453c-a05a-a7f311c8f472";
 ID3D12VideoDecodeCommandList1 :: struct
 {
@@ -12591,13 +11774,6 @@ ID3D12VideoDecodeCommandList1 :: struct
     {
         this.vtable.DecodeFrame1 (this, pDecoder, pOutputArguments, pInputArguments);
     }
-}
-
-ID3D12VideoDecodeCommandList1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDecodeCommandListVTable;
-
-    DecodeFrame1 : (this : *ID3D12VideoDecodeCommandList1, pDecoder : *ID3D12VideoDecoder, pOutputArguments : *D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1, pInputArguments : *D3D12_VIDEO_DECODE_INPUT_STREAM_ARGUMENTS) #cpp_method;
 }
 
 ID3D12VideoDecodeCommandList2_UUID :: "6e120880-c114-4153-8036-d247051e1729";
@@ -12626,15 +11802,6 @@ ID3D12VideoDecodeCommandList2 :: struct
     }
 }
 
-ID3D12VideoDecodeCommandList2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDecodeCommandList1VTable;
-
-    SetProtectedResourceSession : (this : *ID3D12VideoDecodeCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
-    InitializeExtensionCommand : (this : *ID3D12VideoDecodeCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
-    ExecuteExtensionCommand : (this : *ID3D12VideoDecodeCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
-}
-
 ID3D12VideoDecoder_UUID :: "c59b6bdc-7720-4074-a136-17a156037470";
 ID3D12VideoDecoder :: struct
 {
@@ -12649,13 +11816,6 @@ ID3D12VideoDecoder :: struct
     {
         return this.vtable.GetDesc (this);
     }
-}
-
-ID3D12VideoDecoderVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12VideoDecoder) -> D3D12_VIDEO_DECODER_DESC #cpp_method;
 }
 
 ID3D12VideoDecoder1_UUID :: "79a2e5fb-ccd2-469a-9fde-195d10951f7e";
@@ -12674,13 +11834,6 @@ ID3D12VideoDecoder1 :: struct
     }
 }
 
-ID3D12VideoDecoder1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDecoderVTable;
-
-    GetProtectedResourceSession : (this : *ID3D12VideoDecoder1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
-}
-
 ID3D12VideoDecoderHeap_UUID :: "0946b7c9-ebf6-4047-bb73-8683e27dbb1f";
 ID3D12VideoDecoderHeap :: struct
 {
@@ -12697,13 +11850,6 @@ ID3D12VideoDecoderHeap :: struct
     }
 }
 
-ID3D12VideoDecoderHeapVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12VideoDecoderHeap) -> D3D12_VIDEO_DECODER_HEAP_DESC #cpp_method;
-}
-
 ID3D12VideoDecoderHeap1_UUID :: "da1d98c5-539f-41b2-bf6b-1198a03b6d26";
 ID3D12VideoDecoderHeap1 :: struct
 {
@@ -12718,13 +11864,6 @@ ID3D12VideoDecoderHeap1 :: struct
     {
         return this.vtable.GetProtectedResourceSession (this, riid, ppProtectedSession);
     }
-}
-
-ID3D12VideoDecoderHeap1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDecoderHeapVTable;
-
-    GetProtectedResourceSession : (this : *ID3D12VideoDecoderHeap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoDevice_UUID :: "1f052807-0b46-4acc-8a89-364f793718a4";
@@ -12765,16 +11904,6 @@ ID3D12VideoDevice :: struct
     }
 }
 
-ID3D12VideoDeviceVTable :: struct
-{
-    #as using, except (.["base"]) base : IUnknownVTable;
-
-    CheckFeatureSupport : (this : *ID3D12VideoDevice, FeatureVideo : D3D12_FEATURE_VIDEO, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #cpp_method;
-    CreateVideoDecoder : (this : *ID3D12VideoDevice, pDesc : *D3D12_VIDEO_DECODER_DESC, riid : *GUID, ppVideoDecoder : **void) -> HRESULT #cpp_method;
-    CreateVideoDecoderHeap : (this : *ID3D12VideoDevice, pVideoDecoderHeapDesc : *D3D12_VIDEO_DECODER_HEAP_DESC, riid : *GUID, ppVideoDecoderHeap : **void) -> HRESULT #cpp_method;
-    CreateVideoProcessor : (this : *ID3D12VideoDevice, NodeMask : u32, pOutputStreamDesc : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_DESC, NumInputStreamDescs : u32, pInputStreamDescs : *D3D12_VIDEO_PROCESS_INPUT_STREAM_DESC, riid : *GUID, ppVideoProcessor : **void) -> HRESULT #cpp_method;
-}
-
 ID3D12VideoDevice1_UUID :: "981611ad-a144-4c83-9890-f30e26d658ab";
 ID3D12VideoDevice1 :: struct
 {
@@ -12804,14 +11933,6 @@ ID3D12VideoDevice1 :: struct
     {
         return this.vtable.CreateVideoMotionVectorHeap (this, pDesc, pProtectedResourceSession, riid, ppVideoMotionVectorHeap);
     }
-}
-
-ID3D12VideoDevice1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDeviceVTable;
-
-    CreateVideoMotionEstimator : (this : *ID3D12VideoDevice1, pDesc : *D3D12_VIDEO_MOTION_ESTIMATOR_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoMotionEstimator : **void) -> HRESULT #cpp_method;
-    CreateVideoMotionVectorHeap : (this : *ID3D12VideoDevice1, pDesc : *D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoMotionVectorHeap : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoDevice2_UUID :: "f019ac49-f838-4a95-9b17-579437c8f513";
@@ -12881,17 +12002,6 @@ ID3D12VideoDevice2 :: struct
     }
 }
 
-ID3D12VideoDevice2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDevice1VTable;
-
-    CreateVideoDecoder1 : (this : *ID3D12VideoDevice2, pDesc : *D3D12_VIDEO_DECODER_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoDecoder : **void) -> HRESULT #cpp_method;
-    CreateVideoDecoderHeap1 : (this : *ID3D12VideoDevice2, pVideoDecoderHeapDesc : *D3D12_VIDEO_DECODER_HEAP_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoDecoderHeap : **void) -> HRESULT #cpp_method;
-    CreateVideoProcessor1 : (this : *ID3D12VideoDevice2, NodeMask : u32, pOutputStreamDesc : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_DESC, NumInputStreamDescs : u32, pInputStreamDescs : *D3D12_VIDEO_PROCESS_INPUT_STREAM_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoProcessor : **void) -> HRESULT #cpp_method;
-    CreateVideoExtensionCommand : (this : *ID3D12VideoDevice2, pDesc : *D3D12_VIDEO_EXTENSION_COMMAND_DESC, pCreationParameters : *void, CreationParametersDataSizeInBytes : u64, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoExtensionCommand : **void) -> HRESULT #cpp_method;
-    ExecuteExtensionCommand : (this : *ID3D12VideoDevice2, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64, pOutputData : *void, OutputDataSizeInBytes : u64) -> HRESULT #cpp_method;
-}
-
 ID3D12VideoDevice3_UUID :: "4243adb4-3a32-4666-973c-0ccc5625dc44";
 ID3D12VideoDevice3 :: struct
 {
@@ -12911,14 +12021,6 @@ ID3D12VideoDevice3 :: struct
     {
         return this.vtable.CreateVideoEncoderHeap (this, pDesc, riid, ppVideoEncoderHeap);
     }
-}
-
-ID3D12VideoDevice3VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoDevice2VTable;
-
-    CreateVideoEncoder : (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_DESC, riid : *GUID, ppVideoEncoder : **void) -> HRESULT #cpp_method;
-    CreateVideoEncoderHeap : (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_HEAP_DESC, riid : *GUID, ppVideoEncoderHeap : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoEncodeCommandList_UUID :: "8455293a-0cbd-4831-9b39-fbdbab724723";
@@ -13019,28 +12121,6 @@ ID3D12VideoEncodeCommandList :: struct
     }
 }
 
-ID3D12VideoEncodeCommandListVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
-
-    Close : (this : *ID3D12VideoEncodeCommandList) -> HRESULT #cpp_method;
-    Reset : (this : *ID3D12VideoEncodeCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
-    ClearState : (this : *ID3D12VideoEncodeCommandList) #cpp_method;
-    ResourceBarrier : (this : *ID3D12VideoEncodeCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
-    DiscardResource : (this : *ID3D12VideoEncodeCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
-    BeginQuery : (this : *ID3D12VideoEncodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    EndQuery : (this : *ID3D12VideoEncodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    ResolveQueryData : (this : *ID3D12VideoEncodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
-    SetPredication : (this : *ID3D12VideoEncodeCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
-    SetMarker : (this : *ID3D12VideoEncodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    BeginEvent : (this : *ID3D12VideoEncodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    EndEvent : (this : *ID3D12VideoEncodeCommandList) #cpp_method;
-    EstimateMotion : (this : *ID3D12VideoEncodeCommandList, pMotionEstimator : *ID3D12VideoMotionEstimator, pOutputArguments : *D3D12_VIDEO_MOTION_ESTIMATOR_OUTPUT, pInputArguments : *D3D12_VIDEO_MOTION_ESTIMATOR_INPUT) #cpp_method;
-    ResolveMotionVectorHeap : (this : *ID3D12VideoEncodeCommandList, pOutputArguments : *D3D12_RESOLVE_VIDEO_MOTION_VECTOR_HEAP_OUTPUT, pInputArguments : *D3D12_RESOLVE_VIDEO_MOTION_VECTOR_HEAP_INPUT) #cpp_method;
-    WriteBufferImmediate : (this : *ID3D12VideoEncodeCommandList, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
-    SetProtectedResourceSession : (this : *ID3D12VideoEncodeCommandList, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
-}
-
 ID3D12VideoEncodeCommandList1_UUID :: "94971eca-2bdb-4769-88cf-3675ea757ebc";
 ID3D12VideoEncodeCommandList1 :: struct
 {
@@ -13060,14 +12140,6 @@ ID3D12VideoEncodeCommandList1 :: struct
     {
         this.vtable.ExecuteExtensionCommand (this, pExtensionCommand, pExecutionParameters, ExecutionParametersSizeInBytes);
     }
-}
-
-ID3D12VideoEncodeCommandList1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoEncodeCommandListVTable;
-
-    InitializeExtensionCommand : (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
-    ExecuteExtensionCommand : (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
 }
 
 ID3D12VideoEncodeCommandList2_UUID :: "895491e2-e701-46a9-9a1f-8d3480ed867a";
@@ -13094,14 +12166,6 @@ ID3D12VideoEncodeCommandList2 :: struct
     {
         this.vtable.ResolveEncoderOutputMetadata (this, pInputArguments, pOutputArguments);
     }
-}
-
-ID3D12VideoEncodeCommandList2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoEncodeCommandList1VTable;
-
-    EncodeFrame : (this : *ID3D12VideoEncodeCommandList2, pEncoder : *ID3D12VideoEncoder, pHeap : *ID3D12VideoEncoderHeap, pInputArguments : *D3D12_VIDEO_ENCODER_ENCODEFRAME_INPUT_ARGUMENTS, pOutputArguments : *D3D12_VIDEO_ENCODER_ENCODEFRAME_OUTPUT_ARGUMENTS) #cpp_method;
-    ResolveEncoderOutputMetadata : (this : *ID3D12VideoEncodeCommandList2, pInputArguments : *D3D12_VIDEO_ENCODER_RESOLVE_METADATA_INPUT_ARGUMENTS, pOutputArguments : *D3D12_VIDEO_ENCODER_RESOLVE_METADATA_OUTPUT_ARGUMENTS) #cpp_method;
 }
 
 ID3D12VideoEncoder_UUID :: "2e0d212d-8df9-44a6-a770-bb289b182737";
@@ -13150,19 +12214,6 @@ ID3D12VideoEncoder :: struct
     }
 }
 
-ID3D12VideoEncoderVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetNodeMask : (this : *ID3D12VideoEncoder) -> u32 #cpp_method;
-    GetEncoderFlags : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_FLAGS #cpp_method;
-    GetCodec : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_CODEC #cpp_method;
-    GetCodecProfile : (this : *ID3D12VideoEncoder, dstProfile : D3D12_VIDEO_ENCODER_PROFILE_DESC) -> HRESULT #cpp_method;
-    GetCodecConfiguration : (this : *ID3D12VideoEncoder, dstCodecConfig : D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION) -> HRESULT #cpp_method;
-    GetInputFormat : (this : *ID3D12VideoEncoder) -> DXGI_FORMAT #cpp_method;
-    GetMaxMotionEstimationPrecision : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_MOTION_ESTIMATION_PRECISION_MODE #cpp_method;
-}
-
 ID3D12VideoEncoderHeap_UUID :: "22b35d96-876a-44c0-b25e-fb8c9c7f1c4a";
 ID3D12VideoEncoderHeap :: struct
 {
@@ -13209,19 +12260,6 @@ ID3D12VideoEncoderHeap :: struct
     }
 }
 
-ID3D12VideoEncoderHeapVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetNodeMask : (this : *ID3D12VideoEncoderHeap) -> u32 #cpp_method;
-    GetEncoderHeapFlags : (this : *ID3D12VideoEncoderHeap) -> D3D12_VIDEO_ENCODER_HEAP_FLAGS #cpp_method;
-    GetCodec : (this : *ID3D12VideoEncoderHeap) -> D3D12_VIDEO_ENCODER_CODEC #cpp_method;
-    GetCodecProfile : (this : *ID3D12VideoEncoderHeap, dstProfile : D3D12_VIDEO_ENCODER_PROFILE_DESC) -> HRESULT #cpp_method;
-    GetCodecLevel : (this : *ID3D12VideoEncoderHeap, dstLevel : D3D12_VIDEO_ENCODER_LEVEL_SETTING) -> HRESULT #cpp_method;
-    GetResolutionListCount : (this : *ID3D12VideoEncoderHeap) -> u32 #cpp_method;
-    GetResolutionList : (this : *ID3D12VideoEncoderHeap, ResolutionsListCount : u32, pResolutionList : *D3D12_VIDEO_ENCODER_PICTURE_RESOLUTION_DESC) -> HRESULT #cpp_method;
-}
-
 ID3D12VideoExtensionCommand_UUID :: "554e41e8-ae8e-4a8c-b7d2-5b4f274a30e4";
 ID3D12VideoExtensionCommand :: struct
 {
@@ -13241,14 +12279,6 @@ ID3D12VideoExtensionCommand :: struct
     {
         return this.vtable.GetProtectedResourceSession (this, riid, ppProtectedSession);
     }
-}
-
-ID3D12VideoExtensionCommandVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12VideoExtensionCommand) -> D3D12_VIDEO_EXTENSION_COMMAND_DESC #cpp_method;
-    GetProtectedResourceSession : (this : *ID3D12VideoExtensionCommand, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoMotionEstimator_UUID :: "33fdae0e-098b-428f-87bb-34b695de08f8";
@@ -13272,14 +12302,6 @@ ID3D12VideoMotionEstimator :: struct
     }
 }
 
-ID3D12VideoMotionEstimatorVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12VideoMotionEstimator) -> D3D12_VIDEO_MOTION_ESTIMATOR_DESC #cpp_method;
-    GetProtectedResourceSession : (this : *ID3D12VideoMotionEstimator, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
-}
-
 ID3D12VideoMotionVectorHeap_UUID :: "5be17987-743a-4061-834b-23d22daea505";
 ID3D12VideoMotionVectorHeap :: struct
 {
@@ -13299,14 +12321,6 @@ ID3D12VideoMotionVectorHeap :: struct
     {
         return this.vtable.GetProtectedResourceSession (this, riid, ppProtectedSession);
     }
-}
-
-ID3D12VideoMotionVectorHeapVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetDesc : (this : *ID3D12VideoMotionVectorHeap) -> D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC #cpp_method;
-    GetProtectedResourceSession : (this : *ID3D12VideoMotionVectorHeap, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoProcessCommandList_UUID :: "aeb2543a-167f-4682-acc8-d159ed4a6209";
@@ -13402,26 +12416,6 @@ ID3D12VideoProcessCommandList :: struct
     }
 }
 
-ID3D12VideoProcessCommandListVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
-
-    Close : (this : *ID3D12VideoProcessCommandList) -> HRESULT #cpp_method;
-    Reset : (this : *ID3D12VideoProcessCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
-    ClearState : (this : *ID3D12VideoProcessCommandList) #cpp_method;
-    ResourceBarrier : (this : *ID3D12VideoProcessCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
-    DiscardResource : (this : *ID3D12VideoProcessCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
-    BeginQuery : (this : *ID3D12VideoProcessCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    EndQuery : (this : *ID3D12VideoProcessCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
-    ResolveQueryData : (this : *ID3D12VideoProcessCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
-    SetPredication : (this : *ID3D12VideoProcessCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
-    SetMarker : (this : *ID3D12VideoProcessCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    BeginEvent : (this : *ID3D12VideoProcessCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
-    EndEvent : (this : *ID3D12VideoProcessCommandList) #cpp_method;
-    ProcessFrames : (this : *ID3D12VideoProcessCommandList, pVideoProcessor : *ID3D12VideoProcessor, pOutputArguments : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS, NumInputStreams : u32, pInputArguments : *D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS) #cpp_method;
-    WriteBufferImmediate : (this : *ID3D12VideoProcessCommandList, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
-}
-
 ID3D12VideoProcessCommandList1_UUID :: "542c5c4d-7596-434f-8c93-4efa6766f267";
 ID3D12VideoProcessCommandList1 :: struct
 {
@@ -13441,13 +12435,6 @@ ID3D12VideoProcessCommandList1 :: struct
     {
         this.vtable.ProcessFrames1 (this, pVideoProcessor, pOutputArguments, NumInputStreams, pInputArguments);
     }
-}
-
-ID3D12VideoProcessCommandList1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoProcessCommandListVTable;
-
-    ProcessFrames1 : (this : *ID3D12VideoProcessCommandList1, pVideoProcessor : *ID3D12VideoProcessor, pOutputArguments : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS, NumInputStreams : u32, pInputArguments : *D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1) #cpp_method;
 }
 
 ID3D12VideoProcessCommandList2_UUID :: "db525ae4-6ad6-473c-baa7-59b2e37082e4";
@@ -13474,15 +12461,6 @@ ID3D12VideoProcessCommandList2 :: struct
     {
         this.vtable.ExecuteExtensionCommand (this, pExtensionCommand, pExecutionParameters, ExecutionParametersSizeInBytes);
     }
-}
-
-ID3D12VideoProcessCommandList2VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoProcessCommandList1VTable;
-
-    SetProtectedResourceSession : (this : *ID3D12VideoProcessCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
-    InitializeExtensionCommand : (this : *ID3D12VideoProcessCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
-    ExecuteExtensionCommand : (this : *ID3D12VideoProcessCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
 }
 
 ID3D12VideoProcessor_UUID :: "304fdb32-bede-410a-8545-943ac6a46138";
@@ -13516,16 +12494,6 @@ ID3D12VideoProcessor :: struct
     }
 }
 
-ID3D12VideoProcessorVTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
-
-    GetNodeMask : (this : *ID3D12VideoProcessor) -> u32 #cpp_method;
-    GetNumInputStreamDescs : (this : *ID3D12VideoProcessor) -> u32 #cpp_method;
-    GetInputStreamDescs : (this : *ID3D12VideoProcessor, NumInputStreamDescs : u32, pInputStreamDescs : *D3D12_VIDEO_PROCESS_INPUT_STREAM_DESC) -> HRESULT #cpp_method;
-    GetOutputStreamDesc : (this : *ID3D12VideoProcessor) -> D3D12_VIDEO_PROCESS_OUTPUT_STREAM_DESC #cpp_method;
-}
-
 ID3D12VideoProcessor1_UUID :: "f3cfe615-553f-425c-86d8-ee8c1b1fb01c";
 ID3D12VideoProcessor1 :: struct
 {
@@ -13540,13 +12508,6 @@ ID3D12VideoProcessor1 :: struct
     {
         return this.vtable.GetProtectedResourceSession (this, riid, ppProtectedSession);
     }
-}
-
-ID3D12VideoProcessor1VTable :: struct
-{
-    #as using, except (.["base"]) base : ID3D12VideoProcessorVTable;
-
-    GetProtectedResourceSession : (this : *ID3D12VideoProcessor1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 PFN_D3D12_CREATE_DEVICE :: #type (param0 : *IUnknown, param1 : D3D_FEATURE_LEVEL, param2 : *GUID, param3 : **void) -> HRESULT #c_call;
@@ -13573,6 +12534,1048 @@ D3D12GetDebugInterface :: (riid : *GUID, ppvDebug : **void) -> HRESULT #foreign 
 D3D12GetInterface :: (rclsid : *GUID, riid : *GUID, ppvDebug : **void) -> HRESULT #foreign d3d12;
 D3D12SerializeRootSignature :: (pRootSignature : *D3D12_ROOT_SIGNATURE_DESC, Version : D3D_ROOT_SIGNATURE_VERSION, ppBlob : **ID3DBlob, ppErrorBlob : **ID3DBlob) -> HRESULT #foreign d3d12;
 D3D12SerializeVersionedRootSignature :: (pRootSignature : *D3D12_VERSIONED_ROOT_SIGNATURE_DESC, ppBlob : **ID3DBlob, ppErrorBlob : **ID3DBlob) -> HRESULT #foreign d3d12;
+
+// COM interface vtables
+
+
+ID3D12CommandAllocatorVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    Reset : (this : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
+}
+
+ID3D12CommandListVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+    GetType : (this : *ID3D12CommandList) -> D3D12_COMMAND_LIST_TYPE #cpp_method;
+}
+
+ID3D12CommandQueueVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    UpdateTileMappings : (this : *ID3D12CommandQueue, pResource : *ID3D12Resource, NumResourceRegions : u32, pResourceRegionStartCoordinates : *D3D12_TILED_RESOURCE_COORDINATE, pResourceRegionSizes : *D3D12_TILE_REGION_SIZE, pHeap : *ID3D12Heap, NumRanges : u32, pRangeFlags : *D3D12_TILE_RANGE_FLAGS, pHeapRangeStartOffsets : *u32, pRangeTileCounts : *u32, Flags : D3D12_TILE_MAPPING_FLAGS) #cpp_method;
+    CopyTileMappings : (this : *ID3D12CommandQueue, pDstResource : *ID3D12Resource, pDstRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pSrcResource : *ID3D12Resource, pSrcRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pRegionSize : *D3D12_TILE_REGION_SIZE, Flags : D3D12_TILE_MAPPING_FLAGS) #cpp_method;
+    ExecuteCommandLists : (this : *ID3D12CommandQueue, NumCommandLists : u32, ppCommandLists : **ID3D12CommandList) #cpp_method;
+    SetMarker : (this : *ID3D12CommandQueue, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    BeginEvent : (this : *ID3D12CommandQueue, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    EndEvent : (this : *ID3D12CommandQueue) #cpp_method;
+    Signal : (this : *ID3D12CommandQueue, pFence : *ID3D12Fence, Value : u64) -> HRESULT #cpp_method;
+    Wait : (this : *ID3D12CommandQueue, pFence : *ID3D12Fence, Value : u64) -> HRESULT #cpp_method;
+    GetTimestampFrequency : (this : *ID3D12CommandQueue, pFrequency : *u64) -> HRESULT #cpp_method;
+    GetClockCalibration : (this : *ID3D12CommandQueue, pGpuTimestamp : *u64, pCpuTimestamp : *u64) -> HRESULT #cpp_method;
+    GetDesc : (this : *ID3D12CommandQueue) -> D3D12_COMMAND_QUEUE_DESC #cpp_method;
+}
+
+ID3D12CommandSignatureVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+}
+
+ID3D12DebugVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    EnableDebugLayer : (this : *ID3D12Debug) #cpp_method;
+}
+
+ID3D12Debug1VTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    EnableDebugLayer : (this : *ID3D12Debug1) #cpp_method;
+    SetEnableGPUBasedValidation : (this : *ID3D12Debug1, Enable : BOOL) #cpp_method;
+    SetEnableSynchronizedCommandQueueValidation : (this : *ID3D12Debug1, Enable : BOOL) #cpp_method;
+}
+
+ID3D12Debug2VTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetGPUBasedValidationFlags : (this : *ID3D12Debug2, Flags : D3D12_GPU_BASED_VALIDATION_FLAGS) #cpp_method;
+}
+
+ID3D12Debug3VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DebugVTable;
+
+    SetEnableGPUBasedValidation : (this : *ID3D12Debug3, Enable : BOOL) #cpp_method;
+    SetEnableSynchronizedCommandQueueValidation : (this : *ID3D12Debug3, Enable : BOOL) #cpp_method;
+    SetGPUBasedValidationFlags : (this : *ID3D12Debug3, Flags : D3D12_GPU_BASED_VALIDATION_FLAGS) #cpp_method;
+}
+
+ID3D12Debug4VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Debug3VTable;
+
+    DisableDebugLayer : (this : *ID3D12Debug4) #cpp_method;
+}
+
+ID3D12Debug5VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Debug4VTable;
+
+    SetEnableAutoName : (this : *ID3D12Debug5, Enable : BOOL) #cpp_method;
+}
+
+ID3D12DebugCommandListVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    AssertResourceState : (this : *ID3D12DebugCommandList, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
+    SetFeatureMask : (this : *ID3D12DebugCommandList, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #cpp_method;
+    GetFeatureMask : (this : *ID3D12DebugCommandList) -> D3D12_DEBUG_FEATURE #cpp_method;
+}
+
+ID3D12DebugCommandList1VTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    AssertResourceState : (this : *ID3D12DebugCommandList1, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
+    SetDebugParameter : (this : *ID3D12DebugCommandList1, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+    GetDebugParameter : (this : *ID3D12DebugCommandList1, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+}
+
+ID3D12DebugCommandList2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DebugCommandListVTable;
+
+    SetDebugParameter : (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+    GetDebugParameter : (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+}
+
+ID3D12DebugCommandQueueVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    AssertResourceState : (this : *ID3D12DebugCommandQueue, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
+}
+
+ID3D12DebugDeviceVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetFeatureMask : (this : *ID3D12DebugDevice, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #cpp_method;
+    GetFeatureMask : (this : *ID3D12DebugDevice) -> D3D12_DEBUG_FEATURE #cpp_method;
+    ReportLiveDeviceObjects : (this : *ID3D12DebugDevice, Flags : D3D12_RLDO_FLAGS) -> HRESULT #cpp_method;
+}
+
+ID3D12DebugDevice1VTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetDebugParameter : (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+    GetDebugParameter : (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+    ReportLiveDeviceObjects : (this : *ID3D12DebugDevice1, Flags : D3D12_RLDO_FLAGS) -> HRESULT #cpp_method;
+}
+
+ID3D12DebugDevice2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DebugDeviceVTable;
+
+    SetDebugParameter : (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+    GetDebugParameter : (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
+}
+
+ID3D12DescriptorHeapVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12DescriptorHeap) -> D3D12_DESCRIPTOR_HEAP_DESC #cpp_method;
+    GetCPUDescriptorHandleForHeapStart : (this : *ID3D12DescriptorHeap) -> D3D12_CPU_DESCRIPTOR_HANDLE #cpp_method;
+    GetGPUDescriptorHandleForHeapStart : (this : *ID3D12DescriptorHeap) -> D3D12_GPU_DESCRIPTOR_HANDLE #cpp_method;
+}
+
+ID3D12DeviceVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12ObjectVTable;
+
+    GetNodeCount : (this : *ID3D12Device) -> u32 #cpp_method;
+    CreateCommandQueue : (this : *ID3D12Device, pDesc : *D3D12_COMMAND_QUEUE_DESC, riid : *GUID, ppCommandQueue : **void) -> HRESULT #cpp_method;
+    CreateCommandAllocator : (this : *ID3D12Device, type : D3D12_COMMAND_LIST_TYPE, riid : *GUID, ppCommandAllocator : **void) -> HRESULT #cpp_method;
+    CreateGraphicsPipelineState : (this : *ID3D12Device, pDesc : *D3D12_GRAPHICS_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
+    CreateComputePipelineState : (this : *ID3D12Device, pDesc : *D3D12_COMPUTE_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
+    CreateCommandList : (this : *ID3D12Device, nodeMask : u32, type : D3D12_COMMAND_LIST_TYPE, pCommandAllocator : *ID3D12CommandAllocator, pInitialState : *ID3D12PipelineState, riid : *GUID, ppCommandList : **void) -> HRESULT #cpp_method;
+    CheckFeatureSupport : (this : *ID3D12Device, Feature : D3D12_FEATURE, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #cpp_method;
+    CreateDescriptorHeap : (this : *ID3D12Device, pDescriptorHeapDesc : *D3D12_DESCRIPTOR_HEAP_DESC, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
+    GetDescriptorHandleIncrementSize : (this : *ID3D12Device, DescriptorHeapType : D3D12_DESCRIPTOR_HEAP_TYPE) -> u32 #cpp_method;
+    CreateRootSignature : (this : *ID3D12Device, nodeMask : u32, pBlobWithRootSignature : *void, blobLengthInBytes : u64, riid : *GUID, ppvRootSignature : **void) -> HRESULT #cpp_method;
+    CreateConstantBufferView : (this : *ID3D12Device, pDesc : *D3D12_CONSTANT_BUFFER_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    CreateShaderResourceView : (this : *ID3D12Device, pResource : *ID3D12Resource, pDesc : *D3D12_SHADER_RESOURCE_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    CreateUnorderedAccessView : (this : *ID3D12Device, pResource : *ID3D12Resource, pCounterResource : *ID3D12Resource, pDesc : *D3D12_UNORDERED_ACCESS_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    CreateRenderTargetView : (this : *ID3D12Device, pResource : *ID3D12Resource, pDesc : *D3D12_RENDER_TARGET_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    CreateDepthStencilView : (this : *ID3D12Device, pResource : *ID3D12Resource, pDesc : *D3D12_DEPTH_STENCIL_VIEW_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    CreateSampler : (this : *ID3D12Device, pDesc : *D3D12_SAMPLER_DESC, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    CopyDescriptors : (this : *ID3D12Device, NumDestDescriptorRanges : u32, pDestDescriptorRangeStarts : *D3D12_CPU_DESCRIPTOR_HANDLE, pDestDescriptorRangeSizes : *u32, NumSrcDescriptorRanges : u32, pSrcDescriptorRangeStarts : *D3D12_CPU_DESCRIPTOR_HANDLE, pSrcDescriptorRangeSizes : *u32, DescriptorHeapsType : D3D12_DESCRIPTOR_HEAP_TYPE) #cpp_method;
+    CopyDescriptorsSimple : (this : *ID3D12Device, NumDescriptors : u32, DestDescriptorRangeStart : D3D12_CPU_DESCRIPTOR_HANDLE, SrcDescriptorRangeStart : D3D12_CPU_DESCRIPTOR_HANDLE, DescriptorHeapsType : D3D12_DESCRIPTOR_HEAP_TYPE) #cpp_method;
+    GetResourceAllocationInfo : (this : *ID3D12Device, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
+    GetCustomHeapProperties : (this : *ID3D12Device, nodeMask : u32, heapType : D3D12_HEAP_TYPE) -> D3D12_HEAP_PROPERTIES #cpp_method;
+    CreateCommittedResource : (this : *ID3D12Device, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    CreateHeap : (this : *ID3D12Device, pDesc : *D3D12_HEAP_DESC, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
+    CreatePlacedResource : (this : *ID3D12Device, pHeap : *ID3D12Heap, HeapOffset : u64, pDesc : *D3D12_RESOURCE_DESC, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    CreateReservedResource : (this : *ID3D12Device, pDesc : *D3D12_RESOURCE_DESC, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    CreateSharedHandle : (this : *ID3D12Device, pObject : *ID3D12DeviceChild, pAttributes : *SECURITY_ATTRIBUTES, Access : u32, Name : PWSTR, pHandle : *HANDLE) -> HRESULT #cpp_method;
+    OpenSharedHandle : (this : *ID3D12Device, NTHandle : HANDLE, riid : *GUID, ppvObj : **void) -> HRESULT #cpp_method;
+    OpenSharedHandleByName : (this : *ID3D12Device, Name : PWSTR, Access : u32, pNTHandle : *HANDLE) -> HRESULT #cpp_method;
+    MakeResident : (this : *ID3D12Device, NumObjects : u32, ppObjects : **ID3D12Pageable) -> HRESULT #cpp_method;
+    Evict : (this : *ID3D12Device, NumObjects : u32, ppObjects : **ID3D12Pageable) -> HRESULT #cpp_method;
+    CreateFence : (this : *ID3D12Device, InitialValue : u64, Flags : D3D12_FENCE_FLAGS, riid : *GUID, ppFence : **void) -> HRESULT #cpp_method;
+    GetDeviceRemovedReason : (this : *ID3D12Device) -> HRESULT #cpp_method;
+    GetCopyableFootprints : (this : *ID3D12Device, pResourceDesc : *D3D12_RESOURCE_DESC, FirstSubresource : u32, NumSubresources : u32, BaseOffset : u64, pLayouts : *D3D12_PLACED_SUBRESOURCE_FOOTPRINT, pNumRows : *u32, pRowSizeInBytes : *u64, pTotalBytes : *u64) #cpp_method;
+    CreateQueryHeap : (this : *ID3D12Device, pDesc : *D3D12_QUERY_HEAP_DESC, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
+    SetStablePowerState : (this : *ID3D12Device, Enable : BOOL) -> HRESULT #cpp_method;
+    CreateCommandSignature : (this : *ID3D12Device, pDesc : *D3D12_COMMAND_SIGNATURE_DESC, pRootSignature : *ID3D12RootSignature, riid : *GUID, ppvCommandSignature : **void) -> HRESULT #cpp_method;
+    GetResourceTiling : (this : *ID3D12Device, pTiledResource : *ID3D12Resource, pNumTilesForEntireResource : *u32, pPackedMipDesc : *D3D12_PACKED_MIP_INFO, pStandardTileShapeForNonPackedMips : *D3D12_TILE_SHAPE, pNumSubresourceTilings : *u32, FirstSubresourceTilingToGet : u32, pSubresourceTilingsForNonPackedMips : *D3D12_SUBRESOURCE_TILING) #cpp_method;
+    GetAdapterLuid : (this : *ID3D12Device) -> LUID #cpp_method;
+}
+
+ID3D12Device1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceVTable;
+
+    CreatePipelineLibrary : (this : *ID3D12Device1, pLibraryBlob : *void, BlobLength : u64, riid : *GUID, ppPipelineLibrary : **void) -> HRESULT #cpp_method;
+    SetEventOnMultipleFenceCompletion : (this : *ID3D12Device1, ppFences : **ID3D12Fence, pFenceValues : *u64, NumFences : u32, Flags : D3D12_MULTIPLE_FENCE_WAIT_FLAGS, hEvent : HANDLE) -> HRESULT #cpp_method;
+    SetResidencyPriority : (this : *ID3D12Device1, NumObjects : u32, ppObjects : **ID3D12Pageable, pPriorities : *D3D12_RESIDENCY_PRIORITY) -> HRESULT #cpp_method;
+}
+
+ID3D12Device2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device1VTable;
+
+    CreatePipelineState : (this : *ID3D12Device2, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12Device3VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device2VTable;
+
+    OpenExistingHeapFromAddress : (this : *ID3D12Device3, pAddress : *void, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
+    OpenExistingHeapFromFileMapping : (this : *ID3D12Device3, hFileMapping : HANDLE, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
+    EnqueueMakeResident : (this : *ID3D12Device3, Flags : D3D12_RESIDENCY_FLAGS, NumObjects : u32, ppObjects : **ID3D12Pageable, pFenceToSignal : *ID3D12Fence, FenceValueToSignal : u64) -> HRESULT #cpp_method;
+}
+
+ID3D12Device4VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device3VTable;
+
+    CreateCommandList1 : (this : *ID3D12Device4, nodeMask : u32, type : D3D12_COMMAND_LIST_TYPE, flags : D3D12_COMMAND_LIST_FLAGS, riid : *GUID, ppCommandList : **void) -> HRESULT #cpp_method;
+    CreateProtectedResourceSession : (this : *ID3D12Device4, pDesc : *D3D12_PROTECTED_RESOURCE_SESSION_DESC, riid : *GUID, ppSession : **void) -> HRESULT #cpp_method;
+    CreateCommittedResource1 : (this : *ID3D12Device4, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    CreateHeap1 : (this : *ID3D12Device4, pDesc : *D3D12_HEAP_DESC, pProtectedSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
+    CreateReservedResource1 : (this : *ID3D12Device4, pDesc : *D3D12_RESOURCE_DESC, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    GetResourceAllocationInfo1 : (this : *ID3D12Device4, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC, pResourceAllocationInfo1 : *D3D12_RESOURCE_ALLOCATION_INFO1) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
+}
+
+ID3D12Device5VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device4VTable;
+
+    CreateLifetimeTracker : (this : *ID3D12Device5, pOwner : *ID3D12LifetimeOwner, riid : *GUID, ppvTracker : **void) -> HRESULT #cpp_method;
+    RemoveDevice : (this : *ID3D12Device5) #cpp_method;
+    EnumerateMetaCommands : (this : *ID3D12Device5, pNumMetaCommands : *u32, pDescs : *D3D12_META_COMMAND_DESC) -> HRESULT #cpp_method;
+    EnumerateMetaCommandParameters : (this : *ID3D12Device5, CommandId : *GUID, Stage : D3D12_META_COMMAND_PARAMETER_STAGE, pTotalStructureSizeInBytes : *u32, pParameterCount : *u32, pParameterDescs : *D3D12_META_COMMAND_PARAMETER_DESC) -> HRESULT #cpp_method;
+    CreateMetaCommand : (this : *ID3D12Device5, CommandId : *GUID, NodeMask : u32, pCreationParametersData : *void, CreationParametersDataSizeInBytes : u64, riid : *GUID, ppMetaCommand : **void) -> HRESULT #cpp_method;
+    CreateStateObject : (this : *ID3D12Device5, pDesc : *D3D12_STATE_OBJECT_DESC, riid : *GUID, ppStateObject : **void) -> HRESULT #cpp_method;
+    GetRaytracingAccelerationStructurePrebuildInfo : (this : *ID3D12Device5, pDesc : *D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS, pInfo : *D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO) #cpp_method;
+    CheckDriverMatchingIdentifier : (this : *ID3D12Device5, SerializedDataType : D3D12_SERIALIZED_DATA_TYPE, pIdentifierToCheck : *D3D12_SERIALIZED_DATA_DRIVER_MATCHING_IDENTIFIER) -> D3D12_DRIVER_MATCHING_IDENTIFIER_STATUS #cpp_method;
+}
+
+ID3D12Device6VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device5VTable;
+
+    SetBackgroundProcessingMode : (this : *ID3D12Device6, Mode : D3D12_BACKGROUND_PROCESSING_MODE, MeasurementsAction : D3D12_MEASUREMENTS_ACTION, hEventToSignalUponCompletion : HANDLE, pbFurtherMeasurementsDesired : *BOOL) -> HRESULT #cpp_method;
+}
+
+ID3D12Device7VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device6VTable;
+
+    AddToStateObject : (this : *ID3D12Device7, pAddition : *D3D12_STATE_OBJECT_DESC, pStateObjectToGrowFrom : *ID3D12StateObject, riid : *GUID, ppNewStateObject : **void) -> HRESULT #cpp_method;
+    CreateProtectedResourceSession1 : (this : *ID3D12Device7, pDesc : *D3D12_PROTECTED_RESOURCE_SESSION_DESC1, riid : *GUID, ppSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12Device8VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device7VTable;
+
+    GetResourceAllocationInfo2 : (this : *ID3D12Device8, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC1, pResourceAllocationInfo1 : *D3D12_RESOURCE_ALLOCATION_INFO1) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
+    CreateCommittedResource2 : (this : *ID3D12Device8, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC1, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    CreatePlacedResource1 : (this : *ID3D12Device8, pHeap : *ID3D12Heap, HeapOffset : u64, pDesc : *D3D12_RESOURCE_DESC1, InitialState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, riid : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
+    CreateSamplerFeedbackUnorderedAccessView : (this : *ID3D12Device8, pTargetedResource : *ID3D12Resource, pFeedbackResource : *ID3D12Resource, DestDescriptor : D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    GetCopyableFootprints1 : (this : *ID3D12Device8, pResourceDesc : *D3D12_RESOURCE_DESC1, FirstSubresource : u32, NumSubresources : u32, BaseOffset : u64, pLayouts : *D3D12_PLACED_SUBRESOURCE_FOOTPRINT, pNumRows : *u32, pRowSizeInBytes : *u64, pTotalBytes : *u64) #cpp_method;
+}
+
+ID3D12Device9VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Device8VTable;
+
+    CreateShaderCacheSession : (this : *ID3D12Device9, pDesc : *D3D12_SHADER_CACHE_SESSION_DESC, riid : *GUID, ppvSession : **void) -> HRESULT #cpp_method;
+    ShaderCacheControl : (this : *ID3D12Device9, Kinds : D3D12_SHADER_CACHE_KIND_FLAGS, Control : D3D12_SHADER_CACHE_CONTROL_FLAGS) -> HRESULT #cpp_method;
+    CreateCommandQueue1 : (this : *ID3D12Device9, pDesc : *D3D12_COMMAND_QUEUE_DESC, CreatorID : *GUID, riid : *GUID, ppCommandQueue : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12DeviceChildVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12ObjectVTable;
+
+    GetDevice : (this : *ID3D12DeviceChild, riid : *GUID, ppvDevice : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12DeviceRemovedExtendedDataVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetAutoBreadcrumbsOutput : (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT) -> HRESULT #cpp_method;
+    GetPageFaultAllocationOutput : (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT) -> HRESULT #cpp_method;
+}
+
+ID3D12DeviceRemovedExtendedData1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedDataVTable;
+
+    GetAutoBreadcrumbsOutput1 : (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1) -> HRESULT #cpp_method;
+    GetPageFaultAllocationOutput1 : (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT1) -> HRESULT #cpp_method;
+}
+
+ID3D12DeviceRemovedExtendedData2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedData1VTable;
+
+    GetPageFaultAllocationOutput2 : (this : *ID3D12DeviceRemovedExtendedData2, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT2) -> HRESULT #cpp_method;
+    GetDeviceState : (this : *ID3D12DeviceRemovedExtendedData2) -> D3D12_DRED_DEVICE_STATE #cpp_method;
+}
+
+ID3D12DeviceRemovedExtendedDataSettingsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetAutoBreadcrumbsEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
+    SetPageFaultEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
+    SetWatsonDumpEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
+}
+
+ID3D12DeviceRemovedExtendedDataSettings1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedDataSettingsVTable;
+
+    SetBreadcrumbContextEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings1, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
+}
+
+ID3D12FenceVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetCompletedValue : (this : *ID3D12Fence) -> u64 #cpp_method;
+    SetEventOnCompletion : (this : *ID3D12Fence, Value : u64, hEvent : HANDLE) -> HRESULT #cpp_method;
+    Signal : (this : *ID3D12Fence, Value : u64) -> HRESULT #cpp_method;
+}
+
+ID3D12Fence1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12FenceVTable;
+
+    GetCreationFlags : (this : *ID3D12Fence1) -> D3D12_FENCE_FLAGS #cpp_method;
+}
+
+ID3D12FunctionParameterReflectionVTable :: struct
+{
+    GetDesc : (this : *ID3D12FunctionParameterReflection, pDesc : *D3D12_PARAMETER_DESC) -> HRESULT #cpp_method;
+}
+
+ID3D12FunctionReflectionVTable :: struct
+{
+    GetDesc : (this : *ID3D12FunctionReflection, pDesc : *D3D12_FUNCTION_DESC) -> HRESULT #cpp_method;
+    GetConstantBufferByIndex : (this : *ID3D12FunctionReflection, BufferIndex : u32) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
+    GetConstantBufferByName : (this : *ID3D12FunctionReflection, Name : PSTR) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
+    GetResourceBindingDesc : (this : *ID3D12FunctionReflection, ResourceIndex : u32, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
+    GetVariableByName : (this : *ID3D12FunctionReflection, Name : PSTR) -> *ID3D12ShaderReflectionVariable #cpp_method;
+    GetResourceBindingDescByName : (this : *ID3D12FunctionReflection, Name : PSTR, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
+    GetFunctionParameter : (this : *ID3D12FunctionReflection, ParameterIndex : s32) -> *ID3D12FunctionParameterReflection #cpp_method;
+}
+
+ID3D12GraphicsCommandListVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+
+    Close : (this : *ID3D12GraphicsCommandList) -> HRESULT #cpp_method;
+    Reset : (this : *ID3D12GraphicsCommandList, pAllocator : *ID3D12CommandAllocator, pInitialState : *ID3D12PipelineState) -> HRESULT #cpp_method;
+    ClearState : (this : *ID3D12GraphicsCommandList, pPipelineState : *ID3D12PipelineState) #cpp_method;
+    DrawInstanced : (this : *ID3D12GraphicsCommandList, VertexCountPerInstance : u32, InstanceCount : u32, StartVertexLocation : u32, StartInstanceLocation : u32) #cpp_method;
+    DrawIndexedInstanced : (this : *ID3D12GraphicsCommandList, IndexCountPerInstance : u32, InstanceCount : u32, StartIndexLocation : u32, BaseVertexLocation : s32, StartInstanceLocation : u32) #cpp_method;
+    Dispatch : (this : *ID3D12GraphicsCommandList, ThreadGroupCountX : u32, ThreadGroupCountY : u32, ThreadGroupCountZ : u32) #cpp_method;
+    CopyBufferRegion : (this : *ID3D12GraphicsCommandList, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, NumBytes : u64) #cpp_method;
+    CopyTextureRegion : (this : *ID3D12GraphicsCommandList, pDst : *D3D12_TEXTURE_COPY_LOCATION, DstX : u32, DstY : u32, DstZ : u32, pSrc : *D3D12_TEXTURE_COPY_LOCATION, pSrcBox : *D3D12_BOX) #cpp_method;
+    CopyResource : (this : *ID3D12GraphicsCommandList, pDstResource : *ID3D12Resource, pSrcResource : *ID3D12Resource) #cpp_method;
+    CopyTiles : (this : *ID3D12GraphicsCommandList, pTiledResource : *ID3D12Resource, pTileRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pTileRegionSize : *D3D12_TILE_REGION_SIZE, pBuffer : *ID3D12Resource, BufferStartOffsetInBytes : u64, Flags : D3D12_TILE_COPY_FLAGS) #cpp_method;
+    ResolveSubresource : (this : *ID3D12GraphicsCommandList, pDstResource : *ID3D12Resource, DstSubresource : u32, pSrcResource : *ID3D12Resource, SrcSubresource : u32, Format : DXGI_FORMAT) #cpp_method;
+    IASetPrimitiveTopology : (this : *ID3D12GraphicsCommandList, PrimitiveTopology : D3D_PRIMITIVE_TOPOLOGY) #cpp_method;
+    RSSetViewports : (this : *ID3D12GraphicsCommandList, NumViewports : u32, pViewports : *D3D12_VIEWPORT) #cpp_method;
+    RSSetScissorRects : (this : *ID3D12GraphicsCommandList, NumRects : u32, pRects : *RECT) #cpp_method;
+    OMSetBlendFactor : (this : *ID3D12GraphicsCommandList, BlendFactor : *[4]float) #cpp_method;
+    OMSetStencilRef : (this : *ID3D12GraphicsCommandList, StencilRef : u32) #cpp_method;
+    SetPipelineState : (this : *ID3D12GraphicsCommandList, pPipelineState : *ID3D12PipelineState) #cpp_method;
+    ResourceBarrier : (this : *ID3D12GraphicsCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
+    ExecuteBundle : (this : *ID3D12GraphicsCommandList, pCommandList : *ID3D12GraphicsCommandList) #cpp_method;
+    SetDescriptorHeaps : (this : *ID3D12GraphicsCommandList, NumDescriptorHeaps : u32, ppDescriptorHeaps : **ID3D12DescriptorHeap) #cpp_method;
+    SetComputeRootSignature : (this : *ID3D12GraphicsCommandList, pRootSignature : *ID3D12RootSignature) #cpp_method;
+    SetGraphicsRootSignature : (this : *ID3D12GraphicsCommandList, pRootSignature : *ID3D12RootSignature) #cpp_method;
+    SetComputeRootDescriptorTable : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BaseDescriptor : D3D12_GPU_DESCRIPTOR_HANDLE) #cpp_method;
+    SetGraphicsRootDescriptorTable : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BaseDescriptor : D3D12_GPU_DESCRIPTOR_HANDLE) #cpp_method;
+    SetComputeRoot32BitConstant : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, SrcData : u32, DestOffsetIn32BitValues : u32) #cpp_method;
+    SetGraphicsRoot32BitConstant : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, SrcData : u32, DestOffsetIn32BitValues : u32) #cpp_method;
+    SetComputeRoot32BitConstants : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, Num32BitValuesToSet : u32, pSrcData : *void, DestOffsetIn32BitValues : u32) #cpp_method;
+    SetGraphicsRoot32BitConstants : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, Num32BitValuesToSet : u32, pSrcData : *void, DestOffsetIn32BitValues : u32) #cpp_method;
+    SetComputeRootConstantBufferView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
+    SetGraphicsRootConstantBufferView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
+    SetComputeRootShaderResourceView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
+    SetGraphicsRootShaderResourceView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
+    SetComputeRootUnorderedAccessView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
+    SetGraphicsRootUnorderedAccessView : (this : *ID3D12GraphicsCommandList, RootParameterIndex : u32, BufferLocation : u64) #cpp_method;
+    IASetIndexBuffer : (this : *ID3D12GraphicsCommandList, pView : *D3D12_INDEX_BUFFER_VIEW) #cpp_method;
+    IASetVertexBuffers : (this : *ID3D12GraphicsCommandList, StartSlot : u32, NumViews : u32, pViews : *D3D12_VERTEX_BUFFER_VIEW) #cpp_method;
+    SOSetTargets : (this : *ID3D12GraphicsCommandList, StartSlot : u32, NumViews : u32, pViews : *D3D12_STREAM_OUTPUT_BUFFER_VIEW) #cpp_method;
+    OMSetRenderTargets : (this : *ID3D12GraphicsCommandList, NumRenderTargetDescriptors : u32, pRenderTargetDescriptors : *D3D12_CPU_DESCRIPTOR_HANDLE, RTsSingleHandleToDescriptorRange : BOOL, pDepthStencilDescriptor : *D3D12_CPU_DESCRIPTOR_HANDLE) #cpp_method;
+    ClearDepthStencilView : (this : *ID3D12GraphicsCommandList, DepthStencilView : D3D12_CPU_DESCRIPTOR_HANDLE, ClearFlags : D3D12_CLEAR_FLAGS, Depth : float, Stencil : u8, NumRects : u32, pRects : *RECT) #cpp_method;
+    ClearRenderTargetView : (this : *ID3D12GraphicsCommandList, RenderTargetView : D3D12_CPU_DESCRIPTOR_HANDLE, ColorRGBA : *float, NumRects : u32, pRects : *RECT) #cpp_method;
+    ClearUnorderedAccessViewUint : (this : *ID3D12GraphicsCommandList, ViewGPUHandleInCurrentHeap : D3D12_GPU_DESCRIPTOR_HANDLE, ViewCPUHandle : D3D12_CPU_DESCRIPTOR_HANDLE, pResource : *ID3D12Resource, Values : *u32, NumRects : u32, pRects : *RECT) #cpp_method;
+    ClearUnorderedAccessViewFloat : (this : *ID3D12GraphicsCommandList, ViewGPUHandleInCurrentHeap : D3D12_GPU_DESCRIPTOR_HANDLE, ViewCPUHandle : D3D12_CPU_DESCRIPTOR_HANDLE, pResource : *ID3D12Resource, Values : *float, NumRects : u32, pRects : *RECT) #cpp_method;
+    DiscardResource : (this : *ID3D12GraphicsCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
+    BeginQuery : (this : *ID3D12GraphicsCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    EndQuery : (this : *ID3D12GraphicsCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    ResolveQueryData : (this : *ID3D12GraphicsCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
+    SetPredication : (this : *ID3D12GraphicsCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
+    SetMarker : (this : *ID3D12GraphicsCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    BeginEvent : (this : *ID3D12GraphicsCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    EndEvent : (this : *ID3D12GraphicsCommandList) #cpp_method;
+    ExecuteIndirect : (this : *ID3D12GraphicsCommandList, pCommandSignature : *ID3D12CommandSignature, MaxCommandCount : u32, pArgumentBuffer : *ID3D12Resource, ArgumentBufferOffset : u64, pCountBuffer : *ID3D12Resource, CountBufferOffset : u64) #cpp_method;
+}
+
+ID3D12GraphicsCommandList1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12GraphicsCommandListVTable;
+
+    AtomicCopyBufferUINT : (this : *ID3D12GraphicsCommandList1, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, Dependencies : u32, ppDependentResources : **ID3D12Resource, pDependentSubresourceRanges : *D3D12_SUBRESOURCE_RANGE_UINT64) #cpp_method;
+    AtomicCopyBufferUINT64 : (this : *ID3D12GraphicsCommandList1, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, Dependencies : u32, ppDependentResources : **ID3D12Resource, pDependentSubresourceRanges : *D3D12_SUBRESOURCE_RANGE_UINT64) #cpp_method;
+    OMSetDepthBounds : (this : *ID3D12GraphicsCommandList1, Min : float, Max : float) #cpp_method;
+    SetSamplePositions : (this : *ID3D12GraphicsCommandList1, NumSamplesPerPixel : u32, NumPixels : u32, pSamplePositions : *D3D12_SAMPLE_POSITION) #cpp_method;
+    ResolveSubresourceRegion : (this : *ID3D12GraphicsCommandList1, pDstResource : *ID3D12Resource, DstSubresource : u32, DstX : u32, DstY : u32, pSrcResource : *ID3D12Resource, SrcSubresource : u32, pSrcRect : *RECT, Format : DXGI_FORMAT, ResolveMode : D3D12_RESOLVE_MODE) #cpp_method;
+    SetViewInstanceMask : (this : *ID3D12GraphicsCommandList1, Mask : u32) #cpp_method;
+}
+
+ID3D12GraphicsCommandList2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12GraphicsCommandList1VTable;
+
+    WriteBufferImmediate : (this : *ID3D12GraphicsCommandList2, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
+}
+
+ID3D12GraphicsCommandList3VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12GraphicsCommandList2VTable;
+
+    SetProtectedResourceSession : (this : *ID3D12GraphicsCommandList3, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
+}
+
+ID3D12GraphicsCommandList4VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12GraphicsCommandList3VTable;
+
+    BeginRenderPass : (this : *ID3D12GraphicsCommandList4, NumRenderTargets : u32, pRenderTargets : *D3D12_RENDER_PASS_RENDER_TARGET_DESC, pDepthStencil : *D3D12_RENDER_PASS_DEPTH_STENCIL_DESC, Flags : D3D12_RENDER_PASS_FLAGS) #cpp_method;
+    EndRenderPass : (this : *ID3D12GraphicsCommandList4) #cpp_method;
+    InitializeMetaCommand : (this : *ID3D12GraphicsCommandList4, pMetaCommand : *ID3D12MetaCommand, pInitializationParametersData : *void, InitializationParametersDataSizeInBytes : u64) #cpp_method;
+    ExecuteMetaCommand : (this : *ID3D12GraphicsCommandList4, pMetaCommand : *ID3D12MetaCommand, pExecutionParametersData : *void, ExecutionParametersDataSizeInBytes : u64) #cpp_method;
+    BuildRaytracingAccelerationStructure : (this : *ID3D12GraphicsCommandList4, pDesc : *D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC, NumPostbuildInfoDescs : u32, pPostbuildInfoDescs : *D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC) #cpp_method;
+    EmitRaytracingAccelerationStructurePostbuildInfo : (this : *ID3D12GraphicsCommandList4, pDesc : *D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC, NumSourceAccelerationStructures : u32, pSourceAccelerationStructureData : *u64) #cpp_method;
+    CopyRaytracingAccelerationStructure : (this : *ID3D12GraphicsCommandList4, DestAccelerationStructureData : u64, SourceAccelerationStructureData : u64, Mode : D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE) #cpp_method;
+    SetPipelineState1 : (this : *ID3D12GraphicsCommandList4, pStateObject : *ID3D12StateObject) #cpp_method;
+    DispatchRays : (this : *ID3D12GraphicsCommandList4, pDesc : *D3D12_DISPATCH_RAYS_DESC) #cpp_method;
+}
+
+ID3D12GraphicsCommandList5VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12GraphicsCommandList4VTable;
+
+    RSSetShadingRate : (this : *ID3D12GraphicsCommandList5, baseShadingRate : D3D12_SHADING_RATE, combiners : *D3D12_SHADING_RATE_COMBINER) #cpp_method;
+    RSSetShadingRateImage : (this : *ID3D12GraphicsCommandList5, shadingRateImage : *ID3D12Resource) #cpp_method;
+}
+
+ID3D12GraphicsCommandList6VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12GraphicsCommandList5VTable;
+
+    DispatchMesh : (this : *ID3D12GraphicsCommandList6, ThreadGroupCountX : u32, ThreadGroupCountY : u32, ThreadGroupCountZ : u32) #cpp_method;
+}
+
+ID3D12HeapVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12Heap) -> D3D12_HEAP_DESC #cpp_method;
+}
+
+ID3D12Heap1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12HeapVTable;
+
+    GetProtectedResourceSession : (this : *ID3D12Heap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12InfoQueueVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetMessageCountLimit : (this : *ID3D12InfoQueue, MessageCountLimit : u64) -> HRESULT #cpp_method;
+    ClearStoredMessages : (this : *ID3D12InfoQueue) #cpp_method;
+    GetMessage : (this : *ID3D12InfoQueue, MessageIndex : u64, pMessage : *D3D12_MESSAGE, pMessageByteLength : *u64) -> HRESULT #cpp_method;
+    GetNumMessagesAllowedByStorageFilter : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
+    GetNumMessagesDeniedByStorageFilter : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
+    GetNumStoredMessages : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
+    GetNumStoredMessagesAllowedByRetrievalFilter : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
+    GetNumMessagesDiscardedByMessageCountLimit : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
+    GetMessageCountLimit : (this : *ID3D12InfoQueue) -> u64 #cpp_method;
+    AddStorageFilterEntries : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
+    GetStorageFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER, pFilterByteLength : *u64) -> HRESULT #cpp_method;
+    ClearStorageFilter : (this : *ID3D12InfoQueue) #cpp_method;
+    PushEmptyStorageFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
+    PushCopyOfStorageFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
+    PushStorageFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
+    PopStorageFilter : (this : *ID3D12InfoQueue) #cpp_method;
+    GetStorageFilterStackSize : (this : *ID3D12InfoQueue) -> u32 #cpp_method;
+    AddRetrievalFilterEntries : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
+    GetRetrievalFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER, pFilterByteLength : *u64) -> HRESULT #cpp_method;
+    ClearRetrievalFilter : (this : *ID3D12InfoQueue) #cpp_method;
+    PushEmptyRetrievalFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
+    PushCopyOfRetrievalFilter : (this : *ID3D12InfoQueue) -> HRESULT #cpp_method;
+    PushRetrievalFilter : (this : *ID3D12InfoQueue, pFilter : *D3D12_INFO_QUEUE_FILTER) -> HRESULT #cpp_method;
+    PopRetrievalFilter : (this : *ID3D12InfoQueue) #cpp_method;
+    GetRetrievalFilterStackSize : (this : *ID3D12InfoQueue) -> u32 #cpp_method;
+    AddMessage : (this : *ID3D12InfoQueue, Category : D3D12_MESSAGE_CATEGORY, Severity : D3D12_MESSAGE_SEVERITY, ID : D3D12_MESSAGE_ID, pDescription : PSTR) -> HRESULT #cpp_method;
+    AddApplicationMessage : (this : *ID3D12InfoQueue, Severity : D3D12_MESSAGE_SEVERITY, pDescription : PSTR) -> HRESULT #cpp_method;
+    SetBreakOnCategory : (this : *ID3D12InfoQueue, Category : D3D12_MESSAGE_CATEGORY, bEnable : BOOL) -> HRESULT #cpp_method;
+    SetBreakOnSeverity : (this : *ID3D12InfoQueue, Severity : D3D12_MESSAGE_SEVERITY, bEnable : BOOL) -> HRESULT #cpp_method;
+    SetBreakOnID : (this : *ID3D12InfoQueue, ID : D3D12_MESSAGE_ID, bEnable : BOOL) -> HRESULT #cpp_method;
+    GetBreakOnCategory : (this : *ID3D12InfoQueue, Category : D3D12_MESSAGE_CATEGORY) -> BOOL #cpp_method;
+    GetBreakOnSeverity : (this : *ID3D12InfoQueue, Severity : D3D12_MESSAGE_SEVERITY) -> BOOL #cpp_method;
+    GetBreakOnID : (this : *ID3D12InfoQueue, ID : D3D12_MESSAGE_ID) -> BOOL #cpp_method;
+    SetMuteDebugOutput : (this : *ID3D12InfoQueue, bMute : BOOL) #cpp_method;
+    GetMuteDebugOutput : (this : *ID3D12InfoQueue) -> BOOL #cpp_method;
+}
+
+ID3D12InfoQueue1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12InfoQueueVTable;
+
+    RegisterMessageCallback : (this : *ID3D12InfoQueue1, CallbackFunc : D3D12MessageFunc, CallbackFilterFlags : D3D12_MESSAGE_CALLBACK_FLAGS, pContext : *void, pCallbackCookie : *u32) -> HRESULT #cpp_method;
+    UnregisterMessageCallback : (this : *ID3D12InfoQueue1, CallbackCookie : u32) -> HRESULT #cpp_method;
+}
+
+ID3D12LibraryReflectionVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetDesc : (this : *ID3D12LibraryReflection, pDesc : *D3D12_LIBRARY_DESC) -> HRESULT #cpp_method;
+    GetFunctionByIndex : (this : *ID3D12LibraryReflection, FunctionIndex : s32) -> *ID3D12FunctionReflection #cpp_method;
+}
+
+ID3D12LifetimeOwnerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    LifetimeStateUpdated : (this : *ID3D12LifetimeOwner, NewState : D3D12_LIFETIME_STATE) #cpp_method;
+}
+
+ID3D12LifetimeTrackerVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+    DestroyOwnedObject : (this : *ID3D12LifetimeTracker, pObject : *ID3D12DeviceChild) -> HRESULT #cpp_method;
+}
+
+ID3D12MetaCommandVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetRequiredParameterResourceSize : (this : *ID3D12MetaCommand, Stage : D3D12_META_COMMAND_PARAMETER_STAGE, ParameterIndex : u32) -> u64 #cpp_method;
+}
+
+ID3D12ObjectVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetPrivateData : (this : *ID3D12Object, guid : *GUID, pDataSize : *u32, pData : *void) -> HRESULT #cpp_method;
+    SetPrivateData : (this : *ID3D12Object, guid : *GUID, DataSize : u32, pData : *void) -> HRESULT #cpp_method;
+    SetPrivateDataInterface : (this : *ID3D12Object, guid : *GUID, pData : *IUnknown) -> HRESULT #cpp_method;
+    SetName : (this : *ID3D12Object, Name : PWSTR) -> HRESULT #cpp_method;
+}
+
+ID3D12PageableVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+}
+
+ID3D12PipelineLibraryVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+    StorePipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pPipeline : *ID3D12PipelineState) -> HRESULT #cpp_method;
+    LoadGraphicsPipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pDesc : *D3D12_GRAPHICS_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
+    LoadComputePipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pDesc : *D3D12_COMPUTE_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
+    GetSerializedSize : (this : *ID3D12PipelineLibrary) -> u64 #cpp_method;
+    Serialize : (this : *ID3D12PipelineLibrary, pData : *void, DataSizeInBytes : u64) -> HRESULT #cpp_method;
+}
+
+ID3D12PipelineLibrary1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PipelineLibraryVTable;
+
+    LoadPipeline : (this : *ID3D12PipelineLibrary1, pName : PWSTR, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12PipelineStateVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetCachedBlob : (this : *ID3D12PipelineState, ppBlob : **ID3DBlob) -> HRESULT #cpp_method;
+}
+
+ID3D12ProtectedResourceSessionVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12ProtectedSessionVTable;
+
+    GetDesc : (this : *ID3D12ProtectedResourceSession) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC #cpp_method;
+}
+
+ID3D12ProtectedResourceSession1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12ProtectedResourceSessionVTable;
+
+    GetDesc1 : (this : *ID3D12ProtectedResourceSession1) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC1 #cpp_method;
+}
+
+ID3D12ProtectedSessionVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+    GetStatusFence : (this : *ID3D12ProtectedSession, riid : *GUID, ppFence : **void) -> HRESULT #cpp_method;
+    GetSessionStatus : (this : *ID3D12ProtectedSession) -> D3D12_PROTECTED_SESSION_STATUS #cpp_method;
+}
+
+ID3D12QueryHeapVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+}
+
+ID3D12ResourceVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    Map : (this : *ID3D12Resource, Subresource : u32, pReadRange : *D3D12_RANGE, ppData : **void) -> HRESULT #cpp_method;
+    Unmap : (this : *ID3D12Resource, Subresource : u32, pWrittenRange : *D3D12_RANGE) #cpp_method;
+    GetDesc : (this : *ID3D12Resource) -> D3D12_RESOURCE_DESC #cpp_method;
+    GetGPUVirtualAddress : (this : *ID3D12Resource) -> u64 #cpp_method;
+    WriteToSubresource : (this : *ID3D12Resource, DstSubresource : u32, pDstBox : *D3D12_BOX, pSrcData : *void, SrcRowPitch : u32, SrcDepthPitch : u32) -> HRESULT #cpp_method;
+    ReadFromSubresource : (this : *ID3D12Resource, pDstData : *void, DstRowPitch : u32, DstDepthPitch : u32, SrcSubresource : u32, pSrcBox : *D3D12_BOX) -> HRESULT #cpp_method;
+    GetHeapProperties : (this : *ID3D12Resource, pHeapProperties : *D3D12_HEAP_PROPERTIES, pHeapFlags : *D3D12_HEAP_FLAGS) -> HRESULT #cpp_method;
+}
+
+ID3D12Resource1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12ResourceVTable;
+
+    GetProtectedResourceSession : (this : *ID3D12Resource1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12Resource2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12Resource1VTable;
+
+    GetDesc1 : (this : *ID3D12Resource2) -> D3D12_RESOURCE_DESC1 #cpp_method;
+}
+
+ID3D12RootSignatureVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+}
+
+ID3D12RootSignatureDeserializerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetRootSignatureDesc : (this : *ID3D12RootSignatureDeserializer) -> *D3D12_ROOT_SIGNATURE_DESC #cpp_method;
+}
+
+ID3D12SDKConfigurationVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    SetSDKVersion : (this : *ID3D12SDKConfiguration, SDKVersion : u32, SDKPath : PSTR) -> HRESULT #cpp_method;
+}
+
+ID3D12ShaderCacheSessionVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+
+    FindValue : (this : *ID3D12ShaderCacheSession, pKey : *void, KeySize : u32, pValue : *void, pValueSize : *u32) -> HRESULT #cpp_method;
+    StoreValue : (this : *ID3D12ShaderCacheSession, pKey : *void, KeySize : u32, pValue : *void, ValueSize : u32) -> HRESULT #cpp_method;
+    SetDeleteOnDestroy : (this : *ID3D12ShaderCacheSession) #cpp_method;
+    GetDesc : (this : *ID3D12ShaderCacheSession) -> D3D12_SHADER_CACHE_SESSION_DESC #cpp_method;
+}
+
+ID3D12ShaderReflectionVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetDesc : (this : *ID3D12ShaderReflection, pDesc : *D3D12_SHADER_DESC) -> HRESULT #cpp_method;
+    GetConstantBufferByIndex : (this : *ID3D12ShaderReflection, Index : u32) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
+    GetConstantBufferByName : (this : *ID3D12ShaderReflection, Name : PSTR) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
+    GetResourceBindingDesc : (this : *ID3D12ShaderReflection, ResourceIndex : u32, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
+    GetInputParameterDesc : (this : *ID3D12ShaderReflection, ParameterIndex : u32, pDesc : *D3D12_SIGNATURE_PARAMETER_DESC) -> HRESULT #cpp_method;
+    GetOutputParameterDesc : (this : *ID3D12ShaderReflection, ParameterIndex : u32, pDesc : *D3D12_SIGNATURE_PARAMETER_DESC) -> HRESULT #cpp_method;
+    GetPatchConstantParameterDesc : (this : *ID3D12ShaderReflection, ParameterIndex : u32, pDesc : *D3D12_SIGNATURE_PARAMETER_DESC) -> HRESULT #cpp_method;
+    GetVariableByName : (this : *ID3D12ShaderReflection, Name : PSTR) -> *ID3D12ShaderReflectionVariable #cpp_method;
+    GetResourceBindingDescByName : (this : *ID3D12ShaderReflection, Name : PSTR, pDesc : *D3D12_SHADER_INPUT_BIND_DESC) -> HRESULT #cpp_method;
+    GetMovInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
+    GetMovcInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
+    GetConversionInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
+    GetBitwiseInstructionCount : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
+    GetGSInputPrimitive : (this : *ID3D12ShaderReflection) -> D3D_PRIMITIVE #cpp_method;
+    IsSampleFrequencyShader : (this : *ID3D12ShaderReflection) -> BOOL #cpp_method;
+    GetNumInterfaceSlots : (this : *ID3D12ShaderReflection) -> u32 #cpp_method;
+    GetMinFeatureLevel : (this : *ID3D12ShaderReflection, pLevel : *D3D_FEATURE_LEVEL) -> HRESULT #cpp_method;
+    GetThreadGroupSize : (this : *ID3D12ShaderReflection, pSizeX : *u32, pSizeY : *u32, pSizeZ : *u32) -> u32 #cpp_method;
+    GetRequiresFlags : (this : *ID3D12ShaderReflection) -> u64 #cpp_method;
+}
+
+ID3D12ShaderReflectionConstantBufferVTable :: struct
+{
+    GetDesc : (this : *ID3D12ShaderReflectionConstantBuffer, pDesc : *D3D12_SHADER_BUFFER_DESC) -> HRESULT #cpp_method;
+    GetVariableByIndex : (this : *ID3D12ShaderReflectionConstantBuffer, Index : u32) -> *ID3D12ShaderReflectionVariable #cpp_method;
+    GetVariableByName : (this : *ID3D12ShaderReflectionConstantBuffer, Name : PSTR) -> *ID3D12ShaderReflectionVariable #cpp_method;
+}
+
+ID3D12ShaderReflectionTypeVTable :: struct
+{
+    GetDesc : (this : *ID3D12ShaderReflectionType, pDesc : *D3D12_SHADER_TYPE_DESC) -> HRESULT #cpp_method;
+    GetMemberTypeByIndex : (this : *ID3D12ShaderReflectionType, Index : u32) -> *ID3D12ShaderReflectionType #cpp_method;
+    GetMemberTypeByName : (this : *ID3D12ShaderReflectionType, Name : PSTR) -> *ID3D12ShaderReflectionType #cpp_method;
+    GetMemberTypeName : (this : *ID3D12ShaderReflectionType, Index : u32) -> PSTR #cpp_method;
+    IsEqual : (this : *ID3D12ShaderReflectionType, pType : *ID3D12ShaderReflectionType) -> HRESULT #cpp_method;
+    GetSubType : (this : *ID3D12ShaderReflectionType) -> *ID3D12ShaderReflectionType #cpp_method;
+    GetBaseClass : (this : *ID3D12ShaderReflectionType) -> *ID3D12ShaderReflectionType #cpp_method;
+    GetNumInterfaces : (this : *ID3D12ShaderReflectionType) -> u32 #cpp_method;
+    GetInterfaceByIndex : (this : *ID3D12ShaderReflectionType, uIndex : u32) -> *ID3D12ShaderReflectionType #cpp_method;
+    IsOfType : (this : *ID3D12ShaderReflectionType, pType : *ID3D12ShaderReflectionType) -> HRESULT #cpp_method;
+    ImplementsInterface : (this : *ID3D12ShaderReflectionType, pBase : *ID3D12ShaderReflectionType) -> HRESULT #cpp_method;
+}
+
+ID3D12ShaderReflectionVariableVTable :: struct
+{
+    GetDesc : (this : *ID3D12ShaderReflectionVariable, pDesc : *D3D12_SHADER_VARIABLE_DESC) -> HRESULT #cpp_method;
+    GetType : (this : *ID3D12ShaderReflectionVariable) -> *ID3D12ShaderReflectionType #cpp_method;
+    GetBuffer : (this : *ID3D12ShaderReflectionVariable) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
+    GetInterfaceSlot : (this : *ID3D12ShaderReflectionVariable, uArrayIndex : u32) -> u32 #cpp_method;
+}
+
+ID3D12SharingContractVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    Present : (this : *ID3D12SharingContract, pResource : *ID3D12Resource, Subresource : u32, window : HWND) #cpp_method;
+    SharedFenceSignal : (this : *ID3D12SharingContract, pFence : *ID3D12Fence, FenceValue : u64) #cpp_method;
+    BeginCapturableWork : (this : *ID3D12SharingContract, guid : *GUID) #cpp_method;
+    EndCapturableWork : (this : *ID3D12SharingContract, guid : *GUID) #cpp_method;
+}
+
+ID3D12StateObjectVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+}
+
+ID3D12StateObjectPropertiesVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetShaderIdentifier : (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> *void #cpp_method;
+    GetShaderStackSize : (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> u64 #cpp_method;
+    GetPipelineStackSize : (this : *ID3D12StateObjectProperties) -> u64 #cpp_method;
+    SetPipelineStackSize : (this : *ID3D12StateObjectProperties, PipelineStackSizeInBytes : u64) #cpp_method;
+}
+
+ID3D12SwapChainAssistantVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetLUID : (this : *ID3D12SwapChainAssistant) -> LUID #cpp_method;
+    GetSwapChainObject : (this : *ID3D12SwapChainAssistant, riid : *GUID, ppv : **void) -> HRESULT #cpp_method;
+    GetCurrentResourceAndCommandQueue : (this : *ID3D12SwapChainAssistant, riidResource : *GUID, ppvResource : **void, riidQueue : *GUID, ppvQueue : **void) -> HRESULT #cpp_method;
+    InsertImplicitSync : (this : *ID3D12SwapChainAssistant) -> HRESULT #cpp_method;
+}
+
+ID3D12ToolsVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    EnableShaderInstrumentation : (this : *ID3D12Tools, bEnable : BOOL) #cpp_method;
+    ShaderInstrumentationEnabled : (this : *ID3D12Tools) -> BOOL #cpp_method;
+}
+
+ID3D12VersionedRootSignatureDeserializerVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    GetRootSignatureDescAtVersion : (this : *ID3D12VersionedRootSignatureDeserializer, convertToVersion : D3D_ROOT_SIGNATURE_VERSION, ppDesc : **D3D12_VERSIONED_ROOT_SIGNATURE_DESC) -> HRESULT #cpp_method;
+    GetUnconvertedRootSignatureDesc : (this : *ID3D12VersionedRootSignatureDeserializer) -> *D3D12_VERSIONED_ROOT_SIGNATURE_DESC #cpp_method;
+}
+
+ID3D12VideoDecodeCommandListVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+
+    Close : (this : *ID3D12VideoDecodeCommandList) -> HRESULT #cpp_method;
+    Reset : (this : *ID3D12VideoDecodeCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
+    ClearState : (this : *ID3D12VideoDecodeCommandList) #cpp_method;
+    ResourceBarrier : (this : *ID3D12VideoDecodeCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
+    DiscardResource : (this : *ID3D12VideoDecodeCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
+    BeginQuery : (this : *ID3D12VideoDecodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    EndQuery : (this : *ID3D12VideoDecodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    ResolveQueryData : (this : *ID3D12VideoDecodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
+    SetPredication : (this : *ID3D12VideoDecodeCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
+    SetMarker : (this : *ID3D12VideoDecodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    BeginEvent : (this : *ID3D12VideoDecodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    EndEvent : (this : *ID3D12VideoDecodeCommandList) #cpp_method;
+    DecodeFrame : (this : *ID3D12VideoDecodeCommandList, pDecoder : *ID3D12VideoDecoder, pOutputArguments : *D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS, pInputArguments : *D3D12_VIDEO_DECODE_INPUT_STREAM_ARGUMENTS) #cpp_method;
+    WriteBufferImmediate : (this : *ID3D12VideoDecodeCommandList, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
+}
+
+ID3D12VideoDecodeCommandList1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDecodeCommandListVTable;
+
+    DecodeFrame1 : (this : *ID3D12VideoDecodeCommandList1, pDecoder : *ID3D12VideoDecoder, pOutputArguments : *D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1, pInputArguments : *D3D12_VIDEO_DECODE_INPUT_STREAM_ARGUMENTS) #cpp_method;
+}
+
+ID3D12VideoDecodeCommandList2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDecodeCommandList1VTable;
+
+    SetProtectedResourceSession : (this : *ID3D12VideoDecodeCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
+    InitializeExtensionCommand : (this : *ID3D12VideoDecodeCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
+    ExecuteExtensionCommand : (this : *ID3D12VideoDecodeCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
+}
+
+ID3D12VideoDecoderVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12VideoDecoder) -> D3D12_VIDEO_DECODER_DESC #cpp_method;
+}
+
+ID3D12VideoDecoder1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDecoderVTable;
+
+    GetProtectedResourceSession : (this : *ID3D12VideoDecoder1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoDecoderHeapVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12VideoDecoderHeap) -> D3D12_VIDEO_DECODER_HEAP_DESC #cpp_method;
+}
+
+ID3D12VideoDecoderHeap1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDecoderHeapVTable;
+
+    GetProtectedResourceSession : (this : *ID3D12VideoDecoderHeap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoDeviceVTable :: struct
+{
+    #as using, except (.["base"]) base : IUnknownVTable;
+
+    CheckFeatureSupport : (this : *ID3D12VideoDevice, FeatureVideo : D3D12_FEATURE_VIDEO, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #cpp_method;
+    CreateVideoDecoder : (this : *ID3D12VideoDevice, pDesc : *D3D12_VIDEO_DECODER_DESC, riid : *GUID, ppVideoDecoder : **void) -> HRESULT #cpp_method;
+    CreateVideoDecoderHeap : (this : *ID3D12VideoDevice, pVideoDecoderHeapDesc : *D3D12_VIDEO_DECODER_HEAP_DESC, riid : *GUID, ppVideoDecoderHeap : **void) -> HRESULT #cpp_method;
+    CreateVideoProcessor : (this : *ID3D12VideoDevice, NodeMask : u32, pOutputStreamDesc : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_DESC, NumInputStreamDescs : u32, pInputStreamDescs : *D3D12_VIDEO_PROCESS_INPUT_STREAM_DESC, riid : *GUID, ppVideoProcessor : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoDevice1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDeviceVTable;
+
+    CreateVideoMotionEstimator : (this : *ID3D12VideoDevice1, pDesc : *D3D12_VIDEO_MOTION_ESTIMATOR_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoMotionEstimator : **void) -> HRESULT #cpp_method;
+    CreateVideoMotionVectorHeap : (this : *ID3D12VideoDevice1, pDesc : *D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoMotionVectorHeap : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoDevice2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDevice1VTable;
+
+    CreateVideoDecoder1 : (this : *ID3D12VideoDevice2, pDesc : *D3D12_VIDEO_DECODER_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoDecoder : **void) -> HRESULT #cpp_method;
+    CreateVideoDecoderHeap1 : (this : *ID3D12VideoDevice2, pVideoDecoderHeapDesc : *D3D12_VIDEO_DECODER_HEAP_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoDecoderHeap : **void) -> HRESULT #cpp_method;
+    CreateVideoProcessor1 : (this : *ID3D12VideoDevice2, NodeMask : u32, pOutputStreamDesc : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_DESC, NumInputStreamDescs : u32, pInputStreamDescs : *D3D12_VIDEO_PROCESS_INPUT_STREAM_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoProcessor : **void) -> HRESULT #cpp_method;
+    CreateVideoExtensionCommand : (this : *ID3D12VideoDevice2, pDesc : *D3D12_VIDEO_EXTENSION_COMMAND_DESC, pCreationParameters : *void, CreationParametersDataSizeInBytes : u64, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoExtensionCommand : **void) -> HRESULT #cpp_method;
+    ExecuteExtensionCommand : (this : *ID3D12VideoDevice2, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64, pOutputData : *void, OutputDataSizeInBytes : u64) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoDevice3VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoDevice2VTable;
+
+    CreateVideoEncoder : (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_DESC, riid : *GUID, ppVideoEncoder : **void) -> HRESULT #cpp_method;
+    CreateVideoEncoderHeap : (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_HEAP_DESC, riid : *GUID, ppVideoEncoderHeap : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoEncodeCommandListVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+
+    Close : (this : *ID3D12VideoEncodeCommandList) -> HRESULT #cpp_method;
+    Reset : (this : *ID3D12VideoEncodeCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
+    ClearState : (this : *ID3D12VideoEncodeCommandList) #cpp_method;
+    ResourceBarrier : (this : *ID3D12VideoEncodeCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
+    DiscardResource : (this : *ID3D12VideoEncodeCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
+    BeginQuery : (this : *ID3D12VideoEncodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    EndQuery : (this : *ID3D12VideoEncodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    ResolveQueryData : (this : *ID3D12VideoEncodeCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
+    SetPredication : (this : *ID3D12VideoEncodeCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
+    SetMarker : (this : *ID3D12VideoEncodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    BeginEvent : (this : *ID3D12VideoEncodeCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    EndEvent : (this : *ID3D12VideoEncodeCommandList) #cpp_method;
+    EstimateMotion : (this : *ID3D12VideoEncodeCommandList, pMotionEstimator : *ID3D12VideoMotionEstimator, pOutputArguments : *D3D12_VIDEO_MOTION_ESTIMATOR_OUTPUT, pInputArguments : *D3D12_VIDEO_MOTION_ESTIMATOR_INPUT) #cpp_method;
+    ResolveMotionVectorHeap : (this : *ID3D12VideoEncodeCommandList, pOutputArguments : *D3D12_RESOLVE_VIDEO_MOTION_VECTOR_HEAP_OUTPUT, pInputArguments : *D3D12_RESOLVE_VIDEO_MOTION_VECTOR_HEAP_INPUT) #cpp_method;
+    WriteBufferImmediate : (this : *ID3D12VideoEncodeCommandList, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
+    SetProtectedResourceSession : (this : *ID3D12VideoEncodeCommandList, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
+}
+
+ID3D12VideoEncodeCommandList1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoEncodeCommandListVTable;
+
+    InitializeExtensionCommand : (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
+    ExecuteExtensionCommand : (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
+}
+
+ID3D12VideoEncodeCommandList2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoEncodeCommandList1VTable;
+
+    EncodeFrame : (this : *ID3D12VideoEncodeCommandList2, pEncoder : *ID3D12VideoEncoder, pHeap : *ID3D12VideoEncoderHeap, pInputArguments : *D3D12_VIDEO_ENCODER_ENCODEFRAME_INPUT_ARGUMENTS, pOutputArguments : *D3D12_VIDEO_ENCODER_ENCODEFRAME_OUTPUT_ARGUMENTS) #cpp_method;
+    ResolveEncoderOutputMetadata : (this : *ID3D12VideoEncodeCommandList2, pInputArguments : *D3D12_VIDEO_ENCODER_RESOLVE_METADATA_INPUT_ARGUMENTS, pOutputArguments : *D3D12_VIDEO_ENCODER_RESOLVE_METADATA_OUTPUT_ARGUMENTS) #cpp_method;
+}
+
+ID3D12VideoEncoderVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetNodeMask : (this : *ID3D12VideoEncoder) -> u32 #cpp_method;
+    GetEncoderFlags : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_FLAGS #cpp_method;
+    GetCodec : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_CODEC #cpp_method;
+    GetCodecProfile : (this : *ID3D12VideoEncoder, dstProfile : D3D12_VIDEO_ENCODER_PROFILE_DESC) -> HRESULT #cpp_method;
+    GetCodecConfiguration : (this : *ID3D12VideoEncoder, dstCodecConfig : D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION) -> HRESULT #cpp_method;
+    GetInputFormat : (this : *ID3D12VideoEncoder) -> DXGI_FORMAT #cpp_method;
+    GetMaxMotionEstimationPrecision : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_MOTION_ESTIMATION_PRECISION_MODE #cpp_method;
+}
+
+ID3D12VideoEncoderHeapVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetNodeMask : (this : *ID3D12VideoEncoderHeap) -> u32 #cpp_method;
+    GetEncoderHeapFlags : (this : *ID3D12VideoEncoderHeap) -> D3D12_VIDEO_ENCODER_HEAP_FLAGS #cpp_method;
+    GetCodec : (this : *ID3D12VideoEncoderHeap) -> D3D12_VIDEO_ENCODER_CODEC #cpp_method;
+    GetCodecProfile : (this : *ID3D12VideoEncoderHeap, dstProfile : D3D12_VIDEO_ENCODER_PROFILE_DESC) -> HRESULT #cpp_method;
+    GetCodecLevel : (this : *ID3D12VideoEncoderHeap, dstLevel : D3D12_VIDEO_ENCODER_LEVEL_SETTING) -> HRESULT #cpp_method;
+    GetResolutionListCount : (this : *ID3D12VideoEncoderHeap) -> u32 #cpp_method;
+    GetResolutionList : (this : *ID3D12VideoEncoderHeap, ResolutionsListCount : u32, pResolutionList : *D3D12_VIDEO_ENCODER_PICTURE_RESOLUTION_DESC) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoExtensionCommandVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12VideoExtensionCommand) -> D3D12_VIDEO_EXTENSION_COMMAND_DESC #cpp_method;
+    GetProtectedResourceSession : (this : *ID3D12VideoExtensionCommand, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoMotionEstimatorVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12VideoMotionEstimator) -> D3D12_VIDEO_MOTION_ESTIMATOR_DESC #cpp_method;
+    GetProtectedResourceSession : (this : *ID3D12VideoMotionEstimator, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoMotionVectorHeapVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetDesc : (this : *ID3D12VideoMotionVectorHeap) -> D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC #cpp_method;
+    GetProtectedResourceSession : (this : *ID3D12VideoMotionVectorHeap, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
+
+ID3D12VideoProcessCommandListVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+
+    Close : (this : *ID3D12VideoProcessCommandList) -> HRESULT #cpp_method;
+    Reset : (this : *ID3D12VideoProcessCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
+    ClearState : (this : *ID3D12VideoProcessCommandList) #cpp_method;
+    ResourceBarrier : (this : *ID3D12VideoProcessCommandList, NumBarriers : u32, pBarriers : *D3D12_RESOURCE_BARRIER) #cpp_method;
+    DiscardResource : (this : *ID3D12VideoProcessCommandList, pResource : *ID3D12Resource, pRegion : *D3D12_DISCARD_REGION) #cpp_method;
+    BeginQuery : (this : *ID3D12VideoProcessCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    EndQuery : (this : *ID3D12VideoProcessCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, Index : u32) #cpp_method;
+    ResolveQueryData : (this : *ID3D12VideoProcessCommandList, pQueryHeap : *ID3D12QueryHeap, _Type : D3D12_QUERY_TYPE, StartIndex : u32, NumQueries : u32, pDestinationBuffer : *ID3D12Resource, AlignedDestinationBufferOffset : u64) #cpp_method;
+    SetPredication : (this : *ID3D12VideoProcessCommandList, pBuffer : *ID3D12Resource, AlignedBufferOffset : u64, Operation : D3D12_PREDICATION_OP) #cpp_method;
+    SetMarker : (this : *ID3D12VideoProcessCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    BeginEvent : (this : *ID3D12VideoProcessCommandList, Metadata : u32, pData : *void, Size : u32) #cpp_method;
+    EndEvent : (this : *ID3D12VideoProcessCommandList) #cpp_method;
+    ProcessFrames : (this : *ID3D12VideoProcessCommandList, pVideoProcessor : *ID3D12VideoProcessor, pOutputArguments : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS, NumInputStreams : u32, pInputArguments : *D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS) #cpp_method;
+    WriteBufferImmediate : (this : *ID3D12VideoProcessCommandList, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
+}
+
+ID3D12VideoProcessCommandList1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoProcessCommandListVTable;
+
+    ProcessFrames1 : (this : *ID3D12VideoProcessCommandList1, pVideoProcessor : *ID3D12VideoProcessor, pOutputArguments : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS, NumInputStreams : u32, pInputArguments : *D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1) #cpp_method;
+}
+
+ID3D12VideoProcessCommandList2VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoProcessCommandList1VTable;
+
+    SetProtectedResourceSession : (this : *ID3D12VideoProcessCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
+    InitializeExtensionCommand : (this : *ID3D12VideoProcessCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
+    ExecuteExtensionCommand : (this : *ID3D12VideoProcessCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
+}
+
+ID3D12VideoProcessorVTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12PageableVTable;
+
+    GetNodeMask : (this : *ID3D12VideoProcessor) -> u32 #cpp_method;
+    GetNumInputStreamDescs : (this : *ID3D12VideoProcessor) -> u32 #cpp_method;
+    GetInputStreamDescs : (this : *ID3D12VideoProcessor, NumInputStreamDescs : u32, pInputStreamDescs : *D3D12_VIDEO_PROCESS_INPUT_STREAM_DESC) -> HRESULT #cpp_method;
+    GetOutputStreamDesc : (this : *ID3D12VideoProcessor) -> D3D12_VIDEO_PROCESS_OUTPUT_STREAM_DESC #cpp_method;
+}
+
+ID3D12VideoProcessor1VTable :: struct
+{
+    #as using, except (.["base"]) base : ID3D12VideoProcessorVTable;
+
+    GetProtectedResourceSession : (this : *ID3D12VideoProcessor1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
+}
 
 // System libraries
 
