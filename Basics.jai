@@ -1001,7 +1001,7 @@ GUID :: struct
     Data4 : [8]u8;
 }
 
-operator == :: inline (a : GUID, b : GUID) -> bool #must
+operator == :: inline (a : GUID, b : GUID) -> bool #must #no_context
 {
     return a.Data1 == b.Data1 && a.Data2 == b.Data2 && a.Data3 == b.Data3
         && a.Data4[0] == b.Data4[0] && a.Data4[1] == b.Data4[1]
