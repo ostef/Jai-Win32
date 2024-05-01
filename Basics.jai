@@ -1001,6 +1001,13 @@ GUID :: struct
     Data4 : [8]u8;
 }
 
+operator == :: inline (a : GUID, b : GUID) -> bool #must
+{
+    return a.Data1 == b.Data1 && a.Data2 == b.Data2 && a.Data3 == b.Data3
+        && a.Data4[0] == b.Data4[0] && a.Data4[1] == b.Data4[1]
+        && a.Data4[2] == b.Data4[2] && a.Data4[3] == b.Data4[3];
+}
+
 MakeGUID :: (str : string) -> GUID #must
 {
     // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
