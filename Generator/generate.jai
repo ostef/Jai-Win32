@@ -22,6 +22,8 @@ AppendStringLiteral :: (builder : *String_Builder, str : string)
             append (builder, "\\n");
         case #char "\r";
             append (builder, "\\r");
+        case #char "\"";
+            append (builder, "\\\"");
         case;
             append (builder, str[i]);
         }
