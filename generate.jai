@@ -72,6 +72,17 @@ GetFoundationConstantOutputModule :: (name : string) -> string #must
 {
     if name ==
     {
+    case "S_OK"; #through;
+    case "E_ABORT"; #through;
+    case "E_ACCESSDENIED"; #through;
+    case "E_FAIL"; #through;
+    case "E_HANDLE"; #through;
+    case "E_INVALIDARG"; #through;
+    case "E_NOINTERFACE"; #through;
+    case "E_NOTIMPL"; #through;
+    case "E_OUTOFMEMORY"; #through;
+    case "E_POINTER"; #through;
+    case "E_UNEXPECTE"; #through;
     case "INVALID_HANDLE_VALUE"; #through;
     case "MAX_PATH"; #through;
     case "STRICT";
