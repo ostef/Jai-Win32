@@ -1905,7 +1905,7 @@ ID3DBlob :: struct
 {
     UUID :: GUID.{0x8ba5fb08,0x5195,0x40e2,.[0xac,0x58,0xd,0x98,0x9c,0x3a,0x1,0x2]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3DBlobVTable;
@@ -1926,7 +1926,7 @@ ID3DDestructionNotifier :: struct
 {
     UUID :: GUID.{0xa06eb39a,0x50da,0x425b,.[0x8c,0x31,0x4e,0xec,0xd6,0xc2,0x70,0xf3]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3DDestructionNotifierVTable;
@@ -1976,7 +1976,7 @@ PFN_DESTRUCTION_CALLBACK :: #type (pData : *void) -> void #c_call;
 
 ID3DBlobVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetBufferPointer : (this : *ID3DBlob) -> *void #cpp_method;
     GetBufferSize : (this : *ID3DBlob) -> u64 #cpp_method;
@@ -1984,7 +1984,7 @@ ID3DBlobVTable :: struct
 
 ID3DDestructionNotifierVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     RegisterDestructionCallback : (this : *ID3DDestructionNotifier, callbackFn : PFN_DESTRUCTION_CALLBACK, pData : *void, pCallbackID : *u32) -> HRESULT #cpp_method;
     UnregisterDestructionCallback : (this : *ID3DDestructionNotifier, callbackID : u32) -> HRESULT #cpp_method;

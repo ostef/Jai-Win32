@@ -37,7 +37,7 @@ JsonValue :: struct
     };
 }
 
-JsonObject :: Table (string, JsonValue);
+JsonObject :: Table(string, JsonValue);
 
 JsonSyntaxError :: (parser : *JsonParser, fmt_str : string, args : ..Any)
 {
@@ -52,20 +52,20 @@ JsonParseValue :: (using parser : *JsonParser) -> JsonValue
 {
     result : JsonValue;
 
-    if JsonMatchAlphaNumeric (parser, "null")
+    if JsonMatchAlphaNumeric(parser, "null")
     {
         result.kind = .Null;
 
         return result;
     }
-    else if JsonMatchAlphaNumeric (parser, "true")
+    else if JsonMatchAlphaNumeric(parser, "true")
     {
         result.kind = .Boolean;
         result.bool_value = true;
 
         return result;
     }
-    else if JsonMatchAlphaNumeric (parser, "false")
+    else if JsonMatchAlphaNumeric(parser, "false")
     {
         result.kind = .Boolean;
         result.bool_value = false;
@@ -74,25 +74,25 @@ JsonParseValue :: (using parser : *JsonParser) -> JsonValue
     }
     else if text[index] == #char "\""
     {
-        result = JsonParseString (parser);
+        result = JsonParseString(parser);
 
         return result;
     }
     else if text[index] == #char "["
     {
-        result = JsonParseArray (parser);
+        result = JsonParseArray(parser);
 
         return result;
     }
     else if text[index] == #char "{"
     {
-        result = JsonParseObject (parser);
+        result = JsonParseObject(parser);
 
         return result;
     }
-    else if is_digit (text[index])
+    else if is_digit(text[index])
     {
-        result = JsonParseNumber (parser);
+        result = JsonParseNumber(parser);
 
         return result;
     }
@@ -104,23 +104,23 @@ JsonParseArray :: (using parser : *JsonParser) -> JsonValue
 {
     array : []JsonValue;
 
-    JsonSkipWhitespace (parser);
+    JsonSkipWhitespace(parser);
 
     while true
     {
-        value := JsonParseValue (parser);
-        JsonSkipWhitespace (parser);
+        value := JsonParseValue(parser);
+        JsonSkipWhitespace(parser);
 
         if text[index] != #char ","
             break;
     }
 
     if text[index] != #char "]"
-        JsonSyntaxError (parser, "Expected ']'");
+        JsonSyntaxError(parser, "Expected ']'");
 
     index += 1;
 
-    JsonParserAdvance (parser);
+    JsonParserAdvance(parser);
 
     result : JsonValue;
     result.kind = .Array;

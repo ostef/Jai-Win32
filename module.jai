@@ -1,6 +1,6 @@
 // Sentinel module, to import different Windows stuff under the same namespace
 
-#module_parameters (
+#module_parameters(
     Threads := false,
     Time := false,
     Console := false,

@@ -36,10 +36,10 @@ main :: ()
 {
     context.allocator = temp;
 
-    InitWin32Database (directory = "Generator/win32json/api");
+    InitWin32Database(directory = "Generator/win32json/api");
 
     for context.generator.input_modules
-        CreateOutputModule (it.name);
+        CreateOutputModule(it.name);
 
     void_type : Win32Type;
     void_type.kind = .Native;
@@ -51,31 +51,31 @@ main :: ()
 
     for :AllInputConstants context.generator
     {
-        SetOutputModule (it, it.module);
+        SetOutputModule(it, it.module);
     }
 
     for :AllInputTypeDefinitions context.generator
     {
-        if array_find (Handle_Type_Names, it.name)
+        if array_find(Handle_Type_Names, it.name)
         {
             it.kind = .NativeTypedef;
             it.def = void_pointer_type;
         }
 
-        SetOutputModule (it, it.module);
+        SetOutputModule(it, it.module);
     }
 
     for :AllInputFunctions context.generator
     {
-        SetOutputModule (it, it.module);
+        SetOutputModule(it, it.module);
     }
 
     for context.generator.output_modules
-        ResolveModuleDependencies (it);
+        ResolveModuleDependencies(it);
 
     if context.generator.has_errors
-        exit (1);
+        exit(1);
 
     for context.generator.output_modules
-        GenerateModuleSourceCodeToFile (it, output_directory = "Generated/All");
+        GenerateModuleSourceCodeToFile(it, output_directory = "Generated/All");
 }

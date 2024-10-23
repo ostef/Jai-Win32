@@ -172,9 +172,9 @@ D3D12_DS_INPUT_PRIMITIVE_ID_REGISTER_READ_PORTS :: 1;
 D3D12_DS_OUTPUT_REGISTER_COMPONENTS :: 4;
 D3D12_DS_OUTPUT_REGISTER_COMPONENT_BIT_COUNT :: 32;
 D3D12_DS_OUTPUT_REGISTER_COUNT :: 32;
-D3D12_ERROR_ADAPTER_NOT_FOUND :: cast, no_check (HRESULT) -2005008383;
-D3D12_ERROR_DRIVER_VERSION_MISMATCH :: cast, no_check (HRESULT) -2005008382;
-D3D12_ERROR_INVALID_REDIST :: cast, no_check (HRESULT) -2005008381;
+D3D12_ERROR_ADAPTER_NOT_FOUND :: cast, no_check(HRESULT) -2005008383;
+D3D12_ERROR_DRIVER_VERSION_MISMATCH :: cast, no_check(HRESULT) -2005008382;
+D3D12_ERROR_INVALID_REDIST :: cast, no_check(HRESULT) -2005008381;
 D3D12_FILTER_REDUCTION_TYPE_MASK :: 3;
 D3D12_FILTER_REDUCTION_TYPE_SHIFT :: 7;
 D3D12_FILTER_TYPE_MASK :: 3;
@@ -8771,7 +8771,7 @@ ID3D12CommandAllocator :: struct
 {
     UUID :: GUID.{0x6102dee4,0xaf59,0x4b09,.[0xb9,0x99,0xb4,0x4d,0x73,0xf0,0x9b,0x24]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12CommandAllocatorVTable;
@@ -8787,7 +8787,7 @@ ID3D12CommandList :: struct
 {
     UUID :: GUID.{0x7116d91c,0xe7e4,0x47ce,.[0xb8,0xc6,0xec,0x81,0x68,0xf4,0x37,0xe5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12CommandListVTable;
@@ -8803,7 +8803,7 @@ ID3D12CommandQueue :: struct
 {
     UUID :: GUID.{0xec870a6,0x5d7e,0x4c22,.[0x8c,0xfc,0x5b,0xaa,0xe0,0x76,0x16,0xed]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12CommandQueueVTable;
@@ -8887,7 +8887,7 @@ ID3D12CommandSignature :: struct
 {
     UUID :: GUID.{0xc36a797c,0xec80,0x4f0a,.[0x89,0x85,0xa7,0xb2,0x47,0x50,0x82,0xd1]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12CommandSignatureVTable;
@@ -8898,7 +8898,7 @@ ID3D12Debug :: struct
 {
     UUID :: GUID.{0x344488b7,0x6846,0x474b,.[0xb9,0x89,0xf0,0x27,0x44,0x82,0x45,0xe0]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DebugVTable;
@@ -8914,7 +8914,7 @@ ID3D12Debug1 :: struct
 {
     UUID :: GUID.{0xaffaa4ca,0x63fe,0x4d8e,.[0xb8,0xad,0x15,0x90,0x0,0xaf,0x43,0x4]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12Debug1VTable;
@@ -8940,7 +8940,7 @@ ID3D12Debug2 :: struct
 {
     UUID :: GUID.{0x93a665c4,0xa3b2,0x4e5d,.[0xb6,0x92,0xa2,0x6a,0xe1,0x4e,0x33,0x74]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12Debug2VTable;
@@ -8956,7 +8956,7 @@ ID3D12Debug3 :: struct
 {
     UUID :: GUID.{0x5cf4e58f,0xf671,0x4ff1,.[0xa5,0x42,0x36,0x86,0xe3,0xd1,0x53,0xd1]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Debug;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Debug;
 
     #place base;
     vtable : *ID3D12Debug3VTable;
@@ -8982,7 +8982,7 @@ ID3D12Debug4 :: struct
 {
     UUID :: GUID.{0x14b816e,0x9ec5,0x4a2f,.[0xa8,0x45,0xff,0xbe,0x44,0x1c,0xe1,0x3a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Debug3;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Debug3;
 
     #place base;
     vtable : *ID3D12Debug4VTable;
@@ -8998,7 +8998,7 @@ ID3D12Debug5 :: struct
 {
     UUID :: GUID.{0x548d6b12,0x9fa,0x40e0,.[0x90,0x69,0x5d,0xcd,0x58,0x9a,0x52,0xc9]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Debug4;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Debug4;
 
     #place base;
     vtable : *ID3D12Debug5VTable;
@@ -9014,7 +9014,7 @@ ID3D12DebugCommandList :: struct
 {
     UUID :: GUID.{0x9e0bf36,0x54ac,0x484f,.[0x88,0x47,0x4b,0xae,0xea,0xb6,0x5,0x3f]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DebugCommandListVTable;
@@ -9040,7 +9040,7 @@ ID3D12DebugCommandList1 :: struct
 {
     UUID :: GUID.{0x102ca951,0x311b,0x4b01,.[0xb1,0x1f,0xec,0xb8,0x3e,0x6,0x1b,0x37]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DebugCommandList1VTable;
@@ -9066,7 +9066,7 @@ ID3D12DebugCommandList2 :: struct
 {
     UUID :: GUID.{0xaeb575cf,0x4e06,0x48be,.[0xba,0x3b,0xc4,0x50,0xfc,0x96,0x65,0x2e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DebugCommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DebugCommandList;
 
     #place base;
     vtable : *ID3D12DebugCommandList2VTable;
@@ -9087,7 +9087,7 @@ ID3D12DebugCommandQueue :: struct
 {
     UUID :: GUID.{0x9e0bf36,0x54ac,0x484f,.[0x88,0x47,0x4b,0xae,0xea,0xb6,0x5,0x3a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DebugCommandQueueVTable;
@@ -9103,7 +9103,7 @@ ID3D12DebugDevice :: struct
 {
     UUID :: GUID.{0x3febd6dd,0x4973,0x4787,.[0x81,0x94,0xe4,0x5f,0x9e,0x28,0x92,0x3e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DebugDeviceVTable;
@@ -9129,7 +9129,7 @@ ID3D12DebugDevice1 :: struct
 {
     UUID :: GUID.{0xa9b71770,0xd099,0x4a65,.[0xa6,0x98,0x3d,0xee,0x10,0x2,0xf,0x88]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DebugDevice1VTable;
@@ -9155,7 +9155,7 @@ ID3D12DebugDevice2 :: struct
 {
     UUID :: GUID.{0x60eccbc1,0x378d,0x4df1,.[0x89,0x4c,0xf8,0xac,0x5c,0xe4,0xd7,0xdd]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DebugDevice;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DebugDevice;
 
     #place base;
     vtable : *ID3D12DebugDevice2VTable;
@@ -9176,7 +9176,7 @@ ID3D12DescriptorHeap :: struct
 {
     UUID :: GUID.{0x8efb471d,0x616c,0x4f49,.[0x90,0xf7,0x12,0x7b,0xb7,0x63,0xfa,0x51]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12DescriptorHeapVTable;
@@ -9202,7 +9202,7 @@ ID3D12Device :: struct
 {
     UUID :: GUID.{0x189819f1,0x1db6,0x4b57,.[0xbe,0x54,0x18,0x21,0x33,0x9b,0x85,0xf7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Object;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Object;
 
     #place base;
     vtable : *ID3D12DeviceVTable;
@@ -9484,7 +9484,7 @@ ID3D12Device1 :: struct
 {
     UUID :: GUID.{0x77acce80,0x638e,0x4e65,.[0x88,0x95,0xc1,0xf2,0x33,0x86,0x86,0x3e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device;
 
     #place base;
     vtable : *ID3D12Device1VTable;
@@ -9521,7 +9521,7 @@ ID3D12Device2 :: struct
 {
     UUID :: GUID.{0x30baa41e,0xb15b,0x475c,.[0xa0,0xbb,0x1a,0xf5,0xc5,0xb6,0x43,0x28]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device1;
 
     #place base;
     vtable : *ID3D12Device2VTable;
@@ -9537,7 +9537,7 @@ ID3D12Device3 :: struct
 {
     UUID :: GUID.{0x81dadc15,0x2bad,0x4392,.[0x93,0xc5,0x10,0x13,0x45,0xc4,0xaa,0x98]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device2;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device2;
 
     #place base;
     vtable : *ID3D12Device3VTable;
@@ -9569,7 +9569,7 @@ ID3D12Device4 :: struct
 {
     UUID :: GUID.{0xe865df17,0xa9ee,0x46f9,.[0xa4,0x63,0x30,0x98,0x31,0x5a,0xa2,0xe5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device3;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device3;
 
     #place base;
     vtable : *ID3D12Device4VTable;
@@ -9642,7 +9642,7 @@ ID3D12Device5 :: struct
 {
     UUID :: GUID.{0x8b4f173b,0x2fea,0x4b80,.[0x8f,0x58,0x43,0x7,0x19,0x1a,0xb9,0x5d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device4;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device4;
 
     #place base;
     vtable : *ID3D12Device5VTable;
@@ -9706,7 +9706,7 @@ ID3D12Device6 :: struct
 {
     UUID :: GUID.{0xc70b221b,0x40e4,0x4a17,.[0x89,0xaf,0x2,0x5a,0x7,0x27,0xa6,0xdc]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device5;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device5;
 
     #place base;
     vtable : *ID3D12Device6VTable;
@@ -9727,7 +9727,7 @@ ID3D12Device7 :: struct
 {
     UUID :: GUID.{0x5c014b53,0x68a1,0x4b9b,.[0x8b,0xd1,0xdd,0x60,0x46,0xb9,0x35,0x8b]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device6;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device6;
 
     #place base;
     vtable : *ID3D12Device7VTable;
@@ -9753,7 +9753,7 @@ ID3D12Device8 :: struct
 {
     UUID :: GUID.{0x9218e6bb,0xf944,0x4f7e,.[0xa7,0x5c,0xb1,0xb2,0xc7,0xb7,0x1,0xf3]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device7;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device7;
 
     #place base;
     vtable : *ID3D12Device8VTable;
@@ -9820,7 +9820,7 @@ ID3D12Device9 :: struct
 {
     UUID :: GUID.{0x4c80e962,0xf032,0x4f60,.[0xbc,0x9e,0xeb,0xc2,0xcf,0xa1,0xd8,0x3c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Device8;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device8;
 
     #place base;
     vtable : *ID3D12Device9VTable;
@@ -9851,7 +9851,7 @@ ID3D12DeviceChild :: struct
 {
     UUID :: GUID.{0x905db94b,0xa00c,0x4140,.[0x9d,0xf5,0x2b,0x64,0xca,0x9e,0xa3,0x57]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Object;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Object;
 
     #place base;
     vtable : *ID3D12DeviceChildVTable;
@@ -9867,7 +9867,7 @@ ID3D12DeviceRemovedExtendedData :: struct
 {
     UUID :: GUID.{0x98931d33,0x5ae8,0x4791,.[0xaa,0x3c,0x1a,0x73,0xa2,0x93,0x4e,0x71]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DeviceRemovedExtendedDataVTable;
@@ -9888,7 +9888,7 @@ ID3D12DeviceRemovedExtendedData1 :: struct
 {
     UUID :: GUID.{0x9727a022,0xcf1d,0x4dda,.[0x9e,0xba,0xef,0xfa,0x65,0x3f,0xc5,0x6]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedData;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedData;
 
     #place base;
     vtable : *ID3D12DeviceRemovedExtendedData1VTable;
@@ -9909,7 +9909,7 @@ ID3D12DeviceRemovedExtendedData2 :: struct
 {
     UUID :: GUID.{0x67fc5816,0xe4ca,0x4915,.[0xbf,0x18,0x42,0x54,0x12,0x72,0xda,0x54]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedData1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedData1;
 
     #place base;
     vtable : *ID3D12DeviceRemovedExtendedData2VTable;
@@ -9930,7 +9930,7 @@ ID3D12DeviceRemovedExtendedDataSettings :: struct
 {
     UUID :: GUID.{0x82bc481c,0x6b9b,0x4030,.[0xae,0xdb,0x7e,0xe3,0xd1,0xdf,0x1e,0x63]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12DeviceRemovedExtendedDataSettingsVTable;
@@ -9956,7 +9956,7 @@ ID3D12DeviceRemovedExtendedDataSettings1 :: struct
 {
     UUID :: GUID.{0xdbd5ae51,0x3317,0x4f0a,.[0xad,0xf9,0x1d,0x7c,0xed,0xca,0xae,0xb]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedDataSettings;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedDataSettings;
 
     #place base;
     vtable : *ID3D12DeviceRemovedExtendedDataSettings1VTable;
@@ -9972,7 +9972,7 @@ ID3D12Fence :: struct
 {
     UUID :: GUID.{0xa753dcf,0xc4d8,0x4b91,.[0xad,0xf6,0xbe,0x5a,0x60,0xd9,0x5a,0x76]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12FenceVTable;
@@ -9998,7 +9998,7 @@ ID3D12Fence1 :: struct
 {
     UUID :: GUID.{0x433685fe,0xe22b,0x4ca0,.[0xa8,0xdb,0xb5,0xb4,0xf4,0xdd,0xe,0x4a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Fence;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Fence;
 
     #place base;
     vtable : *ID3D12Fence1VTable;
@@ -10070,7 +10070,7 @@ ID3D12GraphicsCommandList :: struct
 {
     UUID :: GUID.{0x5b160d0f,0xac1b,0x4185,.[0x8b,0xa8,0xb3,0xae,0x42,0xa5,0xa4,0x55]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12CommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
     #place base;
     vtable : *ID3D12GraphicsCommandListVTable;
@@ -10428,7 +10428,7 @@ ID3D12GraphicsCommandList1 :: struct
 {
     UUID :: GUID.{0x553103fb,0x1fe7,0x4557,.[0xbb,0x38,0x94,0x6d,0x7d,0xe,0x7c,0xa7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList;
 
     #place base;
     vtable : *ID3D12GraphicsCommandList1VTable;
@@ -10495,7 +10495,7 @@ ID3D12GraphicsCommandList2 :: struct
 {
     UUID :: GUID.{0x38c3e585,0xff17,0x412c,.[0x91,0x50,0x4f,0xc6,0xf9,0xd7,0x2a,0x28]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList1;
 
     #place base;
     vtable : *ID3D12GraphicsCommandList2VTable;
@@ -10511,7 +10511,7 @@ ID3D12GraphicsCommandList3 :: struct
 {
     UUID :: GUID.{0x6fda83a7,0xb84c,0x4e38,.[0x9a,0xc8,0xc7,0xbd,0x22,0x1,0x6b,0x3d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList2;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList2;
 
     #place base;
     vtable : *ID3D12GraphicsCommandList3VTable;
@@ -10527,7 +10527,7 @@ ID3D12GraphicsCommandList4 :: struct
 {
     UUID :: GUID.{0x8754318e,0xd3a9,0x4541,.[0x98,0xcf,0x64,0x5b,0x50,0xdc,0x48,0x74]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList3;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList3;
 
     #place base;
     vtable : *ID3D12GraphicsCommandList4VTable;
@@ -10588,7 +10588,7 @@ ID3D12GraphicsCommandList5 :: struct
 {
     UUID :: GUID.{0x55050859,0x4024,0x474c,.[0x87,0xf5,0x64,0x72,0xea,0xee,0x44,0xea]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList4;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList4;
 
     #place base;
     vtable : *ID3D12GraphicsCommandList5VTable;
@@ -10609,7 +10609,7 @@ ID3D12GraphicsCommandList6 :: struct
 {
     UUID :: GUID.{0xc3827890,0xe548,0x4cfa,.[0x96,0xcf,0x56,0x89,0xa9,0x37,0xf,0x80]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList5;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList5;
 
     #place base;
     vtable : *ID3D12GraphicsCommandList6VTable;
@@ -10625,7 +10625,7 @@ ID3D12Heap :: struct
 {
     UUID :: GUID.{0x6b3b2502,0x6e51,0x45b3,.[0x90,0xee,0x98,0x84,0x26,0x5e,0x8d,0xf3]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12HeapVTable;
@@ -10641,7 +10641,7 @@ ID3D12Heap1 :: struct
 {
     UUID :: GUID.{0x572f7389,0x2168,0x49e3,.[0x96,0x93,0xd6,0xdf,0x58,0x71,0xbf,0x6d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Heap;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Heap;
 
     #place base;
     vtable : *ID3D12Heap1VTable;
@@ -10657,7 +10657,7 @@ ID3D12InfoQueue :: struct
 {
     UUID :: GUID.{0x742a90b,0xc387,0x483f,.[0xb9,0x46,0x30,0xa7,0xe4,0xe6,0x14,0x58]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12InfoQueueVTable;
@@ -10848,7 +10848,7 @@ ID3D12InfoQueue1 :: struct
 {
     UUID :: GUID.{0x2852dd88,0xb484,0x4c0c,.[0xb6,0xb1,0x67,0x16,0x85,0x0,0xe6,0x0]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12InfoQueue;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12InfoQueue;
 
     #place base;
     vtable : *ID3D12InfoQueue1VTable;
@@ -10874,7 +10874,7 @@ ID3D12LibraryReflection :: struct
 {
     UUID :: GUID.{0x8e349d19,0x54db,0x4a56,.[0x9d,0xc9,0x11,0x9d,0x87,0xbd,0xb8,0x4]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12LibraryReflectionVTable;
@@ -10895,7 +10895,7 @@ ID3D12LifetimeOwner :: struct
 {
     UUID :: GUID.{0xe667af9f,0xcd56,0x4f46,.[0x83,0xce,0x3,0x2e,0x59,0x5d,0x70,0xa8]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12LifetimeOwnerVTable;
@@ -10911,7 +10911,7 @@ ID3D12LifetimeTracker :: struct
 {
     UUID :: GUID.{0x3fd03d36,0x4eb1,0x424a,.[0xa5,0x82,0x49,0x4e,0xcb,0x8b,0xa8,0x13]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12LifetimeTrackerVTable;
@@ -10927,7 +10927,7 @@ ID3D12MetaCommand :: struct
 {
     UUID :: GUID.{0xdbb84c27,0x36ce,0x4fc9,.[0xb8,0x1,0xf0,0x48,0xc4,0x6a,0xc5,0x70]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12MetaCommandVTable;
@@ -10943,7 +10943,7 @@ ID3D12Object :: struct
 {
     UUID :: GUID.{0xc4fec28f,0x7966,0x4e95,.[0x9f,0x94,0xf4,0x31,0xcb,0x56,0xc3,0xb8]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12ObjectVTable;
@@ -10974,7 +10974,7 @@ ID3D12Pageable :: struct
 {
     UUID :: GUID.{0x63ee58fb,0x1268,0x4835,.[0x86,0xda,0xf0,0x8,0xce,0x62,0xf0,0xd6]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12PageableVTable;
@@ -10985,7 +10985,7 @@ ID3D12PipelineLibrary :: struct
 {
     UUID :: GUID.{0xc64226a8,0x9201,0x46af,.[0xb4,0xcc,0x53,0xfb,0x9f,0xf7,0x41,0x4f]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12PipelineLibraryVTable;
@@ -11031,7 +11031,7 @@ ID3D12PipelineLibrary1 :: struct
 {
     UUID :: GUID.{0x80eabf42,0x2568,0x4e5e,.[0xbd,0x82,0xc3,0x7f,0x86,0x96,0x1d,0xc3]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12PipelineLibrary;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12PipelineLibrary;
 
     #place base;
     vtable : *ID3D12PipelineLibrary1VTable;
@@ -11052,7 +11052,7 @@ ID3D12PipelineState :: struct
 {
     UUID :: GUID.{0x765a30f3,0xf624,0x4c6f,.[0xa8,0x28,0xac,0xe9,0x48,0x62,0x24,0x45]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12PipelineStateVTable;
@@ -11068,7 +11068,7 @@ ID3D12ProtectedResourceSession :: struct
 {
     UUID :: GUID.{0x6cd696f4,0xf289,0x40cc,.[0x80,0x91,0x5a,0x6c,0xa,0x9,0x9c,0x3d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12ProtectedSession;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12ProtectedSession;
 
     #place base;
     vtable : *ID3D12ProtectedResourceSessionVTable;
@@ -11084,7 +11084,7 @@ ID3D12ProtectedResourceSession1 :: struct
 {
     UUID :: GUID.{0xd6f12dd6,0x76fb,0x406e,.[0x89,0x61,0x42,0x96,0xee,0xfc,0x4,0x9]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12ProtectedResourceSession;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12ProtectedResourceSession;
 
     #place base;
     vtable : *ID3D12ProtectedResourceSession1VTable;
@@ -11100,7 +11100,7 @@ ID3D12ProtectedSession :: struct
 {
     UUID :: GUID.{0xa1533d18,0xac1,0x4084,.[0x85,0xb9,0x89,0xa9,0x61,0x16,0x80,0x6b]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12ProtectedSessionVTable;
@@ -11121,7 +11121,7 @@ ID3D12QueryHeap :: struct
 {
     UUID :: GUID.{0xd9658ae,0xed45,0x469e,.[0xa6,0x1d,0x97,0xe,0xc5,0x83,0xca,0xb4]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12QueryHeapVTable;
@@ -11132,7 +11132,7 @@ ID3D12Resource :: struct
 {
     UUID :: GUID.{0x696442be,0xa72e,0x4059,.[0xbc,0x79,0x5b,0x5c,0x98,0x4,0xf,0xad]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12ResourceVTable;
@@ -11190,7 +11190,7 @@ ID3D12Resource1 :: struct
 {
     UUID :: GUID.{0x9d5e227a,0x4430,0x4161,.[0x88,0xb3,0x3e,0xca,0x6b,0xb1,0x6e,0x19]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Resource;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Resource;
 
     #place base;
     vtable : *ID3D12Resource1VTable;
@@ -11206,7 +11206,7 @@ ID3D12Resource2 :: struct
 {
     UUID :: GUID.{0xbe36ec3b,0xea85,0x4aeb,.[0xa4,0x5a,0xe9,0xd7,0x64,0x4,0xa4,0x95]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Resource1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Resource1;
 
     #place base;
     vtable : *ID3D12Resource2VTable;
@@ -11222,7 +11222,7 @@ ID3D12RootSignature :: struct
 {
     UUID :: GUID.{0xc54a6b66,0x72df,0x4ee8,.[0x8b,0xe5,0xa9,0x46,0xa1,0x42,0x92,0x14]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12RootSignatureVTable;
@@ -11233,7 +11233,7 @@ ID3D12RootSignatureDeserializer :: struct
 {
     UUID :: GUID.{0x34ab647b,0x3cc8,0x46ac,.[0x84,0x1b,0xc0,0x96,0x56,0x45,0xc0,0x46]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12RootSignatureDeserializerVTable;
@@ -11249,7 +11249,7 @@ ID3D12SDKConfiguration :: struct
 {
     UUID :: GUID.{0xe9eb5314,0x33aa,0x42b2,.[0xa7,0x18,0xd7,0x7f,0x58,0xb1,0xf1,0xc7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12SDKConfigurationVTable;
@@ -11265,7 +11265,7 @@ ID3D12ShaderCacheSession :: struct
 {
     UUID :: GUID.{0x28e2495d,0xf64,0x4ae4,.[0xa6,0xec,0x12,0x92,0x55,0xdc,0x49,0xa8]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
     #place base;
     vtable : *ID3D12ShaderCacheSessionVTable;
@@ -11306,7 +11306,7 @@ ID3D12ShaderReflection :: struct
 {
     UUID :: GUID.{0x5a58797d,0xa72c,0x478d,.[0x8b,0xa2,0xef,0xc6,0xb0,0xef,0xe8,0x8e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12ShaderReflectionVTable;
@@ -11526,7 +11526,7 @@ ID3D12SharingContract :: struct
 {
     UUID :: GUID.{0xadf7d52,0x929c,0x4e61,.[0xad,0xdb,0xff,0xed,0x30,0xde,0x66,0xef]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12SharingContractVTable;
@@ -11557,7 +11557,7 @@ ID3D12StateObject :: struct
 {
     UUID :: GUID.{0x47016943,0xfca8,0x4594,.[0x93,0xea,0xaf,0x25,0x8b,0x55,0x34,0x6d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12StateObjectVTable;
@@ -11568,7 +11568,7 @@ ID3D12StateObjectProperties :: struct
 {
     UUID :: GUID.{0xde5fa827,0x9bf9,0x4f26,.[0x89,0xff,0xd7,0xf5,0x6f,0xde,0x38,0x60]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12StateObjectPropertiesVTable;
@@ -11599,7 +11599,7 @@ ID3D12SwapChainAssistant :: struct
 {
     UUID :: GUID.{0xf1df64b6,0x57fd,0x49cd,.[0x88,0x7,0xc0,0xeb,0x88,0xb4,0x5c,0x8f]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12SwapChainAssistantVTable;
@@ -11635,7 +11635,7 @@ ID3D12Tools :: struct
 {
     UUID :: GUID.{0x7071e1f0,0xe84b,0x4b33,.[0x97,0x4f,0x12,0xfa,0x49,0xde,0x65,0xc5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12ToolsVTable;
@@ -11656,7 +11656,7 @@ ID3D12VersionedRootSignatureDeserializer :: struct
 {
     UUID :: GUID.{0x7f91ce67,0x90c,0x4bb7,.[0xb7,0x8e,0xed,0x8f,0xf2,0xe3,0x1d,0xa0]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12VersionedRootSignatureDeserializerVTable;
@@ -11677,7 +11677,7 @@ ID3D12VideoDecodeCommandList :: struct
 {
     UUID :: GUID.{0x3b60536e,0xad29,0x4e64,.[0xa2,0x69,0xf8,0x53,0x83,0x7e,0x5e,0x53]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12CommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
     #place base;
     vtable : *ID3D12VideoDecodeCommandListVTable;
@@ -11765,7 +11765,7 @@ ID3D12VideoDecodeCommandList1 :: struct
 {
     UUID :: GUID.{0xd52f011b,0xb56e,0x453c,.[0xa0,0x5a,0xa7,0xf3,0x11,0xc8,0xf4,0x72]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDecodeCommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecodeCommandList;
 
     #place base;
     vtable : *ID3D12VideoDecodeCommandList1VTable;
@@ -11781,7 +11781,7 @@ ID3D12VideoDecodeCommandList2 :: struct
 {
     UUID :: GUID.{0x6e120880,0xc114,0x4153,.[0x80,0x36,0xd2,0x47,0x5,0x1e,0x17,0x29]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDecodeCommandList1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecodeCommandList1;
 
     #place base;
     vtable : *ID3D12VideoDecodeCommandList2VTable;
@@ -11807,7 +11807,7 @@ ID3D12VideoDecoder :: struct
 {
     UUID :: GUID.{0xc59b6bdc,0x7720,0x4074,.[0xa1,0x36,0x17,0xa1,0x56,0x3,0x74,0x70]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoDecoderVTable;
@@ -11823,7 +11823,7 @@ ID3D12VideoDecoder1 :: struct
 {
     UUID :: GUID.{0x79a2e5fb,0xccd2,0x469a,.[0x9f,0xde,0x19,0x5d,0x10,0x95,0x1f,0x7e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDecoder;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecoder;
 
     #place base;
     vtable : *ID3D12VideoDecoder1VTable;
@@ -11839,7 +11839,7 @@ ID3D12VideoDecoderHeap :: struct
 {
     UUID :: GUID.{0x946b7c9,0xebf6,0x4047,.[0xbb,0x73,0x86,0x83,0xe2,0x7d,0xbb,0x1f]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoDecoderHeapVTable;
@@ -11855,7 +11855,7 @@ ID3D12VideoDecoderHeap1 :: struct
 {
     UUID :: GUID.{0xda1d98c5,0x539f,0x41b2,.[0xbf,0x6b,0x11,0x98,0xa0,0x3b,0x6d,0x26]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDecoderHeap;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecoderHeap;
 
     #place base;
     vtable : *ID3D12VideoDecoderHeap1VTable;
@@ -11871,7 +11871,7 @@ ID3D12VideoDevice :: struct
 {
     UUID :: GUID.{0x1f052807,0xb46,0x4acc,.[0x8a,0x89,0x36,0x4f,0x79,0x37,0x18,0xa4]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ID3D12VideoDeviceVTable;
@@ -11909,7 +11909,7 @@ ID3D12VideoDevice1 :: struct
 {
     UUID :: GUID.{0x981611ad,0xa144,0x4c83,.[0x98,0x90,0xf3,0xe,0x26,0xd6,0x58,0xab]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDevice;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDevice;
 
     #place base;
     vtable : *ID3D12VideoDevice1VTable;
@@ -11940,7 +11940,7 @@ ID3D12VideoDevice2 :: struct
 {
     UUID :: GUID.{0xf019ac49,0xf838,0x4a95,.[0x9b,0x17,0x57,0x94,0x37,0xc8,0xf5,0x13]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDevice1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDevice1;
 
     #place base;
     vtable : *ID3D12VideoDevice2VTable;
@@ -12007,7 +12007,7 @@ ID3D12VideoDevice3 :: struct
 {
     UUID :: GUID.{0x4243adb4,0x3a32,0x4666,.[0x97,0x3c,0xc,0xcc,0x56,0x25,0xdc,0x44]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoDevice2;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDevice2;
 
     #place base;
     vtable : *ID3D12VideoDevice3VTable;
@@ -12028,7 +12028,7 @@ ID3D12VideoEncodeCommandList :: struct
 {
     UUID :: GUID.{0x8455293a,0xcbd,0x4831,.[0x9b,0x39,0xfb,0xdb,0xab,0x72,0x47,0x23]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12CommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
     #place base;
     vtable : *ID3D12VideoEncodeCommandListVTable;
@@ -12126,7 +12126,7 @@ ID3D12VideoEncodeCommandList1 :: struct
 {
     UUID :: GUID.{0x94971eca,0x2bdb,0x4769,.[0x88,0xcf,0x36,0x75,0xea,0x75,0x7e,0xbc]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoEncodeCommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoEncodeCommandList;
 
     #place base;
     vtable : *ID3D12VideoEncodeCommandList1VTable;
@@ -12147,7 +12147,7 @@ ID3D12VideoEncodeCommandList2 :: struct
 {
     UUID :: GUID.{0x895491e2,0xe701,0x46a9,.[0x9a,0x1f,0x8d,0x34,0x80,0xed,0x86,0x7a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoEncodeCommandList1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoEncodeCommandList1;
 
     #place base;
     vtable : *ID3D12VideoEncodeCommandList2VTable;
@@ -12173,7 +12173,7 @@ ID3D12VideoEncoder :: struct
 {
     UUID :: GUID.{0x2e0d212d,0x8df9,0x44a6,.[0xa7,0x70,0xbb,0x28,0x9b,0x18,0x27,0x37]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoEncoderVTable;
@@ -12219,7 +12219,7 @@ ID3D12VideoEncoderHeap :: struct
 {
     UUID :: GUID.{0x22b35d96,0x876a,0x44c0,.[0xb2,0x5e,0xfb,0x8c,0x9c,0x7f,0x1c,0x4a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoEncoderHeapVTable;
@@ -12265,7 +12265,7 @@ ID3D12VideoExtensionCommand :: struct
 {
     UUID :: GUID.{0x554e41e8,0xae8e,0x4a8c,.[0xb7,0xd2,0x5b,0x4f,0x27,0x4a,0x30,0xe4]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoExtensionCommandVTable;
@@ -12286,7 +12286,7 @@ ID3D12VideoMotionEstimator :: struct
 {
     UUID :: GUID.{0x33fdae0e,0x98b,0x428f,.[0x87,0xbb,0x34,0xb6,0x95,0xde,0x8,0xf8]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoMotionEstimatorVTable;
@@ -12307,7 +12307,7 @@ ID3D12VideoMotionVectorHeap :: struct
 {
     UUID :: GUID.{0x5be17987,0x743a,0x4061,.[0x83,0x4b,0x23,0xd2,0x2d,0xae,0xa5,0x5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoMotionVectorHeapVTable;
@@ -12328,7 +12328,7 @@ ID3D12VideoProcessCommandList :: struct
 {
     UUID :: GUID.{0xaeb2543a,0x167f,0x4682,.[0xac,0xc8,0xd1,0x59,0xed,0x4a,0x62,0x9]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12CommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
     #place base;
     vtable : *ID3D12VideoProcessCommandListVTable;
@@ -12421,7 +12421,7 @@ ID3D12VideoProcessCommandList1 :: struct
 {
     UUID :: GUID.{0x542c5c4d,0x7596,0x434f,.[0x8c,0x93,0x4e,0xfa,0x67,0x66,0xf2,0x67]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoProcessCommandList;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoProcessCommandList;
 
     #place base;
     vtable : *ID3D12VideoProcessCommandList1VTable;
@@ -12442,7 +12442,7 @@ ID3D12VideoProcessCommandList2 :: struct
 {
     UUID :: GUID.{0xdb525ae4,0x6ad6,0x473c,.[0xba,0xa7,0x59,0xb2,0xe3,0x70,0x82,0xe4]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoProcessCommandList1;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoProcessCommandList1;
 
     #place base;
     vtable : *ID3D12VideoProcessCommandList2VTable;
@@ -12468,7 +12468,7 @@ ID3D12VideoProcessor :: struct
 {
     UUID :: GUID.{0x304fdb32,0xbede,0x410a,.[0x85,0x45,0x94,0x3a,0xc6,0xa4,0x61,0x38]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12Pageable;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
     #place base;
     vtable : *ID3D12VideoProcessorVTable;
@@ -12499,7 +12499,7 @@ ID3D12VideoProcessor1 :: struct
 {
     UUID :: GUID.{0xf3cfe615,0x553f,0x425c,.[0x86,0xd8,0xee,0x8c,0x1b,0x1f,0xb0,0x1c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ID3D12VideoProcessor;
+    #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoProcessor;
 
     #place base;
     vtable : *ID3D12VideoProcessor1VTable;
@@ -12540,21 +12540,21 @@ D3D12SerializeVersionedRootSignature :: (pRootSignature : *D3D12_VERSIONED_ROOT_
 
 ID3D12CommandAllocatorVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     Reset : (this : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
 }
 
 ID3D12CommandListVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
     GetType : (this : *ID3D12CommandList) -> D3D12_COMMAND_LIST_TYPE #cpp_method;
 }
 
 ID3D12CommandQueueVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     UpdateTileMappings : (this : *ID3D12CommandQueue, pResource : *ID3D12Resource, NumResourceRegions : u32, pResourceRegionStartCoordinates : *D3D12_TILED_RESOURCE_COORDINATE, pResourceRegionSizes : *D3D12_TILE_REGION_SIZE, pHeap : *ID3D12Heap, NumRanges : u32, pRangeFlags : *D3D12_TILE_RANGE_FLAGS, pHeapRangeStartOffsets : *u32, pRangeTileCounts : *u32, Flags : D3D12_TILE_MAPPING_FLAGS) #cpp_method;
     CopyTileMappings : (this : *ID3D12CommandQueue, pDstResource : *ID3D12Resource, pDstRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pSrcResource : *ID3D12Resource, pSrcRegionStartCoordinate : *D3D12_TILED_RESOURCE_COORDINATE, pRegionSize : *D3D12_TILE_REGION_SIZE, Flags : D3D12_TILE_MAPPING_FLAGS) #cpp_method;
@@ -12571,20 +12571,20 @@ ID3D12CommandQueueVTable :: struct
 
 ID3D12CommandSignatureVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
 }
 
 ID3D12DebugVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     EnableDebugLayer : (this : *ID3D12Debug) #cpp_method;
 }
 
 ID3D12Debug1VTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     EnableDebugLayer : (this : *ID3D12Debug1) #cpp_method;
     SetEnableGPUBasedValidation : (this : *ID3D12Debug1, Enable : BOOL) #cpp_method;
@@ -12593,14 +12593,14 @@ ID3D12Debug1VTable :: struct
 
 ID3D12Debug2VTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetGPUBasedValidationFlags : (this : *ID3D12Debug2, Flags : D3D12_GPU_BASED_VALIDATION_FLAGS) #cpp_method;
 }
 
 ID3D12Debug3VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DebugVTable;
+    #as using, except(.["base"]) base : ID3D12DebugVTable;
 
     SetEnableGPUBasedValidation : (this : *ID3D12Debug3, Enable : BOOL) #cpp_method;
     SetEnableSynchronizedCommandQueueValidation : (this : *ID3D12Debug3, Enable : BOOL) #cpp_method;
@@ -12609,21 +12609,21 @@ ID3D12Debug3VTable :: struct
 
 ID3D12Debug4VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Debug3VTable;
+    #as using, except(.["base"]) base : ID3D12Debug3VTable;
 
     DisableDebugLayer : (this : *ID3D12Debug4) #cpp_method;
 }
 
 ID3D12Debug5VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Debug4VTable;
+    #as using, except(.["base"]) base : ID3D12Debug4VTable;
 
     SetEnableAutoName : (this : *ID3D12Debug5, Enable : BOOL) #cpp_method;
 }
 
 ID3D12DebugCommandListVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     AssertResourceState : (this : *ID3D12DebugCommandList, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
     SetFeatureMask : (this : *ID3D12DebugCommandList, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #cpp_method;
@@ -12632,7 +12632,7 @@ ID3D12DebugCommandListVTable :: struct
 
 ID3D12DebugCommandList1VTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     AssertResourceState : (this : *ID3D12DebugCommandList1, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
     SetDebugParameter : (this : *ID3D12DebugCommandList1, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
@@ -12641,7 +12641,7 @@ ID3D12DebugCommandList1VTable :: struct
 
 ID3D12DebugCommandList2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DebugCommandListVTable;
+    #as using, except(.["base"]) base : ID3D12DebugCommandListVTable;
 
     SetDebugParameter : (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
     GetDebugParameter : (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
@@ -12649,14 +12649,14 @@ ID3D12DebugCommandList2VTable :: struct
 
 ID3D12DebugCommandQueueVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     AssertResourceState : (this : *ID3D12DebugCommandQueue, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #cpp_method;
 }
 
 ID3D12DebugDeviceVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetFeatureMask : (this : *ID3D12DebugDevice, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #cpp_method;
     GetFeatureMask : (this : *ID3D12DebugDevice) -> D3D12_DEBUG_FEATURE #cpp_method;
@@ -12665,7 +12665,7 @@ ID3D12DebugDeviceVTable :: struct
 
 ID3D12DebugDevice1VTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetDebugParameter : (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
     GetDebugParameter : (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
@@ -12674,7 +12674,7 @@ ID3D12DebugDevice1VTable :: struct
 
 ID3D12DebugDevice2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DebugDeviceVTable;
+    #as using, except(.["base"]) base : ID3D12DebugDeviceVTable;
 
     SetDebugParameter : (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
     GetDebugParameter : (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #cpp_method;
@@ -12682,7 +12682,7 @@ ID3D12DebugDevice2VTable :: struct
 
 ID3D12DescriptorHeapVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12DescriptorHeap) -> D3D12_DESCRIPTOR_HEAP_DESC #cpp_method;
     GetCPUDescriptorHandleForHeapStart : (this : *ID3D12DescriptorHeap) -> D3D12_CPU_DESCRIPTOR_HANDLE #cpp_method;
@@ -12691,7 +12691,7 @@ ID3D12DescriptorHeapVTable :: struct
 
 ID3D12DeviceVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12ObjectVTable;
+    #as using, except(.["base"]) base : ID3D12ObjectVTable;
 
     GetNodeCount : (this : *ID3D12Device) -> u32 #cpp_method;
     CreateCommandQueue : (this : *ID3D12Device, pDesc : *D3D12_COMMAND_QUEUE_DESC, riid : *GUID, ppCommandQueue : **void) -> HRESULT #cpp_method;
@@ -12734,7 +12734,7 @@ ID3D12DeviceVTable :: struct
 
 ID3D12Device1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceVTable;
 
     CreatePipelineLibrary : (this : *ID3D12Device1, pLibraryBlob : *void, BlobLength : u64, riid : *GUID, ppPipelineLibrary : **void) -> HRESULT #cpp_method;
     SetEventOnMultipleFenceCompletion : (this : *ID3D12Device1, ppFences : **ID3D12Fence, pFenceValues : *u64, NumFences : u32, Flags : D3D12_MULTIPLE_FENCE_WAIT_FLAGS, hEvent : HANDLE) -> HRESULT #cpp_method;
@@ -12743,14 +12743,14 @@ ID3D12Device1VTable :: struct
 
 ID3D12Device2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device1VTable;
+    #as using, except(.["base"]) base : ID3D12Device1VTable;
 
     CreatePipelineState : (this : *ID3D12Device2, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12Device3VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device2VTable;
+    #as using, except(.["base"]) base : ID3D12Device2VTable;
 
     OpenExistingHeapFromAddress : (this : *ID3D12Device3, pAddress : *void, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
     OpenExistingHeapFromFileMapping : (this : *ID3D12Device3, hFileMapping : HANDLE, riid : *GUID, ppvHeap : **void) -> HRESULT #cpp_method;
@@ -12759,7 +12759,7 @@ ID3D12Device3VTable :: struct
 
 ID3D12Device4VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device3VTable;
+    #as using, except(.["base"]) base : ID3D12Device3VTable;
 
     CreateCommandList1 : (this : *ID3D12Device4, nodeMask : u32, type : D3D12_COMMAND_LIST_TYPE, flags : D3D12_COMMAND_LIST_FLAGS, riid : *GUID, ppCommandList : **void) -> HRESULT #cpp_method;
     CreateProtectedResourceSession : (this : *ID3D12Device4, pDesc : *D3D12_PROTECTED_RESOURCE_SESSION_DESC, riid : *GUID, ppSession : **void) -> HRESULT #cpp_method;
@@ -12771,7 +12771,7 @@ ID3D12Device4VTable :: struct
 
 ID3D12Device5VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device4VTable;
+    #as using, except(.["base"]) base : ID3D12Device4VTable;
 
     CreateLifetimeTracker : (this : *ID3D12Device5, pOwner : *ID3D12LifetimeOwner, riid : *GUID, ppvTracker : **void) -> HRESULT #cpp_method;
     RemoveDevice : (this : *ID3D12Device5) #cpp_method;
@@ -12785,14 +12785,14 @@ ID3D12Device5VTable :: struct
 
 ID3D12Device6VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device5VTable;
+    #as using, except(.["base"]) base : ID3D12Device5VTable;
 
     SetBackgroundProcessingMode : (this : *ID3D12Device6, Mode : D3D12_BACKGROUND_PROCESSING_MODE, MeasurementsAction : D3D12_MEASUREMENTS_ACTION, hEventToSignalUponCompletion : HANDLE, pbFurtherMeasurementsDesired : *BOOL) -> HRESULT #cpp_method;
 }
 
 ID3D12Device7VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device6VTable;
+    #as using, except(.["base"]) base : ID3D12Device6VTable;
 
     AddToStateObject : (this : *ID3D12Device7, pAddition : *D3D12_STATE_OBJECT_DESC, pStateObjectToGrowFrom : *ID3D12StateObject, riid : *GUID, ppNewStateObject : **void) -> HRESULT #cpp_method;
     CreateProtectedResourceSession1 : (this : *ID3D12Device7, pDesc : *D3D12_PROTECTED_RESOURCE_SESSION_DESC1, riid : *GUID, ppSession : **void) -> HRESULT #cpp_method;
@@ -12800,7 +12800,7 @@ ID3D12Device7VTable :: struct
 
 ID3D12Device8VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device7VTable;
+    #as using, except(.["base"]) base : ID3D12Device7VTable;
 
     GetResourceAllocationInfo2 : (this : *ID3D12Device8, visibleMask : u32, numResourceDescs : u32, pResourceDescs : *D3D12_RESOURCE_DESC1, pResourceAllocationInfo1 : *D3D12_RESOURCE_ALLOCATION_INFO1) -> D3D12_RESOURCE_ALLOCATION_INFO #cpp_method;
     CreateCommittedResource2 : (this : *ID3D12Device8, pHeapProperties : *D3D12_HEAP_PROPERTIES, HeapFlags : D3D12_HEAP_FLAGS, pDesc : *D3D12_RESOURCE_DESC1, InitialResourceState : D3D12_RESOURCE_STATES, pOptimizedClearValue : *D3D12_CLEAR_VALUE, pProtectedSession : *ID3D12ProtectedResourceSession, riidResource : *GUID, ppvResource : **void) -> HRESULT #cpp_method;
@@ -12811,7 +12811,7 @@ ID3D12Device8VTable :: struct
 
 ID3D12Device9VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Device8VTable;
+    #as using, except(.["base"]) base : ID3D12Device8VTable;
 
     CreateShaderCacheSession : (this : *ID3D12Device9, pDesc : *D3D12_SHADER_CACHE_SESSION_DESC, riid : *GUID, ppvSession : **void) -> HRESULT #cpp_method;
     ShaderCacheControl : (this : *ID3D12Device9, Kinds : D3D12_SHADER_CACHE_KIND_FLAGS, Control : D3D12_SHADER_CACHE_CONTROL_FLAGS) -> HRESULT #cpp_method;
@@ -12820,14 +12820,14 @@ ID3D12Device9VTable :: struct
 
 ID3D12DeviceChildVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12ObjectVTable;
+    #as using, except(.["base"]) base : ID3D12ObjectVTable;
 
     GetDevice : (this : *ID3D12DeviceChild, riid : *GUID, ppvDevice : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12DeviceRemovedExtendedDataVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetAutoBreadcrumbsOutput : (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT) -> HRESULT #cpp_method;
     GetPageFaultAllocationOutput : (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT) -> HRESULT #cpp_method;
@@ -12835,7 +12835,7 @@ ID3D12DeviceRemovedExtendedDataVTable :: struct
 
 ID3D12DeviceRemovedExtendedData1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedDataVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceRemovedExtendedDataVTable;
 
     GetAutoBreadcrumbsOutput1 : (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1) -> HRESULT #cpp_method;
     GetPageFaultAllocationOutput1 : (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT1) -> HRESULT #cpp_method;
@@ -12843,7 +12843,7 @@ ID3D12DeviceRemovedExtendedData1VTable :: struct
 
 ID3D12DeviceRemovedExtendedData2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedData1VTable;
+    #as using, except(.["base"]) base : ID3D12DeviceRemovedExtendedData1VTable;
 
     GetPageFaultAllocationOutput2 : (this : *ID3D12DeviceRemovedExtendedData2, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT2) -> HRESULT #cpp_method;
     GetDeviceState : (this : *ID3D12DeviceRemovedExtendedData2) -> D3D12_DRED_DEVICE_STATE #cpp_method;
@@ -12851,7 +12851,7 @@ ID3D12DeviceRemovedExtendedData2VTable :: struct
 
 ID3D12DeviceRemovedExtendedDataSettingsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetAutoBreadcrumbsEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
     SetPageFaultEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
@@ -12860,14 +12860,14 @@ ID3D12DeviceRemovedExtendedDataSettingsVTable :: struct
 
 ID3D12DeviceRemovedExtendedDataSettings1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceRemovedExtendedDataSettingsVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceRemovedExtendedDataSettingsVTable;
 
     SetBreadcrumbContextEnablement : (this : *ID3D12DeviceRemovedExtendedDataSettings1, Enablement : D3D12_DRED_ENABLEMENT) #cpp_method;
 }
 
 ID3D12FenceVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetCompletedValue : (this : *ID3D12Fence) -> u64 #cpp_method;
     SetEventOnCompletion : (this : *ID3D12Fence, Value : u64, hEvent : HANDLE) -> HRESULT #cpp_method;
@@ -12876,7 +12876,7 @@ ID3D12FenceVTable :: struct
 
 ID3D12Fence1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12FenceVTable;
+    #as using, except(.["base"]) base : ID3D12FenceVTable;
 
     GetCreationFlags : (this : *ID3D12Fence1) -> D3D12_FENCE_FLAGS #cpp_method;
 }
@@ -12899,7 +12899,7 @@ ID3D12FunctionReflectionVTable :: struct
 
 ID3D12GraphicsCommandListVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+    #as using, except(.["base"]) base : ID3D12CommandListVTable;
 
     Close : (this : *ID3D12GraphicsCommandList) -> HRESULT #cpp_method;
     Reset : (this : *ID3D12GraphicsCommandList, pAllocator : *ID3D12CommandAllocator, pInitialState : *ID3D12PipelineState) -> HRESULT #cpp_method;
@@ -12956,7 +12956,7 @@ ID3D12GraphicsCommandListVTable :: struct
 
 ID3D12GraphicsCommandList1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandListVTable;
+    #as using, except(.["base"]) base : ID3D12GraphicsCommandListVTable;
 
     AtomicCopyBufferUINT : (this : *ID3D12GraphicsCommandList1, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, Dependencies : u32, ppDependentResources : **ID3D12Resource, pDependentSubresourceRanges : *D3D12_SUBRESOURCE_RANGE_UINT64) #cpp_method;
     AtomicCopyBufferUINT64 : (this : *ID3D12GraphicsCommandList1, pDstBuffer : *ID3D12Resource, DstOffset : u64, pSrcBuffer : *ID3D12Resource, SrcOffset : u64, Dependencies : u32, ppDependentResources : **ID3D12Resource, pDependentSubresourceRanges : *D3D12_SUBRESOURCE_RANGE_UINT64) #cpp_method;
@@ -12968,21 +12968,21 @@ ID3D12GraphicsCommandList1VTable :: struct
 
 ID3D12GraphicsCommandList2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList1VTable;
+    #as using, except(.["base"]) base : ID3D12GraphicsCommandList1VTable;
 
     WriteBufferImmediate : (this : *ID3D12GraphicsCommandList2, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #cpp_method;
 }
 
 ID3D12GraphicsCommandList3VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList2VTable;
+    #as using, except(.["base"]) base : ID3D12GraphicsCommandList2VTable;
 
     SetProtectedResourceSession : (this : *ID3D12GraphicsCommandList3, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
 }
 
 ID3D12GraphicsCommandList4VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList3VTable;
+    #as using, except(.["base"]) base : ID3D12GraphicsCommandList3VTable;
 
     BeginRenderPass : (this : *ID3D12GraphicsCommandList4, NumRenderTargets : u32, pRenderTargets : *D3D12_RENDER_PASS_RENDER_TARGET_DESC, pDepthStencil : *D3D12_RENDER_PASS_DEPTH_STENCIL_DESC, Flags : D3D12_RENDER_PASS_FLAGS) #cpp_method;
     EndRenderPass : (this : *ID3D12GraphicsCommandList4) #cpp_method;
@@ -12997,7 +12997,7 @@ ID3D12GraphicsCommandList4VTable :: struct
 
 ID3D12GraphicsCommandList5VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList4VTable;
+    #as using, except(.["base"]) base : ID3D12GraphicsCommandList4VTable;
 
     RSSetShadingRate : (this : *ID3D12GraphicsCommandList5, baseShadingRate : D3D12_SHADING_RATE, combiners : *D3D12_SHADING_RATE_COMBINER) #cpp_method;
     RSSetShadingRateImage : (this : *ID3D12GraphicsCommandList5, shadingRateImage : *ID3D12Resource) #cpp_method;
@@ -13005,28 +13005,28 @@ ID3D12GraphicsCommandList5VTable :: struct
 
 ID3D12GraphicsCommandList6VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12GraphicsCommandList5VTable;
+    #as using, except(.["base"]) base : ID3D12GraphicsCommandList5VTable;
 
     DispatchMesh : (this : *ID3D12GraphicsCommandList6, ThreadGroupCountX : u32, ThreadGroupCountY : u32, ThreadGroupCountZ : u32) #cpp_method;
 }
 
 ID3D12HeapVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12Heap) -> D3D12_HEAP_DESC #cpp_method;
 }
 
 ID3D12Heap1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12HeapVTable;
+    #as using, except(.["base"]) base : ID3D12HeapVTable;
 
     GetProtectedResourceSession : (this : *ID3D12Heap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12InfoQueueVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetMessageCountLimit : (this : *ID3D12InfoQueue, MessageCountLimit : u64) -> HRESULT #cpp_method;
     ClearStoredMessages : (this : *ID3D12InfoQueue) #cpp_method;
@@ -13067,7 +13067,7 @@ ID3D12InfoQueueVTable :: struct
 
 ID3D12InfoQueue1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12InfoQueueVTable;
+    #as using, except(.["base"]) base : ID3D12InfoQueueVTable;
 
     RegisterMessageCallback : (this : *ID3D12InfoQueue1, CallbackFunc : D3D12MessageFunc, CallbackFilterFlags : D3D12_MESSAGE_CALLBACK_FLAGS, pContext : *void, pCallbackCookie : *u32) -> HRESULT #cpp_method;
     UnregisterMessageCallback : (this : *ID3D12InfoQueue1, CallbackCookie : u32) -> HRESULT #cpp_method;
@@ -13075,7 +13075,7 @@ ID3D12InfoQueue1VTable :: struct
 
 ID3D12LibraryReflectionVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetDesc : (this : *ID3D12LibraryReflection, pDesc : *D3D12_LIBRARY_DESC) -> HRESULT #cpp_method;
     GetFunctionByIndex : (this : *ID3D12LibraryReflection, FunctionIndex : s32) -> *ID3D12FunctionReflection #cpp_method;
@@ -13083,28 +13083,28 @@ ID3D12LibraryReflectionVTable :: struct
 
 ID3D12LifetimeOwnerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     LifetimeStateUpdated : (this : *ID3D12LifetimeOwner, NewState : D3D12_LIFETIME_STATE) #cpp_method;
 }
 
 ID3D12LifetimeTrackerVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
     DestroyOwnedObject : (this : *ID3D12LifetimeTracker, pObject : *ID3D12DeviceChild) -> HRESULT #cpp_method;
 }
 
 ID3D12MetaCommandVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetRequiredParameterResourceSize : (this : *ID3D12MetaCommand, Stage : D3D12_META_COMMAND_PARAMETER_STAGE, ParameterIndex : u32) -> u64 #cpp_method;
 }
 
 ID3D12ObjectVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetPrivateData : (this : *ID3D12Object, guid : *GUID, pDataSize : *u32, pData : *void) -> HRESULT #cpp_method;
     SetPrivateData : (this : *ID3D12Object, guid : *GUID, DataSize : u32, pData : *void) -> HRESULT #cpp_method;
@@ -13114,13 +13114,13 @@ ID3D12ObjectVTable :: struct
 
 ID3D12PageableVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
 }
 
 ID3D12PipelineLibraryVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
     StorePipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pPipeline : *ID3D12PipelineState) -> HRESULT #cpp_method;
     LoadGraphicsPipeline : (this : *ID3D12PipelineLibrary, pName : PWSTR, pDesc : *D3D12_GRAPHICS_PIPELINE_STATE_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
@@ -13131,35 +13131,35 @@ ID3D12PipelineLibraryVTable :: struct
 
 ID3D12PipelineLibrary1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PipelineLibraryVTable;
+    #as using, except(.["base"]) base : ID3D12PipelineLibraryVTable;
 
     LoadPipeline : (this : *ID3D12PipelineLibrary1, pName : PWSTR, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12PipelineStateVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetCachedBlob : (this : *ID3D12PipelineState, ppBlob : **ID3DBlob) -> HRESULT #cpp_method;
 }
 
 ID3D12ProtectedResourceSessionVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12ProtectedSessionVTable;
+    #as using, except(.["base"]) base : ID3D12ProtectedSessionVTable;
 
     GetDesc : (this : *ID3D12ProtectedResourceSession) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC #cpp_method;
 }
 
 ID3D12ProtectedResourceSession1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12ProtectedResourceSessionVTable;
+    #as using, except(.["base"]) base : ID3D12ProtectedResourceSessionVTable;
 
     GetDesc1 : (this : *ID3D12ProtectedResourceSession1) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC1 #cpp_method;
 }
 
 ID3D12ProtectedSessionVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
     GetStatusFence : (this : *ID3D12ProtectedSession, riid : *GUID, ppFence : **void) -> HRESULT #cpp_method;
     GetSessionStatus : (this : *ID3D12ProtectedSession) -> D3D12_PROTECTED_SESSION_STATUS #cpp_method;
@@ -13167,13 +13167,13 @@ ID3D12ProtectedSessionVTable :: struct
 
 ID3D12QueryHeapVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
 }
 
 ID3D12ResourceVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     Map : (this : *ID3D12Resource, Subresource : u32, pReadRange : *D3D12_RANGE, ppData : **void) -> HRESULT #cpp_method;
     Unmap : (this : *ID3D12Resource, Subresource : u32, pWrittenRange : *D3D12_RANGE) #cpp_method;
@@ -13186,41 +13186,41 @@ ID3D12ResourceVTable :: struct
 
 ID3D12Resource1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12ResourceVTable;
+    #as using, except(.["base"]) base : ID3D12ResourceVTable;
 
     GetProtectedResourceSession : (this : *ID3D12Resource1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12Resource2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12Resource1VTable;
+    #as using, except(.["base"]) base : ID3D12Resource1VTable;
 
     GetDesc1 : (this : *ID3D12Resource2) -> D3D12_RESOURCE_DESC1 #cpp_method;
 }
 
 ID3D12RootSignatureVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
 }
 
 ID3D12RootSignatureDeserializerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetRootSignatureDesc : (this : *ID3D12RootSignatureDeserializer) -> *D3D12_ROOT_SIGNATURE_DESC #cpp_method;
 }
 
 ID3D12SDKConfigurationVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetSDKVersion : (this : *ID3D12SDKConfiguration, SDKVersion : u32, SDKPath : PSTR) -> HRESULT #cpp_method;
 }
 
 ID3D12ShaderCacheSessionVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12DeviceChildVTable;
+    #as using, except(.["base"]) base : ID3D12DeviceChildVTable;
 
     FindValue : (this : *ID3D12ShaderCacheSession, pKey : *void, KeySize : u32, pValue : *void, pValueSize : *u32) -> HRESULT #cpp_method;
     StoreValue : (this : *ID3D12ShaderCacheSession, pKey : *void, KeySize : u32, pValue : *void, ValueSize : u32) -> HRESULT #cpp_method;
@@ -13230,7 +13230,7 @@ ID3D12ShaderCacheSessionVTable :: struct
 
 ID3D12ShaderReflectionVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetDesc : (this : *ID3D12ShaderReflection, pDesc : *D3D12_SHADER_DESC) -> HRESULT #cpp_method;
     GetConstantBufferByIndex : (this : *ID3D12ShaderReflection, Index : u32) -> *ID3D12ShaderReflectionConstantBuffer #cpp_method;
@@ -13285,7 +13285,7 @@ ID3D12ShaderReflectionVariableVTable :: struct
 
 ID3D12SharingContractVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Present : (this : *ID3D12SharingContract, pResource : *ID3D12Resource, Subresource : u32, window : HWND) #cpp_method;
     SharedFenceSignal : (this : *ID3D12SharingContract, pFence : *ID3D12Fence, FenceValue : u64) #cpp_method;
@@ -13295,13 +13295,13 @@ ID3D12SharingContractVTable :: struct
 
 ID3D12StateObjectVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
 }
 
 ID3D12StateObjectPropertiesVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetShaderIdentifier : (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> *void #cpp_method;
     GetShaderStackSize : (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> u64 #cpp_method;
@@ -13311,7 +13311,7 @@ ID3D12StateObjectPropertiesVTable :: struct
 
 ID3D12SwapChainAssistantVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetLUID : (this : *ID3D12SwapChainAssistant) -> LUID #cpp_method;
     GetSwapChainObject : (this : *ID3D12SwapChainAssistant, riid : *GUID, ppv : **void) -> HRESULT #cpp_method;
@@ -13321,7 +13321,7 @@ ID3D12SwapChainAssistantVTable :: struct
 
 ID3D12ToolsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     EnableShaderInstrumentation : (this : *ID3D12Tools, bEnable : BOOL) #cpp_method;
     ShaderInstrumentationEnabled : (this : *ID3D12Tools) -> BOOL #cpp_method;
@@ -13329,7 +13329,7 @@ ID3D12ToolsVTable :: struct
 
 ID3D12VersionedRootSignatureDeserializerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetRootSignatureDescAtVersion : (this : *ID3D12VersionedRootSignatureDeserializer, convertToVersion : D3D_ROOT_SIGNATURE_VERSION, ppDesc : **D3D12_VERSIONED_ROOT_SIGNATURE_DESC) -> HRESULT #cpp_method;
     GetUnconvertedRootSignatureDesc : (this : *ID3D12VersionedRootSignatureDeserializer) -> *D3D12_VERSIONED_ROOT_SIGNATURE_DESC #cpp_method;
@@ -13337,7 +13337,7 @@ ID3D12VersionedRootSignatureDeserializerVTable :: struct
 
 ID3D12VideoDecodeCommandListVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+    #as using, except(.["base"]) base : ID3D12CommandListVTable;
 
     Close : (this : *ID3D12VideoDecodeCommandList) -> HRESULT #cpp_method;
     Reset : (this : *ID3D12VideoDecodeCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
@@ -13357,14 +13357,14 @@ ID3D12VideoDecodeCommandListVTable :: struct
 
 ID3D12VideoDecodeCommandList1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDecodeCommandListVTable;
+    #as using, except(.["base"]) base : ID3D12VideoDecodeCommandListVTable;
 
     DecodeFrame1 : (this : *ID3D12VideoDecodeCommandList1, pDecoder : *ID3D12VideoDecoder, pOutputArguments : *D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1, pInputArguments : *D3D12_VIDEO_DECODE_INPUT_STREAM_ARGUMENTS) #cpp_method;
 }
 
 ID3D12VideoDecodeCommandList2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDecodeCommandList1VTable;
+    #as using, except(.["base"]) base : ID3D12VideoDecodeCommandList1VTable;
 
     SetProtectedResourceSession : (this : *ID3D12VideoDecodeCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
     InitializeExtensionCommand : (this : *ID3D12VideoDecodeCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
@@ -13373,35 +13373,35 @@ ID3D12VideoDecodeCommandList2VTable :: struct
 
 ID3D12VideoDecoderVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12VideoDecoder) -> D3D12_VIDEO_DECODER_DESC #cpp_method;
 }
 
 ID3D12VideoDecoder1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDecoderVTable;
+    #as using, except(.["base"]) base : ID3D12VideoDecoderVTable;
 
     GetProtectedResourceSession : (this : *ID3D12VideoDecoder1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoDecoderHeapVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12VideoDecoderHeap) -> D3D12_VIDEO_DECODER_HEAP_DESC #cpp_method;
 }
 
 ID3D12VideoDecoderHeap1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDecoderHeapVTable;
+    #as using, except(.["base"]) base : ID3D12VideoDecoderHeapVTable;
 
     GetProtectedResourceSession : (this : *ID3D12VideoDecoderHeap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
 
 ID3D12VideoDeviceVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     CheckFeatureSupport : (this : *ID3D12VideoDevice, FeatureVideo : D3D12_FEATURE_VIDEO, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #cpp_method;
     CreateVideoDecoder : (this : *ID3D12VideoDevice, pDesc : *D3D12_VIDEO_DECODER_DESC, riid : *GUID, ppVideoDecoder : **void) -> HRESULT #cpp_method;
@@ -13411,7 +13411,7 @@ ID3D12VideoDeviceVTable :: struct
 
 ID3D12VideoDevice1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDeviceVTable;
+    #as using, except(.["base"]) base : ID3D12VideoDeviceVTable;
 
     CreateVideoMotionEstimator : (this : *ID3D12VideoDevice1, pDesc : *D3D12_VIDEO_MOTION_ESTIMATOR_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoMotionEstimator : **void) -> HRESULT #cpp_method;
     CreateVideoMotionVectorHeap : (this : *ID3D12VideoDevice1, pDesc : *D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoMotionVectorHeap : **void) -> HRESULT #cpp_method;
@@ -13419,7 +13419,7 @@ ID3D12VideoDevice1VTable :: struct
 
 ID3D12VideoDevice2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDevice1VTable;
+    #as using, except(.["base"]) base : ID3D12VideoDevice1VTable;
 
     CreateVideoDecoder1 : (this : *ID3D12VideoDevice2, pDesc : *D3D12_VIDEO_DECODER_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoDecoder : **void) -> HRESULT #cpp_method;
     CreateVideoDecoderHeap1 : (this : *ID3D12VideoDevice2, pVideoDecoderHeapDesc : *D3D12_VIDEO_DECODER_HEAP_DESC, pProtectedResourceSession : *ID3D12ProtectedResourceSession, riid : *GUID, ppVideoDecoderHeap : **void) -> HRESULT #cpp_method;
@@ -13430,7 +13430,7 @@ ID3D12VideoDevice2VTable :: struct
 
 ID3D12VideoDevice3VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoDevice2VTable;
+    #as using, except(.["base"]) base : ID3D12VideoDevice2VTable;
 
     CreateVideoEncoder : (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_DESC, riid : *GUID, ppVideoEncoder : **void) -> HRESULT #cpp_method;
     CreateVideoEncoderHeap : (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_HEAP_DESC, riid : *GUID, ppVideoEncoderHeap : **void) -> HRESULT #cpp_method;
@@ -13438,7 +13438,7 @@ ID3D12VideoDevice3VTable :: struct
 
 ID3D12VideoEncodeCommandListVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+    #as using, except(.["base"]) base : ID3D12CommandListVTable;
 
     Close : (this : *ID3D12VideoEncodeCommandList) -> HRESULT #cpp_method;
     Reset : (this : *ID3D12VideoEncodeCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
@@ -13460,7 +13460,7 @@ ID3D12VideoEncodeCommandListVTable :: struct
 
 ID3D12VideoEncodeCommandList1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoEncodeCommandListVTable;
+    #as using, except(.["base"]) base : ID3D12VideoEncodeCommandListVTable;
 
     InitializeExtensionCommand : (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
     ExecuteExtensionCommand : (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pExecutionParameters : *void, ExecutionParametersSizeInBytes : u64) #cpp_method;
@@ -13468,7 +13468,7 @@ ID3D12VideoEncodeCommandList1VTable :: struct
 
 ID3D12VideoEncodeCommandList2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoEncodeCommandList1VTable;
+    #as using, except(.["base"]) base : ID3D12VideoEncodeCommandList1VTable;
 
     EncodeFrame : (this : *ID3D12VideoEncodeCommandList2, pEncoder : *ID3D12VideoEncoder, pHeap : *ID3D12VideoEncoderHeap, pInputArguments : *D3D12_VIDEO_ENCODER_ENCODEFRAME_INPUT_ARGUMENTS, pOutputArguments : *D3D12_VIDEO_ENCODER_ENCODEFRAME_OUTPUT_ARGUMENTS) #cpp_method;
     ResolveEncoderOutputMetadata : (this : *ID3D12VideoEncodeCommandList2, pInputArguments : *D3D12_VIDEO_ENCODER_RESOLVE_METADATA_INPUT_ARGUMENTS, pOutputArguments : *D3D12_VIDEO_ENCODER_RESOLVE_METADATA_OUTPUT_ARGUMENTS) #cpp_method;
@@ -13476,7 +13476,7 @@ ID3D12VideoEncodeCommandList2VTable :: struct
 
 ID3D12VideoEncoderVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetNodeMask : (this : *ID3D12VideoEncoder) -> u32 #cpp_method;
     GetEncoderFlags : (this : *ID3D12VideoEncoder) -> D3D12_VIDEO_ENCODER_FLAGS #cpp_method;
@@ -13489,7 +13489,7 @@ ID3D12VideoEncoderVTable :: struct
 
 ID3D12VideoEncoderHeapVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetNodeMask : (this : *ID3D12VideoEncoderHeap) -> u32 #cpp_method;
     GetEncoderHeapFlags : (this : *ID3D12VideoEncoderHeap) -> D3D12_VIDEO_ENCODER_HEAP_FLAGS #cpp_method;
@@ -13502,7 +13502,7 @@ ID3D12VideoEncoderHeapVTable :: struct
 
 ID3D12VideoExtensionCommandVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12VideoExtensionCommand) -> D3D12_VIDEO_EXTENSION_COMMAND_DESC #cpp_method;
     GetProtectedResourceSession : (this : *ID3D12VideoExtensionCommand, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
@@ -13510,7 +13510,7 @@ ID3D12VideoExtensionCommandVTable :: struct
 
 ID3D12VideoMotionEstimatorVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12VideoMotionEstimator) -> D3D12_VIDEO_MOTION_ESTIMATOR_DESC #cpp_method;
     GetProtectedResourceSession : (this : *ID3D12VideoMotionEstimator, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
@@ -13518,7 +13518,7 @@ ID3D12VideoMotionEstimatorVTable :: struct
 
 ID3D12VideoMotionVectorHeapVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetDesc : (this : *ID3D12VideoMotionVectorHeap) -> D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC #cpp_method;
     GetProtectedResourceSession : (this : *ID3D12VideoMotionVectorHeap, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
@@ -13526,7 +13526,7 @@ ID3D12VideoMotionVectorHeapVTable :: struct
 
 ID3D12VideoProcessCommandListVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12CommandListVTable;
+    #as using, except(.["base"]) base : ID3D12CommandListVTable;
 
     Close : (this : *ID3D12VideoProcessCommandList) -> HRESULT #cpp_method;
     Reset : (this : *ID3D12VideoProcessCommandList, pAllocator : *ID3D12CommandAllocator) -> HRESULT #cpp_method;
@@ -13546,14 +13546,14 @@ ID3D12VideoProcessCommandListVTable :: struct
 
 ID3D12VideoProcessCommandList1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoProcessCommandListVTable;
+    #as using, except(.["base"]) base : ID3D12VideoProcessCommandListVTable;
 
     ProcessFrames1 : (this : *ID3D12VideoProcessCommandList1, pVideoProcessor : *ID3D12VideoProcessor, pOutputArguments : *D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS, NumInputStreams : u32, pInputArguments : *D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1) #cpp_method;
 }
 
 ID3D12VideoProcessCommandList2VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoProcessCommandList1VTable;
+    #as using, except(.["base"]) base : ID3D12VideoProcessCommandList1VTable;
 
     SetProtectedResourceSession : (this : *ID3D12VideoProcessCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #cpp_method;
     InitializeExtensionCommand : (this : *ID3D12VideoProcessCommandList2, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #cpp_method;
@@ -13562,7 +13562,7 @@ ID3D12VideoProcessCommandList2VTable :: struct
 
 ID3D12VideoProcessorVTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12PageableVTable;
+    #as using, except(.["base"]) base : ID3D12PageableVTable;
 
     GetNodeMask : (this : *ID3D12VideoProcessor) -> u32 #cpp_method;
     GetNumInputStreamDescs : (this : *ID3D12VideoProcessor) -> u32 #cpp_method;
@@ -13572,7 +13572,7 @@ ID3D12VideoProcessorVTable :: struct
 
 ID3D12VideoProcessor1VTable :: struct
 {
-    #as using, except (.["base"]) base : ID3D12VideoProcessorVTable;
+    #as using, except(.["base"]) base : ID3D12VideoProcessorVTable;
 
     GetProtectedResourceSession : (this : *ID3D12VideoProcessor1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #cpp_method;
 }
@@ -13587,15 +13587,15 @@ d3d12 :: #system_library "d3d12";
 
 SetName :: inline (obj : *ID3D12Object, name : string) -> HRESULT
 {
-    wide_str := Utf8ToWide (name);
-    defer context.allocator.proc (.FREE, 0, 0, wide_str, context.allocator.data);
+    wide_str := Utf8ToWide(name);
+    defer context.allocator.proc(.FREE, 0, 0, wide_str, context.allocator.data);
 
-    return obj.SetName (obj, wide_str);
+    return obj.SetName(obj, wide_str);
 }
 
 D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 : s32, Src3 : s32) -> D3D12_SHADER_COMPONENT_MAPPING #must
 {
-    return cast (D3D12_SHADER_COMPONENT_MAPPING) ((Src0 & D3D12_SHADER_COMPONENT_MAPPING_MASK)
+    return cast(D3D12_SHADER_COMPONENT_MAPPING) ((Src0 & D3D12_SHADER_COMPONENT_MAPPING_MASK)
         | ((Src1 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << D3D12_SHADER_COMPONENT_MAPPING_SHIFT)
         | ((Src2 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 2))
         | ((Src3 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 3))
@@ -13604,12 +13604,12 @@ D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 
 
 D3D12_DECODE_SHADER_4_COMPONENT_MAPPING :: inline (ComponentToExtract : s32, Mapping : s32) -> D3D12_SHADER_COMPONENT_MAPPING #must
 {
-    return (cast (D3D12_SHADER_COMPONENT_MAPPING) (Mapping >> (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * ComponentToExtract) & D3D12_SHADER_COMPONENT_MAPPING_MASK));
+    return (cast(D3D12_SHADER_COMPONENT_MAPPING) (Mapping >> (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * ComponentToExtract) & D3D12_SHADER_COMPONENT_MAPPING_MASK));
 }
 
 D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_TYPE, mip: D3D12_FILTER_TYPE, reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER #must
 {
-    return cast (D3D12_FILTER) (
+    return cast(D3D12_FILTER) (
         ((xx min & D3D12_FILTER_TYPE_MASK) << D3D12_MIN_FILTER_SHIFT)
         | ((xx mag & D3D12_FILTER_TYPE_MASK) << D3D12_MAG_FILTER_SHIFT)
         | ((xx mip & D3D12_FILTER_TYPE_MASK) << D3D12_MIP_FILTER_SHIFT)
@@ -13618,38 +13618,38 @@ D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_T
 
 D3D12_ENCODE_ANISOTROPIC_FILTER :: inline (reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER #must
 {
-    return cast (D3D12_FILTER) (D3D12_ANISOTROPIC_FILTERING_BIT | xx D3D12_ENCODE_BASIC_FILTER (.LINEAR, .LINEAR, .LINEAR, reduction));
+    return cast(D3D12_FILTER) (D3D12_ANISOTROPIC_FILTERING_BIT | xx D3D12_ENCODE_BASIC_FILTER(.LINEAR, .LINEAR, .LINEAR, reduction));
 }
 
 D3D12_DECODE_MIN_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
 {
-    return cast (D3D12_FILTER_TYPE) ((cast (s64) D3D12Filter >> D3D12_MIN_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
+    return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MIN_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
 D3D12_DECODE_MAG_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
 {
-    return cast (D3D12_FILTER_TYPE) ((cast (s64) D3D12Filter >> D3D12_MAG_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
+    return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MAG_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
 D3D12_DECODE_MIP_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
 {
-    return cast (D3D12_FILTER_TYPE) ((cast (s64) D3D12Filter >> D3D12_MIP_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
+    return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MIP_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
 D3D12_DECODE_FILTER_REDUCTION :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_REDUCTION_TYPE #must
 {
-     return cast (D3D12_FILTER_REDUCTION_TYPE) ((cast(s64) D3D12Filter >> D3D12_FILTER_REDUCTION_TYPE_SHIFT) & D3D12_FILTER_REDUCTION_TYPE_MASK);
+     return cast(D3D12_FILTER_REDUCTION_TYPE) ((cast(s64) D3D12Filter >> D3D12_FILTER_REDUCTION_TYPE_SHIFT) & D3D12_FILTER_REDUCTION_TYPE_MASK);
 }
 
 D3D12_DECODE_IS_COMPARISON_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool #must
 {
-    return D3D12_DECODE_FILTER_REDUCTION (D3D12Filter) == D3D12_FILTER_REDUCTION_TYPE.COMPARISON;
+    return D3D12_DECODE_FILTER_REDUCTION(D3D12Filter) == D3D12_FILTER_REDUCTION_TYPE.COMPARISON;
 }
 
 D3D12_DECODE_IS_ANISOTROPIC_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool #must
 {
     return (xx D3D12Filter & D3D12_ANISOTROPIC_FILTERING_BIT)
-        && D3D12_DECODE_MIN_FILTER (D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
-        && D3D12_DECODE_MAG_FILTER (D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
-        && D3D12_DECODE_MIP_FILTER (D3D12Filter) == D3D12_FILTER_TYPE.LINEAR;
+        && D3D12_DECODE_MIN_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
+        && D3D12_DECODE_MAG_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
+        && D3D12_DECODE_MIP_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR;
 }

@@ -20,25 +20,25 @@
 
 InitWin32Database :: (directory := "win32json/api", except : []string = .[])
 {
-    all_modules := file_list (directory);
+    all_modules := file_list(directory);
     for all_modules
     {
-        module_name := path_strip_extension (path_filename (it));
+        module_name := path_strip_extension(path_filename(it));
 
         for wildcard : except
         {
-            if WildcardStarMatch (wildcard, module_name)
+            if WildcardStarMatch(wildcard, module_name)
             {
-                print ("Ignoring module %\n", module_name);
+                print("Ignoring module %\n", module_name);
                 continue it;
             }
         }
 
-        ParseModule (it);
+        ParseModule(it);
     }
 
     for context.generator.input_modules
-        ResolveModuleDependencies (it);
+        ResolveModuleDependencies(it);
 }
 
 WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
@@ -55,13 +55,13 @@ WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
     wildcard_no_star := wildcard;
     wildcard_no_star.count -= 1;
 
-    if !starts_with (str, wildcard_no_star)
+    if !starts_with(str, wildcard_no_star)
         return false;
 
     return true;
 }
 
-Set :: #bake_arguments Table (Value_Type = void);
+Set :: #bake_arguments Table(Value_Type = void);
 
 Generator :: struct
 {
@@ -75,7 +75,7 @@ Generator :: struct
     // handle that when we parse the metadata files directly.
     handle_const_refs_in_COM_interface_wrappers := false;
 
-    // Generate convenience wrappers for REFIID params (treat REFIID as const ref)
+    // Generate convenience wrappers for REFIID params(treat REFIID as const ref)
     generate_wrapper_function_for_REFIID_params := false;
 
     generate_COM_vtables_at_the_bottom := true;
@@ -98,8 +98,8 @@ Generator :: struct
 
     dependency_queue : [..]struct { module : string; name : string; };
 
-    input_modules : Table (string, *Module);
-    output_modules : Table (string, *Module);
+    input_modules : Table(string, *Module);
+    output_modules : Table(string, *Module);
 }
 
 #add_context generator : Generator;
@@ -120,36 +120,36 @@ Module :: struct
     // It is also necessary because we might change the type definition's
     // name, but we still want dependency resolution to be able to find
     // it via the original name.
-    type_table : Table (string, *Win32TypeDefinition);
-    function_table : Table (string, *Win32Function);
-    unicode_alias_set : Set (string);
-    dependencies : Set (string);
+    type_table : Table(string, *Win32TypeDefinition);
+    function_table : Table(string, *Win32Function);
+    unicode_alias_set : Set(string);
+    dependencies : Set(string);
 }
 
 CreateInputModule :: (name : string) -> *Module
 {
-    result := New (Module);
+    result := New(Module);
     result.name = name;
 
-    table_add (*context.generator.input_modules, name, result);
+    table_add(*context.generator.input_modules, name, result);
 
     return result;
 }
 
 CreateOutputModule :: (name : string) -> *Module
 {
-    result := New (Module);
+    result := New(Module);
     result.name = name;
     result.is_output_module = true;
 
-    table_add (*context.generator.output_modules, name, result);
+    table_add(*context.generator.output_modules, name, result);
 
     return result;
 }
 
 FindInputModule :: (name : string) -> *Module #must
 {
-    module, ok := table_find (*context.generator.input_modules, name);
+    module, ok := table_find(*context.generator.input_modules, name);
     if !ok
         return null;
 
@@ -158,7 +158,7 @@ FindInputModule :: (name : string) -> *Module #must
 
 FindOutputModule :: (name : string) -> *Module #must
 {
-    module, ok := table_find (*context.generator.output_modules, name);
+    module, ok := table_find(*context.generator.output_modules, name);
     if !ok
         return null;
 
@@ -167,11 +167,11 @@ FindOutputModule :: (name : string) -> *Module #must
 
 FindType :: (module_name : string, name : string) -> *Win32TypeDefinition #must, *Module
 {
-    module := FindInputModule (module_name);
+    module := FindInputModule(module_name);
     if !module
         return null, null;
 
-    type, ok := table_find (*module.type_table, name);
+    type, ok := table_find(*module.type_table, name);
     if !ok
         return null, module;
 
@@ -185,80 +185,80 @@ AddConstant :: inline (module : *Module, const : *Win32Constant)
     else
         const.module = module.name;
 
-    array_add (*module.constants, const);
+    array_add(*module.constants, const);
 }
 
 AddTypeDefinition :: inline (module : *Module, typedef : *Win32TypeDefinition)
 {
-    assert (typedef.name != "");
+    assert(typedef.name != "");
 
     if module.is_output_module
         typedef.output_module = module.name;
     else
         typedef.module = module.name;
 
-    array_add (*module.types, typedef);
-    table_add (*module.type_table, typedef.name, typedef);
+    array_add(*module.types, typedef);
+    table_add(*module.type_table, typedef.name, typedef);
 }
 
 AddFunction :: inline (module : *Module, function : *Win32Function)
 {
-    assert (function.name != "");
+    assert(function.name != "");
 
     if module.is_output_module
         function.output_module = module.name;
     else
         function.module = module.name;
 
-    array_add (*module.functions, function);
-    table_add (*module.function_table, function.name, function);
+    array_add(*module.functions, function);
+    table_add(*module.function_table, function.name, function);
 }
 
 SetOutputModule :: inline (const : *Win32Constant, module_name : string)
 {
-    assert (const.output_module == "", "Output module is already set");
+    assert(const.output_module == "", "Output module is already set");
 
-    module := FindOutputModule (module_name);
-    assert (module != null, "Could not find output module %", module_name);
+    module := FindOutputModule(module_name);
+    assert(module != null, "Could not find output module %", module_name);
 
-    AddConstant (module, const);
+    AddConstant(module, const);
 }
 
 SetOutputModule :: inline (typedef : *Win32TypeDefinition, module_name : string)
 {
-    assert (typedef.output_module == "", "Output module is already set");
+    assert(typedef.output_module == "", "Output module is already set");
 
-    module := FindOutputModule (module_name);
-    assert (module != null, "Could not find output module %", module_name);
+    module := FindOutputModule(module_name);
+    assert(module != null, "Could not find output module %", module_name);
 
-    AddTypeDefinition (module, typedef);
+    AddTypeDefinition(module, typedef);
 }
 
 SetOutputModule :: inline (func : *Win32Function, module_name : string)
 {
-    assert (func.output_module == "", "Output module is already set");
+    assert(func.output_module == "", "Output module is already set");
 
-    module := FindOutputModule (module_name);
-    assert (module != null, "Could not find output module %", module_name);
+    module := FindOutputModule(module_name);
+    assert(module != null, "Could not find output module %", module_name);
 
     unicode_alias := func.name;
     unicode_alias.count -= 1;
 
-    if !table_contains (*module.unicode_alias_set, unicode_alias)
+    if !table_contains(*module.unicode_alias_set, unicode_alias)
     {
-        input_module := FindInputModule (func.module);
-        assert (input_module != null);
+        input_module := FindInputModule(func.module);
+        assert(input_module != null);
 
-        if table_contains (*input_module.unicode_alias_set, unicode_alias)
+        if table_contains(*input_module.unicode_alias_set, unicode_alias)
         {
-            array_add (*module.unicode_aliases, unicode_alias);
+            array_add(*module.unicode_aliases, unicode_alias);
 
             dummy : void;
-            table_add (*module.unicode_alias_set, unicode_alias, dummy);
+            table_add(*module.unicode_alias_set, unicode_alias, dummy);
         }
     }
 
-    AddFunction (module, func);
+    AddFunction(module, func);
 }
 
 Win32ArchitectureFlags :: enum_flags
@@ -495,61 +495,61 @@ Win32Function :: struct
 ResolveModuleDependencies :: (module : *Module)
 {
     for module.constants
-        ResolveConstantDependencies (module, it);
+        ResolveConstantDependencies(module, it);
 
     for module.types
-        ResolveTypeDefinitionDependencies (module, it);
+        ResolveTypeDefinitionDependencies(module, it);
 
     for module.functions
     {
-        array_add (*context.generator.dependency_queue, .{it.module, it.name});
-        defer pop (*context.generator.dependency_queue);
+        array_add(*context.generator.dependency_queue, .{it.module, it.name});
+        defer pop(*context.generator.dependency_queue);
 
-        ResolveFunctionDependencies (module, it);
+        ResolveFunctionDependencies(module, it);
     }
 }
 
 ResolveConstantDependencies :: (source_module : *Module, using const : *Win32Constant)
 {
-    array_add (*context.generator.dependency_queue, .{module, name});
-    defer pop (*context.generator.dependency_queue);
+    array_add(*context.generator.dependency_queue, .{module, name});
+    defer pop(*context.generator.dependency_queue);
 
-    ResolveTypeDependencies (source_module, *type);
+    ResolveTypeDependencies(source_module, *type);
 }
 
 ResolveTypeDefinitionDependencies :: (source_module : *Module, using typedef : *Win32TypeDefinition)
 {
-    array_add (*context.generator.dependency_queue, .{module, name});
-    defer pop (*context.generator.dependency_queue);
+    array_add(*context.generator.dependency_queue, .{module, name});
+    defer pop(*context.generator.dependency_queue);
 
     if kind ==
     {
     case .NativeTypedef;
-        ResolveTypeDependencies (source_module, *def);
+        ResolveTypeDependencies(source_module, *def);
 
     case .Union; #through;
     case .Struct;
         for * fields
-            ResolveTypeDependencies (source_module, *it.type, typedef);
+            ResolveTypeDependencies(source_module, *it.type, typedef);
 
         for * nested_types
-            ResolveTypeDefinitionDependencies (source_module, it);
+            ResolveTypeDefinitionDependencies(source_module, it);
 
     case .FunctionPointer;
-        ResolveFunctionDependencies (source_module, *function_pointer);
+        ResolveFunctionDependencies(source_module, *function_pointer);
 
     case .Com;
-        ResolveTypeDependencies (source_module, *interface_type);
+        ResolveTypeDependencies(source_module, *interface_type);
         for * methods
-            ResolveFunctionDependencies (source_module, it);
+            ResolveFunctionDependencies(source_module, it);
     }
 }
 
 ResolveFunctionDependencies :: (source_module : *Module, using func : *Win32FunctionType)
 {
-    ResolveTypeDependencies (source_module, *return_type);
+    ResolveTypeDependencies(source_module, *return_type);
     for * params
-        ResolveTypeDependencies (source_module, *it.type);
+        ResolveTypeDependencies(source_module, *it.type);
 }
 
 LogDependencyQueue :: ()
@@ -559,14 +559,14 @@ LogDependencyQueue :: ()
     for context.generator.dependency_queue
     {
         if it_index != 0
-            append (*builder, "\n");
+            append(*builder, "\n");
 
-        appendf (*builder, "    % (module %)", it.name, it.module);
+        appendf(*builder, "    % (module %)", it.name, it.module);
     }
 
-    append (*builder, " <- unresolved");
+    append(*builder, " <- unresolved");
 
-    log_error ("Dependency queue:\n%", builder_to_string (*builder));
+    log_error("Dependency queue:\n%", builder_to_string(*builder));
 }
 
 ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, enclosing_typedef : *Win32TypeDefinition = null)
@@ -574,8 +574,8 @@ ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, en
     if kind ==
     {
     case .ApiRef;
-        array_add (*context.generator.dependency_queue, .{api, name});
-        defer pop (*context.generator.dependency_queue);
+        array_add(*context.generator.dependency_queue, .{api, name});
+        defer pop(*context.generator.dependency_queue);
 
         // If the type comes from the same module, we look in the enclosing typedef first
         if !resolved_symbol && enclosing_typedef && api == source_module.name
@@ -592,16 +592,16 @@ ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, en
 
         if !resolved_symbol
         {
-            resolved_symbol=, dep_module := FindType (api, name);
+            resolved_symbol=, dep_module := FindType(api, name);
 
             if !resolved_symbol
             {
                 if !dep_module
-                    log_error ("Could not find dependency %.% because the module is not loaded", api, name);
+                    log_error("Could not find dependency %.% because the module is not loaded", api, name);
                 else
-                    log_error ("Could not find dependency %.%", api, name);
+                    log_error("Could not find dependency %.%", api, name);
 
-                LogDependencyQueue ();
+                LogDependencyQueue();
 
                 context.generator.has_errors = true;
 
@@ -611,10 +611,10 @@ ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, en
 
         if source_module.is_output_module && resolved_symbol.module && !resolved_symbol.output_module
         {
-            log_error ("Error: unresolved dependency % => %.%",
+            log_error("Error: unresolved dependency % => %.%",
                 source_module.name, resolved_symbol.module, resolved_symbol.name, );
 
-            LogDependencyQueue ();
+            LogDependencyQueue();
 
             context.generator.has_errors = true;
 
@@ -624,19 +624,19 @@ ResolveTypeDependencies :: (source_module : *Module, using type : *Win32Type, en
         if source_module.is_output_module
         {
             if resolved_symbol.output_module
-                find_or_add (*source_module.dependencies, resolved_symbol.output_module);
+                find_or_add(*source_module.dependencies, resolved_symbol.output_module);
         }
         else
         {
             if resolved_symbol.module
-               find_or_add (*source_module.dependencies, resolved_symbol.module);
+               find_or_add(*source_module.dependencies, resolved_symbol.module);
         }
 
     case .Array; #through;
     case .PointerTo; #through;
     case .LPArray;
         if child
-            ResolveTypeDependencies (source_module, child, enclosing_typedef);
+            ResolveTypeDependencies(source_module, child, enclosing_typedef);
     }
 }
 
@@ -651,7 +651,7 @@ AllInputConstants :: (gen : *Generator, body : Code, flags : For_Flags) #expand
         {
             defer it_index += 1;
 
-            #insert (break=break module) body;
+            #insert(break=break module) body;
         }
     }
 }
@@ -665,7 +665,7 @@ AllInputTypeDefinitions :: (gen : *Generator, body : Code, flags : For_Flags) #e
         {
             defer it_index += 1;
 
-            #insert (break=break module) body;
+            #insert(break=break module) body;
         }
     }
 }
@@ -679,7 +679,7 @@ AllInputFunctions :: (gen : *Generator, body : Code, flags : For_Flags) #expand
         {
             defer it_index += 1;
 
-            #insert (break=break module) body;
+            #insert(break=break module) body;
         }
     }
 }

@@ -18,7 +18,7 @@ CLSID_DxcValidator :: GUID.{0x8ca3e215,0xf728,0x4cf3,.[0x8c,0xdd,0x88,0xaf,0x91,
 DXCORE_ADAPTER_ATTRIBUTE_D3D11_GRAPHICS :: "8c47866b-7583-450d-f0f0-6bada895af4b";
 DXCORE_ADAPTER_ATTRIBUTE_D3D12_CORE_COMPUTE :: "248e2800-a793-4724-abaa-23a6de1be090";
 DXCORE_ADAPTER_ATTRIBUTE_D3D12_GRAPHICS :: "0c9ece4d-2f6e-4f01-8c96-e89e331b47b1";
-DXCORE_ERROR_EVENT_NOT_UNREGISTERED :: cast, no_check (HRESULT) -2004877311;
+DXCORE_ERROR_EVENT_NOT_UNREGISTERED :: cast, no_check(HRESULT) -2004877311;
 DXC_HASHFLAG_INCLUDES_SOURCE :: 1;
 DxcValidatorFlags_Default :: 0;
 DxcValidatorFlags_InPlaceEdit :: 1;
@@ -213,7 +213,7 @@ IDxcAssembler :: struct
 {
     UUID :: GUID.{0x91f7a26,0x1c1f,0x4948,.[0x90,0x4b,0xe6,0xe3,0xa8,0xa7,0x71,0xd5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcAssemblerVTable;
@@ -229,7 +229,7 @@ IDxcBlob :: struct
 {
     UUID :: GUID.{0x8ba5fb08,0x5195,0x40e2,.[0xac,0x58,0xd,0x98,0x9c,0x3a,0x1,0x2]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcBlobVTable;
@@ -250,7 +250,7 @@ IDxcBlobEncoding :: struct
 {
     UUID :: GUID.{0x7241d424,0x2646,0x4191,.[0x97,0xc0,0x98,0xe9,0x6e,0x42,0xfc,0x68]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcBlob;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcBlob;
 
     #place base;
     vtable : *IDxcBlobEncodingVTable;
@@ -266,7 +266,7 @@ IDxcBlobUtf16 :: struct
 {
     UUID :: GUID.{0xa3f84eab,0xfaa,0x497e,.[0xa3,0x9c,0xee,0x6e,0xd6,0xb,0x2d,0x84]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcBlobEncoding;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcBlobEncoding;
 
     #place base;
     vtable : *IDxcBlobUtf16VTable;
@@ -287,7 +287,7 @@ IDxcBlobUtf8 :: struct
 {
     UUID :: GUID.{0x3da636c9,0xba71,0x4024,.[0xa3,0x1,0x30,0xcb,0xf1,0x25,0x30,0x5b]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcBlobEncoding;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcBlobEncoding;
 
     #place base;
     vtable : *IDxcBlobUtf8VTable;
@@ -308,7 +308,7 @@ IDxcCompiler :: struct
 {
     UUID :: GUID.{0x8c210bf3,0x11f,0x4422,.[0x8d,0x70,0x6f,0x9a,0xcb,0x8d,0xb6,0x17]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcCompilerVTable;
@@ -354,7 +354,7 @@ IDxcCompiler2 :: struct
 {
     UUID :: GUID.{0xa005a9d9,0xb8bb,0x4594,.[0xb5,0xc9,0xe,0x63,0x3b,0xec,0x4d,0x37]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcCompiler;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcCompiler;
 
     #place base;
     vtable : *IDxcCompiler2VTable;
@@ -383,7 +383,7 @@ IDxcCompiler3 :: struct
 {
     UUID :: GUID.{0x228b4687,0x5a6a,0x4730,.[0x90,0xc,0x97,0x2,0xb2,0x20,0x3f,0x54]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcCompiler3VTable;
@@ -411,7 +411,7 @@ IDxcCompilerArgs :: struct
 {
     UUID :: GUID.{0x73effe2a,0x70dc,0x45f8,.[0x96,0x90,0xef,0xf6,0x4c,0x2,0x42,0x9d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcCompilerArgsVTable;
@@ -447,7 +447,7 @@ IDxcContainerBuilder :: struct
 {
     UUID :: GUID.{0x334b1f50,0x2292,0x4b35,.[0x99,0xa1,0x25,0x58,0x8d,0x8c,0x17,0xfe]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcContainerBuilderVTable;
@@ -478,7 +478,7 @@ IDxcContainerReflection :: struct
 {
     UUID :: GUID.{0xd2c21b26,0x8350,0x4bdc,.[0x97,0x6a,0x33,0x1c,0xe6,0xf4,0xc5,0x4c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcContainerReflectionVTable;
@@ -519,7 +519,7 @@ IDxcExtraOutputs :: struct
 {
     UUID :: GUID.{0x319b37a2,0xa5c2,0x494a,.[0xa5,0xde,0x48,0x1,0xb2,0xfa,0xf9,0x89]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcExtraOutputsVTable;
@@ -546,7 +546,7 @@ IDxcIncludeHandler :: struct
 {
     UUID :: GUID.{0x7f61fc7d,0x950d,0x467f,.[0xb3,0xe3,0x3c,0x2,0xfb,0x49,0x18,0x7c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcIncludeHandlerVTable;
@@ -562,7 +562,7 @@ IDxcLibrary :: struct
 {
     UUID :: GUID.{0xe5204dc7,0xd18c,0x4c3c,.[0xbd,0xfb,0x85,0x16,0x73,0x98,0xf,0xe7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcLibraryVTable;
@@ -644,7 +644,7 @@ IDxcLinker :: struct
 {
     UUID :: GUID.{0xf1b5be2a,0x62dd,0x4327,.[0xa1,0xc2,0x42,0xac,0x1e,0x1e,0x78,0xe6]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcLinkerVTable;
@@ -673,7 +673,7 @@ IDxcOperationResult :: struct
 {
     UUID :: GUID.{0xcedb484a,0xd4e9,0x445a,.[0xb9,0x91,0xca,0x21,0xca,0x15,0x7d,0xc2]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcOperationResultVTable;
@@ -699,7 +699,7 @@ IDxcOptimizer :: struct
 {
     UUID :: GUID.{0x25740e2e,0x9cba,0x401b,.[0x91,0x19,0x4f,0xb4,0x2f,0x39,0xf2,0x70]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcOptimizerVTable;
@@ -731,7 +731,7 @@ IDxcOptimizerPass :: struct
 {
     UUID :: GUID.{0xae2cd79f,0xcc22,0x453f,.[0x9b,0x6b,0xb1,0x24,0xe7,0xa5,0x20,0x4c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcOptimizerPassVTable;
@@ -767,7 +767,7 @@ IDxcPdbUtils :: struct
 {
     UUID :: GUID.{0xe6c9647e,0x9d6a,0x4c3b,.[0xb9,0x4c,0x52,0x4b,0x5a,0x6c,0x34,0x3d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcPdbUtilsVTable;
@@ -898,7 +898,7 @@ IDxcResult :: struct
 {
     UUID :: GUID.{0x58346cda,0xdde7,0x4497,.[0x94,0x61,0x6f,0x87,0xaf,0x5e,0x6,0x59]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcOperationResult;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcOperationResult;
 
     #place base;
     vtable : *IDxcResultVTable;
@@ -939,7 +939,7 @@ IDxcUtils :: struct
 {
     UUID :: GUID.{0x4605c4cb,0x2019,0x492a,.[0xad,0xa4,0x65,0xf2,0xb,0xb7,0xd6,0x7f]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcUtilsVTable;
@@ -1050,7 +1050,7 @@ IDxcValidator :: struct
 {
     UUID :: GUID.{0xa6e82bd2,0x1fd7,0x4826,.[0x98,0x11,0x28,0x57,0xe7,0x97,0xf4,0x9a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcValidatorVTable;
@@ -1066,7 +1066,7 @@ IDxcValidator2 :: struct
 {
     UUID :: GUID.{0x458e1fd1,0xb1b2,0x4750,.[0xa6,0xe1,0x9c,0x10,0xf0,0x3b,0xed,0x92]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcValidator;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcValidator;
 
     #place base;
     vtable : *IDxcValidator2VTable;
@@ -1087,7 +1087,7 @@ IDxcVersionInfo :: struct
 {
     UUID :: GUID.{0xb04f5b50,0x2059,0x4f12,.[0xa8,0xff,0xa1,0xe0,0xcd,0xe1,0xcc,0x7e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcVersionInfoVTable;
@@ -1108,7 +1108,7 @@ IDxcVersionInfo2 :: struct
 {
     UUID :: GUID.{0xfb6904c4,0x42f0,0x4b62,.[0x9c,0x46,0x98,0x3a,0xf7,0xda,0x7c,0x83]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDxcVersionInfo;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDxcVersionInfo;
 
     #place base;
     vtable : *IDxcVersionInfo2VTable;
@@ -1124,7 +1124,7 @@ IDxcVersionInfo3 :: struct
 {
     UUID :: GUID.{0x5e13e843,0x9d25,0x473c,.[0x9a,0xd2,0x3,0xb2,0xd0,0xb4,0x4b,0x1e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDxcVersionInfo3VTable;
@@ -1146,14 +1146,14 @@ DxcCreateInstance2 :: (pMalloc : *IMalloc, rclsid : *GUID, riid : *GUID, ppv : *
 
 IDxcAssemblerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     AssembleToContainer : (this : *IDxcAssembler, pShader : *IDxcBlob, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
 }
 
 IDxcBlobVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetBufferPointer : (this : *IDxcBlob) -> *void #cpp_method;
     GetBufferSize : (this : *IDxcBlob) -> u64 #cpp_method;
@@ -1161,14 +1161,14 @@ IDxcBlobVTable :: struct
 
 IDxcBlobEncodingVTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcBlobVTable;
+    #as using, except(.["base"]) base : IDxcBlobVTable;
 
     GetEncoding : (this : *IDxcBlobEncoding, pKnown : *BOOL, pCodePage : *DXC_CP) -> HRESULT #cpp_method;
 }
 
 IDxcBlobUtf16VTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcBlobEncodingVTable;
+    #as using, except(.["base"]) base : IDxcBlobEncodingVTable;
 
     GetStringPointer : (this : *IDxcBlobUtf16) -> PWSTR #cpp_method;
     GetStringLength : (this : *IDxcBlobUtf16) -> u64 #cpp_method;
@@ -1176,7 +1176,7 @@ IDxcBlobUtf16VTable :: struct
 
 IDxcBlobUtf8VTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcBlobEncodingVTable;
+    #as using, except(.["base"]) base : IDxcBlobEncodingVTable;
 
     GetStringPointer : (this : *IDxcBlobUtf8) -> PSTR #cpp_method;
     GetStringLength : (this : *IDxcBlobUtf8) -> u64 #cpp_method;
@@ -1184,7 +1184,7 @@ IDxcBlobUtf8VTable :: struct
 
 IDxcCompilerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Compile : (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
     Preprocess : (this : *IDxcCompiler, pSource : *IDxcBlob, pSourceName : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
@@ -1193,14 +1193,14 @@ IDxcCompilerVTable :: struct
 
 IDxcCompiler2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcCompilerVTable;
+    #as using, except(.["base"]) base : IDxcCompilerVTable;
 
     CompileWithDebug : (this : *IDxcCompiler2, pSource : *IDxcBlob, pSourceName : PWSTR, pEntryPoint : PWSTR, pTargetProfile : PWSTR, pArguments : *PWSTR, argCount : u32, pDefines : *DxcDefine, defineCount : u32, pIncludeHandler : *IDxcIncludeHandler, ppResult : **IDxcOperationResult, ppDebugBlobName : *PWSTR, ppDebugBlob : **IDxcBlob) -> HRESULT #cpp_method;
 }
 
 IDxcCompiler3VTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Compile : (this : *IDxcCompiler3, pSource : *DxcBuffer, pArguments : *PWSTR, argCount : u32, pIncludeHandler : *IDxcIncludeHandler, riid : *GUID, ppResult : **void) -> HRESULT #cpp_method;
     Disassemble : (this : *IDxcCompiler3, pObject : *DxcBuffer, riid : *GUID, ppResult : **void) -> HRESULT #cpp_method;
@@ -1208,7 +1208,7 @@ IDxcCompiler3VTable :: struct
 
 IDxcCompilerArgsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetArguments : (this : *IDxcCompilerArgs) -> *PWSTR #cpp_method;
     GetCount : (this : *IDxcCompilerArgs) -> u32 #cpp_method;
@@ -1219,7 +1219,7 @@ IDxcCompilerArgsVTable :: struct
 
 IDxcContainerBuilderVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Load : (this : *IDxcContainerBuilder, pDxilContainerHeader : *IDxcBlob) -> HRESULT #cpp_method;
     AddPart : (this : *IDxcContainerBuilder, fourCC : u32, pSource : *IDxcBlob) -> HRESULT #cpp_method;
@@ -1229,7 +1229,7 @@ IDxcContainerBuilderVTable :: struct
 
 IDxcContainerReflectionVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Load : (this : *IDxcContainerReflection, pContainer : *IDxcBlob) -> HRESULT #cpp_method;
     GetPartCount : (this : *IDxcContainerReflection, pResult : *u32) -> HRESULT #cpp_method;
@@ -1241,7 +1241,7 @@ IDxcContainerReflectionVTable :: struct
 
 IDxcExtraOutputsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetOutputCount : (this : *IDxcExtraOutputs) -> u32 #cpp_method;
     GetOutput : (this : *IDxcExtraOutputs, uIndex : u32, iid : *GUID, ppvObject : **void, ppOutputType : **IDxcBlobUtf16, ppOutputName : **IDxcBlobUtf16) -> HRESULT #cpp_method;
@@ -1249,14 +1249,14 @@ IDxcExtraOutputsVTable :: struct
 
 IDxcIncludeHandlerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     LoadSource : (this : *IDxcIncludeHandler, pFilename : PWSTR, ppIncludeSource : **IDxcBlob) -> HRESULT #cpp_method;
 }
 
 IDxcLibraryVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetMalloc : (this : *IDxcLibrary, pMalloc : *IMalloc) -> HRESULT #cpp_method;
     CreateBlobFromBlob : (this : *IDxcLibrary, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
@@ -1272,7 +1272,7 @@ IDxcLibraryVTable :: struct
 
 IDxcLinkerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     RegisterLibrary : (this : *IDxcLinker, pLibName : PWSTR, pLib : *IDxcBlob) -> HRESULT #cpp_method;
     Link : (this : *IDxcLinker, pEntryName : PWSTR, pTargetProfile : PWSTR, pLibNames : *PWSTR, libCount : u32, pArguments : *PWSTR, argCount : u32, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
@@ -1280,7 +1280,7 @@ IDxcLinkerVTable :: struct
 
 IDxcOperationResultVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetStatus : (this : *IDxcOperationResult, pStatus : *HRESULT) -> HRESULT #cpp_method;
     GetResult : (this : *IDxcOperationResult, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
@@ -1289,7 +1289,7 @@ IDxcOperationResultVTable :: struct
 
 IDxcOptimizerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetAvailablePassCount : (this : *IDxcOptimizer, pCount : *u32) -> HRESULT #cpp_method;
     GetAvailablePass : (this : *IDxcOptimizer, index : u32, ppResult : **IDxcOptimizerPass) -> HRESULT #cpp_method;
@@ -1298,7 +1298,7 @@ IDxcOptimizerVTable :: struct
 
 IDxcOptimizerPassVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetOptionName : (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #cpp_method;
     GetDescription : (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #cpp_method;
@@ -1309,7 +1309,7 @@ IDxcOptimizerPassVTable :: struct
 
 IDxcPdbUtilsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Load : (this : *IDxcPdbUtils, pPdbOrDxil : *IDxcBlob) -> HRESULT #cpp_method;
     GetSourceCount : (this : *IDxcPdbUtils, pCount : *u32) -> HRESULT #cpp_method;
@@ -1339,7 +1339,7 @@ IDxcPdbUtilsVTable :: struct
 
 IDxcResultVTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcOperationResultVTable;
+    #as using, except(.["base"]) base : IDxcOperationResultVTable;
 
     HasOutput : (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #cpp_method;
     GetOutput : (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND, iid : *GUID, ppvObject : **void, ppOutputName : **IDxcBlobUtf16) -> HRESULT #cpp_method;
@@ -1350,7 +1350,7 @@ IDxcResultVTable :: struct
 
 IDxcUtilsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     CreateBlobFromBlob : (this : *IDxcUtils, pBlob : *IDxcBlob, offset : u32, length : u32, ppResult : **IDxcBlob) -> HRESULT #cpp_method;
     CreateBlobFromPinned : (this : *IDxcUtils, pData : *void, size : u32, codePage : DXC_CP, pBlobEncoding : **IDxcBlobEncoding) -> HRESULT #cpp_method;
@@ -1369,21 +1369,21 @@ IDxcUtilsVTable :: struct
 
 IDxcValidatorVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Validate : (this : *IDxcValidator, pShader : *IDxcBlob, Flags : u32, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
 }
 
 IDxcValidator2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcValidatorVTable;
+    #as using, except(.["base"]) base : IDxcValidatorVTable;
 
     ValidateWithDebug : (this : *IDxcValidator2, pShader : *IDxcBlob, Flags : u32, pOptDebugBitcode : *DxcBuffer, ppResult : **IDxcOperationResult) -> HRESULT #cpp_method;
 }
 
 IDxcVersionInfoVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetVersion : (this : *IDxcVersionInfo, pMajor : *u32, pMinor : *u32) -> HRESULT #cpp_method;
     GetFlags : (this : *IDxcVersionInfo, pFlags : *u32) -> HRESULT #cpp_method;
@@ -1391,14 +1391,14 @@ IDxcVersionInfoVTable :: struct
 
 IDxcVersionInfo2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDxcVersionInfoVTable;
+    #as using, except(.["base"]) base : IDxcVersionInfoVTable;
 
     GetCommitInfo : (this : *IDxcVersionInfo2, pCommitCount : *u32, pCommitHash : **s8) -> HRESULT #cpp_method;
 }
 
 IDxcVersionInfo3VTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetCustomVersionString : (this : *IDxcVersionInfo3, pVersionString : **s8) -> HRESULT #cpp_method;
 }

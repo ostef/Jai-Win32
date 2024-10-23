@@ -12,9 +12,9 @@ DXGI_CPU_ACCESS_NONE :: 0;
 DXGI_CPU_ACCESS_READ_WRITE :: 2;
 DXGI_CPU_ACCESS_SCRATCH :: 3;
 DXGI_CREATE_FACTORY_DEBUG :: 1;
-DXGI_DDI_ERR_NONEXCLUSIVE :: cast, no_check (HRESULT) -2005204989;
-DXGI_DDI_ERR_UNSUPPORTED :: cast, no_check (HRESULT) -2005204990;
-DXGI_DDI_ERR_WASSTILLDRAWING :: cast, no_check (HRESULT) -2005204991;
+DXGI_DDI_ERR_NONEXCLUSIVE :: cast, no_check(HRESULT) -2005204989;
+DXGI_DDI_ERR_UNSUPPORTED :: cast, no_check(HRESULT) -2005204990;
+DXGI_DDI_ERR_WASSTILLDRAWING :: cast, no_check(HRESULT) -2005204991;
 DXGI_DEBUG_ALL :: "e48ae283-da80-490b-87e6-43e9a9cfda08";
 DXGI_DEBUG_APP :: "06cd6e01-4219-4ebd-8709-27ed23360c62";
 DXGI_DEBUG_BINARY_VERSION :: 1;
@@ -25,38 +25,38 @@ DXGI_ENUM_MODES_DISABLED_STEREO :: 8;
 DXGI_ENUM_MODES_INTERLACED :: 1;
 DXGI_ENUM_MODES_SCALING :: 2;
 DXGI_ENUM_MODES_STEREO :: 4;
-DXGI_ERROR_ACCESS_DENIED :: cast, no_check (HRESULT) -2005270485;
-DXGI_ERROR_ACCESS_LOST :: cast, no_check (HRESULT) -2005270490;
-DXGI_ERROR_ALREADY_EXISTS :: cast, no_check (HRESULT) -2005270474;
-DXGI_ERROR_CACHE_CORRUPT :: cast, no_check (HRESULT) -2005270477;
-DXGI_ERROR_CACHE_FULL :: cast, no_check (HRESULT) -2005270476;
-DXGI_ERROR_CACHE_HASH_COLLISION :: cast, no_check (HRESULT) -2005270475;
-DXGI_ERROR_CANNOT_PROTECT_CONTENT :: cast, no_check (HRESULT) -2005270486;
-DXGI_ERROR_DEVICE_HUNG :: cast, no_check (HRESULT) -2005270522;
-DXGI_ERROR_DEVICE_REMOVED :: cast, no_check (HRESULT) -2005270523;
-DXGI_ERROR_DEVICE_RESET :: cast, no_check (HRESULT) -2005270521;
-DXGI_ERROR_DRIVER_INTERNAL_ERROR :: cast, no_check (HRESULT) -2005270496;
-DXGI_ERROR_DYNAMIC_CODE_POLICY_VIOLATION :: cast, no_check (HRESULT) -2005270479;
-DXGI_ERROR_FRAME_STATISTICS_DISJOINT :: cast, no_check (HRESULT) -2005270517;
-DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE :: cast, no_check (HRESULT) -2005270516;
-DXGI_ERROR_HW_PROTECTION_OUTOFMEMORY :: cast, no_check (HRESULT) -2005270480;
-DXGI_ERROR_INVALID_CALL :: cast, no_check (HRESULT) -2005270527;
-DXGI_ERROR_MODE_CHANGE_IN_PROGRESS :: cast, no_check (HRESULT) -2005270491;
-DXGI_ERROR_MORE_DATA :: cast, no_check (HRESULT) -2005270525;
-DXGI_ERROR_NAME_ALREADY_EXISTS :: cast, no_check (HRESULT) -2005270484;
-DXGI_ERROR_NONEXCLUSIVE :: cast, no_check (HRESULT) -2005270495;
-DXGI_ERROR_NON_COMPOSITED_UI :: cast, no_check (HRESULT) -2005270478;
-DXGI_ERROR_NOT_CURRENT :: cast, no_check (HRESULT) -2005270482;
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE :: cast, no_check (HRESULT) -2005270494;
-DXGI_ERROR_NOT_FOUND :: cast, no_check (HRESULT) -2005270526;
-DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED :: cast, no_check (HRESULT) -2005270493;
-DXGI_ERROR_REMOTE_OUTOFMEMORY :: cast, no_check (HRESULT) -2005270492;
-DXGI_ERROR_RESTRICT_TO_OUTPUT_STALE :: cast, no_check (HRESULT) -2005270487;
-DXGI_ERROR_SDK_COMPONENT_MISSING :: cast, no_check (HRESULT) -2005270483;
-DXGI_ERROR_SESSION_DISCONNECTED :: cast, no_check (HRESULT) -2005270488;
-DXGI_ERROR_UNSUPPORTED :: cast, no_check (HRESULT) -2005270524;
-DXGI_ERROR_WAIT_TIMEOUT :: cast, no_check (HRESULT) -2005270489;
-DXGI_ERROR_WAS_STILL_DRAWING :: cast, no_check (HRESULT) -2005270518;
+DXGI_ERROR_ACCESS_DENIED :: cast, no_check(HRESULT) -2005270485;
+DXGI_ERROR_ACCESS_LOST :: cast, no_check(HRESULT) -2005270490;
+DXGI_ERROR_ALREADY_EXISTS :: cast, no_check(HRESULT) -2005270474;
+DXGI_ERROR_CACHE_CORRUPT :: cast, no_check(HRESULT) -2005270477;
+DXGI_ERROR_CACHE_FULL :: cast, no_check(HRESULT) -2005270476;
+DXGI_ERROR_CACHE_HASH_COLLISION :: cast, no_check(HRESULT) -2005270475;
+DXGI_ERROR_CANNOT_PROTECT_CONTENT :: cast, no_check(HRESULT) -2005270486;
+DXGI_ERROR_DEVICE_HUNG :: cast, no_check(HRESULT) -2005270522;
+DXGI_ERROR_DEVICE_REMOVED :: cast, no_check(HRESULT) -2005270523;
+DXGI_ERROR_DEVICE_RESET :: cast, no_check(HRESULT) -2005270521;
+DXGI_ERROR_DRIVER_INTERNAL_ERROR :: cast, no_check(HRESULT) -2005270496;
+DXGI_ERROR_DYNAMIC_CODE_POLICY_VIOLATION :: cast, no_check(HRESULT) -2005270479;
+DXGI_ERROR_FRAME_STATISTICS_DISJOINT :: cast, no_check(HRESULT) -2005270517;
+DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE :: cast, no_check(HRESULT) -2005270516;
+DXGI_ERROR_HW_PROTECTION_OUTOFMEMORY :: cast, no_check(HRESULT) -2005270480;
+DXGI_ERROR_INVALID_CALL :: cast, no_check(HRESULT) -2005270527;
+DXGI_ERROR_MODE_CHANGE_IN_PROGRESS :: cast, no_check(HRESULT) -2005270491;
+DXGI_ERROR_MORE_DATA :: cast, no_check(HRESULT) -2005270525;
+DXGI_ERROR_NAME_ALREADY_EXISTS :: cast, no_check(HRESULT) -2005270484;
+DXGI_ERROR_NONEXCLUSIVE :: cast, no_check(HRESULT) -2005270495;
+DXGI_ERROR_NON_COMPOSITED_UI :: cast, no_check(HRESULT) -2005270478;
+DXGI_ERROR_NOT_CURRENT :: cast, no_check(HRESULT) -2005270482;
+DXGI_ERROR_NOT_CURRENTLY_AVAILABLE :: cast, no_check(HRESULT) -2005270494;
+DXGI_ERROR_NOT_FOUND :: cast, no_check(HRESULT) -2005270526;
+DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED :: cast, no_check(HRESULT) -2005270493;
+DXGI_ERROR_REMOTE_OUTOFMEMORY :: cast, no_check(HRESULT) -2005270492;
+DXGI_ERROR_RESTRICT_TO_OUTPUT_STALE :: cast, no_check(HRESULT) -2005270487;
+DXGI_ERROR_SDK_COMPONENT_MISSING :: cast, no_check(HRESULT) -2005270483;
+DXGI_ERROR_SESSION_DISCONNECTED :: cast, no_check(HRESULT) -2005270488;
+DXGI_ERROR_UNSUPPORTED :: cast, no_check(HRESULT) -2005270524;
+DXGI_ERROR_WAIT_TIMEOUT :: cast, no_check(HRESULT) -2005270489;
+DXGI_ERROR_WAS_STILL_DRAWING :: cast, no_check(HRESULT) -2005270518;
 DXGI_FORMAT_DEFINED :: 1;
 DXGI_INFO_QUEUE_DEFAULT_MESSAGE_COUNT_LIMIT :: 1024;
 DXGI_INFO_QUEUE_MESSAGE_ID_STRING_FROM_APPLICATION :: 0;
@@ -80,16 +80,16 @@ DXGI_PRESENT_USE_DURATION :: 256;
 DXGI_SHARED_RESOURCE_READ :: 2147483648;
 DXGI_SHARED_RESOURCE_WRITE :: 1;
 DXGI_STANDARD_MULTISAMPLE_QUALITY_PATTERN :: 4294967295;
-DXGI_STATUS_CLIPPED :: cast, no_check (HRESULT) 142213122;
-DXGI_STATUS_DDA_WAS_STILL_DRAWING :: cast, no_check (HRESULT) 142213130;
-DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE :: cast, no_check (HRESULT) 142213126;
-DXGI_STATUS_MODE_CHANGED :: cast, no_check (HRESULT) 142213127;
-DXGI_STATUS_MODE_CHANGE_IN_PROGRESS :: cast, no_check (HRESULT) 142213128;
-DXGI_STATUS_NO_DESKTOP_ACCESS :: cast, no_check (HRESULT) 142213125;
-DXGI_STATUS_NO_REDIRECTION :: cast, no_check (HRESULT) 142213124;
-DXGI_STATUS_OCCLUDED :: cast, no_check (HRESULT) 142213121;
-DXGI_STATUS_PRESENT_REQUIRED :: cast, no_check (HRESULT) 142213167;
-DXGI_STATUS_UNOCCLUDED :: cast, no_check (HRESULT) 142213129;
+DXGI_STATUS_CLIPPED :: cast, no_check(HRESULT) 142213122;
+DXGI_STATUS_DDA_WAS_STILL_DRAWING :: cast, no_check(HRESULT) 142213130;
+DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE :: cast, no_check(HRESULT) 142213126;
+DXGI_STATUS_MODE_CHANGED :: cast, no_check(HRESULT) 142213127;
+DXGI_STATUS_MODE_CHANGE_IN_PROGRESS :: cast, no_check(HRESULT) 142213128;
+DXGI_STATUS_NO_DESKTOP_ACCESS :: cast, no_check(HRESULT) 142213125;
+DXGI_STATUS_NO_REDIRECTION :: cast, no_check(HRESULT) 142213124;
+DXGI_STATUS_OCCLUDED :: cast, no_check(HRESULT) 142213121;
+DXGI_STATUS_PRESENT_REQUIRED :: cast, no_check(HRESULT) 142213167;
+DXGI_STATUS_UNOCCLUDED :: cast, no_check(HRESULT) 142213129;
 DXGI_USAGE_BACK_BUFFER :: 64;
 DXGI_USAGE_DISCARD_ON_PRESENT :: 512;
 DXGI_USAGE_READ_ONLY :: 256;
@@ -1837,7 +1837,7 @@ IDXGIAdapter :: struct
 {
     UUID :: GUID.{0x2411e7e1,0x12ac,0x4ccf,.[0xbd,0x14,0x97,0x98,0xe8,0x53,0x4d,0xc0]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
     #place base;
     vtable : *IDXGIAdapterVTable;
@@ -1863,7 +1863,7 @@ IDXGIAdapter1 :: struct
 {
     UUID :: GUID.{0x29038f61,0x3839,0x4626,.[0x91,0xfd,0x8,0x68,0x79,0x1,0x1a,0x5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIAdapter;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter;
 
     #place base;
     vtable : *IDXGIAdapter1VTable;
@@ -1879,7 +1879,7 @@ IDXGIAdapter2 :: struct
 {
     UUID :: GUID.{0xaa1ae0a,0xfa0e,0x4b84,.[0x86,0x44,0xe0,0x5f,0xf8,0xe5,0xac,0xb5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIAdapter1;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter1;
 
     #place base;
     vtable : *IDXGIAdapter2VTable;
@@ -1895,7 +1895,7 @@ IDXGIAdapter3 :: struct
 {
     UUID :: GUID.{0x645967a4,0x1392,0x4310,.[0xa7,0x98,0x80,0x53,0xce,0x3e,0x93,0xfd]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIAdapter2;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter2;
 
     #place base;
     vtable : *IDXGIAdapter3VTable;
@@ -1936,7 +1936,7 @@ IDXGIAdapter4 :: struct
 {
     UUID :: GUID.{0x3c8d99d1,0x4fbf,0x4181,.[0xa8,0x2c,0xaf,0x66,0xbf,0x7b,0xd2,0x4e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIAdapter3;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter3;
 
     #place base;
     vtable : *IDXGIAdapter4VTable;
@@ -1952,7 +1952,7 @@ IDXGIDebug :: struct
 {
     UUID :: GUID.{0x119e7452,0xde9e,0x40fe,.[0x88,0x6,0x88,0xf9,0xc,0x12,0xb4,0x41]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGIDebugVTable;
@@ -1968,7 +1968,7 @@ IDXGIDebug1 :: struct
 {
     UUID :: GUID.{0xc5a05f0c,0x16f2,0x4adf,.[0x9f,0x4d,0xa8,0xc4,0xd5,0x8a,0xc5,0x50]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDebug;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDebug;
 
     #place base;
     vtable : *IDXGIDebug1VTable;
@@ -1994,7 +1994,7 @@ IDXGIDecodeSwapChain :: struct
 {
     UUID :: GUID.{0x2633066b,0x4514,0x4c7a,.[0x8f,0xd8,0x12,0xea,0x98,0x5,0x9d,0x18]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGIDecodeSwapChainVTable;
@@ -2050,7 +2050,7 @@ IDXGIDevice :: struct
 {
     UUID :: GUID.{0x54ec77fa,0x1377,0x44e6,.[0x8c,0x32,0x88,0xfd,0x5f,0x44,0xc8,0x4c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
     #place base;
     vtable : *IDXGIDeviceVTable;
@@ -2092,7 +2092,7 @@ IDXGIDevice1 :: struct
 {
     UUID :: GUID.{0x77db970f,0x6276,0x48ba,.[0xba,0x28,0x7,0x1,0x43,0xb4,0x39,0x2c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDevice;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice;
 
     #place base;
     vtable : *IDXGIDevice1VTable;
@@ -2113,7 +2113,7 @@ IDXGIDevice2 :: struct
 {
     UUID :: GUID.{0x5008617,0xfbfd,0x4051,.[0xa7,0x90,0x14,0x48,0x84,0xb4,0xf6,0xa9]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDevice1;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice1;
 
     #place base;
     vtable : *IDXGIDevice2VTable;
@@ -2139,7 +2139,7 @@ IDXGIDevice3 :: struct
 {
     UUID :: GUID.{0x6007896c,0x3244,0x4afd,.[0xbf,0x18,0xa6,0xd3,0xbe,0xda,0x50,0x23]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDevice2;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice2;
 
     #place base;
     vtable : *IDXGIDevice3VTable;
@@ -2155,7 +2155,7 @@ IDXGIDevice4 :: struct
 {
     UUID :: GUID.{0x95b4f95f,0xd8da,0x4ca4,.[0x9e,0xe6,0x3b,0x76,0xd5,0x96,0x8a,0x10]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDevice3;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice3;
 
     #place base;
     vtable : *IDXGIDevice4VTable;
@@ -2181,7 +2181,7 @@ IDXGIDeviceSubObject :: struct
 {
     UUID :: GUID.{0x3d3e0379,0xf9de,0x4d58,.[0xbb,0x6c,0x18,0xd6,0x29,0x92,0xf1,0xa6]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
     #place base;
     vtable : *IDXGIDeviceSubObjectVTable;
@@ -2197,7 +2197,7 @@ IDXGIDisplayControl :: struct
 {
     UUID :: GUID.{0xea9dbf1a,0xc88e,0x4486,.[0x85,0x4a,0x98,0xaa,0x1,0x38,0xf3,0xc]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGIDisplayControlVTable;
@@ -2218,7 +2218,7 @@ IDXGIFactory :: struct
 {
     UUID :: GUID.{0x7b7166ec,0x21c7,0x44ae,.[0xb2,0x1a,0xc9,0xae,0x32,0x1a,0xe3,0x69]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
     #place base;
     vtable : *IDXGIFactoryVTable;
@@ -2254,7 +2254,7 @@ IDXGIFactory1 :: struct
 {
     UUID :: GUID.{0x770aae78,0xf26f,0x4dba,.[0xa8,0x29,0x25,0x3c,0x83,0xd1,0xb3,0x87]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory;
 
     #place base;
     vtable : *IDXGIFactory1VTable;
@@ -2275,7 +2275,7 @@ IDXGIFactory2 :: struct
 {
     UUID :: GUID.{0x50c83a1c,0xe072,0x4c48,.[0x87,0xb0,0x36,0x30,0xfa,0x36,0xa6,0xd0]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory1;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory1;
 
     #place base;
     vtable : *IDXGIFactory2VTable;
@@ -2359,7 +2359,7 @@ IDXGIFactory3 :: struct
 {
     UUID :: GUID.{0x25483823,0xcd46,0x4c7d,.[0x86,0xca,0x47,0xaa,0x95,0xb8,0x37,0xbd]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory2;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory2;
 
     #place base;
     vtable : *IDXGIFactory3VTable;
@@ -2375,7 +2375,7 @@ IDXGIFactory4 :: struct
 {
     UUID :: GUID.{0x1bc6ea02,0xef36,0x464f,.[0xbf,0xc,0x21,0xca,0x39,0xe5,0x16,0x8a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory3;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory3;
 
     #place base;
     vtable : *IDXGIFactory4VTable;
@@ -2396,7 +2396,7 @@ IDXGIFactory5 :: struct
 {
     UUID :: GUID.{0x7632e1f5,0xee65,0x4dca,.[0x87,0xfd,0x84,0xcd,0x75,0xf8,0x83,0x8d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory4;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory4;
 
     #place base;
     vtable : *IDXGIFactory5VTable;
@@ -2412,7 +2412,7 @@ IDXGIFactory6 :: struct
 {
     UUID :: GUID.{0xc1b6694f,0xff09,0x44a9,.[0xb0,0x3c,0x77,0x90,0xa,0xa,0x1d,0x17]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory5;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory5;
 
     #place base;
     vtable : *IDXGIFactory6VTable;
@@ -2433,7 +2433,7 @@ IDXGIFactory7 :: struct
 {
     UUID :: GUID.{0xa4966eed,0x76db,0x44da,.[0x84,0xc1,0xee,0x9a,0x7a,0xfb,0x20,0xa8]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIFactory6;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory6;
 
     #place base;
     vtable : *IDXGIFactory7VTable;
@@ -2454,7 +2454,7 @@ IDXGIFactoryMedia :: struct
 {
     UUID :: GUID.{0x41e7d1f2,0xa591,0x4f7b,.[0xa2,0xe5,0xfa,0x9c,0x84,0x3e,0x1c,0x12]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGIFactoryMediaVTable;
@@ -2488,7 +2488,7 @@ IDXGIInfoQueue :: struct
 {
     UUID :: GUID.{0xd67441c7,0x672a,0x476f,.[0x9e,0x82,0xcd,0x55,0xb4,0x49,0x49,0xce]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGIInfoQueueVTable;
@@ -2695,7 +2695,7 @@ IDXGIKeyedMutex :: struct
 {
     UUID :: GUID.{0x9d8e1289,0xd7b3,0x465f,.[0x81,0x26,0x25,0xe,0x34,0x9a,0xf8,0x5d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
     #place base;
     vtable : *IDXGIKeyedMutexVTable;
@@ -2716,7 +2716,7 @@ IDXGIObject :: struct
 {
     UUID :: GUID.{0xaec22fb8,0x76f3,0x4639,.[0x9b,0xe0,0x28,0xeb,0x43,0xa6,0x7a,0x2e]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGIObjectVTable;
@@ -2747,7 +2747,7 @@ IDXGIOutput :: struct
 {
     UUID :: GUID.{0xae02eedb,0xc735,0x4690,.[0x8d,0x52,0x5a,0x8d,0xc2,0x2,0x13,0xaa]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
     #place base;
     vtable : *IDXGIOutputVTable;
@@ -2823,7 +2823,7 @@ IDXGIOutput1 :: struct
 {
     UUID :: GUID.{0xcddea8,0x939b,0x4b83,.[0xa3,0x40,0xa6,0x85,0x22,0x66,0x66,0xcc]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIOutput;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput;
 
     #place base;
     vtable : *IDXGIOutput1VTable;
@@ -2859,7 +2859,7 @@ IDXGIOutput2 :: struct
 {
     UUID :: GUID.{0x595e39d1,0x2724,0x4663,.[0x99,0xb1,0xda,0x96,0x9d,0xe2,0x83,0x64]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIOutput1;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput1;
 
     #place base;
     vtable : *IDXGIOutput2VTable;
@@ -2875,7 +2875,7 @@ IDXGIOutput3 :: struct
 {
     UUID :: GUID.{0x8a6bb301,0x7e7e,0x41f4,.[0xa8,0xe0,0x5b,0x32,0xf7,0xf9,0x9b,0x18]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIOutput2;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput2;
 
     #place base;
     vtable : *IDXGIOutput3VTable;
@@ -2891,7 +2891,7 @@ IDXGIOutput4 :: struct
 {
     UUID :: GUID.{0xdc7dca35,0x2196,0x414d,.[0x9f,0x53,0x61,0x78,0x84,0x3,0x2a,0x60]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIOutput3;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput3;
 
     #place base;
     vtable : *IDXGIOutput4VTable;
@@ -2912,7 +2912,7 @@ IDXGIOutput5 :: struct
 {
     UUID :: GUID.{0x80a07424,0xab52,0x42eb,.[0x83,0x3c,0xc,0x42,0xfd,0x28,0x2d,0x98]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIOutput4;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput4;
 
     #place base;
     vtable : *IDXGIOutput5VTable;
@@ -2934,7 +2934,7 @@ IDXGIOutput6 :: struct
 {
     UUID :: GUID.{0x68346e8,0xaaec,0x4b84,.[0xad,0xd7,0x13,0x7f,0x51,0x3f,0x77,0xa1]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIOutput5;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput5;
 
     #place base;
     vtable : *IDXGIOutput6VTable;
@@ -2955,7 +2955,7 @@ IDXGIOutputDuplication :: struct
 {
     UUID :: GUID.{0x191cfac3,0xa341,0x470d,.[0xb2,0x6e,0xa8,0x64,0xf4,0x28,0x31,0x9c]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
     #place base;
     vtable : *IDXGIOutputDuplicationVTable;
@@ -3011,7 +3011,7 @@ IDXGIResource :: struct
 {
     UUID :: GUID.{0x35f3ab4,0x482e,0x4e50,.[0xb4,0x1f,0x8a,0x7f,0x8b,0xd8,0x96,0xb]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
     #place base;
     vtable : *IDXGIResourceVTable;
@@ -3042,7 +3042,7 @@ IDXGIResource1 :: struct
 {
     UUID :: GUID.{0x30961379,0x4609,0x4a41,.[0x99,0x8e,0x54,0xfe,0x56,0x7e,0xe0,0xc1]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIResource;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIResource;
 
     #place base;
     vtable : *IDXGIResource1VTable;
@@ -3068,7 +3068,7 @@ IDXGISurface :: struct
 {
     UUID :: GUID.{0xcafcb56c,0x6ac3,0x4889,.[0xbf,0x47,0x9e,0x23,0xbb,0xd2,0x60,0xec]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
     #place base;
     vtable : *IDXGISurfaceVTable;
@@ -3094,7 +3094,7 @@ IDXGISurface1 :: struct
 {
     UUID :: GUID.{0x4ae63092,0x6327,0x4c1b,.[0x80,0xae,0xbf,0xe1,0x2e,0xa3,0x2b,0x86]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGISurface;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGISurface;
 
     #place base;
     vtable : *IDXGISurface1VTable;
@@ -3115,7 +3115,7 @@ IDXGISurface2 :: struct
 {
     UUID :: GUID.{0xaba496dd,0xb617,0x4cb8,.[0xa8,0x66,0xbc,0x44,0xd7,0xeb,0x1f,0xa2]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGISurface1;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGISurface1;
 
     #place base;
     vtable : *IDXGISurface2VTable;
@@ -3131,7 +3131,7 @@ IDXGISwapChain :: struct
 {
     UUID :: GUID.{0x310d36a0,0xd2e7,0x4c0a,.[0xaa,0x4,0x6a,0x9d,0x23,0xb8,0x88,0x6a]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
     #place base;
     vtable : *IDXGISwapChainVTable;
@@ -3198,7 +3198,7 @@ IDXGISwapChain1 :: struct
 {
     UUID :: GUID.{0x790a45f7,0xd42,0x4876,.[0x98,0x3a,0xa,0x55,0xcf,0xe6,0xf4,0xaa]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGISwapChain;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain;
 
     #place base;
     vtable : *IDXGISwapChain1VTable;
@@ -3264,7 +3264,7 @@ IDXGISwapChain2 :: struct
 {
     UUID :: GUID.{0xa8be2ac4,0x199f,0x4946,.[0xb3,0x31,0x79,0x59,0x9f,0xb9,0x8d,0xe7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGISwapChain1;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain1;
 
     #place base;
     vtable : *IDXGISwapChain2VTable;
@@ -3310,7 +3310,7 @@ IDXGISwapChain3 :: struct
 {
     UUID :: GUID.{0x94d99bdb,0xf1f8,0x4ab0,.[0xb2,0x36,0x7d,0xa0,0x17,0xe,0xda,0xb1]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGISwapChain2;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain2;
 
     #place base;
     vtable : *IDXGISwapChain3VTable;
@@ -3349,7 +3349,7 @@ IDXGISwapChain4 :: struct
 {
     UUID :: GUID.{0x3d585d5a,0xbd4a,0x489e,.[0xb1,0xf4,0x3d,0xbc,0xb6,0x45,0x2f,0xfb]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IDXGISwapChain3;
+    #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain3;
 
     #place base;
     vtable : *IDXGISwapChain4VTable;
@@ -3365,7 +3365,7 @@ IDXGISwapChainMedia :: struct
 {
     UUID :: GUID.{0xdd95b90b,0xf05f,0x4f6a,.[0xbd,0x65,0x25,0xbf,0xb2,0x64,0xbd,0x84]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGISwapChainMediaVTable;
@@ -3391,7 +3391,7 @@ IDXGraphicsAnalysis :: struct
 {
     UUID :: GUID.{0x9f251514,0x9d4d,0x4902,.[0x9d,0x60,0x18,0x98,0x8a,0xb7,0xd4,0xb5]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDXGraphicsAnalysisVTable;
@@ -3420,7 +3420,7 @@ DXGIGetDebugInterface1 :: (Flags : u32, riid : *GUID, pDebug : **void) -> HRESUL
 
 IDXGIAdapterVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIObjectVTable;
+    #as using, except(.["base"]) base : IDXGIObjectVTable;
 
     EnumOutputs : (this : *IDXGIAdapter, Output : u32, ppOutput : **IDXGIOutput) -> HRESULT #cpp_method;
     GetDesc : (this : *IDXGIAdapter, pDesc : *DXGI_ADAPTER_DESC) -> HRESULT #cpp_method;
@@ -3429,21 +3429,21 @@ IDXGIAdapterVTable :: struct
 
 IDXGIAdapter1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIAdapterVTable;
+    #as using, except(.["base"]) base : IDXGIAdapterVTable;
 
     GetDesc1 : (this : *IDXGIAdapter1, pDesc : *DXGI_ADAPTER_DESC1) -> HRESULT #cpp_method;
 }
 
 IDXGIAdapter2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIAdapter1VTable;
+    #as using, except(.["base"]) base : IDXGIAdapter1VTable;
 
     GetDesc2 : (this : *IDXGIAdapter2, pDesc : *DXGI_ADAPTER_DESC2) -> HRESULT #cpp_method;
 }
 
 IDXGIAdapter3VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIAdapter2VTable;
+    #as using, except(.["base"]) base : IDXGIAdapter2VTable;
 
     RegisterHardwareContentProtectionTeardownStatusEvent : (this : *IDXGIAdapter3, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #cpp_method;
     UnregisterHardwareContentProtectionTeardownStatus : (this : *IDXGIAdapter3, dwCookie : u32) #cpp_method;
@@ -3455,21 +3455,21 @@ IDXGIAdapter3VTable :: struct
 
 IDXGIAdapter4VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIAdapter3VTable;
+    #as using, except(.["base"]) base : IDXGIAdapter3VTable;
 
     GetDesc3 : (this : *IDXGIAdapter4, pDesc : *DXGI_ADAPTER_DESC3) -> HRESULT #cpp_method;
 }
 
 IDXGIDebugVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     ReportLiveObjects : (this : *IDXGIDebug, apiid : GUID, flags : DXGI_DEBUG_RLO_FLAGS) -> HRESULT #cpp_method;
 }
 
 IDXGIDebug1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDebugVTable;
+    #as using, except(.["base"]) base : IDXGIDebugVTable;
 
     EnableLeakTrackingForThread : (this : *IDXGIDebug1) #cpp_method;
     DisableLeakTrackingForThread : (this : *IDXGIDebug1) #cpp_method;
@@ -3478,7 +3478,7 @@ IDXGIDebug1VTable :: struct
 
 IDXGIDecodeSwapChainVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     PresentBuffer : (this : *IDXGIDecodeSwapChain, BufferToPresent : u32, SyncInterval : u32, Flags : u32) -> HRESULT #cpp_method;
     SetSourceRect : (this : *IDXGIDecodeSwapChain, pRect : *RECT) -> HRESULT #cpp_method;
@@ -3493,7 +3493,7 @@ IDXGIDecodeSwapChainVTable :: struct
 
 IDXGIDeviceVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIObjectVTable;
+    #as using, except(.["base"]) base : IDXGIObjectVTable;
 
     GetAdapter : (this : *IDXGIDevice, pAdapter : **IDXGIAdapter) -> HRESULT #cpp_method;
     CreateSurface : (this : *IDXGIDevice, pDesc : *DXGI_SURFACE_DESC, NumSurfaces : u32, Usage : u32, pSharedResource : *DXGI_SHARED_RESOURCE, ppSurface : **IDXGISurface) -> HRESULT #cpp_method;
@@ -3504,7 +3504,7 @@ IDXGIDeviceVTable :: struct
 
 IDXGIDevice1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDeviceVTable;
+    #as using, except(.["base"]) base : IDXGIDeviceVTable;
 
     SetMaximumFrameLatency : (this : *IDXGIDevice1, MaxLatency : u32) -> HRESULT #cpp_method;
     GetMaximumFrameLatency : (this : *IDXGIDevice1, pMaxLatency : *u32) -> HRESULT #cpp_method;
@@ -3512,7 +3512,7 @@ IDXGIDevice1VTable :: struct
 
 IDXGIDevice2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDevice1VTable;
+    #as using, except(.["base"]) base : IDXGIDevice1VTable;
 
     OfferResources : (this : *IDXGIDevice2, NumResources : u32, ppResources : **IDXGIResource, Priority : DXGI_OFFER_RESOURCE_PRIORITY) -> HRESULT #cpp_method;
     ReclaimResources : (this : *IDXGIDevice2, NumResources : u32, ppResources : **IDXGIResource, pDiscarded : *BOOL) -> HRESULT #cpp_method;
@@ -3521,14 +3521,14 @@ IDXGIDevice2VTable :: struct
 
 IDXGIDevice3VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDevice2VTable;
+    #as using, except(.["base"]) base : IDXGIDevice2VTable;
 
     Trim : (this : *IDXGIDevice3) #cpp_method;
 }
 
 IDXGIDevice4VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDevice3VTable;
+    #as using, except(.["base"]) base : IDXGIDevice3VTable;
 
     OfferResources1 : (this : *IDXGIDevice4, NumResources : u32, ppResources : **IDXGIResource, Priority : DXGI_OFFER_RESOURCE_PRIORITY, Flags : u32) -> HRESULT #cpp_method;
     ReclaimResources1 : (this : *IDXGIDevice4, NumResources : u32, ppResources : **IDXGIResource, pResults : *DXGI_RECLAIM_RESOURCE_RESULTS) -> HRESULT #cpp_method;
@@ -3536,14 +3536,14 @@ IDXGIDevice4VTable :: struct
 
 IDXGIDeviceSubObjectVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIObjectVTable;
+    #as using, except(.["base"]) base : IDXGIObjectVTable;
 
     GetDevice : (this : *IDXGIDeviceSubObject, riid : *GUID, ppDevice : **void) -> HRESULT #cpp_method;
 }
 
 IDXGIDisplayControlVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     IsStereoEnabled : (this : *IDXGIDisplayControl) -> BOOL #cpp_method;
     SetStereoEnabled : (this : *IDXGIDisplayControl, enabled : BOOL) #cpp_method;
@@ -3551,7 +3551,7 @@ IDXGIDisplayControlVTable :: struct
 
 IDXGIFactoryVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIObjectVTable;
+    #as using, except(.["base"]) base : IDXGIObjectVTable;
 
     EnumAdapters : (this : *IDXGIFactory, Adapter : u32, ppAdapter : **IDXGIAdapter) -> HRESULT #cpp_method;
     MakeWindowAssociation : (this : *IDXGIFactory, WindowHandle : HWND, Flags : u32) -> HRESULT #cpp_method;
@@ -3562,7 +3562,7 @@ IDXGIFactoryVTable :: struct
 
 IDXGIFactory1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactoryVTable;
+    #as using, except(.["base"]) base : IDXGIFactoryVTable;
 
     EnumAdapters1 : (this : *IDXGIFactory1, Adapter : u32, ppAdapter : **IDXGIAdapter1) -> HRESULT #cpp_method;
     IsCurrent : (this : *IDXGIFactory1) -> BOOL #cpp_method;
@@ -3570,7 +3570,7 @@ IDXGIFactory1VTable :: struct
 
 IDXGIFactory2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactory1VTable;
+    #as using, except(.["base"]) base : IDXGIFactory1VTable;
 
     IsWindowedStereoEnabled : (this : *IDXGIFactory2) -> BOOL #cpp_method;
     CreateSwapChainForHwnd : (this : *IDXGIFactory2, pDevice : *IUnknown, hWnd : HWND, pDesc : *DXGI_SWAP_CHAIN_DESC1, pFullscreenDesc : *DXGI_SWAP_CHAIN_FULLSCREEN_DESC, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #cpp_method;
@@ -3587,14 +3587,14 @@ IDXGIFactory2VTable :: struct
 
 IDXGIFactory3VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactory2VTable;
+    #as using, except(.["base"]) base : IDXGIFactory2VTable;
 
     GetCreationFlags : (this : *IDXGIFactory3) -> u32 #cpp_method;
 }
 
 IDXGIFactory4VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactory3VTable;
+    #as using, except(.["base"]) base : IDXGIFactory3VTable;
 
     EnumAdapterByLuid : (this : *IDXGIFactory4, AdapterLuid : LUID, riid : *GUID, ppvAdapter : **void) -> HRESULT #cpp_method;
     EnumWarpAdapter : (this : *IDXGIFactory4, riid : *GUID, ppvAdapter : **void) -> HRESULT #cpp_method;
@@ -3602,21 +3602,21 @@ IDXGIFactory4VTable :: struct
 
 IDXGIFactory5VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactory4VTable;
+    #as using, except(.["base"]) base : IDXGIFactory4VTable;
 
     CheckFeatureSupport : (this : *IDXGIFactory5, Feature : DXGI_FEATURE, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #cpp_method;
 }
 
 IDXGIFactory6VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactory5VTable;
+    #as using, except(.["base"]) base : IDXGIFactory5VTable;
 
     EnumAdapterByGpuPreference : (this : *IDXGIFactory6, Adapter : u32, GpuPreference : DXGI_GPU_PREFERENCE, riid : *GUID, ppvAdapter : **void) -> HRESULT #cpp_method;
 }
 
 IDXGIFactory7VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIFactory6VTable;
+    #as using, except(.["base"]) base : IDXGIFactory6VTable;
 
     RegisterAdaptersChangedEvent : (this : *IDXGIFactory7, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #cpp_method;
     UnregisterAdaptersChangedEvent : (this : *IDXGIFactory7, dwCookie : u32) -> HRESULT #cpp_method;
@@ -3624,7 +3624,7 @@ IDXGIFactory7VTable :: struct
 
 IDXGIFactoryMediaVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     CreateSwapChainForCompositionSurfaceHandle : (this : *IDXGIFactoryMedia, pDevice : *IUnknown, hSurface : HANDLE, pDesc : *DXGI_SWAP_CHAIN_DESC1, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGISwapChain1) -> HRESULT #cpp_method;
     CreateDecodeSwapChainForCompositionSurfaceHandle : (this : *IDXGIFactoryMedia, pDevice : *IUnknown, hSurface : HANDLE, pDesc : *DXGI_DECODE_SWAP_CHAIN_DESC, pYuvDecodeBuffers : *IDXGIResource, pRestrictToOutput : *IDXGIOutput, ppSwapChain : **IDXGIDecodeSwapChain) -> HRESULT #cpp_method;
@@ -3632,7 +3632,7 @@ IDXGIFactoryMediaVTable :: struct
 
 IDXGIInfoQueueVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetMessageCountLimit : (this : *IDXGIInfoQueue, Producer : GUID, MessageCountLimit : u64) -> HRESULT #cpp_method;
     ClearStoredMessages : (this : *IDXGIInfoQueue, Producer : GUID) #cpp_method;
@@ -3675,7 +3675,7 @@ IDXGIInfoQueueVTable :: struct
 
 IDXGIKeyedMutexVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDeviceSubObjectVTable;
+    #as using, except(.["base"]) base : IDXGIDeviceSubObjectVTable;
 
     AcquireSync : (this : *IDXGIKeyedMutex, Key : u64, dwMilliseconds : u32) -> HRESULT #cpp_method;
     ReleaseSync : (this : *IDXGIKeyedMutex, Key : u64) -> HRESULT #cpp_method;
@@ -3683,7 +3683,7 @@ IDXGIKeyedMutexVTable :: struct
 
 IDXGIObjectVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     SetPrivateData : (this : *IDXGIObject, Name : *GUID, DataSize : u32, pData : *void) -> HRESULT #cpp_method;
     SetPrivateDataInterface : (this : *IDXGIObject, Name : *GUID, pUnknown : *IUnknown) -> HRESULT #cpp_method;
@@ -3693,7 +3693,7 @@ IDXGIObjectVTable :: struct
 
 IDXGIOutputVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIObjectVTable;
+    #as using, except(.["base"]) base : IDXGIObjectVTable;
 
     GetDesc : (this : *IDXGIOutput, pDesc : *DXGI_OUTPUT_DESC) -> HRESULT #cpp_method;
     GetDisplayModeList : (this : *IDXGIOutput, EnumFormat : DXGI_FORMAT, Flags : u32, pNumModes : *u32, pDesc : *DXGI_MODE_DESC) -> HRESULT #cpp_method;
@@ -3711,7 +3711,7 @@ IDXGIOutputVTable :: struct
 
 IDXGIOutput1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIOutputVTable;
+    #as using, except(.["base"]) base : IDXGIOutputVTable;
 
     GetDisplayModeList1 : (this : *IDXGIOutput1, EnumFormat : DXGI_FORMAT, Flags : u32, pNumModes : *u32, pDesc : *DXGI_MODE_DESC1) -> HRESULT #cpp_method;
     FindClosestMatchingMode1 : (this : *IDXGIOutput1, pModeToMatch : *DXGI_MODE_DESC1, pClosestMatch : *DXGI_MODE_DESC1, pConcernedDevice : *IUnknown) -> HRESULT #cpp_method;
@@ -3721,35 +3721,35 @@ IDXGIOutput1VTable :: struct
 
 IDXGIOutput2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIOutput1VTable;
+    #as using, except(.["base"]) base : IDXGIOutput1VTable;
 
     SupportsOverlays : (this : *IDXGIOutput2) -> BOOL #cpp_method;
 }
 
 IDXGIOutput3VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIOutput2VTable;
+    #as using, except(.["base"]) base : IDXGIOutput2VTable;
 
     CheckOverlaySupport : (this : *IDXGIOutput3, EnumFormat : DXGI_FORMAT, pConcernedDevice : *IUnknown, pFlags : *u32) -> HRESULT #cpp_method;
 }
 
 IDXGIOutput4VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIOutput3VTable;
+    #as using, except(.["base"]) base : IDXGIOutput3VTable;
 
     CheckOverlayColorSpaceSupport : (this : *IDXGIOutput4, Format : DXGI_FORMAT, ColorSpace : DXGI_COLOR_SPACE_TYPE, pConcernedDevice : *IUnknown, pFlags : *u32) -> HRESULT #cpp_method;
 }
 
 IDXGIOutput5VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIOutput4VTable;
+    #as using, except(.["base"]) base : IDXGIOutput4VTable;
 
     DuplicateOutput1 : (this : *IDXGIOutput5, pDevice : *IUnknown, Flags : u32, SupportedFormatsCount : u32, pSupportedFormats : *DXGI_FORMAT, ppOutputDuplication : **IDXGIOutputDuplication) -> HRESULT #cpp_method;
 }
 
 IDXGIOutput6VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIOutput5VTable;
+    #as using, except(.["base"]) base : IDXGIOutput5VTable;
 
     GetDesc1 : (this : *IDXGIOutput6, pDesc : *DXGI_OUTPUT_DESC1) -> HRESULT #cpp_method;
     CheckHardwareCompositionSupport : (this : *IDXGIOutput6, pFlags : *u32) -> HRESULT #cpp_method;
@@ -3757,7 +3757,7 @@ IDXGIOutput6VTable :: struct
 
 IDXGIOutputDuplicationVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIObjectVTable;
+    #as using, except(.["base"]) base : IDXGIObjectVTable;
 
     GetDesc : (this : *IDXGIOutputDuplication, pDesc : *DXGI_OUTDUPL_DESC) #cpp_method;
     AcquireNextFrame : (this : *IDXGIOutputDuplication, TimeoutInMilliseconds : u32, pFrameInfo : *DXGI_OUTDUPL_FRAME_INFO, ppDesktopResource : **IDXGIResource) -> HRESULT #cpp_method;
@@ -3771,7 +3771,7 @@ IDXGIOutputDuplicationVTable :: struct
 
 IDXGIResourceVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDeviceSubObjectVTable;
+    #as using, except(.["base"]) base : IDXGIDeviceSubObjectVTable;
 
     GetSharedHandle : (this : *IDXGIResource, pSharedHandle : *HANDLE) -> HRESULT #cpp_method;
     GetUsage : (this : *IDXGIResource, pUsage : *u32) -> HRESULT #cpp_method;
@@ -3781,7 +3781,7 @@ IDXGIResourceVTable :: struct
 
 IDXGIResource1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIResourceVTable;
+    #as using, except(.["base"]) base : IDXGIResourceVTable;
 
     CreateSubresourceSurface : (this : *IDXGIResource1, index : u32, ppSurface : **IDXGISurface2) -> HRESULT #cpp_method;
     CreateSharedHandle : (this : *IDXGIResource1, pAttributes : *SECURITY_ATTRIBUTES, dwAccess : u32, lpName : PWSTR, pHandle : *HANDLE) -> HRESULT #cpp_method;
@@ -3789,7 +3789,7 @@ IDXGIResource1VTable :: struct
 
 IDXGISurfaceVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDeviceSubObjectVTable;
+    #as using, except(.["base"]) base : IDXGIDeviceSubObjectVTable;
 
     GetDesc : (this : *IDXGISurface, pDesc : *DXGI_SURFACE_DESC) -> HRESULT #cpp_method;
     Map : (this : *IDXGISurface, pLockedRect : *DXGI_MAPPED_RECT, MapFlags : u32) -> HRESULT #cpp_method;
@@ -3798,7 +3798,7 @@ IDXGISurfaceVTable :: struct
 
 IDXGISurface1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGISurfaceVTable;
+    #as using, except(.["base"]) base : IDXGISurfaceVTable;
 
     GetDC : (this : *IDXGISurface1, Discard : BOOL, phdc : *HDC) -> HRESULT #cpp_method;
     ReleaseDC : (this : *IDXGISurface1, pDirtyRect : *RECT) -> HRESULT #cpp_method;
@@ -3806,14 +3806,14 @@ IDXGISurface1VTable :: struct
 
 IDXGISurface2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGISurface1VTable;
+    #as using, except(.["base"]) base : IDXGISurface1VTable;
 
     GetResource : (this : *IDXGISurface2, riid : *GUID, ppParentResource : **void, pSubresourceIndex : *u32) -> HRESULT #cpp_method;
 }
 
 IDXGISwapChainVTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGIDeviceSubObjectVTable;
+    #as using, except(.["base"]) base : IDXGIDeviceSubObjectVTable;
 
     Present : (this : *IDXGISwapChain, SyncInterval : u32, Flags : u32) -> HRESULT #cpp_method;
     GetBuffer : (this : *IDXGISwapChain, Buffer : u32, riid : *GUID, ppSurface : **void) -> HRESULT #cpp_method;
@@ -3829,7 +3829,7 @@ IDXGISwapChainVTable :: struct
 
 IDXGISwapChain1VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGISwapChainVTable;
+    #as using, except(.["base"]) base : IDXGISwapChainVTable;
 
     GetDesc1 : (this : *IDXGISwapChain1, pDesc : *DXGI_SWAP_CHAIN_DESC1) -> HRESULT #cpp_method;
     GetFullscreenDesc : (this : *IDXGISwapChain1, pDesc : *DXGI_SWAP_CHAIN_FULLSCREEN_DESC) -> HRESULT #cpp_method;
@@ -3846,7 +3846,7 @@ IDXGISwapChain1VTable :: struct
 
 IDXGISwapChain2VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGISwapChain1VTable;
+    #as using, except(.["base"]) base : IDXGISwapChain1VTable;
 
     SetSourceSize : (this : *IDXGISwapChain2, Width : u32, Height : u32) -> HRESULT #cpp_method;
     GetSourceSize : (this : *IDXGISwapChain2, pWidth : *u32, pHeight : *u32) -> HRESULT #cpp_method;
@@ -3859,7 +3859,7 @@ IDXGISwapChain2VTable :: struct
 
 IDXGISwapChain3VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGISwapChain2VTable;
+    #as using, except(.["base"]) base : IDXGISwapChain2VTable;
 
     GetCurrentBackBufferIndex : (this : *IDXGISwapChain3) -> u32 #cpp_method;
     CheckColorSpaceSupport : (this : *IDXGISwapChain3, ColorSpace : DXGI_COLOR_SPACE_TYPE, pColorSpaceSupport : *u32) -> HRESULT #cpp_method;
@@ -3869,14 +3869,14 @@ IDXGISwapChain3VTable :: struct
 
 IDXGISwapChain4VTable :: struct
 {
-    #as using, except (.["base"]) base : IDXGISwapChain3VTable;
+    #as using, except(.["base"]) base : IDXGISwapChain3VTable;
 
     SetHDRMetaData : (this : *IDXGISwapChain4, _Type : DXGI_HDR_METADATA_TYPE, Size : u32, pMetaData : *void) -> HRESULT #cpp_method;
 }
 
 IDXGISwapChainMediaVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetFrameStatisticsMedia : (this : *IDXGISwapChainMedia, pStats : *DXGI_FRAME_STATISTICS_MEDIA) -> HRESULT #cpp_method;
     SetPresentDuration : (this : *IDXGISwapChainMedia, Duration : u32) -> HRESULT #cpp_method;
@@ -3885,7 +3885,7 @@ IDXGISwapChainMediaVTable :: struct
 
 IDXGraphicsAnalysisVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     BeginCapture : (this : *IDXGraphicsAnalysis) #cpp_method;
     EndCapture : (this : *IDXGraphicsAnalysis) #cpp_method;

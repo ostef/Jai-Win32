@@ -20,22 +20,22 @@ CP_UTF8 :: 65001;
 CP_WINANSI :: 1004;
 CP_WINNEUTRAL :: 1200;
 CP_WINUNICODE :: 1200;
-E_ABORT :: cast, no_check (HRESULT) -2147467260;
-E_ACCESSDENIED :: cast, no_check (HRESULT) -2147024891;
-E_FAIL :: cast, no_check (HRESULT) -2147467259;
-E_HANDLE :: cast, no_check (HRESULT) -2147024890;
-E_INVALIDARG :: cast, no_check (HRESULT) -2147024809;
-E_NOINTERFACE :: cast, no_check (HRESULT) -2147467262;
-E_NOTIMPL :: cast, no_check (HRESULT) -2147467263;
-E_OUTOFMEMORY :: cast, no_check (HRESULT) -2147024882;
-E_POINTER :: cast, no_check (HRESULT) -2147467261;
+E_ABORT :: cast, no_check(HRESULT) -2147467260;
+E_ACCESSDENIED :: cast, no_check(HRESULT) -2147024891;
+E_FAIL :: cast, no_check(HRESULT) -2147467259;
+E_HANDLE :: cast, no_check(HRESULT) -2147024890;
+E_INVALIDARG :: cast, no_check(HRESULT) -2147024809;
+E_NOINTERFACE :: cast, no_check(HRESULT) -2147467262;
+E_NOTIMPL :: cast, no_check(HRESULT) -2147467263;
+E_OUTOFMEMORY :: cast, no_check(HRESULT) -2147024882;
+E_POINTER :: cast, no_check(HRESULT) -2147467261;
 FORMAT_MESSAGE_MAX_WIDTH_MASK :: 255;
 IGNORE :: 0;
 INFINITE :: 4294967295;
-INVALID_HANDLE_VALUE :: cast, no_check (HANDLE) -1;
+INVALID_HANDLE_VALUE :: cast, no_check(HANDLE) -1;
 MAX_PATH :: 260;
 STRICT :: 1;
-S_OK :: cast, no_check (HRESULT) 0;
+S_OK :: cast, no_check(HRESULT) 0;
 
 // Types
 
@@ -192,7 +192,7 @@ IConnectionPoint :: struct
 {
     UUID :: GUID.{0xb196b286,0xbab4,0x101a,.[0xb6,0x9c,0x0,0xaa,0x0,0x34,0x1d,0x7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IConnectionPointVTable;
@@ -228,7 +228,7 @@ IConnectionPointContainer :: struct
 {
     UUID :: GUID.{0xb196b284,0xbab4,0x101a,.[0xb6,0x9c,0x0,0xaa,0x0,0x34,0x1d,0x7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IConnectionPointContainerVTable;
@@ -249,7 +249,7 @@ IEnumConnectionPoints :: struct
 {
     UUID :: GUID.{0xb196b285,0xbab4,0x101a,.[0xb6,0x9c,0x0,0xaa,0x0,0x34,0x1d,0x7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IEnumConnectionPointsVTable;
@@ -280,7 +280,7 @@ IEnumConnections :: struct
 {
     UUID :: GUID.{0xb196b287,0xbab4,0x101a,.[0xb6,0x9c,0x0,0xaa,0x0,0x34,0x1d,0x7]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IEnumConnectionsVTable;
@@ -311,7 +311,7 @@ IMalloc :: struct
 {
     UUID :: GUID.{0x2,0x0,0x0,.[0xc0,0x0,0x0,0x0,0x0,0x0,0x0,0x46]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IMallocVTable;
@@ -352,7 +352,7 @@ ISequentialStream :: struct
 {
     UUID :: GUID.{0xc733a30,0x2a1c,0x11ce,.[0xad,0xe5,0x0,0xaa,0x0,0x44,0x77,0x3d]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *ISequentialStreamVTable;
@@ -373,7 +373,7 @@ IStream :: struct
 {
     UUID :: GUID.{0xc,0x0,0x0,.[0xc0,0x0,0x0,0x0,0x0,0x0,0x0,0x46]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : ISequentialStream;
+    #as using, except(.["vtable", "base", "UUID"]) base : ISequentialStream;
 
     #place base;
     vtable : *IStreamVTable;
@@ -853,7 +853,7 @@ WideCharToMultiByte :: (
 
 IConnectionPointVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetConnectionInterface : (this : *IConnectionPoint, pIID : *GUID) -> HRESULT #cpp_method;
     GetConnectionPointContainer : (this : *IConnectionPoint, ppCPC : **IConnectionPointContainer) -> HRESULT #cpp_method;
@@ -864,7 +864,7 @@ IConnectionPointVTable :: struct
 
 IConnectionPointContainerVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     EnumConnectionPoints : (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #cpp_method;
     FindConnectionPoint : (this : *IConnectionPointContainer, riid : *GUID, ppCP : **IConnectionPoint) -> HRESULT #cpp_method;
@@ -872,7 +872,7 @@ IConnectionPointContainerVTable :: struct
 
 IEnumConnectionPointsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Next : (this : *IEnumConnectionPoints, cConnections : u32, ppCP : **IConnectionPoint, pcFetched : *u32) -> HRESULT #cpp_method;
     Skip : (this : *IEnumConnectionPoints, cConnections : u32) -> HRESULT #cpp_method;
@@ -882,7 +882,7 @@ IEnumConnectionPointsVTable :: struct
 
 IEnumConnectionsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Next : (this : *IEnumConnections, cConnections : u32, rgcd : *CONNECTDATA, pcFetched : *u32) -> HRESULT #cpp_method;
     Skip : (this : *IEnumConnections, cConnections : u32) -> HRESULT #cpp_method;
@@ -892,7 +892,7 @@ IEnumConnectionsVTable :: struct
 
 IMallocVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Alloc : (this : *IMalloc, cb : u64) -> *void #cpp_method;
     Realloc : (this : *IMalloc, pv : *void, cb : u64) -> *void #cpp_method;
@@ -904,7 +904,7 @@ IMallocVTable :: struct
 
 ISequentialStreamVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Read : (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #cpp_method;
     Write : (this : *ISequentialStream, pv : *void, cb : u32, pcbWritten : *u32) -> HRESULT #cpp_method;
@@ -912,7 +912,7 @@ ISequentialStreamVTable :: struct
 
 IStreamVTable :: struct
 {
-    #as using, except (.["base"]) base : ISequentialStreamVTable;
+    #as using, except(.["base"]) base : ISequentialStreamVTable;
 
     Seek : (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #cpp_method;
     SetSize : (this : *IStream, libNewSize : ULARGE_INTEGER) -> HRESULT #cpp_method;
@@ -949,22 +949,22 @@ OLEAUT32 :: #system_library "OLEAUT32";
 
 HIWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
+    return cast, no_check(s16) ((cast, no_check(s32) (wparam) >> 16) & 0xffff);
 }
 
 LOWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) (wparam);
+    return cast, no_check(s16) (wparam);
 }
 
 HIWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
+    return cast, no_check(s16) ((cast, no_check(s32) (lparam) >> 16) & 0xffff);
 }
 
 LOWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) (lparam);
+    return cast, no_check(s16) (lparam);
 }
 
 MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
@@ -974,17 +974,17 @@ MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
 
 HRESULT_CODE :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast, no_check (u32) val & 0xffff;
+    return cast, no_check(u32) val & 0xffff;
 }
 
 HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast, no_check (u32) (val << 16) & 0x1fff;
+    return cast, no_check(u32) (val << 16) & 0x1fff;
 }
 
 HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast, no_check (u32) (val >> 31) & 0x1;
+    return cast, no_check(u32) (val >> 31) & 0x1;
 }
 
 FAILED :: inline (val : HRESULT) -> bool #must #no_context
@@ -1000,7 +1000,7 @@ SUCCEEDED :: inline (val : HRESULT) -> bool #must #no_context
 SafeRelease :: inline (obj : *IUnknown) #no_context
 {
     if obj
-        obj.Release (obj);
+        obj.Release(obj);
 }
 
 GUID :: struct
@@ -1051,7 +1051,7 @@ MakeGUID :: (str : string) -> GUID #must
         result : int;
         while end < str.count
         {
-            digit := ToDigit (str[end]);
+            digit := ToDigit(str[end]);
             if digit < 0
                 break;
 
@@ -1063,28 +1063,28 @@ MakeGUID :: (str : string) -> GUID #must
         return result, end - offset;
     }
 
-    assert (str.count == 36);
+    assert(str.count == 36);
 
     offset := 0;
 
-    a, adv := ParseHexInt (str, offset);
+    a, adv := ParseHexInt(str, offset);
 
-    assert (adv == 8);
-    assert (str[offset + adv] == #char "-");
-
-    offset += adv + 1;
-
-    b:, adv = ParseHexInt (str, offset);
-
-    assert (adv == 4);
-    assert (str[offset + adv] == #char "-");
+    assert(adv == 8);
+    assert(str[offset + adv] == #char "-");
 
     offset += adv + 1;
 
-    c:, adv = ParseHexInt (str, offset);
+    b:, adv = ParseHexInt(str, offset);
 
-    assert (adv == 4);
-    assert (str[offset + adv] == #char "-");
+    assert(adv == 4);
+    assert(str[offset + adv] == #char "-");
+
+    offset += adv + 1;
+
+    c:, adv = ParseHexInt(str, offset);
+
+    assert(adv == 4);
+    assert(str[offset + adv] == #char "-");
 
     offset += adv + 1;
 
@@ -1094,18 +1094,18 @@ MakeGUID :: (str : string) -> GUID #must
     s.data += offset;
     s.count = 2;
 
-    value:, adv = ParseHexInt (s, 0);
+    value:, adv = ParseHexInt(s, 0);
 
-    assert (adv == 2);
+    assert(adv == 2);
 
     result.Data4[0] = xx value;
     offset += 2;
     s.data += 2;
 
-    value, adv = ParseHexInt (s, 0);
+    value, adv = ParseHexInt(s, 0);
 
-    assert (adv == 2);
-    assert (str[offset + adv] == #char "-");
+    assert(adv == 2);
+    assert(str[offset + adv] == #char "-");
 
     result.Data4[1] = xx value;
     offset += 3;
@@ -1116,15 +1116,15 @@ MakeGUID :: (str : string) -> GUID #must
         s.data += offset;
         s.count = 2;
 
-        value, adv = ParseHexInt (s, 0);
+        value, adv = ParseHexInt(s, 0);
 
-        assert (adv == 2);
+        assert(adv == 2);
 
         result.Data4[i] = xx value;
         offset += 2;
     }
 
-    assert (offset == str.count);
+    assert(offset == str.count);
 
     return result;
 }
@@ -1142,13 +1142,13 @@ operator == :: (a : RECTL, b : RECTL) -> bool #must #no_context
 // The result is null terminated even though a Jai string is returned
 WideToUtf8 :: (data : *u16) -> string #must, success : bool
 {
-    result_length := WideCharToMultiByte (CP_UTF8, 0, data, -1, null, 0, null, null);
+    result_length := WideCharToMultiByte(CP_UTF8, 0, data, -1, null, 0, null, null);
     if result_length <= 0
         return "", false;
 
-    utf8_data := cast (*u8) context.allocator.proc (.ALLOCATE, result_length, 0, null, context.allocator.data);
+    utf8_data := cast(*u8) context.allocator.proc(.ALLOCATE, result_length, 0, null, context.allocator.data);
 
-    written := WideCharToMultiByte (CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
+    written := WideCharToMultiByte(CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
     if written > 0
     {
         str : string = ---;
@@ -1166,18 +1166,18 @@ Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
 {
     if !utf8_str
     {
-        wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, size_of (u16), 0, null, context.allocator.data);
+        wide_str := cast(*u16) context.allocator.proc(.ALLOCATE, size_of(u16), 0, null, context.allocator.data);
         wide_str[0] = 0;
 
         return wide_str, 0;
     }
 
-    result_length := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, null, 0);
+    result_length := MultiByteToWideChar(CP_UTF8, 0, utf8_str.data, cast(s32) utf8_str.count, null, 0);
     if result_length <= 0
         return null, 0;
 
-    wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, (result_length + 1) * size_of (u16), 0, null, context.allocator.data);
-    written := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, wide_str, result_length);
+    wide_str := cast(*u16) context.allocator.proc(.ALLOCATE, (result_length + 1) * size_of(u16), 0, null, context.allocator.data);
+    written := MultiByteToWideChar(CP_UTF8, 0, utf8_str.data, cast(s32) utf8_str.count, wide_str, result_length);
     if written > 0
     {
         wide_str[written] = 0;

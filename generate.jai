@@ -86,7 +86,7 @@ GetFoundationConstantOutputModule :: (name : string) -> string #must
     case "INVALID_HANDLE_VALUE"; #through;
     case "MAX_PATH"; #through;
     case "STRICT";
-        return sprint ("%/Basics", output_dir);
+        return sprint("%/Basics", output_dir);
 
     case;
         return "";
@@ -106,50 +106,50 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
         return true;
     }
 
-    if starts_with (sym.name, "D3D12") || starts_with (sym.name, "ID3D12")
+    if starts_with(sym.name, "D3D12") || starts_with(sym.name, "ID3D12")
     {
-        SetOutputModule (sym, sprint ("%/Direct3D12", output_dir));
+        SetOutputModule(sym, sprint("%/Direct3D12", output_dir));
         return true;
     }
 
     // Ignore dx11 stuff
-    if starts_with (sym.name, "D3DX11") || starts_with (sym.name, "ID3DX11")
-    || starts_with (sym.name, "D3D11") || starts_with (sym.name, "ID3D11")
+    if starts_with(sym.name, "D3DX11") || starts_with(sym.name, "ID3DX11")
+    || starts_with(sym.name, "D3D11") || starts_with(sym.name, "ID3D11")
     {
         return true;
     }
 
     // Ignore dx10 stuff
-    if starts_with (sym.name, "D3DX10") || starts_with (sym.name, "ID3DX10")
-    || starts_with (sym.name, "D3D10") || starts_with (sym.name, "ID3D10")
+    if starts_with(sym.name, "D3DX10") || starts_with(sym.name, "ID3DX10")
+    || starts_with(sym.name, "D3D10") || starts_with(sym.name, "ID3D10")
     {
         return true;
     }
 
     // Ignore dx9 stuff
-    if starts_with (sym.name, "D3DX9") || starts_with (sym.name, "ID3DX9")
-    || starts_with (sym.name, "D3D9") || starts_with (sym.name, "ID3D9")
+    if starts_with(sym.name, "D3DX9") || starts_with(sym.name, "ID3DX9")
+    || starts_with(sym.name, "D3D9") || starts_with(sym.name, "ID3D9")
     {
         return true;
     }
 
-    if starts_with (sym.name, "Dxc") || starts_with (sym.name, "DXC") || starts_with (sym.name, "IDxc")
+    if starts_with(sym.name, "Dxc") || starts_with(sym.name, "DXC") || starts_with(sym.name, "IDxc")
     {
-        SetOutputModule (sym, sprint ("%/DXC", output_dir));
+        SetOutputModule(sym, sprint("%/DXC", output_dir));
 
         return true;
     }
 
-    if starts_with (sym.name, "D3D") || starts_with (sym.name, "ID3D")
+    if starts_with(sym.name, "D3D") || starts_with(sym.name, "ID3D")
     {
-        SetOutputModule (sym, sprint ("%/Direct3D", output_dir));
+        SetOutputModule(sym, sprint("%/Direct3D", output_dir));
 
         return true;
     }
 
-    if starts_with (sym.name, "DXGI") || starts_with (sym.name, "IDXGI")
+    if starts_with(sym.name, "DXGI") || starts_with(sym.name, "IDXGI")
     {
-        SetOutputModule (sym, sprint ("%/DXGI", output_dir));
+        SetOutputModule(sym, sprint("%/DXGI", output_dir));
         return true;
     }
 
@@ -162,36 +162,36 @@ main :: ()
 {
     context.allocator = temp;
 
-    start_time := current_time_monotonic ();
+    start_time := current_time_monotonic();
 
     start_parse_time := start_time;
 
-    output_dir = get_working_directory ();
-    output_dir = path_filename (output_dir);
+    output_dir = get_working_directory();
+    output_dir = path_filename(output_dir);
 
-    InitWin32Database ("Generator/win32json/api");
+    InitWin32Database("Generator/win32json/api");
 
-    end_parse_time := current_time_monotonic ();
+    end_parse_time := current_time_monotonic();
     total_parse_time := end_parse_time - start_parse_time;
 
-    start_user_time := current_time_monotonic ();
+    start_user_time := current_time_monotonic();
 
-    CreateOutputModule (sprint ("%/Basics", output_dir));
-    CreateOutputModule (sprint ("%/Threads", output_dir));
-    CreateOutputModule (sprint ("%/Time", output_dir));
-    CreateOutputModule (sprint ("%/File_System", output_dir));
-    CreateOutputModule (sprint ("%/Memory", output_dir));
-    CreateOutputModule (sprint ("%/Console", output_dir));
-    CreateOutputModule (sprint ("%/GDI_Basics", output_dir));
-    CreateOutputModule (sprint ("%/Windows_And_Messaging", output_dir));
-    CreateOutputModule (sprint ("%/WGL", output_dir));
-    CreateOutputModule (sprint ("%/Library_Loader", output_dir));
-    CreateOutputModule (sprint ("%/Input", output_dir));
-    CreateOutputModule (sprint ("%/HiDpi", output_dir));
-    CreateOutputModule (sprint ("%/DXGI", output_dir));
-    CreateOutputModule (sprint ("%/DXC", output_dir));
-    CreateOutputModule (sprint ("%/Direct3D", output_dir));
-    CreateOutputModule (sprint ("%/Direct3D12", output_dir));
+    CreateOutputModule(sprint("%/Basics", output_dir));
+    CreateOutputModule(sprint("%/Threads", output_dir));
+    CreateOutputModule(sprint("%/Time", output_dir));
+    CreateOutputModule(sprint("%/File_System", output_dir));
+    CreateOutputModule(sprint("%/Memory", output_dir));
+    CreateOutputModule(sprint("%/Console", output_dir));
+    CreateOutputModule(sprint("%/GDI_Basics", output_dir));
+    CreateOutputModule(sprint("%/Windows_And_Messaging", output_dir));
+    CreateOutputModule(sprint("%/WGL", output_dir));
+    CreateOutputModule(sprint("%/Library_Loader", output_dir));
+    CreateOutputModule(sprint("%/Input", output_dir));
+    CreateOutputModule(sprint("%/HiDpi", output_dir));
+    CreateOutputModule(sprint("%/DXGI", output_dir));
+    CreateOutputModule(sprint("%/DXC", output_dir));
+    CreateOutputModule(sprint("%/Direct3D", output_dir));
+    CreateOutputModule(sprint("%/Direct3D12", output_dir));
 
     void_type : Win32Type;
     void_type.kind = .Native;
@@ -207,32 +207,32 @@ main :: ()
     {
         total_symbol_count += 1;
 
-        if HandleDirectXSymbol (it)
+        if HandleDirectXSymbol(it)
             continue;
 
         if it.name ==
         {
         case "INFINITE"; #through;
         case "IGNORE";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
         }
 
-        if starts_with (it.name, "FORMAT_MESSAGE_")
+        if starts_with(it.name, "FORMAT_MESSAGE_")
         {
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
         }
 
-        if starts_with (it.name, "WM_")
+        if starts_with(it.name, "WM_")
         {
-            SetOutputModule (it, sprint ("%/Windows_And_Messaging", output_dir));
+            SetOutputModule(it, sprint("%/Windows_And_Messaging", output_dir));
             continue;
         }
 
-        if starts_with (it.name, "WGL")
+        if starts_with(it.name, "WGL")
         {
-            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            SetOutputModule(it, sprint("%/WGL", output_dir));
             continue;
         }
 
@@ -240,28 +240,28 @@ main :: ()
         // (there is D3D stuff, GDI stuff...). We hand-pick what we actually want here.
         if it.module == "Foundation"
         {
-            output_module := GetFoundationConstantOutputModule (it.name);
+            output_module := GetFoundationConstantOutputModule(it.name);
             if output_module
-                SetOutputModule (it, output_module);
+                SetOutputModule(it, output_module);
 
             continue;
         }
 
-        if it.module == "Devices.HumanInterfaceDevice" && starts_with (it.name, "MOUSE_")
+        if it.module == "Devices.HumanInterfaceDevice" && starts_with(it.name, "MOUSE_")
         {
-            SetOutputModule (it, sprint ("%/Input", output_dir));
+            SetOutputModule(it, sprint("%/Input", output_dir));
             continue;
         }
 
-        if starts_with (it.name, "PFD_")
+        if starts_with(it.name, "PFD_")
         {
-            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            SetOutputModule(it, sprint("%/GDI_Basics", output_dir));
             continue;
         }
 
-        if starts_with (it.name, "CP_")
+        if starts_with(it.name, "CP_")
         {
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
         }
 
@@ -269,7 +269,7 @@ main :: ()
         {
             if it.module == redir[0]
             {
-                SetOutputModule (it, sprint (redir[1], output_dir));
+                SetOutputModule(it, sprint(redir[1], output_dir));
                 continue it;
             }
         }
@@ -279,21 +279,21 @@ main :: ()
     {
         total_symbol_count += 1;
 
-        if HandleDirectXSymbol (it)
+        if HandleDirectXSymbol(it)
             continue;
 
         if it.name == "NTSTATUS_FACILITY_CODE"
             continue;
 
-        if array_find (Handle_Type_Names, it.name)
+        if array_find(Handle_Type_Names, it.name)
         {
             it.kind = .NativeTypedef;
             it.def = void_pointer_type;
         }
 
-        if starts_with (it.name, "WGL")
+        if starts_with(it.name, "WGL")
         {
-            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            SetOutputModule(it, sprint("%/WGL", output_dir));
             continue;
         }
 
@@ -306,19 +306,19 @@ main :: ()
 
             for val : it.values
             {
-                output_module := GetFoundationConstantOutputModule (val.name);
+                output_module := GetFoundationConstantOutputModule(val.name);
                 if !output_module
                     continue;
 
-                const := New (Win32Constant);
+                const := New(Win32Constant);
                 const.name = val.name;
                 const.type = it.def;
                 const.value_type = .UInt32;
                 const.int_value = val.value;
-                SetOutputModule (const, output_module);
+                SetOutputModule(const, output_module);
             }
 
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "STD_HANDLE"; #through;
@@ -330,7 +330,7 @@ main :: ()
         case "RTL_UMS_SCHEDULER_REASON"; #through;
         case "FORMAT_MESSAGE_OPTIONS"; #through;
         case "MULTI_BYTE_TO_WIDE_CHAR_FLAGS";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "IMalloc"; #through;
@@ -344,7 +344,7 @@ main :: ()
         case "IConnectionPoint"; #through;
         case "IConnectionPointContainer"; #through;
         case "CONNECTDATA";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "GENERIC_MAPPING"; #through;
@@ -357,18 +357,18 @@ main :: ()
         case "TOKEN_ACCESS_MASK"; #through;
         case "SECURITY_ATTRIBUTES"; #through;
         case "SECURITY_DESCRIPTOR";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "IO_STATUS_BLOCK"; #through;
         case "OBJECT_ATTRIBUTES";
-            SetOutputModule (it, sprint ("%/File_System", output_dir));
+            SetOutputModule(it, sprint("%/File_System", output_dir));
             continue;
 
         case "CLIPBOARD_FORMATS"; #through;
         case "POWER_SETTING_REGISTER_NOTIFICATION_FLAGS"; #through;
         case "HELPINFO";
-            SetOutputModule (it, sprint ("%/Windows_And_Messaging", output_dir));
+            SetOutputModule(it, sprint("%/Windows_And_Messaging", output_dir));
             continue;
 
         case "ROP_CODE"; #through;
@@ -384,7 +384,7 @@ main :: ()
         case "MONITORINFO"; #through;
         case "MONITORINFOEXA"; #through;
         case "MONITORINFOEXW";
-            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            SetOutputModule(it, sprint("%/GDI_Basics", output_dir));
             continue;
 
         case "HMONITOR"; #through;
@@ -393,7 +393,7 @@ main :: ()
         case "HDC"; #through;
         case "PIXELFORMATDESCRIPTOR"; #through;
         case "LAYERPLANEDESCRIPTOR";
-            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            SetOutputModule(it, sprint("%/GDI_Basics", output_dir));
             continue;
 
         case "HRGN"; #through;
@@ -402,17 +402,17 @@ main :: ()
         case "HENHMETAFILE"; #through;
         case "LOGFONTA"; #through;
         case "LOGFONTW";
-           SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+           SetOutputModule(it, sprint("%/GDI_Basics", output_dir));
            continue;
 
         case "HGLRC"; #through;
         case "GLYPHMETRICSFLOAT"; #through;
         case "POINTFLOAT";
-            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            SetOutputModule(it, sprint("%/WGL", output_dir));
             continue;
 
         case "HKL";
-            SetOutputModule (it, sprint ("%/Input", output_dir));
+            SetOutputModule(it, sprint("%/Input", output_dir));
             continue;
         }
 
@@ -420,7 +420,7 @@ main :: ()
         {
             if it.module == redir[0]
             {
-                SetOutputModule (it, sprint (redir[1], output_dir));
+                SetOutputModule(it, sprint(redir[1], output_dir));
                 continue it;
             }
         }
@@ -430,7 +430,7 @@ main :: ()
     {
         total_symbol_count += 1;
 
-        if HandleDirectXSymbol (it)
+        if HandleDirectXSymbol(it)
             continue;
 
         // What the hell?
@@ -441,15 +441,15 @@ main :: ()
 
         for lib : Libs_To_Ignore
         {
-            if WildcardStarMatch (lib, it.dll_import)
+            if WildcardStarMatch(lib, it.dll_import)
                 continue it;
         }
 
         if it.name == "AreShortNamesEnabled"
             continue;
-        if starts_with (it.name, "GetTempPath2")
+        if starts_with(it.name, "GetTempPath2")
             continue;
-        if starts_with (it.name, "GetSystemWow64Directory2")
+        if starts_with(it.name, "GetSystemWow64Directory2")
             continue;
         if it.name == "GetSystemLeapSecondInformation"
             continue;
@@ -479,15 +479,15 @@ main :: ()
             it.return_type = void_pointer_type;
         }
 
-        if it.module == "System.DataExchange" && contains (it.name, "Clipboard")
+        if it.module == "System.DataExchange" && contains(it.name, "Clipboard")
         {
-            SetOutputModule (it, sprint ("%/Windows_And_Messaging", output_dir));
+            SetOutputModule(it, sprint("%/Windows_And_Messaging", output_dir));
             continue;
         }
 
-        if starts_with (it.name, "wgl")
+        if starts_with(it.name, "wgl")
         {
-            SetOutputModule (it, sprint ("%/WGL", output_dir));
+            SetOutputModule(it, sprint("%/WGL", output_dir));
             continue;
         }
 
@@ -495,13 +495,13 @@ main :: ()
         {
         case "timeBeginPeriod"; #through;
         case "timeEndPeriod";
-            SetOutputModule (it, sprint ("%/Time", output_dir));
+            SetOutputModule(it, sprint("%/Time", output_dir));
             continue;
 
         case "IsValidCodePage"; #through;
         case "MultiByteToWideChar"; #through;
         case "WideCharToMultiByte";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "BitBlt"; #through;
@@ -533,7 +533,7 @@ main :: ()
         case "GetPixelFormat"; #through;
         case "SetPixelFormat"; #through;
         case "SwapBuffers";
-            SetOutputModule (it, sprint ("%/GDI_Basics", output_dir));
+            SetOutputModule(it, sprint("%/GDI_Basics", output_dir));
             continue;
 
         case "GetStdHandle"; #through;
@@ -547,21 +547,21 @@ main :: ()
         case "GetUserNameA"; #through;
         case "GetComputerNameW"; #through;
         case "GetComputerNameA";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "FormatMessageW"; #through;
         case "FormatMessageA";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "QueryPerformanceCounter"; #through;
         case "QueryPerformanceFrequency";
-            SetOutputModule (it, sprint ("%/Basics", output_dir));
+            SetOutputModule(it, sprint("%/Basics", output_dir));
             continue;
 
         case "GetSystemTimePreciseAsFileTime";
-            SetOutputModule (it, sprint ("%/Time", output_dir));
+            SetOutputModule(it, sprint("%/Time", output_dir));
             continue;
         }
 
@@ -569,7 +569,7 @@ main :: ()
         {
             if it.module == redir[0]
             {
-                SetOutputModule (it, sprint (redir[1], output_dir));
+                SetOutputModule(it, sprint(redir[1], output_dir));
                 continue it;
             }
         }
@@ -577,31 +577,31 @@ main :: ()
 
     for context.generator.output_modules
     {
-        ResolveModuleDependencies (it);
+        ResolveModuleDependencies(it);
 
-        quick_sort (it.constants, (a, b) => compare_strings (a.name, b.name));
-        quick_sort (it.types, (a, b) => compare_strings (a.name, b.name));
-        quick_sort (it.functions, (a, b) => compare_strings (a.name, b.name));
+        quick_sort(it.constants, (a, b) => compare_strings(a.name, b.name));
+        quick_sort(it.types, (a, b) => compare_strings(a.name, b.name));
+        quick_sort(it.functions, (a, b) => compare_strings(a.name, b.name));
     }
 
-    end_user_time := current_time_monotonic ();
+    end_user_time := current_time_monotonic();
     total_user_time := end_user_time - start_user_time;
 
     if context.generator.has_errors
-        exit (1);
+        exit(1);
 
     total_lines_of_code_generated := 0;
     for context.generator.output_modules
     {
         additional_code : string;
-        if it.name == sprint ("%/Basics", output_dir)
+        if it.name == sprint("%/Basics", output_dir)
             additional_code = Additional_Basics_Code;
-        else if it.name == sprint ("%/DXC", output_dir)
+        else if it.name == sprint("%/DXC", output_dir)
             additional_code = Additional_DXC_Code;
-        else if it.name == sprint ("%/Direct3D12", output_dir)
+        else if it.name == sprint("%/Direct3D12", output_dir)
             additional_code = Additional_Direct3D12_Code;
 
-        code := GenerateModuleSourceCodeToFile (it, additional_code, output_directory="..");
+        code := GenerateModuleSourceCodeToFile(it, additional_code, output_directory="..");
         for i : 0..code.count - 1 #no_abc
         {
             if code[i] == #char "\n"
@@ -611,10 +611,10 @@ main :: ()
         total_lines_of_code_generated += 1;
     }
 
-    end_time := current_time_monotonic ();
+    end_time := current_time_monotonic();
     total_time := end_time - start_time;
 
-    log (
+    log(
 
 #string END
 Traversed % different symbols across % input modules
@@ -626,9 +626,9 @@ Timing information:
 END,
         total_symbol_count, context.generator.input_modules.count,
         context.generator.output_modules.count, total_lines_of_code_generated,
-        to_float64_seconds (total_parse_time),
-        to_float64_seconds (total_user_time),
-        to_float64_seconds (total_time)
+        to_float64_seconds(total_parse_time),
+        to_float64_seconds(total_user_time),
+        to_float64_seconds(total_time)
     );
 
 }
@@ -639,22 +639,22 @@ Additional_Basics_Code :: #string JAI
 
 HIWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) ((cast, no_check (s32) (wparam) >> 16) & 0xffff);
+    return cast, no_check(s16) ((cast, no_check(s32) (wparam) >> 16) & 0xffff);
 }
 
 LOWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) (wparam);
+    return cast, no_check(s16) (wparam);
 }
 
 HIWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) ((cast, no_check (s32) (lparam) >> 16) & 0xffff);
+    return cast, no_check(s16) ((cast, no_check(s32) (lparam) >> 16) & 0xffff);
 }
 
 LOWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
 {
-    return cast, no_check (s16) (lparam);
+    return cast, no_check(s16) (lparam);
 }
 
 MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
@@ -664,17 +664,17 @@ MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
 
 HRESULT_CODE :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast, no_check (u32) val & 0xffff;
+    return cast, no_check(u32) val & 0xffff;
 }
 
 HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast, no_check (u32) (val << 16) & 0x1fff;
+    return cast, no_check(u32) (val << 16) & 0x1fff;
 }
 
 HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must #no_context
 {
-    return cast, no_check (u32) (val >> 31) & 0x1;
+    return cast, no_check(u32) (val >> 31) & 0x1;
 }
 
 FAILED :: inline (val : HRESULT) -> bool #must #no_context
@@ -690,7 +690,7 @@ SUCCEEDED :: inline (val : HRESULT) -> bool #must #no_context
 SafeRelease :: inline (obj : *IUnknown) #no_context
 {
     if obj
-        obj.Release (obj);
+        obj.Release(obj);
 }
 
 GUID :: struct
@@ -741,7 +741,7 @@ MakeGUID :: (str : string) -> GUID #must
         result : int;
         while end < str.count
         {
-            digit := ToDigit (str[end]);
+            digit := ToDigit(str[end]);
             if digit < 0
                 break;
 
@@ -753,28 +753,28 @@ MakeGUID :: (str : string) -> GUID #must
         return result, end - offset;
     }
 
-    assert (str.count == 36);
+    assert(str.count == 36);
 
     offset := 0;
 
-    a, adv := ParseHexInt (str, offset);
+    a, adv := ParseHexInt(str, offset);
 
-    assert (adv == 8);
-    assert (str[offset + adv] == #char "-");
-
-    offset += adv + 1;
-
-    b:, adv = ParseHexInt (str, offset);
-
-    assert (adv == 4);
-    assert (str[offset + adv] == #char "-");
+    assert(adv == 8);
+    assert(str[offset + adv] == #char "-");
 
     offset += adv + 1;
 
-    c:, adv = ParseHexInt (str, offset);
+    b:, adv = ParseHexInt(str, offset);
 
-    assert (adv == 4);
-    assert (str[offset + adv] == #char "-");
+    assert(adv == 4);
+    assert(str[offset + adv] == #char "-");
+
+    offset += adv + 1;
+
+    c:, adv = ParseHexInt(str, offset);
+
+    assert(adv == 4);
+    assert(str[offset + adv] == #char "-");
 
     offset += adv + 1;
 
@@ -784,18 +784,18 @@ MakeGUID :: (str : string) -> GUID #must
     s.data += offset;
     s.count = 2;
 
-    value:, adv = ParseHexInt (s, 0);
+    value:, adv = ParseHexInt(s, 0);
 
-    assert (adv == 2);
+    assert(adv == 2);
 
     result.Data4[0] = xx value;
     offset += 2;
     s.data += 2;
 
-    value, adv = ParseHexInt (s, 0);
+    value, adv = ParseHexInt(s, 0);
 
-    assert (adv == 2);
-    assert (str[offset + adv] == #char "-");
+    assert(adv == 2);
+    assert(str[offset + adv] == #char "-");
 
     result.Data4[1] = xx value;
     offset += 3;
@@ -806,15 +806,15 @@ MakeGUID :: (str : string) -> GUID #must
         s.data += offset;
         s.count = 2;
 
-        value, adv = ParseHexInt (s, 0);
+        value, adv = ParseHexInt(s, 0);
 
-        assert (adv == 2);
+        assert(adv == 2);
 
         result.Data4[i] = xx value;
         offset += 2;
     }
 
-    assert (offset == str.count);
+    assert(offset == str.count);
 
     return result;
 }
@@ -832,13 +832,13 @@ operator == :: (a : RECTL, b : RECTL) -> bool #must #no_context
 // The result is null terminated even though a Jai string is returned
 WideToUtf8 :: (data : *u16) -> string #must, success : bool
 {
-    result_length := WideCharToMultiByte (CP_UTF8, 0, data, -1, null, 0, null, null);
+    result_length := WideCharToMultiByte(CP_UTF8, 0, data, -1, null, 0, null, null);
     if result_length <= 0
         return "", false;
 
-    utf8_data := cast (*u8) context.allocator.proc (.ALLOCATE, result_length, 0, null, context.allocator.data);
+    utf8_data := cast(*u8) context.allocator.proc(.ALLOCATE, result_length, 0, null, context.allocator.data);
 
-    written := WideCharToMultiByte (CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
+    written := WideCharToMultiByte(CP_UTF8, 0, data, -1, utf8_data, result_length, null, null);
     if written > 0
     {
         str : string = ---;
@@ -856,18 +856,18 @@ Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
 {
     if !utf8_str
     {
-        wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, size_of (u16), 0, null, context.allocator.data);
+        wide_str := cast(*u16) context.allocator.proc(.ALLOCATE, size_of(u16), 0, null, context.allocator.data);
         wide_str[0] = 0;
 
         return wide_str, 0;
     }
 
-    result_length := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, null, 0);
+    result_length := MultiByteToWideChar(CP_UTF8, 0, utf8_str.data, cast(s32) utf8_str.count, null, 0);
     if result_length <= 0
         return null, 0;
 
-    wide_str := cast (*u16) context.allocator.proc (.ALLOCATE, (result_length + 1) * size_of (u16), 0, null, context.allocator.data);
-    written := MultiByteToWideChar (CP_UTF8, 0, utf8_str.data, cast (s32) utf8_str.count, wide_str, result_length);
+    wide_str := cast(*u16) context.allocator.proc(.ALLOCATE, (result_length + 1) * size_of(u16), 0, null, context.allocator.data);
+    written := MultiByteToWideChar(CP_UTF8, 0, utf8_str.data, cast(s32) utf8_str.count, wide_str, result_length);
     if written > 0
     {
         wide_str[written] = 0;
@@ -882,25 +882,25 @@ JAI
 Additional_DXC_Code :: #run -> string
 {
     builder : String_Builder;
-    append (*builder, "CLSID_DxcUtils :: ");
-    AppendStringAsGUIDStruct (*builder, "6245d6af-66e0-48fd-80b4-4d271796748c");
-    append (*builder, ";\n");
+    append(*builder, "CLSID_DxcUtils :: ");
+    AppendStringAsGUIDStruct(*builder, "6245d6af-66e0-48fd-80b4-4d271796748c");
+    append(*builder, ";\n");
 
-    return builder_to_string (*builder);
+    return builder_to_string(*builder);
 };
 
 Additional_Direct3D12_Code :: #string JAI
 SetName :: inline (obj : *ID3D12Object, name : string) -> HRESULT
 {
-    wide_str := Utf8ToWide (name);
-    defer context.allocator.proc (.FREE, 0, 0, wide_str, context.allocator.data);
+    wide_str := Utf8ToWide(name);
+    defer context.allocator.proc(.FREE, 0, 0, wide_str, context.allocator.data);
 
-    return obj.SetName (obj, wide_str);
+    return obj.SetName(obj, wide_str);
 }
 
 D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 : s32, Src3 : s32) -> D3D12_SHADER_COMPONENT_MAPPING #must
 {
-    return cast (D3D12_SHADER_COMPONENT_MAPPING) ((Src0 & D3D12_SHADER_COMPONENT_MAPPING_MASK)
+    return cast(D3D12_SHADER_COMPONENT_MAPPING) ((Src0 & D3D12_SHADER_COMPONENT_MAPPING_MASK)
         | ((Src1 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << D3D12_SHADER_COMPONENT_MAPPING_SHIFT)
         | ((Src2 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 2))
         | ((Src3 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 3))
@@ -909,12 +909,12 @@ D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 
 
 D3D12_DECODE_SHADER_4_COMPONENT_MAPPING :: inline (ComponentToExtract : s32, Mapping : s32) -> D3D12_SHADER_COMPONENT_MAPPING #must
 {
-    return (cast (D3D12_SHADER_COMPONENT_MAPPING) (Mapping >> (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * ComponentToExtract) & D3D12_SHADER_COMPONENT_MAPPING_MASK));
+    return (cast(D3D12_SHADER_COMPONENT_MAPPING) (Mapping >> (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * ComponentToExtract) & D3D12_SHADER_COMPONENT_MAPPING_MASK));
 }
 
 D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_TYPE, mip: D3D12_FILTER_TYPE, reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER #must
 {
-    return cast (D3D12_FILTER) (
+    return cast(D3D12_FILTER) (
         ((xx min & D3D12_FILTER_TYPE_MASK) << D3D12_MIN_FILTER_SHIFT)
         | ((xx mag & D3D12_FILTER_TYPE_MASK) << D3D12_MAG_FILTER_SHIFT)
         | ((xx mip & D3D12_FILTER_TYPE_MASK) << D3D12_MIP_FILTER_SHIFT)
@@ -923,39 +923,39 @@ D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_T
 
 D3D12_ENCODE_ANISOTROPIC_FILTER :: inline (reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER #must
 {
-    return cast (D3D12_FILTER) (D3D12_ANISOTROPIC_FILTERING_BIT | xx D3D12_ENCODE_BASIC_FILTER (.LINEAR, .LINEAR, .LINEAR, reduction));
+    return cast(D3D12_FILTER) (D3D12_ANISOTROPIC_FILTERING_BIT | xx D3D12_ENCODE_BASIC_FILTER(.LINEAR, .LINEAR, .LINEAR, reduction));
 }
 
 D3D12_DECODE_MIN_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
 {
-    return cast (D3D12_FILTER_TYPE) ((cast (s64) D3D12Filter >> D3D12_MIN_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
+    return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MIN_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
 D3D12_DECODE_MAG_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
 {
-    return cast (D3D12_FILTER_TYPE) ((cast (s64) D3D12Filter >> D3D12_MAG_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
+    return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MAG_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
 D3D12_DECODE_MIP_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
 {
-    return cast (D3D12_FILTER_TYPE) ((cast (s64) D3D12Filter >> D3D12_MIP_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
+    return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MIP_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
 D3D12_DECODE_FILTER_REDUCTION :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_REDUCTION_TYPE #must
 {
-     return cast (D3D12_FILTER_REDUCTION_TYPE) ((cast(s64) D3D12Filter >> D3D12_FILTER_REDUCTION_TYPE_SHIFT) & D3D12_FILTER_REDUCTION_TYPE_MASK);
+     return cast(D3D12_FILTER_REDUCTION_TYPE) ((cast(s64) D3D12Filter >> D3D12_FILTER_REDUCTION_TYPE_SHIFT) & D3D12_FILTER_REDUCTION_TYPE_MASK);
 }
 
 D3D12_DECODE_IS_COMPARISON_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool #must
 {
-    return D3D12_DECODE_FILTER_REDUCTION (D3D12Filter) == D3D12_FILTER_REDUCTION_TYPE.COMPARISON;
+    return D3D12_DECODE_FILTER_REDUCTION(D3D12Filter) == D3D12_FILTER_REDUCTION_TYPE.COMPARISON;
 }
 
 D3D12_DECODE_IS_ANISOTROPIC_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool #must
 {
     return (xx D3D12Filter & D3D12_ANISOTROPIC_FILTERING_BIT)
-        && D3D12_DECODE_MIN_FILTER (D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
-        && D3D12_DECODE_MAG_FILTER (D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
-        && D3D12_DECODE_MIP_FILTER (D3D12Filter) == D3D12_FILTER_TYPE.LINEAR;
+        && D3D12_DECODE_MIN_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
+        && D3D12_DECODE_MAG_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR
+        && D3D12_DECODE_MIP_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR;
 }
 JAI

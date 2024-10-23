@@ -1704,7 +1704,7 @@ IDiskQuotaControl :: struct
 {
     UUID :: GUID.{0x7988b572,0xec89,0x11cf,.[0x9c,0x0,0x0,0xaa,0x0,0xa1,0x4f,0x56]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IConnectionPointContainer;
+    #as using, except(.["vtable", "base", "UUID"]) base : IConnectionPointContainer;
 
     #place base;
     vtable : *IDiskQuotaControlVTable;
@@ -1825,7 +1825,7 @@ IDiskQuotaEvents :: struct
 {
     UUID :: GUID.{0x7988b579,0xec89,0x11cf,.[0x9c,0x0,0x0,0xaa,0x0,0xa1,0x4f,0x56]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDiskQuotaEventsVTable;
@@ -1841,7 +1841,7 @@ IDiskQuotaUser :: struct
 {
     UUID :: GUID.{0x7988b574,0xec89,0x11cf,.[0x9c,0x0,0x0,0xaa,0x0,0xa1,0x4f,0x56]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDiskQuotaUserVTable;
@@ -1934,7 +1934,7 @@ IDiskQuotaUserBatch :: struct
 {
     UUID :: GUID.{0x7988b576,0xec89,0x11cf,.[0x9c,0x0,0x0,0xaa,0x0,0xa1,0x4f,0x56]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IDiskQuotaUserBatchVTable;
@@ -1965,7 +1965,7 @@ IEnumDiskQuotaUsers :: struct
 {
     UUID :: GUID.{0x7988b577,0xec89,0x11cf,.[0x9c,0x0,0x0,0xaa,0x0,0xa1,0x4f,0x56]};
 
-    #as using, except (.["vtable", "base", "UUID"]) base : IUnknown;
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
     #place base;
     vtable : *IEnumDiskQuotaUsersVTable;
@@ -5936,7 +5936,7 @@ WriteTapemark :: (hDevice : HANDLE, dwTapemarkType : TAPEMARK_TYPE, dwTapemarkCo
 
 IDiskQuotaControlVTable :: struct
 {
-    #as using, except (.["base"]) base : IConnectionPointContainerVTable;
+    #as using, except(.["base"]) base : IConnectionPointContainerVTable;
 
     Initialize : (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #cpp_method;
     SetQuotaState : (this : *IDiskQuotaControl, dwState : u32) -> HRESULT #cpp_method;
@@ -5963,14 +5963,14 @@ IDiskQuotaControlVTable :: struct
 
 IDiskQuotaEventsVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     OnUserNameChanged : (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
 }
 
 IDiskQuotaUserVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     GetID : (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #cpp_method;
     GetName : (this : *IDiskQuotaUser, pszAccountContainer : PWSTR, cchAccountContainer : u32, pszLogonName : PWSTR, cchLogonName : u32, pszDisplayName : PWSTR, cchDisplayName : u32) -> HRESULT #cpp_method;
@@ -5991,7 +5991,7 @@ IDiskQuotaUserVTable :: struct
 
 IDiskQuotaUserBatchVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Add : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
     Remove : (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #cpp_method;
@@ -6001,7 +6001,7 @@ IDiskQuotaUserBatchVTable :: struct
 
 IEnumDiskQuotaUsersVTable :: struct
 {
-    #as using, except (.["base"]) base : IUnknownVTable;
+    #as using, except(.["base"]) base : IUnknownVTable;
 
     Next : (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #cpp_method;
     Skip : (this : *IEnumDiskQuotaUsers, cUsers : u32) -> HRESULT #cpp_method;
