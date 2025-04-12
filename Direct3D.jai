@@ -506,6 +506,7 @@ D3D_FL9_3_REQ_TEXTURE1D_U_DIMENSION :: 4096;
 D3D_FL9_3_REQ_TEXTURE2D_U_OR_V_DIMENSION :: 4096;
 D3D_FL9_3_REQ_TEXTURECUBE_DIMENSION :: 4096;
 D3D_FL9_3_SIMULTANEOUS_RENDER_TARGET_COUNT :: 4;
+D3D_RETURN_PARAMETER_INDEX :: -1;
 D3D_SHADER_FEATURE_11_1_DOUBLE_EXTENSIONS :: 32;
 D3D_SHADER_FEATURE_11_1_SHADER_EXTENSIONS :: 64;
 D3D_SHADER_FEATURE_64_UAVS :: 8;
@@ -535,13 +536,20 @@ D3D_SHADER_FEATURE_VIEWPORT_AND_RT_ARRAY_INDEX_FROM_ANY_SHADER_FEEDING_RASTERIZE
 D3D_SHADER_FEATURE_VIEW_ID :: 65536;
 D3D_SHADER_FEATURE_WAVE_MMA :: 134217728;
 D3D_SHADER_FEATURE_WAVE_OPS :: 16384;
+D3D_SHADER_REQUIRES_11_1_DOUBLE_EXTENSIONS :: 32;
+D3D_SHADER_REQUIRES_11_1_SHADER_EXTENSIONS :: 64;
+D3D_SHADER_REQUIRES_64_UAVS :: 8;
 D3D_SHADER_REQUIRES_ATOMIC_INT64_ON_DESCRIPTOR_HEAP_RESOURCE :: 268435456;
 D3D_SHADER_REQUIRES_ATOMIC_INT64_ON_GROUP_SHARED :: 8388608;
 D3D_SHADER_REQUIRES_ATOMIC_INT64_ON_TYPED_RESOURCE :: 4194304;
 D3D_SHADER_REQUIRES_BARYCENTRICS :: 131072;
 D3D_SHADER_REQUIRES_DERIVATIVES_IN_MESH_AND_AMPLIFICATION_SHADERS :: 16777216;
+D3D_SHADER_REQUIRES_DOUBLES :: 1;
+D3D_SHADER_REQUIRES_EARLY_DEPTH_STENCIL :: 2;
 D3D_SHADER_REQUIRES_INNER_COVERAGE :: 1024;
 D3D_SHADER_REQUIRES_INT64_OPS :: 32768;
+D3D_SHADER_REQUIRES_LEVEL_9_COMPARISON_FILTERING :: 128;
+D3D_SHADER_REQUIRES_MINIMUM_PRECISION :: 16;
 D3D_SHADER_REQUIRES_NATIVE_16BIT_OPS :: 262144;
 D3D_SHADER_REQUIRES_RAYTRACING_TIER_1_1 :: 1048576;
 D3D_SHADER_REQUIRES_RESOURCE_DESCRIPTOR_HEAP_INDEXING :: 33554432;
@@ -550,7 +558,9 @@ D3D_SHADER_REQUIRES_SAMPLER_DESCRIPTOR_HEAP_INDEXING :: 67108864;
 D3D_SHADER_REQUIRES_SAMPLER_FEEDBACK :: 2097152;
 D3D_SHADER_REQUIRES_SHADING_RATE :: 524288;
 D3D_SHADER_REQUIRES_STENCIL_REF :: 512;
+D3D_SHADER_REQUIRES_TILED_RESOURCES :: 256;
 D3D_SHADER_REQUIRES_TYPED_UAV_LOAD_ADDITIONAL_FORMATS :: 2048;
+D3D_SHADER_REQUIRES_UAVS_AT_EVERY_STAGE :: 4;
 D3D_SHADER_REQUIRES_VIEWPORT_AND_RT_ARRAY_INDEX_FROM_ANY_SHADER_FEEDING_RASTERIZER :: 8192;
 D3D_SHADER_REQUIRES_VIEW_ID :: 65536;
 D3D_SHADER_REQUIRES_WAVE_MMA :: 134217728;
@@ -1966,6 +1976,37 @@ ID3DInclude :: struct
     }
 }
 
+ID3DUserDefinedAnnotation_UUID :: "b2daad8b-03d4-4dbf-95eb-32ab4b63d0ab";
+ID3DUserDefinedAnnotation :: struct
+{
+    UUID :: GUID.{0xb2daad8b,0x3d4,0x4dbf,.[0x95,0xeb,0x32,0xab,0x4b,0x63,0xd0,0xab]};
+
+    #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
+
+    #place base;
+    vtable : *ID3DUserDefinedAnnotationVTable;
+
+    BeginEvent :: inline (this : *ID3DUserDefinedAnnotation, Name : PWSTR) -> s32 #no_context
+    {
+        return this.vtable.BeginEvent (this, Name);
+    }
+
+    EndEvent :: inline (this : *ID3DUserDefinedAnnotation) -> s32 #no_context
+    {
+        return this.vtable.EndEvent (this);
+    }
+
+    SetMarker :: inline (this : *ID3DUserDefinedAnnotation, Name : PWSTR) #no_context
+    {
+        this.vtable.SetMarker (this, Name);
+    }
+
+    GetStatus :: inline (this : *ID3DUserDefinedAnnotation) -> BOOL #no_context
+    {
+        return this.vtable.GetStatus (this);
+    }
+}
+
 PFN_DESTRUCTION_CALLBACK :: #type (pData : *void) -> void #c_call;
 
 // Functions
@@ -1994,6 +2035,16 @@ ID3DIncludeVTable :: struct
 {
     Open : (this : *ID3DInclude, IncludeType : D3D_INCLUDE_TYPE, pFileName : PSTR, pParentData : *void, ppData : **void, pBytes : *u32) -> HRESULT #cpp_method;
     Close : (this : *ID3DInclude, pData : *void) -> HRESULT #cpp_method;
+}
+
+ID3DUserDefinedAnnotationVTable :: struct
+{
+    #as using, except(.["base"]) base : IUnknownVTable;
+
+    BeginEvent : (this : *ID3DUserDefinedAnnotation, Name : PWSTR) -> s32 #cpp_method;
+    EndEvent : (this : *ID3DUserDefinedAnnotation) -> s32 #cpp_method;
+    SetMarker : (this : *ID3DUserDefinedAnnotation, Name : PWSTR) #cpp_method;
+    GetStatus : (this : *ID3DUserDefinedAnnotation) -> BOOL #cpp_method;
 }
 
 // System libraries

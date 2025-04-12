@@ -32,6 +32,7 @@ Module_Redirection_Table :: [2]string.[
     .["Graphics.Dxgi.Common", "%/DXGI"],
     .["Graphics.Direct3D.Dxc", "%/DXC"],
     .["Graphics.Direct3D", "%/Direct3D"],
+    .["Graphics.Direct3D11", "%/Direct3D11"],
     .["Graphics.Direct3D12", "%/Direct3D12"],
 ];
 
@@ -99,23 +100,29 @@ HandleDirectXSymbol :: (sym : *$T) -> bool #must
     {
     case "Graphics.Hlsl"; #through;
     case "Graphics.Direct3D.Fxc"; #through;
-    case "Graphics.Direct3D11"; #through;
     case "Graphics.Direct3D11on12"; #through;
     case "Graphics.Direct3D10"; #through;
     case "Graphics.Direct3D9";
         return true;
     }
 
-    if starts_with(sym.name, "D3D12") || starts_with(sym.name, "ID3D12")
-    {
-        SetOutputModule(sym, sprint("%/Direct3D12", output_dir));
-        return true;
-    }
-
-    // Ignore dx11 stuff
     if starts_with(sym.name, "D3DX11") || starts_with(sym.name, "ID3DX11")
     || starts_with(sym.name, "D3D11") || starts_with(sym.name, "ID3D11")
     {
+        SetOutputModule(sym, sprint("%/Direct3D11", output_dir));
+        return true;
+    }
+
+    if sym.name == "ID3DDeviceContextState"
+    || sym.name == "D3DDisassemble11Trace"
+    {
+        SetOutputModule(sym, sprint("%/Direct3D11", output_dir));
+        return true;
+    }
+
+    if starts_with(sym.name, "D3D12") || starts_with(sym.name, "ID3D12")
+    {
+        SetOutputModule(sym, sprint("%/Direct3D12", output_dir));
         return true;
     }
 
@@ -191,6 +198,7 @@ main :: ()
     CreateOutputModule(sprint("%/DXGI", output_dir));
     CreateOutputModule(sprint("%/DXC", output_dir));
     CreateOutputModule(sprint("%/Direct3D", output_dir));
+    CreateOutputModule(sprint("%/Direct3D11", output_dir));
     CreateOutputModule(sprint("%/Direct3D12", output_dir));
 
     void_type : Win32Type;
@@ -279,17 +287,17 @@ main :: ()
     {
         total_symbol_count += 1;
 
-        if HandleDirectXSymbol(it)
-            continue;
-
-        if it.name == "NTSTATUS_FACILITY_CODE"
-            continue;
-
         if array_find(Handle_Type_Names, it.name)
         {
             it.kind = .NativeTypedef;
             it.def = void_pointer_type;
         }
+
+        if HandleDirectXSymbol(it)
+            continue;
+
+        if it.name == "NTSTATUS_FACILITY_CODE"
+            continue;
 
         if starts_with(it.name, "WGL")
         {
@@ -430,9 +438,6 @@ main :: ()
     {
         total_symbol_count += 1;
 
-        if HandleDirectXSymbol(it)
-            continue;
-
         // What the hell?
         if it.dll_import == "api-ms-win-shcore-scaling-l1-1-1"
         {
@@ -444,6 +449,9 @@ main :: ()
             if WildcardStarMatch(lib, it.dll_import)
                 continue it;
         }
+
+        if HandleDirectXSymbol(it)
+            continue;
 
         if it.name == "AreShortNamesEnabled"
             continue;
@@ -598,6 +606,8 @@ main :: ()
             additional_code = Additional_Basics_Code;
         else if it.name == sprint("%/DXC", output_dir)
             additional_code = Additional_DXC_Code;
+        else if it.name == sprint("%/Direct3D11", output_dir)
+            additional_code = Additional_Direct3D11_Code;
         else if it.name == sprint("%/Direct3D12", output_dir)
             additional_code = Additional_Direct3D12_Code;
 
@@ -888,6 +898,9 @@ Additional_DXC_Code :: #run -> string
 
     return builder_to_string(*builder);
 };
+
+Additional_Direct3D11_Code :: #string JAI
+JAI
 
 Additional_Direct3D12_Code :: #string JAI
 SetName :: inline (obj : *ID3D12Object, name : string) -> HRESULT
