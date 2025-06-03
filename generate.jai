@@ -69,7 +69,7 @@ Libs_To_Ignore :: string.[
     "MrmSupport",
 ];
 
-GetFoundationConstantOutputModule :: (name : string) -> string #must
+GetFoundationConstantOutputModule :: (name : string) -> string
 {
     if name ==
     {
@@ -94,7 +94,7 @@ GetFoundationConstantOutputModule :: (name : string) -> string #must
     }
 }
 
-HandleDirectXSymbol :: (sym : *$T) -> bool #must
+HandleDirectXSymbol :: (sym : *$T) -> bool
 {
     if sym.module ==
     {
@@ -647,52 +647,52 @@ Additional_Basics_Code :: #string JAI
 // The following stuff was hand-written to be automatically
 // copy-pasted here, because it is not present in the metadata
 
-HIWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
+HIWORD :: inline (wparam: WPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) ((cast, no_check(s32) (wparam) >> 16) & 0xffff);
 }
 
-LOWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
+LOWORD :: inline (wparam: WPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) (wparam);
 }
 
-HIWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
+HIWORD :: inline (lparam: LPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) ((cast, no_check(s32) (lparam) >> 16) & 0xffff);
 }
 
-LOWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
+LOWORD :: inline (lparam: LPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) (lparam);
 }
 
-MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
+MAKELANGID :: inline (p : u16, s : u16) -> u16 #no_context
 {
     return (s << 10) | p;
 }
 
-HRESULT_CODE :: inline (val : HRESULT) -> u32 #must #no_context
+HRESULT_CODE :: inline (val : HRESULT) -> u32 #no_context
 {
     return cast, no_check(u32) val & 0xffff;
 }
 
-HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must #no_context
+HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #no_context
 {
     return cast, no_check(u32) (val << 16) & 0x1fff;
 }
 
-HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must #no_context
+HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #no_context
 {
     return cast, no_check(u32) (val >> 31) & 0x1;
 }
 
-FAILED :: inline (val : HRESULT) -> bool #must #no_context
+FAILED :: inline (val : HRESULT) -> bool #no_context
 {
     return val < 0;
 }
 
-SUCCEEDED :: inline (val : HRESULT) -> bool #must #no_context
+SUCCEEDED :: inline (val : HRESULT) -> bool #no_context
 {
     return val >= 0;
 }
@@ -711,14 +711,14 @@ GUID :: struct
     Data4 : [8]u8;
 }
 
-operator == :: inline (a : GUID, b : GUID) -> bool #must #no_context
+operator == :: inline (a : GUID, b : GUID) -> bool #no_context
 {
     return a.Data1 == b.Data1 && a.Data2 == b.Data2 && a.Data3 == b.Data3
         && a.Data4[0] == b.Data4[0] && a.Data4[1] == b.Data4[1]
         && a.Data4[2] == b.Data4[2] && a.Data4[3] == b.Data4[3];
 }
 
-MakeGUID :: (str : string) -> GUID #must
+MakeGUID :: (str : string) -> GUID
 {
     // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
     assert :: (arg: bool, loc := #caller_location) {
@@ -733,7 +733,7 @@ MakeGUID :: (str : string) -> GUID #must
 
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
-        ToDigit :: inline (char : u8) -> int #must
+        ToDigit :: inline (char : u8) -> int
         {
             if char >= #char "0" && char <= #char "9"
                 return char - #char "0";
@@ -829,18 +829,18 @@ MakeGUID :: (str : string) -> GUID #must
     return result;
 }
 
-operator == :: (a : RECT, b : RECT) -> bool #must #no_context
+operator == :: (a : RECT, b : RECT) -> bool #no_context
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
 
-operator == :: (a : RECTL, b : RECTL) -> bool #must #no_context
+operator == :: (a : RECTL, b : RECTL) -> bool #no_context
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
 
 // The result is null terminated even though a Jai string is returned
-WideToUtf8 :: (data : *u16) -> string #must, success : bool
+WideToUtf8 :: (data : *u16) -> string, success : bool
 {
     result_length := WideCharToMultiByte(CP_UTF8, 0, data, -1, null, 0, null, null);
     if result_length <= 0
@@ -862,7 +862,7 @@ WideToUtf8 :: (data : *u16) -> string #must, success : bool
 }
 
 // The result is null terminated
-Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
+Utf8ToWide :: (utf8_str : string) -> wide_str : *u16, length : s32
 {
     if !utf8_str
     {
@@ -911,7 +911,7 @@ SetName :: inline (obj : *ID3D12Object, name : string) -> HRESULT
     return obj.SetName(obj, wide_str);
 }
 
-D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 : s32, Src3 : s32) -> D3D12_SHADER_COMPONENT_MAPPING #must
+D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 : s32, Src3 : s32) -> D3D12_SHADER_COMPONENT_MAPPING
 {
     return cast(D3D12_SHADER_COMPONENT_MAPPING) ((Src0 & D3D12_SHADER_COMPONENT_MAPPING_MASK)
         | ((Src1 & D3D12_SHADER_COMPONENT_MAPPING_MASK) << D3D12_SHADER_COMPONENT_MAPPING_SHIFT)
@@ -920,12 +920,12 @@ D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING :: inline (Src0 : s32, Src1 : s32, Src2 
         | D3D12_SHADER_COMPONENT_MAPPING_ALWAYS_SET_BIT_AVOIDING_ZEROMEM_MISTAKES);
 }
 
-D3D12_DECODE_SHADER_4_COMPONENT_MAPPING :: inline (ComponentToExtract : s32, Mapping : s32) -> D3D12_SHADER_COMPONENT_MAPPING #must
+D3D12_DECODE_SHADER_4_COMPONENT_MAPPING :: inline (ComponentToExtract : s32, Mapping : s32) -> D3D12_SHADER_COMPONENT_MAPPING
 {
     return (cast(D3D12_SHADER_COMPONENT_MAPPING) (Mapping >> (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * ComponentToExtract) & D3D12_SHADER_COMPONENT_MAPPING_MASK));
 }
 
-D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_TYPE, mip: D3D12_FILTER_TYPE, reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER #must
+D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_TYPE, mip: D3D12_FILTER_TYPE, reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER
 {
     return cast(D3D12_FILTER) (
         ((xx min & D3D12_FILTER_TYPE_MASK) << D3D12_MIN_FILTER_SHIFT)
@@ -934,37 +934,37 @@ D3D12_ENCODE_BASIC_FILTER :: inline (min: D3D12_FILTER_TYPE, mag: D3D12_FILTER_T
         | ((xx reduction & D3D12_FILTER_REDUCTION_TYPE_MASK) << D3D12_FILTER_REDUCTION_TYPE_SHIFT));
 }
 
-D3D12_ENCODE_ANISOTROPIC_FILTER :: inline (reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER #must
+D3D12_ENCODE_ANISOTROPIC_FILTER :: inline (reduction: D3D12_FILTER_REDUCTION_TYPE) -> D3D12_FILTER
 {
     return cast(D3D12_FILTER) (D3D12_ANISOTROPIC_FILTERING_BIT | xx D3D12_ENCODE_BASIC_FILTER(.LINEAR, .LINEAR, .LINEAR, reduction));
 }
 
-D3D12_DECODE_MIN_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
+D3D12_DECODE_MIN_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE
 {
     return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MIN_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
-D3D12_DECODE_MAG_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
+D3D12_DECODE_MAG_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE
 {
     return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MAG_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
-D3D12_DECODE_MIP_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE #must
+D3D12_DECODE_MIP_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_TYPE
 {
     return cast(D3D12_FILTER_TYPE) ((cast(s64) D3D12Filter >> D3D12_MIP_FILTER_SHIFT) & D3D12_FILTER_TYPE_MASK);
 }
 
-D3D12_DECODE_FILTER_REDUCTION :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_REDUCTION_TYPE #must
+D3D12_DECODE_FILTER_REDUCTION :: inline (D3D12Filter: D3D12_FILTER) -> D3D12_FILTER_REDUCTION_TYPE
 {
      return cast(D3D12_FILTER_REDUCTION_TYPE) ((cast(s64) D3D12Filter >> D3D12_FILTER_REDUCTION_TYPE_SHIFT) & D3D12_FILTER_REDUCTION_TYPE_MASK);
 }
 
-D3D12_DECODE_IS_COMPARISON_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool #must
+D3D12_DECODE_IS_COMPARISON_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool
 {
     return D3D12_DECODE_FILTER_REDUCTION(D3D12Filter) == D3D12_FILTER_REDUCTION_TYPE.COMPARISON;
 }
 
-D3D12_DECODE_IS_ANISOTROPIC_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool #must
+D3D12_DECODE_IS_ANISOTROPIC_FILTER :: inline (D3D12Filter: D3D12_FILTER) -> bool
 {
     return (xx D3D12Filter & D3D12_ANISOTROPIC_FILTERING_BIT)
         && D3D12_DECODE_MIN_FILTER(D3D12Filter) == D3D12_FILTER_TYPE.LINEAR

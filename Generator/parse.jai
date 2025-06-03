@@ -357,14 +357,14 @@ ParseModule :: (filename : string) -> *Module
     return module;
 }
 
-JsonGet :: inline (val : JSON_Value, name : string, $T : Type, allow_null := false) -> T #must
+JsonGet :: inline (val : JSON_Value, name : string, $T : Type, allow_null := false) -> T
 {
     assert(val.type == .OBJECT);
 
     return JsonGet(val.object, name, T, allow_null);
 }
 
-JsonGet :: inline (obj : *JSON_Object, name : string, $T : Type, allow_null := false) -> T #must
+JsonGet :: inline (obj : *JSON_Object, name : string, $T : Type, allow_null := false) -> T
 {
     ptr := JsonGet(obj, name);
 
@@ -384,14 +384,14 @@ JsonGet :: inline (obj : *JSON_Object, name : string, $T : Type, allow_null := f
     }
 }
 
-JsonGet :: inline (val : JSON_Value, name : string) -> *JSON_Value #must
+JsonGet :: inline (val : JSON_Value, name : string) -> *JSON_Value
 {
     assert(val.type == .OBJECT);
 
     return JsonGet(val.object, name);
 }
 
-JsonGet :: inline (obj : *JSON_Object, name : string) -> *JSON_Value #must
+JsonGet :: inline (obj : *JSON_Object, name : string) -> *JSON_Value
 {
     ptr := table_find_pointer(obj, name);
     assert(ptr != null, "Could not find JSON member %", name);
@@ -399,7 +399,7 @@ JsonGet :: inline (obj : *JSON_Object, name : string) -> *JSON_Value #must
     return ptr;
 }
 
-ParseJsonArrayAsEnumFlags :: ($T : Type, json : []JSON_Value) -> T #must
+ParseJsonArrayAsEnumFlags :: ($T : Type, json : []JSON_Value) -> T
 #modify { info := cast(*Type_Info_Enum) T; return info.type == .ENUM && (info.enum_type_flags | .FLAGS); }
 {
     result : T;
@@ -420,7 +420,7 @@ ParseJsonArrayAsEnumFlags :: (val : *$T, json : []JSON_Value)
     val.* = ParseJsonArrayAsEnumFlags(T, json);
 }
 
-StringToEnumValue :: ($T : Type, str : string) -> T #must
+StringToEnumValue :: ($T : Type, str : string) -> T
 #modify { return (cast(*Type_Info) T).type == .ENUM; }
 {
     info := type_info(T);

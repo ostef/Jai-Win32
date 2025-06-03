@@ -775,12 +775,12 @@ AppendParamList :: (builder : *String_Builder, params : []Win32FunctionParam, in
     return multiline;
 }
 
-HasReturnValue :: inline (using func : Win32FunctionType) -> bool #must
+HasReturnValue :: inline (using func : Win32FunctionType) -> bool
 {
     return !(return_type.kind == .Native && return_type.native_type == .Void);
 }
 
-ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
+ParamIsConstRef :: (using param : Win32FunctionParam) -> bool
 {
     if type.kind != .PointerTo || !type.child
         return false;
@@ -796,7 +796,7 @@ ParamIsConstRef :: (using param : Win32FunctionParam) -> bool #must
     return (attrs & .Const) && (attrs & .In);
 }
 
-ParamIsREFIID :: inline (using param : Win32FunctionParam) -> bool #must
+ParamIsREFIID :: inline (using param : Win32FunctionParam) -> bool
 {
     if !ParamIsConstRef(param)
         return false;
@@ -829,7 +829,7 @@ GenerateVirtualMethod :: (builder : *String_Builder, interface_name : string, us
     append(builder, " #cpp_method;\n");
 }
 
-FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool #must
+FunctionNeedsWrapperForREFIIDParam :: (func : Win32Function) -> bool
 {
     if !context.generator.generate_wrapper_function_for_REFIID_params
         return false;
@@ -931,7 +931,7 @@ GenerateFunction :: (builder : *String_Builder, using func : Win32Function)
     }
 }
 
-GenerateModuleSourceCode :: inline (module : *Module) -> string #must
+GenerateModuleSourceCode :: inline (module : *Module) -> string
 {
     builder : String_Builder;
 
@@ -1068,11 +1068,11 @@ GUID :: struct
     Data4 : [8]u8;
 }
 
-MakeGUID :: (str : string) -> GUID #must
+MakeGUID :: (str : string) -> GUID
 {
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
-        ToDigit :: inline (char : u8) -> int #must
+        ToDigit :: inline (char : u8) -> int
         {
             if char >= #char "0" && char <= #char "9"
                 return char - #char "0";

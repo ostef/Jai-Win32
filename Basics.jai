@@ -388,7 +388,7 @@ IStream :: struct
         return this.vtable.SetSize (this, libNewSize);
     }
 
-    CopyTo :: inline (this : *IStream, 
+    CopyTo :: inline (this : *IStream,
         pstm : *IStream,
         cb : ULARGE_INTEGER,
         pcbRead : *ULARGE_INTEGER,
@@ -947,52 +947,52 @@ OLEAUT32 :: #system_library "OLEAUT32";
 // The following stuff was hand-written to be automatically
 // copy-pasted here, because it is not present in the metadata
 
-HIWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
+HIWORD :: inline (wparam: WPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) ((cast, no_check(s32) (wparam) >> 16) & 0xffff);
 }
 
-LOWORD :: inline (wparam: WPARAM) -> s16 #must #no_context
+LOWORD :: inline (wparam: WPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) (wparam);
 }
 
-HIWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
+HIWORD :: inline (lparam: LPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) ((cast, no_check(s32) (lparam) >> 16) & 0xffff);
 }
 
-LOWORD :: inline (lparam: LPARAM) -> s16 #must #no_context
+LOWORD :: inline (lparam: LPARAM) -> s16 #no_context
 {
     return cast, no_check(s16) (lparam);
 }
 
-MAKELANGID :: inline (p : u16, s : u16) -> u16 #must #no_context
+MAKELANGID :: inline (p : u16, s : u16) -> u16 #no_context
 {
     return (s << 10) | p;
 }
 
-HRESULT_CODE :: inline (val : HRESULT) -> u32 #must #no_context
+HRESULT_CODE :: inline (val : HRESULT) -> u32 #no_context
 {
     return cast, no_check(u32) val & 0xffff;
 }
 
-HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #must #no_context
+HRESULT_FACILITY :: inline (val : HRESULT) -> u32 #no_context
 {
     return cast, no_check(u32) (val << 16) & 0x1fff;
 }
 
-HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #must #no_context
+HRESULT_SEVERITY :: inline (val : HRESULT) -> u32 #no_context
 {
     return cast, no_check(u32) (val >> 31) & 0x1;
 }
 
-FAILED :: inline (val : HRESULT) -> bool #must #no_context
+FAILED :: inline (val : HRESULT) -> bool #no_context
 {
     return val < 0;
 }
 
-SUCCEEDED :: inline (val : HRESULT) -> bool #must #no_context
+SUCCEEDED :: inline (val : HRESULT) -> bool #no_context
 {
     return val >= 0;
 }
@@ -1011,14 +1011,14 @@ GUID :: struct
     Data4 : [8]u8;
 }
 
-operator == :: inline (a : GUID, b : GUID) -> bool #must #no_context
+operator == :: inline (a : GUID, b : GUID) -> bool #no_context
 {
     return a.Data1 == b.Data1 && a.Data2 == b.Data2 && a.Data3 == b.Data3
         && a.Data4[0] == b.Data4[0] && a.Data4[1] == b.Data4[1]
         && a.Data4[2] == b.Data4[2] && a.Data4[3] == b.Data4[3];
 }
 
-MakeGUID :: (str : string) -> GUID #must
+MakeGUID :: (str : string) -> GUID
 {
     // Simple assert that does not do anything fancy. Avoiding dependencies on Basic, etc.
     assert :: (arg: bool, loc := #caller_location) {
@@ -1033,7 +1033,7 @@ MakeGUID :: (str : string) -> GUID #must
 
     ParseHexInt :: (str : string, offset : int) -> result : int, advance : int
     {
-        ToDigit :: inline (char : u8) -> int #must
+        ToDigit :: inline (char : u8) -> int
         {
             if char >= #char "0" && char <= #char "9"
                 return char - #char "0";
@@ -1129,18 +1129,18 @@ MakeGUID :: (str : string) -> GUID #must
     return result;
 }
 
-operator == :: (a : RECT, b : RECT) -> bool #must #no_context
+operator == :: (a : RECT, b : RECT) -> bool #no_context
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
 
-operator == :: (a : RECTL, b : RECTL) -> bool #must #no_context
+operator == :: (a : RECTL, b : RECTL) -> bool #no_context
 {
     return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }
 
 // The result is null terminated even though a Jai string is returned
-WideToUtf8 :: (data : *u16) -> string #must, success : bool
+WideToUtf8 :: (data : *u16) -> string, success : bool
 {
     result_length := WideCharToMultiByte(CP_UTF8, 0, data, -1, null, 0, null, null);
     if result_length <= 0
@@ -1162,7 +1162,7 @@ WideToUtf8 :: (data : *u16) -> string #must, success : bool
 }
 
 // The result is null terminated
-Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
+Utf8ToWide :: (utf8_str : string) -> wide_str : *u16, length : s32
 {
     if !utf8_str
     {

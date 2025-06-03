@@ -41,7 +41,7 @@ InitWin32Database :: (directory := "win32json/api", except : []string = .[])
         ResolveModuleDependencies(it);
 }
 
-WildcardStarMatch :: (wildcard : string, str : string) -> bool #must
+WildcardStarMatch :: (wildcard : string, str : string) -> bool
 {
     if !wildcard || !str
         return false;
@@ -147,7 +147,7 @@ CreateOutputModule :: (name : string) -> *Module
     return result;
 }
 
-FindInputModule :: (name : string) -> *Module #must
+FindInputModule :: (name : string) -> *Module
 {
     module, ok := table_find(*context.generator.input_modules, name);
     if !ok
@@ -156,7 +156,7 @@ FindInputModule :: (name : string) -> *Module #must
     return module;
 }
 
-FindOutputModule :: (name : string) -> *Module #must
+FindOutputModule :: (name : string) -> *Module
 {
     module, ok := table_find(*context.generator.output_modules, name);
     if !ok
@@ -165,7 +165,7 @@ FindOutputModule :: (name : string) -> *Module #must
     return module;
 }
 
-FindType :: (module_name : string, name : string) -> *Win32TypeDefinition #must, *Module
+FindType :: (module_name : string, name : string) -> *Win32TypeDefinition, *Module
 {
     module := FindInputModule(module_name);
     if !module

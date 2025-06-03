@@ -90,7 +90,7 @@ main :: ()
 }
 
 // The result is null terminated even though a Jai string is returned
-WideToUtf8 :: (data : *u16) -> string #must, success : bool
+WideToUtf8 :: (data : *u16) -> string, success : bool
 {
     result_length := Win32.WideCharToMultiByte(Win32.CP_UTF8, 0, data, -1, null, 0, null, null);
     if result_length <= 0
@@ -112,7 +112,7 @@ WideToUtf8 :: (data : *u16) -> string #must, success : bool
 }
 
 // The result is null terminated
-Utf8ToWide :: (utf8_str : string) -> wide_str : *u16 #must, length : s32
+Utf8ToWide :: (utf8_str : string) -> wide_str : *u16, length : s32
 {
     if !utf8_str
     {
