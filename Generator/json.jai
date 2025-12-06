@@ -28,7 +28,7 @@ JsonValue :: struct
             float_value : float64;
 
             s64_value : s64;
-            #place s64_value;
+            #overlay(s64_value)
             u64_value : u64;
         };
         string_value : string;
