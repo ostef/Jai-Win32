@@ -1706,7 +1706,7 @@ IDiskQuotaControl :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IConnectionPointContainer;
 
-    #place base;
+    #overlay(base);
     vtable : *IDiskQuotaControlVTable;
 
     Initialize :: inline (this : *IDiskQuotaControl, pszPath : PWSTR, bReadWrite : BOOL) -> HRESULT #no_context
@@ -1827,7 +1827,7 @@ IDiskQuotaEvents :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDiskQuotaEventsVTable;
 
     OnUserNameChanged :: inline (this : *IDiskQuotaEvents, pUser : *IDiskQuotaUser) -> HRESULT #no_context
@@ -1843,7 +1843,7 @@ IDiskQuotaUser :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDiskQuotaUserVTable;
 
     GetID :: inline (this : *IDiskQuotaUser, pulID : *u32) -> HRESULT #no_context
@@ -1936,7 +1936,7 @@ IDiskQuotaUserBatch :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDiskQuotaUserBatchVTable;
 
     Add :: inline (this : *IDiskQuotaUserBatch, pUser : *IDiskQuotaUser) -> HRESULT #no_context
@@ -1967,7 +1967,7 @@ IEnumDiskQuotaUsers :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IEnumDiskQuotaUsersVTable;
 
     Next :: inline (this : *IEnumDiskQuotaUsers, cUsers : u32, rgUsers : **IDiskQuotaUser, pcUsersFetched : *u32) -> HRESULT #no_context

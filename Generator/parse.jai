@@ -370,7 +370,7 @@ JsonGet :: inline (obj : *JSON_Object, name : string, $T : Type, allow_null := f
 
     #if T == JSON_Value
     {
-        return <<ptr;
+        return ptr.*;
     }
     else
     {

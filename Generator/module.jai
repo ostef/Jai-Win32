@@ -149,7 +149,7 @@ CreateOutputModule :: (name : string) -> *Module
 
 FindInputModule :: (name : string) -> *Module
 {
-    module, ok := table_find(*context.generator.input_modules, name);
+    ok, module := table_find(*context.generator.input_modules, name);
     if !ok
         return null;
 
@@ -158,7 +158,7 @@ FindInputModule :: (name : string) -> *Module
 
 FindOutputModule :: (name : string) -> *Module
 {
-    module, ok := table_find(*context.generator.output_modules, name);
+    ok, module := table_find(*context.generator.output_modules, name);
     if !ok
         return null;
 
@@ -171,7 +171,7 @@ FindType :: (module_name : string, name : string) -> *Win32TypeDefinition, *Modu
     if !module
         return null, null;
 
-    type, ok := table_find(*module.type_table, name);
+    ok, type := table_find(*module.type_table, name);
     if !ok
         return null, module;
 

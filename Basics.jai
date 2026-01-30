@@ -194,7 +194,7 @@ IConnectionPoint :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IConnectionPointVTable;
 
     GetConnectionInterface :: inline (this : *IConnectionPoint, pIID : *GUID) -> HRESULT #no_context
@@ -230,7 +230,7 @@ IConnectionPointContainer :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IConnectionPointContainerVTable;
 
     EnumConnectionPoints :: inline (this : *IConnectionPointContainer, ppEnum : **IEnumConnectionPoints) -> HRESULT #no_context
@@ -251,7 +251,7 @@ IEnumConnectionPoints :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IEnumConnectionPointsVTable;
 
     Next :: inline (this : *IEnumConnectionPoints, cConnections : u32, ppCP : **IConnectionPoint, pcFetched : *u32) -> HRESULT #no_context
@@ -282,7 +282,7 @@ IEnumConnections :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IEnumConnectionsVTable;
 
     Next :: inline (this : *IEnumConnections, cConnections : u32, rgcd : *CONNECTDATA, pcFetched : *u32) -> HRESULT #no_context
@@ -313,7 +313,7 @@ IMalloc :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IMallocVTable;
 
     Alloc :: inline (this : *IMalloc, cb : u64) -> *void #no_context
@@ -354,7 +354,7 @@ ISequentialStream :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *ISequentialStreamVTable;
 
     Read :: inline (this : *ISequentialStream, pv : *void, cb : u32, pcbRead : *u32) -> HRESULT #no_context
@@ -375,7 +375,7 @@ IStream :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ISequentialStream;
 
-    #place base;
+    #overlay(base);
     vtable : *IStreamVTable;
 
     Seek :: inline (this : *IStream, dlibMove : LARGE_INTEGER, dwOrigin : STREAM_SEEK, plibNewPosition : *ULARGE_INTEGER) -> HRESULT #no_context
@@ -388,7 +388,7 @@ IStream :: struct
         return this.vtable.SetSize (this, libNewSize);
     }
 
-    CopyTo :: inline (this : *IStream,
+    CopyTo :: inline (this : *IStream, 
         pstm : *IStream,
         cb : ULARGE_INTEGER,
         pcbRead : *ULARGE_INTEGER,

@@ -215,7 +215,7 @@ IDxcAssembler :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcAssemblerVTable;
 
     AssembleToContainer :: inline (this : *IDxcAssembler, pShader : *IDxcBlob, ppResult : **IDxcOperationResult) -> HRESULT #no_context
@@ -231,7 +231,7 @@ IDxcBlob :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcBlobVTable;
 
     GetBufferPointer :: inline (this : *IDxcBlob) -> *void #no_context
@@ -252,7 +252,7 @@ IDxcBlobEncoding :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcBlob;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcBlobEncodingVTable;
 
     GetEncoding :: inline (this : *IDxcBlobEncoding, pKnown : *BOOL, pCodePage : *DXC_CP) -> HRESULT #no_context
@@ -268,7 +268,7 @@ IDxcBlobUtf16 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcBlobEncoding;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcBlobUtf16VTable;
 
     GetStringPointer :: inline (this : *IDxcBlobUtf16) -> PWSTR #no_context
@@ -289,7 +289,7 @@ IDxcBlobUtf8 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcBlobEncoding;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcBlobUtf8VTable;
 
     GetStringPointer :: inline (this : *IDxcBlobUtf8) -> PSTR #no_context
@@ -310,7 +310,7 @@ IDxcCompiler :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcCompilerVTable;
 
     Compile :: inline (this : *IDxcCompiler, 
@@ -356,7 +356,7 @@ IDxcCompiler2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcCompiler;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcCompiler2VTable;
 
     CompileWithDebug :: inline (this : *IDxcCompiler2, 
@@ -385,7 +385,7 @@ IDxcCompiler3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcCompiler3VTable;
 
     Compile :: inline (this : *IDxcCompiler3, 
@@ -413,7 +413,7 @@ IDxcCompilerArgs :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcCompilerArgsVTable;
 
     GetArguments :: inline (this : *IDxcCompilerArgs) -> *PWSTR #no_context
@@ -449,7 +449,7 @@ IDxcContainerBuilder :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcContainerBuilderVTable;
 
     Load :: inline (this : *IDxcContainerBuilder, pDxilContainerHeader : *IDxcBlob) -> HRESULT #no_context
@@ -480,7 +480,7 @@ IDxcContainerReflection :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcContainerReflectionVTable;
 
     Load :: inline (this : *IDxcContainerReflection, pContainer : *IDxcBlob) -> HRESULT #no_context
@@ -521,7 +521,7 @@ IDxcExtraOutputs :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcExtraOutputsVTable;
 
     GetOutputCount :: inline (this : *IDxcExtraOutputs) -> u32 #no_context
@@ -548,7 +548,7 @@ IDxcIncludeHandler :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcIncludeHandlerVTable;
 
     LoadSource :: inline (this : *IDxcIncludeHandler, pFilename : PWSTR, ppIncludeSource : **IDxcBlob) -> HRESULT #no_context
@@ -564,7 +564,7 @@ IDxcLibrary :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcLibraryVTable;
 
     SetMalloc :: inline (this : *IDxcLibrary, pMalloc : *IMalloc) -> HRESULT #no_context
@@ -646,7 +646,7 @@ IDxcLinker :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcLinkerVTable;
 
     RegisterLibrary :: inline (this : *IDxcLinker, pLibName : PWSTR, pLib : *IDxcBlob) -> HRESULT #no_context
@@ -675,7 +675,7 @@ IDxcOperationResult :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcOperationResultVTable;
 
     GetStatus :: inline (this : *IDxcOperationResult, pStatus : *HRESULT) -> HRESULT #no_context
@@ -701,7 +701,7 @@ IDxcOptimizer :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcOptimizerVTable;
 
     GetAvailablePassCount :: inline (this : *IDxcOptimizer, pCount : *u32) -> HRESULT #no_context
@@ -733,7 +733,7 @@ IDxcOptimizerPass :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcOptimizerPassVTable;
 
     GetOptionName :: inline (this : *IDxcOptimizerPass, ppResult : *PWSTR) -> HRESULT #no_context
@@ -769,7 +769,7 @@ IDxcPdbUtils :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcPdbUtilsVTable;
 
     Load :: inline (this : *IDxcPdbUtils, pPdbOrDxil : *IDxcBlob) -> HRESULT #no_context
@@ -900,7 +900,7 @@ IDxcResult :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcOperationResult;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcResultVTable;
 
     HasOutput :: inline (this : *IDxcResult, dxcOutKind : DXC_OUT_KIND) -> BOOL #no_context
@@ -941,7 +941,7 @@ IDxcUtils :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcUtilsVTable;
 
     CreateBlobFromBlob :: inline (this : *IDxcUtils, 
@@ -1052,7 +1052,7 @@ IDxcValidator :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcValidatorVTable;
 
     Validate :: inline (this : *IDxcValidator, pShader : *IDxcBlob, Flags : u32, ppResult : **IDxcOperationResult) -> HRESULT #no_context
@@ -1068,7 +1068,7 @@ IDxcValidator2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcValidator;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcValidator2VTable;
 
     ValidateWithDebug :: inline (this : *IDxcValidator2, 
@@ -1089,7 +1089,7 @@ IDxcVersionInfo :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcVersionInfoVTable;
 
     GetVersion :: inline (this : *IDxcVersionInfo, pMajor : *u32, pMinor : *u32) -> HRESULT #no_context
@@ -1110,7 +1110,7 @@ IDxcVersionInfo2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDxcVersionInfo;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcVersionInfo2VTable;
 
     GetCommitInfo :: inline (this : *IDxcVersionInfo2, pCommitCount : *u32, pCommitHash : **s8) -> HRESULT #no_context
@@ -1126,7 +1126,7 @@ IDxcVersionInfo3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #place base;
+    #overlay(base);
     vtable : *IDxcVersionInfo3VTable;
 
     GetCustomVersionString :: inline (this : *IDxcVersionInfo3, pVersionString : **s8) -> HRESULT #no_context
