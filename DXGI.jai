@@ -1840,7 +1840,7 @@ IDXGIAdapter :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIAdapterVTable;
 
     EnumOutputs :: inline (this : *IDXGIAdapter, Output : u32, ppOutput : **IDXGIOutput) -> HRESULT #no_context
@@ -1866,7 +1866,7 @@ IDXGIAdapter1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIAdapter1VTable;
 
     GetDesc1 :: inline (this : *IDXGIAdapter1, pDesc : *DXGI_ADAPTER_DESC1) -> HRESULT #no_context
@@ -1882,7 +1882,7 @@ IDXGIAdapter2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIAdapter2VTable;
 
     GetDesc2 :: inline (this : *IDXGIAdapter2, pDesc : *DXGI_ADAPTER_DESC2) -> HRESULT #no_context
@@ -1898,7 +1898,7 @@ IDXGIAdapter3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIAdapter3VTable;
 
     RegisterHardwareContentProtectionTeardownStatusEvent :: inline (this : *IDXGIAdapter3, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #no_context
@@ -1939,7 +1939,7 @@ IDXGIAdapter4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIAdapter3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIAdapter4VTable;
 
     GetDesc3 :: inline (this : *IDXGIAdapter4, pDesc : *DXGI_ADAPTER_DESC3) -> HRESULT #no_context
@@ -1955,7 +1955,7 @@ IDXGIDebug :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDebugVTable;
 
     ReportLiveObjects :: inline (this : *IDXGIDebug, apiid : GUID, flags : DXGI_DEBUG_RLO_FLAGS) -> HRESULT #no_context
@@ -1971,7 +1971,7 @@ IDXGIDebug1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDebug;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDebug1VTable;
 
     EnableLeakTrackingForThread :: inline (this : *IDXGIDebug1) #no_context
@@ -1997,7 +1997,7 @@ IDXGIDecodeSwapChain :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDecodeSwapChainVTable;
 
     PresentBuffer :: inline (this : *IDXGIDecodeSwapChain, BufferToPresent : u32, SyncInterval : u32, Flags : u32) -> HRESULT #no_context
@@ -2053,7 +2053,7 @@ IDXGIDevice :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDeviceVTable;
 
     GetAdapter :: inline (this : *IDXGIDevice, pAdapter : **IDXGIAdapter) -> HRESULT #no_context
@@ -2095,7 +2095,7 @@ IDXGIDevice1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDevice1VTable;
 
     SetMaximumFrameLatency :: inline (this : *IDXGIDevice1, MaxLatency : u32) -> HRESULT #no_context
@@ -2116,7 +2116,7 @@ IDXGIDevice2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDevice2VTable;
 
     OfferResources :: inline (this : *IDXGIDevice2, NumResources : u32, ppResources : **IDXGIResource, Priority : DXGI_OFFER_RESOURCE_PRIORITY) -> HRESULT #no_context
@@ -2142,7 +2142,7 @@ IDXGIDevice3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDevice3VTable;
 
     Trim :: inline (this : *IDXGIDevice3) #no_context
@@ -2158,7 +2158,7 @@ IDXGIDevice4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDevice3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDevice4VTable;
 
     OfferResources1 :: inline (this : *IDXGIDevice4, 
@@ -2184,7 +2184,7 @@ IDXGIDeviceSubObject :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDeviceSubObjectVTable;
 
     GetDevice :: inline (this : *IDXGIDeviceSubObject, riid : *GUID, ppDevice : **void) -> HRESULT #no_context
@@ -2200,7 +2200,7 @@ IDXGIDisplayControl :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIDisplayControlVTable;
 
     IsStereoEnabled :: inline (this : *IDXGIDisplayControl) -> BOOL #no_context
@@ -2221,7 +2221,7 @@ IDXGIFactory :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactoryVTable;
 
     EnumAdapters :: inline (this : *IDXGIFactory, Adapter : u32, ppAdapter : **IDXGIAdapter) -> HRESULT #no_context
@@ -2257,7 +2257,7 @@ IDXGIFactory1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory1VTable;
 
     EnumAdapters1 :: inline (this : *IDXGIFactory1, Adapter : u32, ppAdapter : **IDXGIAdapter1) -> HRESULT #no_context
@@ -2278,7 +2278,7 @@ IDXGIFactory2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory2VTable;
 
     IsWindowedStereoEnabled :: inline (this : *IDXGIFactory2) -> BOOL #no_context
@@ -2362,7 +2362,7 @@ IDXGIFactory3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory3VTable;
 
     GetCreationFlags :: inline (this : *IDXGIFactory3) -> u32 #no_context
@@ -2378,7 +2378,7 @@ IDXGIFactory4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory4VTable;
 
     EnumAdapterByLuid :: inline (this : *IDXGIFactory4, AdapterLuid : LUID, riid : *GUID, ppvAdapter : **void) -> HRESULT #no_context
@@ -2399,7 +2399,7 @@ IDXGIFactory5 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory4;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory5VTable;
 
     CheckFeatureSupport :: inline (this : *IDXGIFactory5, Feature : DXGI_FEATURE, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #no_context
@@ -2415,7 +2415,7 @@ IDXGIFactory6 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory5;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory6VTable;
 
     EnumAdapterByGpuPreference :: inline (this : *IDXGIFactory6, 
@@ -2436,7 +2436,7 @@ IDXGIFactory7 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIFactory6;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactory7VTable;
 
     RegisterAdaptersChangedEvent :: inline (this : *IDXGIFactory7, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #no_context
@@ -2457,7 +2457,7 @@ IDXGIFactoryMedia :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIFactoryMediaVTable;
 
     CreateSwapChainForCompositionSurfaceHandle :: inline (this : *IDXGIFactoryMedia, 
@@ -2491,7 +2491,7 @@ IDXGIInfoQueue :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIInfoQueueVTable;
 
     SetMessageCountLimit :: inline (this : *IDXGIInfoQueue, Producer : GUID, MessageCountLimit : u64) -> HRESULT #no_context
@@ -2698,7 +2698,7 @@ IDXGIKeyedMutex :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIKeyedMutexVTable;
 
     AcquireSync :: inline (this : *IDXGIKeyedMutex, Key : u64, dwMilliseconds : u32) -> HRESULT #no_context
@@ -2719,7 +2719,7 @@ IDXGIObject :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIObjectVTable;
 
     SetPrivateData :: inline (this : *IDXGIObject, Name : *GUID, DataSize : u32, pData : *void) -> HRESULT #no_context
@@ -2750,7 +2750,7 @@ IDXGIOutput :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutputVTable;
 
     GetDesc :: inline (this : *IDXGIOutput, pDesc : *DXGI_OUTPUT_DESC) -> HRESULT #no_context
@@ -2826,7 +2826,7 @@ IDXGIOutput1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutput1VTable;
 
     GetDisplayModeList1 :: inline (this : *IDXGIOutput1, 
@@ -2862,7 +2862,7 @@ IDXGIOutput2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutput2VTable;
 
     SupportsOverlays :: inline (this : *IDXGIOutput2) -> BOOL #no_context
@@ -2878,7 +2878,7 @@ IDXGIOutput3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutput3VTable;
 
     CheckOverlaySupport :: inline (this : *IDXGIOutput3, EnumFormat : DXGI_FORMAT, pConcernedDevice : *IUnknown, pFlags : *u32) -> HRESULT #no_context
@@ -2894,7 +2894,7 @@ IDXGIOutput4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutput4VTable;
 
     CheckOverlayColorSpaceSupport :: inline (this : *IDXGIOutput4, 
@@ -2915,7 +2915,7 @@ IDXGIOutput5 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput4;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutput5VTable;
 
     DuplicateOutput1 :: inline (this : *IDXGIOutput5, 
@@ -2937,7 +2937,7 @@ IDXGIOutput6 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIOutput5;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutput6VTable;
 
     GetDesc1 :: inline (this : *IDXGIOutput6, pDesc : *DXGI_OUTPUT_DESC1) -> HRESULT #no_context
@@ -2958,7 +2958,7 @@ IDXGIOutputDuplication :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIOutputDuplicationVTable;
 
     GetDesc :: inline (this : *IDXGIOutputDuplication, pDesc : *DXGI_OUTDUPL_DESC) #no_context
@@ -3014,7 +3014,7 @@ IDXGIResource :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIResourceVTable;
 
     GetSharedHandle :: inline (this : *IDXGIResource, pSharedHandle : *HANDLE) -> HRESULT #no_context
@@ -3045,7 +3045,7 @@ IDXGIResource1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIResource;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGIResource1VTable;
 
     CreateSubresourceSurface :: inline (this : *IDXGIResource1, index : u32, ppSurface : **IDXGISurface2) -> HRESULT #no_context
@@ -3071,7 +3071,7 @@ IDXGISurface :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISurfaceVTable;
 
     GetDesc :: inline (this : *IDXGISurface, pDesc : *DXGI_SURFACE_DESC) -> HRESULT #no_context
@@ -3097,7 +3097,7 @@ IDXGISurface1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGISurface;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISurface1VTable;
 
     GetDC :: inline (this : *IDXGISurface1, Discard : BOOL, phdc : *HDC) -> HRESULT #no_context
@@ -3118,7 +3118,7 @@ IDXGISurface2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGISurface1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISurface2VTable;
 
     GetResource :: inline (this : *IDXGISurface2, riid : *GUID, ppParentResource : **void, pSubresourceIndex : *u32) -> HRESULT #no_context
@@ -3134,7 +3134,7 @@ IDXGISwapChain :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGIDeviceSubObject;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISwapChainVTable;
 
     Present :: inline (this : *IDXGISwapChain, SyncInterval : u32, Flags : u32) -> HRESULT #no_context
@@ -3201,7 +3201,7 @@ IDXGISwapChain1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISwapChain1VTable;
 
     GetDesc1 :: inline (this : *IDXGISwapChain1, pDesc : *DXGI_SWAP_CHAIN_DESC1) -> HRESULT #no_context
@@ -3267,7 +3267,7 @@ IDXGISwapChain2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISwapChain2VTable;
 
     SetSourceSize :: inline (this : *IDXGISwapChain2, Width : u32, Height : u32) -> HRESULT #no_context
@@ -3313,7 +3313,7 @@ IDXGISwapChain3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISwapChain3VTable;
 
     GetCurrentBackBufferIndex :: inline (this : *IDXGISwapChain3) -> u32 #no_context
@@ -3352,7 +3352,7 @@ IDXGISwapChain4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IDXGISwapChain3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISwapChain4VTable;
 
     SetHDRMetaData :: inline (this : *IDXGISwapChain4, _Type : DXGI_HDR_METADATA_TYPE, Size : u32, pMetaData : *void) -> HRESULT #no_context
@@ -3368,7 +3368,7 @@ IDXGISwapChainMedia :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGISwapChainMediaVTable;
 
     GetFrameStatisticsMedia :: inline (this : *IDXGISwapChainMedia, pStats : *DXGI_FRAME_STATISTICS_MEDIA) -> HRESULT #no_context
@@ -3394,7 +3394,7 @@ IDXGraphicsAnalysis :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *IDXGraphicsAnalysisVTable;
 
     BeginCapture :: inline (this : *IDXGraphicsAnalysis) #no_context

@@ -581,7 +581,7 @@ GenerateCOMInterface :: (builder : *String_Builder, using typedef : Win32TypeDef
             append(builder, ";\n\n");
 
             Indent();
-            append(builder, "#overlay(base);\n");
+            append(builder, "#overlay(base)\n");
         }
 
         Indent();

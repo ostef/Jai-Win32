@@ -6675,7 +6675,7 @@ ID3D11Asynchronous :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11AsynchronousVTable;
 
     GetDataSize :: inline (this : *ID3D11Asynchronous) -> u32 #no_context
@@ -6691,7 +6691,7 @@ ID3D11AuthenticatedChannel :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11AuthenticatedChannelVTable;
 
     GetCertificateSize :: inline (this : *ID3D11AuthenticatedChannel, pCertificateSize : *u32) -> HRESULT #no_context
@@ -6717,7 +6717,7 @@ ID3D11BlendState :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11BlendStateVTable;
 
     GetDesc :: inline (this : *ID3D11BlendState, pDesc : *D3D11_BLEND_DESC) #no_context
@@ -6733,7 +6733,7 @@ ID3D11BlendState1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11BlendState;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11BlendState1VTable;
 
     GetDesc1 :: inline (this : *ID3D11BlendState1, pDesc : *D3D11_BLEND_DESC1) #no_context
@@ -6749,7 +6749,7 @@ ID3D11Buffer :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Resource;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11BufferVTable;
 
     GetDesc :: inline (this : *ID3D11Buffer, pDesc : *D3D11_BUFFER_DESC) #no_context
@@ -6765,7 +6765,7 @@ ID3D11ClassInstance :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ClassInstanceVTable;
 
     GetClassLinkage :: inline (this : *ID3D11ClassInstance, ppLinkage : **ID3D11ClassLinkage) #no_context
@@ -6796,7 +6796,7 @@ ID3D11ClassLinkage :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ClassLinkageVTable;
 
     GetClassInstance :: inline (this : *ID3D11ClassLinkage, pClassInstanceName : PSTR, InstanceIndex : u32, ppInstance : **ID3D11ClassInstance) -> HRESULT #no_context
@@ -6824,7 +6824,7 @@ ID3D11CommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11CommandListVTable;
 
     GetContextFlags :: inline (this : *ID3D11CommandList) -> u32 #no_context
@@ -6840,7 +6840,7 @@ ID3D11ComputeShader :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ComputeShaderVTable;
 }
 
@@ -6851,7 +6851,7 @@ ID3D11Counter :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Asynchronous;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11CounterVTable;
 
     GetDesc :: inline (this : *ID3D11Counter, pDesc : *D3D11_COUNTER_DESC) #no_context
@@ -6867,7 +6867,7 @@ ID3D11CryptoSession :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11CryptoSessionVTable;
 
     GetCryptoType :: inline (this : *ID3D11CryptoSession, pCryptoType : *GUID) #no_context
@@ -6903,7 +6903,7 @@ ID3D11Debug :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DebugVTable;
 
     SetFeatureMask :: inline (this : *ID3D11Debug, Mask : u32) -> HRESULT #no_context
@@ -6959,7 +6959,7 @@ ID3D11DepthStencilState :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DepthStencilStateVTable;
 
     GetDesc :: inline (this : *ID3D11DepthStencilState, pDesc : *D3D11_DEPTH_STENCIL_DESC) #no_context
@@ -6975,7 +6975,7 @@ ID3D11DepthStencilView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DepthStencilViewVTable;
 
     GetDesc :: inline (this : *ID3D11DepthStencilView, pDesc : *D3D11_DEPTH_STENCIL_VIEW_DESC) #no_context
@@ -6991,7 +6991,7 @@ ID3D11Device :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceVTable;
 
     CreateBuffer :: inline (this : *ID3D11Device, pDesc : *D3D11_BUFFER_DESC, pInitialData : *D3D11_SUBRESOURCE_DATA, ppBuffer : **ID3D11Buffer) -> HRESULT #no_context
@@ -7258,7 +7258,7 @@ ID3D11Device1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Device;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Device1VTable;
 
     GetImmediateContext1 :: inline (this : *ID3D11Device1, ppImmediateContext : **ID3D11DeviceContext1) #no_context
@@ -7317,7 +7317,7 @@ ID3D11Device2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Device1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Device2VTable;
 
     GetImmediateContext2 :: inline (this : *ID3D11Device2, ppImmediateContext : **ID3D11DeviceContext2) #no_context
@@ -7361,7 +7361,7 @@ ID3D11Device3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Device2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Device3VTable;
 
     CreateTexture2D1 :: inline (this : *ID3D11Device3, pDesc1 : *D3D11_TEXTURE2D_DESC1, pInitialData : *D3D11_SUBRESOURCE_DATA, ppTexture2D : **ID3D11Texture2D1) -> HRESULT #no_context
@@ -7441,7 +7441,7 @@ ID3D11Device4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Device3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Device4VTable;
 
     RegisterDeviceRemovedEvent :: inline (this : *ID3D11Device4, hEvent : HANDLE, pdwCookie : *u32) -> HRESULT #no_context
@@ -7462,7 +7462,7 @@ ID3D11Device5 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Device4;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Device5VTable;
 
     OpenSharedFence :: inline (this : *ID3D11Device5, hFence : HANDLE, ReturnedInterface : *GUID, ppFence : **void) -> HRESULT #no_context
@@ -7488,7 +7488,7 @@ ID3D11DeviceChild :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceChildVTable;
 
     GetDevice :: inline (this : *ID3D11DeviceChild, ppDevice : **ID3D11Device) #no_context
@@ -7519,7 +7519,7 @@ ID3D11DeviceContext :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceContextVTable;
 
     VSSetConstantBuffers :: inline (this : *ID3D11DeviceContext, StartSlot : u32, NumBuffers : u32, ppConstantBuffers : **ID3D11Buffer) #no_context
@@ -8151,7 +8151,7 @@ ID3D11DeviceContext1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceContext;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceContext1VTable;
 
     CopySubresourceRegion1 :: inline (this : *ID3D11DeviceContext1, 
@@ -8352,7 +8352,7 @@ ID3D11DeviceContext2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceContext1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceContext2VTable;
 
     UpdateTileMappings :: inline (this : *ID3D11DeviceContext2, 
@@ -8444,7 +8444,7 @@ ID3D11DeviceContext3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceContext2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceContext3VTable;
 
     Flush1 :: inline (this : *ID3D11DeviceContext3, ContextType : D3D11_CONTEXT_TYPE, hEvent : HANDLE) #no_context
@@ -8470,7 +8470,7 @@ ID3D11DeviceContext4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceContext3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DeviceContext4VTable;
 
     Signal :: inline (this : *ID3D11DeviceContext4, pFence : *ID3D11Fence, Value : u64) -> HRESULT #no_context
@@ -8491,7 +8491,7 @@ ID3D11DomainShader :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11DomainShaderVTable;
 }
 
@@ -8502,7 +8502,7 @@ ID3D11Fence :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11FenceVTable;
 
     CreateSharedHandle :: inline (this : *ID3D11Fence, 
@@ -8533,7 +8533,7 @@ ID3D11FunctionLinkingGraph :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11FunctionLinkingGraphVTable;
 
     CreateModuleInstance :: inline (this : *ID3D11FunctionLinkingGraph, ppModuleInstance : **ID3D11ModuleInstance, ppErrorBuffer : **ID3DBlob) -> HRESULT #no_context
@@ -8657,7 +8657,7 @@ ID3D11GeometryShader :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11GeometryShaderVTable;
 }
 
@@ -8668,7 +8668,7 @@ ID3D11HullShader :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11HullShaderVTable;
 }
 
@@ -8679,7 +8679,7 @@ ID3D11InfoQueue :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11InfoQueueVTable;
 
     SetMessageCountLimit :: inline (this : *ID3D11InfoQueue, MessageCountLimit : u64) -> HRESULT #no_context
@@ -8870,7 +8870,7 @@ ID3D11InputLayout :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11InputLayoutVTable;
 }
 
@@ -8881,7 +8881,7 @@ ID3D11LibraryReflection :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11LibraryReflectionVTable;
 
     GetDesc :: inline (this : *ID3D11LibraryReflection, pDesc : *D3D11_LIBRARY_DESC) -> HRESULT #no_context
@@ -8902,7 +8902,7 @@ ID3D11Linker :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11LinkerVTable;
 
     Link :: inline (this : *ID3D11Linker, 
@@ -8935,7 +8935,7 @@ ID3D11LinkingNode :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11LinkingNodeVTable;
 }
 
@@ -8946,7 +8946,7 @@ ID3D11Module :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ModuleVTable;
 
     CreateInstance :: inline (this : *ID3D11Module, pNamespace : PSTR, ppModuleInstance : **ID3D11ModuleInstance) -> HRESULT #no_context
@@ -8962,7 +8962,7 @@ ID3D11ModuleInstance :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ModuleInstanceVTable;
 
     BindConstantBuffer :: inline (this : *ID3D11ModuleInstance, uSrcSlot : u32, uDstSlot : u32, cbDstOffset : u32) -> HRESULT #no_context
@@ -9023,7 +9023,7 @@ ID3D11Multithread :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11MultithreadVTable;
 
     Enter :: inline (this : *ID3D11Multithread) #no_context
@@ -9054,7 +9054,7 @@ ID3D11PixelShader :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11PixelShaderVTable;
 }
 
@@ -9065,7 +9065,7 @@ ID3D11Predicate :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Query;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11PredicateVTable;
 }
 
@@ -9076,7 +9076,7 @@ ID3D11Query :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Asynchronous;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11QueryVTable;
 
     GetDesc :: inline (this : *ID3D11Query, pDesc : *D3D11_QUERY_DESC) #no_context
@@ -9092,7 +9092,7 @@ ID3D11Query1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Query;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Query1VTable;
 
     GetDesc1 :: inline (this : *ID3D11Query1, pDesc1 : *D3D11_QUERY_DESC1) #no_context
@@ -9108,7 +9108,7 @@ ID3D11RasterizerState :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RasterizerStateVTable;
 
     GetDesc :: inline (this : *ID3D11RasterizerState, pDesc : *D3D11_RASTERIZER_DESC) #no_context
@@ -9124,7 +9124,7 @@ ID3D11RasterizerState1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11RasterizerState;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RasterizerState1VTable;
 
     GetDesc1 :: inline (this : *ID3D11RasterizerState1, pDesc : *D3D11_RASTERIZER_DESC1) #no_context
@@ -9140,7 +9140,7 @@ ID3D11RasterizerState2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11RasterizerState1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RasterizerState2VTable;
 
     GetDesc2 :: inline (this : *ID3D11RasterizerState2, pDesc : *D3D11_RASTERIZER_DESC2) #no_context
@@ -9156,7 +9156,7 @@ ID3D11RefDefaultTrackingOptions :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RefDefaultTrackingOptionsVTable;
 
     SetTrackingOptions :: inline (this : *ID3D11RefDefaultTrackingOptions, ResourceTypeFlags : u32, Options : u32) -> HRESULT #no_context
@@ -9172,7 +9172,7 @@ ID3D11RefTrackingOptions :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RefTrackingOptionsVTable;
 
     SetTrackingOptions :: inline (this : *ID3D11RefTrackingOptions, uOptions : u32) -> HRESULT #no_context
@@ -9188,7 +9188,7 @@ ID3D11RenderTargetView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RenderTargetViewVTable;
 
     GetDesc :: inline (this : *ID3D11RenderTargetView, pDesc : *D3D11_RENDER_TARGET_VIEW_DESC) #no_context
@@ -9204,7 +9204,7 @@ ID3D11RenderTargetView1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11RenderTargetView;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11RenderTargetView1VTable;
 
     GetDesc1 :: inline (this : *ID3D11RenderTargetView1, pDesc1 : *D3D11_RENDER_TARGET_VIEW_DESC1) #no_context
@@ -9220,7 +9220,7 @@ ID3D11Resource :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ResourceVTable;
 
     GetType :: inline (this : *ID3D11Resource, pResourceDimension : *D3D11_RESOURCE_DIMENSION) #no_context
@@ -9246,7 +9246,7 @@ ID3D11SamplerState :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11SamplerStateVTable;
 
     GetDesc :: inline (this : *ID3D11SamplerState, pDesc : *D3D11_SAMPLER_DESC) #no_context
@@ -9262,7 +9262,7 @@ ID3D11ShaderReflection :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ShaderReflectionVTable;
 
     GetDesc :: inline (this : *ID3D11ShaderReflection, pDesc : *D3D11_SHADER_DESC) -> HRESULT #no_context
@@ -9482,7 +9482,7 @@ ID3D11ShaderResourceView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ShaderResourceViewVTable;
 
     GetDesc :: inline (this : *ID3D11ShaderResourceView, pDesc : *D3D11_SHADER_RESOURCE_VIEW_DESC) #no_context
@@ -9498,7 +9498,7 @@ ID3D11ShaderResourceView1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11ShaderResourceView;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ShaderResourceView1VTable;
 
     GetDesc1 :: inline (this : *ID3D11ShaderResourceView1, pDesc1 : *D3D11_SHADER_RESOURCE_VIEW_DESC1) #no_context
@@ -9514,7 +9514,7 @@ ID3D11ShaderTrace :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ShaderTraceVTable;
 
     TraceReady :: inline (this : *ID3D11ShaderTrace, pTestCount : *u64) -> HRESULT #no_context
@@ -9575,7 +9575,7 @@ ID3D11ShaderTraceFactory :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ShaderTraceFactoryVTable;
 
     CreateShaderTrace :: inline (this : *ID3D11ShaderTraceFactory, pShader : *IUnknown, pTraceDesc : *D3D11_SHADER_TRACE_DESC, ppShaderTrace : **ID3D11ShaderTrace) -> HRESULT #no_context
@@ -9591,7 +9591,7 @@ ID3D11SwitchToRef :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11SwitchToRefVTable;
 
     SetUseRef :: inline (this : *ID3D11SwitchToRef, UseRef : BOOL) -> BOOL #no_context
@@ -9612,7 +9612,7 @@ ID3D11Texture1D :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Resource;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Texture1DVTable;
 
     GetDesc :: inline (this : *ID3D11Texture1D, pDesc : *D3D11_TEXTURE1D_DESC) #no_context
@@ -9628,7 +9628,7 @@ ID3D11Texture2D :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Resource;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Texture2DVTable;
 
     GetDesc :: inline (this : *ID3D11Texture2D, pDesc : *D3D11_TEXTURE2D_DESC) #no_context
@@ -9644,7 +9644,7 @@ ID3D11Texture2D1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Texture2D;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Texture2D1VTable;
 
     GetDesc1 :: inline (this : *ID3D11Texture2D1, pDesc : *D3D11_TEXTURE2D_DESC1) #no_context
@@ -9660,7 +9660,7 @@ ID3D11Texture3D :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Resource;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Texture3DVTable;
 
     GetDesc :: inline (this : *ID3D11Texture3D, pDesc : *D3D11_TEXTURE3D_DESC) #no_context
@@ -9676,7 +9676,7 @@ ID3D11Texture3D1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11Texture3D;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11Texture3D1VTable;
 
     GetDesc1 :: inline (this : *ID3D11Texture3D1, pDesc : *D3D11_TEXTURE3D_DESC1) #no_context
@@ -9692,7 +9692,7 @@ ID3D11TracingDevice :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11TracingDeviceVTable;
 
     SetShaderTrackingOptionsByType :: inline (this : *ID3D11TracingDevice, ResourceTypeFlags : u32, Options : u32) -> HRESULT #no_context
@@ -9713,7 +9713,7 @@ ID3D11UnorderedAccessView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11UnorderedAccessViewVTable;
 
     GetDesc :: inline (this : *ID3D11UnorderedAccessView, pDesc : *D3D11_UNORDERED_ACCESS_VIEW_DESC) #no_context
@@ -9729,7 +9729,7 @@ ID3D11UnorderedAccessView1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11UnorderedAccessView;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11UnorderedAccessView1VTable;
 
     GetDesc1 :: inline (this : *ID3D11UnorderedAccessView1, pDesc1 : *D3D11_UNORDERED_ACCESS_VIEW_DESC1) #no_context
@@ -9745,7 +9745,7 @@ ID3D11VertexShader :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VertexShaderVTable;
 }
 
@@ -9756,7 +9756,7 @@ ID3D11VideoContext :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoContextVTable;
 
     GetDecoderBuffer :: inline (this : *ID3D11VideoContext, 
@@ -10237,7 +10237,7 @@ ID3D11VideoContext1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11VideoContext;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoContext1VTable;
 
     SubmitDecoderBuffers1 :: inline (this : *ID3D11VideoContext1, pDecoder : *ID3D11VideoDecoder, NumBuffers : u32, pBufferDesc : *D3D11_VIDEO_DECODER_BUFFER_DESC1) -> HRESULT #no_context
@@ -10348,7 +10348,7 @@ ID3D11VideoContext2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11VideoContext1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoContext2VTable;
 
     VideoProcessorSetOutputHDRMetaData :: inline (this : *ID3D11VideoContext2, 
@@ -10401,7 +10401,7 @@ ID3D11VideoContext3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11VideoContext2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoContext3VTable;
 
     DecoderBeginFrame1 :: inline (this : *ID3D11VideoContext3, 
@@ -10430,7 +10430,7 @@ ID3D11VideoDecoder :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoDecoderVTable;
 
     GetCreationParameters :: inline (this : *ID3D11VideoDecoder, pVideoDesc : *D3D11_VIDEO_DECODER_DESC, pConfig : *D3D11_VIDEO_DECODER_CONFIG) -> HRESULT #no_context
@@ -10451,7 +10451,7 @@ ID3D11VideoDecoderOutputView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoDecoderOutputViewVTable;
 
     GetDesc :: inline (this : *ID3D11VideoDecoderOutputView, pDesc : *D3D11_VIDEO_DECODER_OUTPUT_VIEW_DESC) #no_context
@@ -10467,7 +10467,7 @@ ID3D11VideoDevice :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoDeviceVTable;
 
     CreateVideoDecoder :: inline (this : *ID3D11VideoDevice, pVideoDesc : *D3D11_VIDEO_DECODER_DESC, pConfig : *D3D11_VIDEO_DECODER_CONFIG, ppDecoder : **ID3D11VideoDecoder) -> HRESULT #no_context
@@ -10583,7 +10583,7 @@ ID3D11VideoDevice1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11VideoDevice;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoDevice1VTable;
 
     GetCryptoSessionPrivateDataSize :: inline (this : *ID3D11VideoDevice1, 
@@ -10642,7 +10642,7 @@ ID3D11VideoDevice2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11VideoDevice1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoDevice2VTable;
 
     CheckFeatureSupport :: inline (this : *ID3D11VideoDevice2, Feature : D3D11_FEATURE_VIDEO, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #no_context
@@ -10668,7 +10668,7 @@ ID3D11VideoProcessor :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoProcessorVTable;
 
     GetContentDesc :: inline (this : *ID3D11VideoProcessor, pDesc : *D3D11_VIDEO_PROCESSOR_CONTENT_DESC) #no_context
@@ -10689,7 +10689,7 @@ ID3D11VideoProcessorEnumerator :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoProcessorEnumeratorVTable;
 
     GetVideoProcessorContentDesc :: inline (this : *ID3D11VideoProcessorEnumerator, pContentDesc : *D3D11_VIDEO_PROCESSOR_CONTENT_DESC) -> HRESULT #no_context
@@ -10730,7 +10730,7 @@ ID3D11VideoProcessorEnumerator1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11VideoProcessorEnumerator;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoProcessorEnumerator1VTable;
 
     CheckVideoProcessorFormatConversion :: inline (this : *ID3D11VideoProcessorEnumerator1, 
@@ -10752,7 +10752,7 @@ ID3D11VideoProcessorInputView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoProcessorInputViewVTable;
 
     GetDesc :: inline (this : *ID3D11VideoProcessorInputView, pDesc : *D3D11_VIDEO_PROCESSOR_INPUT_VIEW_DESC) #no_context
@@ -10768,7 +10768,7 @@ ID3D11VideoProcessorOutputView :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11View;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11VideoProcessorOutputViewVTable;
 
     GetDesc :: inline (this : *ID3D11VideoProcessorOutputView, pDesc : *D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC) #no_context
@@ -10784,7 +10784,7 @@ ID3D11View :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D11ViewVTable;
 
     GetResource :: inline (this : *ID3D11View, ppResource : **ID3D11Resource) #no_context
@@ -10800,7 +10800,7 @@ ID3DDeviceContextState :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D11DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DDeviceContextStateVTable;
 }
 
@@ -10811,7 +10811,7 @@ ID3DX11FFT :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DX11FFTVTable;
 
     SetForwardScale :: inline (this : *ID3DX11FFT, ForwardScale : float) -> HRESULT #no_context
@@ -10862,7 +10862,7 @@ ID3DX11Scan :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DX11ScanVTable;
 
     SetScanDirection :: inline (this : *ID3DX11Scan, Direction : D3DX11_SCAN_DIRECTION) -> HRESULT #no_context
@@ -10902,7 +10902,7 @@ ID3DX11SegmentedScan :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DX11SegmentedScanVTable;
 
     SetScanDirection :: inline (this : *ID3DX11SegmentedScan, Direction : D3DX11_SCAN_DIRECTION) -> HRESULT #no_context

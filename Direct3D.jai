@@ -1917,7 +1917,7 @@ ID3DBlob :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DBlobVTable;
 
     GetBufferPointer :: inline (this : *ID3DBlob) -> *void #no_context
@@ -1938,7 +1938,7 @@ ID3DDestructionNotifier :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DDestructionNotifierVTable;
 
     RegisterDestructionCallback :: inline (this : *ID3DDestructionNotifier, callbackFn : PFN_DESTRUCTION_CALLBACK, pData : *void, pCallbackID : *u32) -> HRESULT #no_context
@@ -1983,7 +1983,7 @@ ID3DUserDefinedAnnotation :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3DUserDefinedAnnotationVTable;
 
     BeginEvent :: inline (this : *ID3DUserDefinedAnnotation, Name : PWSTR) -> s32 #no_context

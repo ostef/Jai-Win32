@@ -8773,7 +8773,7 @@ ID3D12CommandAllocator :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12CommandAllocatorVTable;
 
     Reset :: inline (this : *ID3D12CommandAllocator) -> HRESULT #no_context
@@ -8789,7 +8789,7 @@ ID3D12CommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12CommandListVTable;
 
     GetType :: inline (this : *ID3D12CommandList) -> D3D12_COMMAND_LIST_TYPE #no_context
@@ -8805,7 +8805,7 @@ ID3D12CommandQueue :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12CommandQueueVTable;
 
     UpdateTileMappings :: inline (this : *ID3D12CommandQueue, 
@@ -8889,7 +8889,7 @@ ID3D12CommandSignature :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12CommandSignatureVTable;
 }
 
@@ -8900,7 +8900,7 @@ ID3D12Debug :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugVTable;
 
     EnableDebugLayer :: inline (this : *ID3D12Debug) #no_context
@@ -8916,7 +8916,7 @@ ID3D12Debug1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Debug1VTable;
 
     EnableDebugLayer :: inline (this : *ID3D12Debug1) #no_context
@@ -8942,7 +8942,7 @@ ID3D12Debug2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Debug2VTable;
 
     SetGPUBasedValidationFlags :: inline (this : *ID3D12Debug2, Flags : D3D12_GPU_BASED_VALIDATION_FLAGS) #no_context
@@ -8958,7 +8958,7 @@ ID3D12Debug3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Debug;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Debug3VTable;
 
     SetEnableGPUBasedValidation :: inline (this : *ID3D12Debug3, Enable : BOOL) #no_context
@@ -8984,7 +8984,7 @@ ID3D12Debug4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Debug3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Debug4VTable;
 
     DisableDebugLayer :: inline (this : *ID3D12Debug4) #no_context
@@ -9000,7 +9000,7 @@ ID3D12Debug5 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Debug4;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Debug5VTable;
 
     SetEnableAutoName :: inline (this : *ID3D12Debug5, Enable : BOOL) #no_context
@@ -9016,7 +9016,7 @@ ID3D12DebugCommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugCommandListVTable;
 
     AssertResourceState :: inline (this : *ID3D12DebugCommandList, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #no_context
@@ -9042,7 +9042,7 @@ ID3D12DebugCommandList1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugCommandList1VTable;
 
     AssertResourceState :: inline (this : *ID3D12DebugCommandList1, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #no_context
@@ -9068,7 +9068,7 @@ ID3D12DebugCommandList2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DebugCommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugCommandList2VTable;
 
     SetDebugParameter :: inline (this : *ID3D12DebugCommandList2, _Type : D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #no_context
@@ -9089,7 +9089,7 @@ ID3D12DebugCommandQueue :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugCommandQueueVTable;
 
     AssertResourceState :: inline (this : *ID3D12DebugCommandQueue, pResource : *ID3D12Resource, Subresource : u32, State : u32) -> BOOL #no_context
@@ -9105,7 +9105,7 @@ ID3D12DebugDevice :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugDeviceVTable;
 
     SetFeatureMask :: inline (this : *ID3D12DebugDevice, Mask : D3D12_DEBUG_FEATURE) -> HRESULT #no_context
@@ -9131,7 +9131,7 @@ ID3D12DebugDevice1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugDevice1VTable;
 
     SetDebugParameter :: inline (this : *ID3D12DebugDevice1, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #no_context
@@ -9157,7 +9157,7 @@ ID3D12DebugDevice2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DebugDevice;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DebugDevice2VTable;
 
     SetDebugParameter :: inline (this : *ID3D12DebugDevice2, _Type : D3D12_DEBUG_DEVICE_PARAMETER_TYPE, pData : *void, DataSize : u32) -> HRESULT #no_context
@@ -9178,7 +9178,7 @@ ID3D12DescriptorHeap :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DescriptorHeapVTable;
 
     GetDesc :: inline (this : *ID3D12DescriptorHeap) -> D3D12_DESCRIPTOR_HEAP_DESC #no_context
@@ -9204,7 +9204,7 @@ ID3D12Device :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Object;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceVTable;
 
     GetNodeCount :: inline (this : *ID3D12Device) -> u32 #no_context
@@ -9486,7 +9486,7 @@ ID3D12Device1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device1VTable;
 
     CreatePipelineLibrary :: inline (this : *ID3D12Device1, 
@@ -9523,7 +9523,7 @@ ID3D12Device2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device2VTable;
 
     CreatePipelineState :: inline (this : *ID3D12Device2, pDesc : *D3D12_PIPELINE_STATE_STREAM_DESC, riid : *GUID, ppPipelineState : **void) -> HRESULT #no_context
@@ -9539,7 +9539,7 @@ ID3D12Device3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device3VTable;
 
     OpenExistingHeapFromAddress :: inline (this : *ID3D12Device3, pAddress : *void, riid : *GUID, ppvHeap : **void) -> HRESULT #no_context
@@ -9571,7 +9571,7 @@ ID3D12Device4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device4VTable;
 
     CreateCommandList1 :: inline (this : *ID3D12Device4, 
@@ -9644,7 +9644,7 @@ ID3D12Device5 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device4;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device5VTable;
 
     CreateLifetimeTracker :: inline (this : *ID3D12Device5, pOwner : *ID3D12LifetimeOwner, riid : *GUID, ppvTracker : **void) -> HRESULT #no_context
@@ -9708,7 +9708,7 @@ ID3D12Device6 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device5;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device6VTable;
 
     SetBackgroundProcessingMode :: inline (this : *ID3D12Device6, 
@@ -9729,7 +9729,7 @@ ID3D12Device7 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device6;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device7VTable;
 
     AddToStateObject :: inline (this : *ID3D12Device7, 
@@ -9755,7 +9755,7 @@ ID3D12Device8 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device7;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device8VTable;
 
     GetResourceAllocationInfo2 :: inline (this : *ID3D12Device8, 
@@ -9822,7 +9822,7 @@ ID3D12Device9 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Device8;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Device9VTable;
 
     CreateShaderCacheSession :: inline (this : *ID3D12Device9, pDesc : *D3D12_SHADER_CACHE_SESSION_DESC, riid : *GUID, ppvSession : **void) -> HRESULT #no_context
@@ -9853,7 +9853,7 @@ ID3D12DeviceChild :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Object;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceChildVTable;
 
     GetDevice :: inline (this : *ID3D12DeviceChild, riid : *GUID, ppvDevice : **void) -> HRESULT #no_context
@@ -9869,7 +9869,7 @@ ID3D12DeviceRemovedExtendedData :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceRemovedExtendedDataVTable;
 
     GetAutoBreadcrumbsOutput :: inline (this : *ID3D12DeviceRemovedExtendedData, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT) -> HRESULT #no_context
@@ -9890,7 +9890,7 @@ ID3D12DeviceRemovedExtendedData1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedData;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceRemovedExtendedData1VTable;
 
     GetAutoBreadcrumbsOutput1 :: inline (this : *ID3D12DeviceRemovedExtendedData1, pOutput : *D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1) -> HRESULT #no_context
@@ -9911,7 +9911,7 @@ ID3D12DeviceRemovedExtendedData2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedData1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceRemovedExtendedData2VTable;
 
     GetPageFaultAllocationOutput2 :: inline (this : *ID3D12DeviceRemovedExtendedData2, pOutput : *D3D12_DRED_PAGE_FAULT_OUTPUT2) -> HRESULT #no_context
@@ -9932,7 +9932,7 @@ ID3D12DeviceRemovedExtendedDataSettings :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceRemovedExtendedDataSettingsVTable;
 
     SetAutoBreadcrumbsEnablement :: inline (this : *ID3D12DeviceRemovedExtendedDataSettings, Enablement : D3D12_DRED_ENABLEMENT) #no_context
@@ -9958,7 +9958,7 @@ ID3D12DeviceRemovedExtendedDataSettings1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceRemovedExtendedDataSettings;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12DeviceRemovedExtendedDataSettings1VTable;
 
     SetBreadcrumbContextEnablement :: inline (this : *ID3D12DeviceRemovedExtendedDataSettings1, Enablement : D3D12_DRED_ENABLEMENT) #no_context
@@ -9974,7 +9974,7 @@ ID3D12Fence :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12FenceVTable;
 
     GetCompletedValue :: inline (this : *ID3D12Fence) -> u64 #no_context
@@ -10000,7 +10000,7 @@ ID3D12Fence1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Fence;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Fence1VTable;
 
     GetCreationFlags :: inline (this : *ID3D12Fence1) -> D3D12_FENCE_FLAGS #no_context
@@ -10072,7 +10072,7 @@ ID3D12GraphicsCommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandListVTable;
 
     Close :: inline (this : *ID3D12GraphicsCommandList) -> HRESULT #no_context
@@ -10430,7 +10430,7 @@ ID3D12GraphicsCommandList1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandList1VTable;
 
     AtomicCopyBufferUINT :: inline (this : *ID3D12GraphicsCommandList1, 
@@ -10497,7 +10497,7 @@ ID3D12GraphicsCommandList2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandList2VTable;
 
     WriteBufferImmediate :: inline (this : *ID3D12GraphicsCommandList2, Count : u32, pParams : *D3D12_WRITEBUFFERIMMEDIATE_PARAMETER, pModes : *D3D12_WRITEBUFFERIMMEDIATE_MODE) #no_context
@@ -10513,7 +10513,7 @@ ID3D12GraphicsCommandList3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandList3VTable;
 
     SetProtectedResourceSession :: inline (this : *ID3D12GraphicsCommandList3, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #no_context
@@ -10529,7 +10529,7 @@ ID3D12GraphicsCommandList4 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList3;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandList4VTable;
 
     BeginRenderPass :: inline (this : *ID3D12GraphicsCommandList4, 
@@ -10590,7 +10590,7 @@ ID3D12GraphicsCommandList5 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList4;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandList5VTable;
 
     RSSetShadingRate :: inline (this : *ID3D12GraphicsCommandList5, baseShadingRate : D3D12_SHADING_RATE, combiners : *D3D12_SHADING_RATE_COMBINER) #no_context
@@ -10611,7 +10611,7 @@ ID3D12GraphicsCommandList6 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12GraphicsCommandList5;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12GraphicsCommandList6VTable;
 
     DispatchMesh :: inline (this : *ID3D12GraphicsCommandList6, ThreadGroupCountX : u32, ThreadGroupCountY : u32, ThreadGroupCountZ : u32) #no_context
@@ -10627,7 +10627,7 @@ ID3D12Heap :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12HeapVTable;
 
     GetDesc :: inline (this : *ID3D12Heap) -> D3D12_HEAP_DESC #no_context
@@ -10643,7 +10643,7 @@ ID3D12Heap1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Heap;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Heap1VTable;
 
     GetProtectedResourceSession :: inline (this : *ID3D12Heap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #no_context
@@ -10659,7 +10659,7 @@ ID3D12InfoQueue :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12InfoQueueVTable;
 
     SetMessageCountLimit :: inline (this : *ID3D12InfoQueue, MessageCountLimit : u64) -> HRESULT #no_context
@@ -10850,7 +10850,7 @@ ID3D12InfoQueue1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12InfoQueue;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12InfoQueue1VTable;
 
     RegisterMessageCallback :: inline (this : *ID3D12InfoQueue1, 
@@ -10876,7 +10876,7 @@ ID3D12LibraryReflection :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12LibraryReflectionVTable;
 
     GetDesc :: inline (this : *ID3D12LibraryReflection, pDesc : *D3D12_LIBRARY_DESC) -> HRESULT #no_context
@@ -10897,7 +10897,7 @@ ID3D12LifetimeOwner :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12LifetimeOwnerVTable;
 
     LifetimeStateUpdated :: inline (this : *ID3D12LifetimeOwner, NewState : D3D12_LIFETIME_STATE) #no_context
@@ -10913,7 +10913,7 @@ ID3D12LifetimeTracker :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12LifetimeTrackerVTable;
 
     DestroyOwnedObject :: inline (this : *ID3D12LifetimeTracker, pObject : *ID3D12DeviceChild) -> HRESULT #no_context
@@ -10929,7 +10929,7 @@ ID3D12MetaCommand :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12MetaCommandVTable;
 
     GetRequiredParameterResourceSize :: inline (this : *ID3D12MetaCommand, Stage : D3D12_META_COMMAND_PARAMETER_STAGE, ParameterIndex : u32) -> u64 #no_context
@@ -10945,7 +10945,7 @@ ID3D12Object :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ObjectVTable;
 
     GetPrivateData :: inline (this : *ID3D12Object, guid : *GUID, pDataSize : *u32, pData : *void) -> HRESULT #no_context
@@ -10976,7 +10976,7 @@ ID3D12Pageable :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12PageableVTable;
 }
 
@@ -10987,7 +10987,7 @@ ID3D12PipelineLibrary :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12PipelineLibraryVTable;
 
     StorePipeline :: inline (this : *ID3D12PipelineLibrary, pName : PWSTR, pPipeline : *ID3D12PipelineState) -> HRESULT #no_context
@@ -11033,7 +11033,7 @@ ID3D12PipelineLibrary1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12PipelineLibrary;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12PipelineLibrary1VTable;
 
     LoadPipeline :: inline (this : *ID3D12PipelineLibrary1, 
@@ -11054,7 +11054,7 @@ ID3D12PipelineState :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12PipelineStateVTable;
 
     GetCachedBlob :: inline (this : *ID3D12PipelineState, ppBlob : **ID3DBlob) -> HRESULT #no_context
@@ -11070,7 +11070,7 @@ ID3D12ProtectedResourceSession :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12ProtectedSession;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ProtectedResourceSessionVTable;
 
     GetDesc :: inline (this : *ID3D12ProtectedResourceSession) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC #no_context
@@ -11086,7 +11086,7 @@ ID3D12ProtectedResourceSession1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12ProtectedResourceSession;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ProtectedResourceSession1VTable;
 
     GetDesc1 :: inline (this : *ID3D12ProtectedResourceSession1) -> D3D12_PROTECTED_RESOURCE_SESSION_DESC1 #no_context
@@ -11102,7 +11102,7 @@ ID3D12ProtectedSession :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ProtectedSessionVTable;
 
     GetStatusFence :: inline (this : *ID3D12ProtectedSession, riid : *GUID, ppFence : **void) -> HRESULT #no_context
@@ -11123,7 +11123,7 @@ ID3D12QueryHeap :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12QueryHeapVTable;
 }
 
@@ -11134,7 +11134,7 @@ ID3D12Resource :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ResourceVTable;
 
     Map :: inline (this : *ID3D12Resource, Subresource : u32, pReadRange : *D3D12_RANGE, ppData : **void) -> HRESULT #no_context
@@ -11192,7 +11192,7 @@ ID3D12Resource1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Resource;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Resource1VTable;
 
     GetProtectedResourceSession :: inline (this : *ID3D12Resource1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #no_context
@@ -11208,7 +11208,7 @@ ID3D12Resource2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Resource1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12Resource2VTable;
 
     GetDesc1 :: inline (this : *ID3D12Resource2) -> D3D12_RESOURCE_DESC1 #no_context
@@ -11224,7 +11224,7 @@ ID3D12RootSignature :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12RootSignatureVTable;
 }
 
@@ -11235,7 +11235,7 @@ ID3D12RootSignatureDeserializer :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12RootSignatureDeserializerVTable;
 
     GetRootSignatureDesc :: inline (this : *ID3D12RootSignatureDeserializer) -> *D3D12_ROOT_SIGNATURE_DESC #no_context
@@ -11251,7 +11251,7 @@ ID3D12SDKConfiguration :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12SDKConfigurationVTable;
 
     SetSDKVersion :: inline (this : *ID3D12SDKConfiguration, SDKVersion : u32, SDKPath : PSTR) -> HRESULT #no_context
@@ -11267,7 +11267,7 @@ ID3D12ShaderCacheSession :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12DeviceChild;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ShaderCacheSessionVTable;
 
     FindValue :: inline (this : *ID3D12ShaderCacheSession, 
@@ -11308,7 +11308,7 @@ ID3D12ShaderReflection :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ShaderReflectionVTable;
 
     GetDesc :: inline (this : *ID3D12ShaderReflection, pDesc : *D3D12_SHADER_DESC) -> HRESULT #no_context
@@ -11528,7 +11528,7 @@ ID3D12SharingContract :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12SharingContractVTable;
 
     Present :: inline (this : *ID3D12SharingContract, pResource : *ID3D12Resource, Subresource : u32, window : HWND) #no_context
@@ -11559,7 +11559,7 @@ ID3D12StateObject :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12StateObjectVTable;
 }
 
@@ -11570,7 +11570,7 @@ ID3D12StateObjectProperties :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12StateObjectPropertiesVTable;
 
     GetShaderIdentifier :: inline (this : *ID3D12StateObjectProperties, pExportName : PWSTR) -> *void #no_context
@@ -11601,7 +11601,7 @@ ID3D12SwapChainAssistant :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12SwapChainAssistantVTable;
 
     GetLUID :: inline (this : *ID3D12SwapChainAssistant) -> LUID #no_context
@@ -11637,7 +11637,7 @@ ID3D12Tools :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12ToolsVTable;
 
     EnableShaderInstrumentation :: inline (this : *ID3D12Tools, bEnable : BOOL) #no_context
@@ -11658,7 +11658,7 @@ ID3D12VersionedRootSignatureDeserializer :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VersionedRootSignatureDeserializerVTable;
 
     GetRootSignatureDescAtVersion :: inline (this : *ID3D12VersionedRootSignatureDeserializer, convertToVersion : D3D_ROOT_SIGNATURE_VERSION, ppDesc : **D3D12_VERSIONED_ROOT_SIGNATURE_DESC) -> HRESULT #no_context
@@ -11679,7 +11679,7 @@ ID3D12VideoDecodeCommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecodeCommandListVTable;
 
     Close :: inline (this : *ID3D12VideoDecodeCommandList) -> HRESULT #no_context
@@ -11767,7 +11767,7 @@ ID3D12VideoDecodeCommandList1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecodeCommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecodeCommandList1VTable;
 
     DecodeFrame1 :: inline (this : *ID3D12VideoDecodeCommandList1, pDecoder : *ID3D12VideoDecoder, pOutputArguments : *D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1, pInputArguments : *D3D12_VIDEO_DECODE_INPUT_STREAM_ARGUMENTS) #no_context
@@ -11783,7 +11783,7 @@ ID3D12VideoDecodeCommandList2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecodeCommandList1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecodeCommandList2VTable;
 
     SetProtectedResourceSession :: inline (this : *ID3D12VideoDecodeCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #no_context
@@ -11809,7 +11809,7 @@ ID3D12VideoDecoder :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecoderVTable;
 
     GetDesc :: inline (this : *ID3D12VideoDecoder) -> D3D12_VIDEO_DECODER_DESC #no_context
@@ -11825,7 +11825,7 @@ ID3D12VideoDecoder1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecoder;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecoder1VTable;
 
     GetProtectedResourceSession :: inline (this : *ID3D12VideoDecoder1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #no_context
@@ -11841,7 +11841,7 @@ ID3D12VideoDecoderHeap :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecoderHeapVTable;
 
     GetDesc :: inline (this : *ID3D12VideoDecoderHeap) -> D3D12_VIDEO_DECODER_HEAP_DESC #no_context
@@ -11857,7 +11857,7 @@ ID3D12VideoDecoderHeap1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDecoderHeap;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDecoderHeap1VTable;
 
     GetProtectedResourceSession :: inline (this : *ID3D12VideoDecoderHeap1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #no_context
@@ -11873,7 +11873,7 @@ ID3D12VideoDevice :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : IUnknown;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDeviceVTable;
 
     CheckFeatureSupport :: inline (this : *ID3D12VideoDevice, FeatureVideo : D3D12_FEATURE_VIDEO, pFeatureSupportData : *void, FeatureSupportDataSize : u32) -> HRESULT #no_context
@@ -11911,7 +11911,7 @@ ID3D12VideoDevice1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDevice;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDevice1VTable;
 
     CreateVideoMotionEstimator :: inline (this : *ID3D12VideoDevice1, 
@@ -11942,7 +11942,7 @@ ID3D12VideoDevice2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDevice1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDevice2VTable;
 
     CreateVideoDecoder1 :: inline (this : *ID3D12VideoDevice2, 
@@ -12009,7 +12009,7 @@ ID3D12VideoDevice3 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoDevice2;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoDevice3VTable;
 
     CreateVideoEncoder :: inline (this : *ID3D12VideoDevice3, pDesc : *D3D12_VIDEO_ENCODER_DESC, riid : *GUID, ppVideoEncoder : **void) -> HRESULT #no_context
@@ -12030,7 +12030,7 @@ ID3D12VideoEncodeCommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoEncodeCommandListVTable;
 
     Close :: inline (this : *ID3D12VideoEncodeCommandList) -> HRESULT #no_context
@@ -12128,7 +12128,7 @@ ID3D12VideoEncodeCommandList1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoEncodeCommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoEncodeCommandList1VTable;
 
     InitializeExtensionCommand :: inline (this : *ID3D12VideoEncodeCommandList1, pExtensionCommand : *ID3D12VideoExtensionCommand, pInitializationParameters : *void, InitializationParametersSizeInBytes : u64) #no_context
@@ -12149,7 +12149,7 @@ ID3D12VideoEncodeCommandList2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoEncodeCommandList1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoEncodeCommandList2VTable;
 
     EncodeFrame :: inline (this : *ID3D12VideoEncodeCommandList2, 
@@ -12175,7 +12175,7 @@ ID3D12VideoEncoder :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoEncoderVTable;
 
     GetNodeMask :: inline (this : *ID3D12VideoEncoder) -> u32 #no_context
@@ -12221,7 +12221,7 @@ ID3D12VideoEncoderHeap :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoEncoderHeapVTable;
 
     GetNodeMask :: inline (this : *ID3D12VideoEncoderHeap) -> u32 #no_context
@@ -12267,7 +12267,7 @@ ID3D12VideoExtensionCommand :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoExtensionCommandVTable;
 
     GetDesc :: inline (this : *ID3D12VideoExtensionCommand) -> D3D12_VIDEO_EXTENSION_COMMAND_DESC #no_context
@@ -12288,7 +12288,7 @@ ID3D12VideoMotionEstimator :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoMotionEstimatorVTable;
 
     GetDesc :: inline (this : *ID3D12VideoMotionEstimator) -> D3D12_VIDEO_MOTION_ESTIMATOR_DESC #no_context
@@ -12309,7 +12309,7 @@ ID3D12VideoMotionVectorHeap :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoMotionVectorHeapVTable;
 
     GetDesc :: inline (this : *ID3D12VideoMotionVectorHeap) -> D3D12_VIDEO_MOTION_VECTOR_HEAP_DESC #no_context
@@ -12330,7 +12330,7 @@ ID3D12VideoProcessCommandList :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12CommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoProcessCommandListVTable;
 
     Close :: inline (this : *ID3D12VideoProcessCommandList) -> HRESULT #no_context
@@ -12423,7 +12423,7 @@ ID3D12VideoProcessCommandList1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoProcessCommandList;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoProcessCommandList1VTable;
 
     ProcessFrames1 :: inline (this : *ID3D12VideoProcessCommandList1, 
@@ -12444,7 +12444,7 @@ ID3D12VideoProcessCommandList2 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoProcessCommandList1;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoProcessCommandList2VTable;
 
     SetProtectedResourceSession :: inline (this : *ID3D12VideoProcessCommandList2, pProtectedResourceSession : *ID3D12ProtectedResourceSession) #no_context
@@ -12470,7 +12470,7 @@ ID3D12VideoProcessor :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12Pageable;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoProcessorVTable;
 
     GetNodeMask :: inline (this : *ID3D12VideoProcessor) -> u32 #no_context
@@ -12501,7 +12501,7 @@ ID3D12VideoProcessor1 :: struct
 
     #as using, except(.["vtable", "base", "UUID"]) base : ID3D12VideoProcessor;
 
-    #overlay(base);
+    #overlay(base)
     vtable : *ID3D12VideoProcessor1VTable;
 
     GetProtectedResourceSession :: inline (this : *ID3D12VideoProcessor1, riid : *GUID, ppProtectedSession : **void) -> HRESULT #no_context
